@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hunde-Rassen Finder | Der perfekte Begleiter für dich</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Header mit Navigation -->
+    <header class="app-header">
+        <div class="container">
+            <div class="app-header__content">
+                <h1 class="app-title">
+                    <span class="app-title__icon">🐕</span>
+                    Hunde-Rassen Finder
+                </h1>
+                <p class="app-subtitle">Finde den perfekten vierbeinigen Begleiter für dein Leben</p>
+            </div>
+            
+            <!-- Theme Switcher -->
+            <div class="theme-switcher">
+                <select id="theme-selector" class="form-control theme-selector__select">
+                    <option value="auto">🎨 Auto</option>
+                    <option value="light">☀️ Hell</option>
+                    <option value="dark">🌙 Dunkel</option>
+                    <option value="eco">🌿 Öko</option>
+                    <option value="luxury">✨ Luxus</option>
+                    <option value="playful">🎪 Verspielt</option>
+                    <option value="spring">🌸 Frühling</option>
+                    <option value="summer">☀️ Sommer</option>
+                    <option value="autumn">🍂 Herbst</option>
+                    <option value="winter">❄️ Winter</option>
+                </select>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hauptinhalt -->
+    <main class="app-main">
+        <div class="container">
+            <!-- Navigation Tabs (vereinfacht) -->
+            <nav class="app-nav">
+                <div class="nav-tabs">
+                    <button class="nav-tab nav-tab--active" data-tab="matching">
+                        <span class="nav-tab__icon">❤️</span>
+                        <span class="nav-tab__text">Rassen-Matching</span>
+                    </button>
+                    <button class="nav-tab" data-tab="results">
+                        <span class="nav-tab__icon">⭐</span>
+                        <span class="nav-tab__text">Meine Ergebnisse</span>
+                    </button>
+                </div>
+            </nav>
+
+            <!-- Matching Section -->
+            <section id="matching-section" class="app-section">
+                <div class="section-hero">
+                    <h2 class="section-hero__title">Finde deinen perfekten Hund</h2>
+                    <p class="section-hero__subtitle">Beantworte einige Fragen über deine Lebenssituation und erhalte personalisierte Empfehlungen</p>
+                </div>
+
+                <!-- Questionnaire -->
+                <div class="questionnaire-container">
+                    <div class="questionnaire" id="questionnaire">
+                        <!-- Progress Bar -->
+                        <div class="progress-section">
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="progress-fill"></div>
+                            </div>
+                            <div class="progress-text" id="progress-text">Schritt 1 von 8</div>
+                        </div>
+
+                        <!-- Question Step 1: Wohnsituation -->
+                        <div class="question-step question-step--active" data-step="1">
+                            <div class="question-header">
+                                <h3>Wie ist deine Wohnsituation?</h3>
+                                <p class="question-subtitle">Dies hilft uns, die richtige Hundegröße für dich zu finden.</p>
+                            </div>
+                            <div class="question-content">
+                                <div class="radio-group">
+                                    <label class="radio-option">
+                                        <input type="radio" name="housing" value="apartment">
+                                        <div class="radio-option__content">
+                                            <span class="radio-option__icon">🏢</span>
+                                            <div class="radio-option__text">
+                                                <strong>Wohnung</strong>
+                                                <span>Stadtwohnung ohne eigenen Garten</span>
+                                            </div>
+                                        </div>
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" name="housing" value="house">
+                                        <div class="radio-option__content">
+                                            <span class="radio-option__icon">🏠</span>
+                                            <div class="radio-option__text">
+                                                <strong>Haus</strong>
+                                                <span>Eigenes Haus mit Garten</span>
+                                            </div>
+                                        </div>
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" name="housing" value="farm">
+                                        <div class="radio-option__content">
+                                            <span class="radio-option__icon">🌾</span>
+                                            <div class="radio-option__text">
+                                                <strong>Bauernhof/Landhaus</strong>
+                                                <span>Viel Platz und ländliche Umgebung</span>
+                                            </div>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Question Step 2: Garten -->
+                        <div class="question-step" data-step="2">
+                            <div class="question-header">
+                                <h3>Hast du einen Garten oder Zugang zu Grünflächen?</h3>
+                                <p class="question-subtitle">Außenbereich ist wichtig für die Bewegung und das Wohlbefinden deines Hundes.</p>
+                            </div>
+                            <div class="question-content">
+                                <div class="radio-group">
+                                    <label class="radio-option">
+                                        <input type="radio" name="garden" value="none">
+                                        <div class="radio-option__content">
+                                            <span class="radio-option__icon">🚫</span>
+                                            <div class="radio-option__text">
+                                                <strong>Kein Garten</strong>
+                                                <span>Nur öffentliche Parks in der Nähe</span>
+                                            </div>
+                                        </div>
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" name="garden" value="small">
+                                        <div class="radio-option__content">
+                                            <span class="radio-option__icon">🌱</span>
+                                            <div class="radio-option__text">
+                                                <strong>Kleiner Garten/Balkon</strong>
+                                                <span>Begrenzter Außenbereich vorhanden</span>
+                                            </div>
+                                        </div>
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" name="garden" value="large">
+                                        <div class="radio-option__content">
+                                            <span class="radio-option__icon">🌳</span>
+                                            <div class="radio-option__text">
+                                                <strong>Großer Garten</strong>
+                                                <span>Viel eingezäunter Auslauf verfügbar</span>
+                                            </div>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Question Step 3: Aktivitätslevel -->
+                        <div class="question-step" data-step="3">
+                            <div class="question-header">
+                                <h3>Wie aktiv bist du?</h3>
+                                <p class="question-subtitle">Dein Aktivitätslevel sollte zu dem deines Hundes passen.</p>
+                            </div>
+                            <div class="question-content">
+                                <div class="radio-group">
+                                    <label class="radio-option">
+                                        <input type="radio" name="activity" value="low">
+                                        <div class="radio-option__content">
+                                            <span class="radio-option__icon">🛋️</span>
+                                            <div class="radio-option__text">
+                                                <strong>Eher ruhig</strong>
+                                                <span>Entspannte Spaziergänge reichen mir</span>
+                                            </div>
+                                        </div>
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" name="activity" value="medium">
+                                        <div class="radio-option__content">
+                                            <span class="radio-option__icon">🚶</span>
+                                            <div class="radio-option__text">
+                                                <strong>Mäßig aktiv</strong>
+                                                <span>Regelmäßige Spaziergänge und etwas Sport</span>
+                                            </div>
+                                        </div>
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" name="activity" value="high">
+                                        <div class="radio-option__content">
+                                            <span class="radio-option__icon">🏃</span>
+                                            <div class="radio-option__text">
+                                                <strong>Sehr aktiv</strong>
+                                                <span>Jogging, Wandern, Hundesport</span>
+                                            </div>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Question Step 4: Zeit -->
+                        <div class="question-step" data-step="4">
+                            <div class="question-header">
+                                <h3>Wie viel Zeit kannst du täglich für deinen Hund aufbringen?</h3>
+                                <p class="question-subtitle">Für Spaziergänge, Pflege, Training und gemeinsame Aktivitäten.</p>
+                            </div>
+                            <div class="question-content">
+                                <div class="radio-group">
+                                    <label class="radio-option">
+                                        <input type="radio" name="time" value="1-2">
+                                        <div class="radio-option__content">
+                                            <span class="radio-option__icon">⏰</span>
+                                            <div class="radio-option__text">
+                                                <strong>1-2 Stunden</strong>
+                                                <span>Grundversorgung und kurze Spaziergänge</span>
+                                            </div>
+                                        </div>
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" name="time" value="3-4">
+                                        <div class="radio-option__content">
+                                            <span class="radio-option__icon">⏱️</span>
+                                            <div class="radio-option__text">
+                                                <strong>3-4 Stunden</strong>
+                                                <span>Ausgiebige Spaziergänge und Training</span>
+                                            </div>
+                                        </div>
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" name="time" value="5+">
+                                        <div class="radio-option__content">
+                                            <span class="radio-option__icon">🕐</span>
+                                            <div class="radio-option__text">
+                                                <strong>5+ Stunden</strong>
+                                                <span>Viel Zeit für intensive Beschäftigung</span>
+                                            </div>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Question Step 5: Erfahrung -->
+                        <div class="question-step" data-step="5">
+                            <div class="question-header">
+                                <h3>Wie viel Erfahrung hast du mit Hunden?</h3>
+                                <p class="question-subtitle">Einige Rassen benötigen erfahrene Hundehalter.</p>
+                            </div>
+                            <div class="question-content">
+                                <div class="radio-group">
+                                    <label class="radio-option">
+                                        <input type="radio" name="experience" value="beginner">
+                                        <div class="radio-option__content">
+                                            <span class="radio-option__icon">🐣</span>
+                                            <div class="radio-option__text">
+                                                <strong>Anfänger</strong>
+                                                <span>Das wäre mein erster eigener Hund</span>
+                                            </div>
+                                        </div>
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" name="experience" value="some">
+                                        <div class="radio-option__content">
+                                            <span class="radio-option__icon">🐕‍🦺</span>
+                                            <div class="radio-option__text">
+                                                <strong>Etwas Erfahrung</strong>
+                                                <span>Hatte schon mal einen Hund oder viel Kontakt</span>
+                                            </div>
+                                        </div>
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" name="experience" value="experienced">
+                                        <div class="radio-option__content">
+                                            <span class="radio-option__icon">🎓</span>
+                                            <div class="radio-option__text">
+                                                <strong>Erfahren</strong>
+                                                <span>Hatte schon mehrere Hunde verschiedener Rassen</span>
+                                            </div>
+                                        </div>
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" name="experience" value="expert">
+                                        <div class="radio-option__content">
+                                            <span class="radio-option__icon">🏆</span>
+                                            <div class="radio-option__text">
+                                                <strong>Experte</strong>
+                                                <span>Langjährige Erfahrung, auch mit schwierigen Rassen</span>
+                                            </div>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Question Step 6: Familie -->
+                        <div class="question-step" data-step="6">
+                            <div class="question-header">
+                                <h3>Welche Familiensituation beschreibt dich am besten?</h3>
+                                <p class="question-subtitle">Die Zusammensetzung deiner Familie beeinflusst die Rassenwahl.</p>
+                            </div>
+                            <div class="question-content">
+                                <div class="radio-group">
+                                    <label class="radio-option">
+                                        <input type="radio" name="children" value="none">
+                                        <div class="radio-option__content">
+                                            <span class="radio-option__icon">👤</span>
+                                            <div class="radio-option__text">
+                                                <strong>Keine Kinder</strong>
+                                                <span>Erwachsenenhaushalt</span>
+                                            </div>
+                                        </div>
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" name="children" value="small">
+                                        <div class="radio-option__content">
+                                            <span class="radio-option__icon">👶</span>
+                                            <div class="radio-option__text">
+                                                <strong>Kleine Kinder (0-6 Jahre)</strong>
+                                                <span>Besonders geduldige und sanfte Hunde nötig</span>
+                                            </div>
+                                        </div>
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" name="children" value="older">
+                                        <div class="radio-option__content">
+                                            <span class="radio-option__icon">🧒</span>
+                                            <div class="radio-option__text">
+                                                <strong>Ältere Kinder (7+ Jahre)</strong>
+                                                <span>Können beim Umgang mit dem Hund mithelfen</span>
+                                            </div>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Question Step 7: Andere Haustiere -->
+                        <div class="question-step" data-step="7">
+                            <div class="question-header">
+                                <h3>Hast du andere Haustiere?</h3>
+                                <p class="question-subtitle">Nicht alle Hunderassen vertragen sich gut mit anderen Tieren.</p>
+                            </div>
+                            <div class="question-content">
+                                <div class="radio-group">
+                                    <label class="radio-option">
+                                        <input type="radio" name="pets" value="none">
+                                        <div class="radio-option__content">
+                                            <span class="radio-option__icon">🚫</span>
+                                            <div class="radio-option__text">
+                                                <strong>Keine anderen Haustiere</strong>
+                                                <span>Der Hund wäre das einzige Haustier</span>
+                                            </div>
+                                        </div>
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" name="pets" value="cats">
+                                        <div class="radio-option__content">
+                                            <span class="radio-option__icon">🐱</span>
+                                            <div class="radio-option__text">
+                                                <strong>Katzen</strong>
+                                                <span>Eine oder mehrere Katzen im Haushalt</span>
+                                            </div>
+                                        </div>
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" name="pets" value="dogs">
+                                        <div class="radio-option__content">
+                                            <span class="radio-option__icon">🐕</span>
+                                            <div class="radio-option__text">
+                                                <strong>Andere Hunde</strong>
+                                                <span>Bereits andere Hunde vorhanden</span>
+                                            </div>
+                                        </div>
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" name="pets" value="small">
+                                        <div class="radio-option__content">
+                                            <span class="radio-option__icon">🐹</span>
+                                            <div class="radio-option__text">
+                                                <strong>Kleintiere</strong>
+                                                <span>Kaninchen, Hamster, Vögel etc.</span>
+                                            </div>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Question Step 8: Präferenzen -->
+                        <div class="question-step" data-step="8">
+                            <div class="question-header">
+                                <h3>Welche Eigenschaften sind dir besonders wichtig?</h3>
+                                <p class="question-subtitle">Wähle bis zu 3 Eigenschaften, die dein idealer Hund haben sollte.</p>
+                            </div>
+                            <div class="question-content">
+                                <div class="checkbox-group">
+                                    <label class="checkbox-option">
+                                        <input type="checkbox" name="temperament" value="friendly">
+                                        <div class="checkbox-option__content">
+                                            <span class="checkbox-option__icon">😊</span>
+                                            <div class="checkbox-option__text">
+                                                <strong>Freundlich</strong>
+                                                <span>Offen und freundlich zu Fremden</span>
+                                            </div>
+                                        </div>
+                                    </label>
+                                    <label class="checkbox-option">
+                                        <input type="checkbox" name="temperament" value="protective">
+                                        <div class="checkbox-option__content">
+                                            <span class="checkbox-option__icon">🛡️</span>
+                                            <div class="checkbox-option__text">
+                                                <strong>Beschützend</strong>
+                                                <span>Wachsam und beschützt die Familie</span>
+                                            </div>
+                                        </div>
+                                    </label>
+                                    <label class="checkbox-option">
+                                        <input type="checkbox" name="temperament" value="calm">
+                                        <div class="checkbox-option__content">
+                                            <span class="checkbox-option__icon">😌</span>
+                                            <div class="checkbox-option__text">
+                                                <strong>Ruhig</strong>
+                                                <span>Gelassenes, entspanntes Wesen</span>
+                                            </div>
+                                        </div>
+                                    </label>
+                                    <label class="checkbox-option">
+                                        <input type="checkbox" name="temperament" value="playful">
+                                        <div class="checkbox-option__content">
+                                            <span class="checkbox-option__icon">🎾</span>
+                                            <div class="checkbox-option__text">
+                                                <strong>Verspielt</strong>
+                                                <span>Liebt Spiele und ist verspielt</span>
+                                            </div>
+                                        </div>
+                                    </label>
+                                    <label class="checkbox-option">
+                                        <input type="checkbox" name="temperament" value="independent">
+                                        <div class="checkbox-option__content">
+                                            <span class="checkbox-option__icon">🏔️</span>
+                                            <div class="checkbox-option__text">
+                                                <strong>Selbstständig</strong>
+                                                <span>Kann auch mal alleine sein</span>
+                                            </div>
+                                        </div>
+                                    </label>
+                                    <label class="checkbox-option">
+                                        <input type="checkbox" name="temperament" value="loyal">
+                                        <div class="checkbox-option__content">
+                                            <span class="checkbox-option__icon">❤️</span>
+                                            <div class="checkbox-option__text">
+                                                <strong>Anhänglich</strong>
+                                                <span>Sehr menschenbezogen und treu</span>
+                                            </div>
+                                        </div>
+                                    </label>
+                                </div>
+                                
+                                <div class="question-subsection">
+                                    <h4>Was möchtest du unbedingt vermeiden?</h4>
+                                    <div class="checkbox-group">
+                                        <label class="checkbox-option checkbox-option--warning">
+                                            <input type="checkbox" name="dealbreakers" value="health">
+                                            <div class="checkbox-option__content">
+                                                <span class="checkbox-option__icon">🏥</span>
+                                                <div class="checkbox-option__text">
+                                                    <strong>Gesundheitsprobleme</strong>
+                                                    <span>Rassen mit bekannten Erbkrankheiten</span>
+                                                </div>
+                                            </div>
+                                        </label>
+                                        <label class="checkbox-option checkbox-option--warning">
+                                            <input type="checkbox" name="dealbreakers" value="loud">
+                                            <div class="checkbox-option__content">
+                                                <span class="checkbox-option__icon">🔊</span>
+                                                <div class="checkbox-option__text">
+                                                    <strong>Viel Bellen</strong>
+                                                    <span>Lärm könnte ein Problem sein</span>
+                                                </div>
+                                            </div>
+                                        </label>
+                                        <label class="checkbox-option checkbox-option--warning">
+                                            <input type="checkbox" name="grooming" value="high">
+                                            <div class="checkbox-option__content">
+                                                <span class="checkbox-option__icon">✂️</span>
+                                                <div class="checkbox-option__text">
+                                                    <strong>Intensive Fellpflege</strong>
+                                                    <span>Tägliches Bürsten wäre zu aufwendig</span>
+                                                </div>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Navigation -->
+                        <div class="questionnaire-nav">
+                            <button class="btn btn--secondary" id="prev-btn" disabled>
+                                <span>← Zurück</span>
+                            </button>
+                            <button class="btn btn--primary" id="next-btn">
+                                <span>Weiter →</span>
+                            </button>
+                            <button class="btn btn--primary hidden" id="analyze-btn">
+                                <span>🎯 Ergebnisse anzeigen</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Results Container -->
+                    <div class="results hidden" id="results">
+                        <div class="results-header">
+                            <h2>Deine perfekten Matches</h2>
+                            <p>Basierend auf deinen Angaben haben wir die besten Rassen für dich gefunden</p>
+                        </div>
+                        <div class="results-content" id="results-content">
+                            <!-- Results werden hier dynamisch eingefügt -->
+                        </div>
+                        <div class="results-actions">
+                            <button class="btn btn--outline" id="restart-btn">
+                                <span>🔄 Neu starten</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Results Section -->
+            <section id="results-section" class="app-section hidden">
+                <div class="section-hero">
+                    <h2 class="section-hero__title">Deine Ergebnisse</h2>
+                    <p class="section-hero__subtitle">Hier findest du alle deine bisherigen Matching-Ergebnisse</p>
+                </div>
+                <div class="saved-results" id="saved-results">
+                    <!-- Gespeicherte Ergebnisse werden hier eingefügt -->
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+        <div class="container">
+            <p class="app-footer__text">
+                © 2025 Hunde-Rassen Finder. Erstellt mit ❤️ für Hundeliebhaber.
+            </p>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>

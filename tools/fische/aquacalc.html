@@ -1,0 +1,1309 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AquaSphere - Ökosystem Simulator</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+    /* LIGHT MODE - BASIS FARBEN */
+    --color-background: #fcfcf9;
+    --color-surface: #fffffe;
+    --color-text: #13343b;
+    --color-text-secondary: #626c71;
+    --color-primary: #21808d;
+    --color-primary-hover: #1d7480;
+    --color-primary-active: #1a6873;
+    --color-secondary: rgba(94, 82, 64, 0.12);
+    --color-secondary-hover: rgba(94, 82, 64, 0.2);
+    --color-secondary-active: rgba(94, 82, 64, 0.25);
+    --color-border: rgba(94, 82, 64, 0.2);
+    --color-btn-primary-text: #fcfcf9;
+    --color-card-border: rgba(94, 82, 64, 0.12);
+    --color-error: #c0152f;
+    --color-success: #21808d;
+    --color-warning: #a84b2f;
+    --color-info: #626c71;
+    --color-focus-ring: rgba(33, 128, 141, 0.4);
+
+    /* GLASSMORPHISM */
+    --glass-bg: rgba(255, 255, 255, 0.25);
+    --glass-border: rgba(255, 255, 255, 0.18);
+    --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    --glass-backdrop: blur(20px);
+
+    /* SPACING */
+    --space-4: 4px;
+    --space-6: 6px;
+    --space-8: 8px;
+    --space-12: 12px;
+    --space-16: 16px;
+    --space-20: 20px;
+    --space-24: 24px;
+    --space-32: 32px;
+    --space-48: 48px;
+    --space-64: 64px;
+
+/* Theme Dropdown Styles */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-12);
+    background: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.header__content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.header__theme-dropdown {
+    position: relative;
+}
+
+.theme-toggle {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: transparent;
+    border: 1px solid var(--color-border);
+    padding: 6px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--color-text);
+    transition: background 0.2s, color 0.2s;
+}
+
+.dropdown-arrow {
+    transition: transform 0.2s;
+}
+
+.header__theme-dropdown.open .dropdown-arrow {
+    transform: rotate(180deg);
+}
+
+.theme-dropdown {
+    position: absolute;
+    right: 0;
+    top: calc(100% + 4px);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    box-shadow: var(--shadow-sm);
+    display: none;
+    flex-direction: column;
+    min-width: 120px;
+    z-index: 100;
+}
+
+.header__theme-dropdown.open .theme-dropdown {
+    display: flex;
+}
+
+.theme-option {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 12px;
+    cursor: pointer;
+    color: var(--color-text-secondary);
+    transition: background 0.2s;
+}
+
+.theme-option:hover {
+    background: var(--color-secondary-hover);
+}
+
+.theme-option.active {
+    background: var(--color-primary);
+    color: var(--color-btn-primary-text);
+}
+
+/* ECO MODE - Heller Hintergrund mit Grün-Akzenten */
+.theme-eco {
+  --color-background: #f8fdf8;
+  --color-surface: #ffffff;
+  --color-text: #2d5016;
+  --color-text-secondary: rgba(45, 80, 22, 0.7);
+  --color-primary: #4a7c59; /* Sanftes Waldgrün */
+  --color-primary-hover: #3d6b47;
+  --color-primary-active: #2f5235;
+  --color-secondary: rgba(74, 124, 89, 0.12);
+  --color-secondary-hover: rgba(74, 124, 89, 0.2);
+  --color-secondary-active: rgba(74, 124, 89, 0.25);
+  --color-border: rgba(74, 124, 89, 0.2);
+  --color-error: #c0392b;
+  --color-success: #27ae60;
+  --color-warning: #f39c12;
+  --color-info: #4a7c59;
+  --color-focus-ring: rgba(74, 124, 89, 0.4);
+  --color-btn-primary-text: #ffffff;
+  --color-card-border: rgba(74, 124, 89, 0.12);
+  
+  /* Eco-spezifische Glassmorphism-Effekte */
+  --glass-bg: rgba(255, 255, 255, 0.3);
+  --glass-border: rgba(74, 124, 89, 0.18);
+  --glass-shadow: 0 8px 32px 0 rgba(74, 124, 89, 0.15);
+  --glass-backdrop: blur(20px);
+}
+
+.theme-luxury {
+  --color-background: #0a0a0c;
+  --color-surface: #1a1a1c;
+  --color-text: #f5f5f5;
+  --color-text-secondary: rgba(218, 165, 32, 0.8);
+  --color-primary: #daa520; /* Goldfarbe */
+  --color-primary-hover: #b8860b;
+  --color-primary-active: #9a7209;
+  --color-secondary: rgba(218, 165, 32, 0.15);
+  --color-secondary-hover: rgba(218, 165, 32, 0.25);
+  --color-secondary-active: rgba(218, 165, 32, 0.35);
+  --color-border: rgba(218, 165, 32, 0.3);
+  --color-error: #ff6b6b;
+  --color-success: #daa520;
+  --color-warning: #ffd700;
+  --color-info: #daa520;
+  --color-focus-ring: rgba(218, 165, 32, 0.5);
+  --color-btn-primary-text: #0a0a0c;
+  --color-card-border: rgba(218, 165, 32, 0.2);
+
+  /* Luxury-spezifische Glassmorphism-Effekte */
+  --glass-bg: rgba(26, 26, 28, 0.4);
+  --glass-border: rgba(218, 165, 32, 0.2);
+  --glass-shadow: 0 8px 32px 0 rgba(218, 165, 32, 0.2);
+  --glass-backdrop: blur(25px);
+}
+
+    /* BORDER RADIUS */
+    --radius-lg: 12px;
+    --radius-xl: 16px;
+    --radius-2xl: 24px;
+    --radius-full: 9999px;
+
+    /* TYPOGRAPHY */
+    --font-family-base: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --font-size-xs: 12px;
+    --font-size-sm: 14px;
+    --font-size-base: 16px;
+    --font-size-lg: 18px;
+    --font-size-xl: 20px;
+    --font-size-2xl: 24px;
+    --font-weight-normal: 400;
+    --font-weight-medium: 500;
+    --font-weight-semibold: 550;
+    --font-weight-bold: 700;
+
+    /* SCHATTEN */
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.04), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.04), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
+    --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.08);
+
+    /* ANIMATION */
+    --duration-fast: 150ms;
+    --duration-normal: 250ms;
+    --duration-slow: 400ms;
+    --ease-standard: cubic-bezier(0.16, 1, 0.3, 1);
+    --transition: var(--duration-normal) var(--ease-standard);
+}
+
+/* DARK MODE SPEZIFISCHE VARIABLEN */
+.theme-dark {
+    --color-background: #0a0a0c;
+    --color-surface: #121214;
+    --color-text: #f5f5f5;
+    --color-text-secondary: rgba(167, 169, 169, 0.8);
+    --color-primary: #00ffbb;
+    --color-primary-hover: #00e6a8;
+    --color-primary-active: #00cc95;
+    --color-secondary: rgba(139, 92, 246, 0.15);
+    --color-secondary-hover: rgba(139, 92, 246, 0.25);
+    --color-secondary-active: rgba(139, 92, 246, 0.35);
+    --color-border: rgba(75, 85, 99, 0.3);
+    --color-error: #ff0007;
+    --color-success: #00ffbb;
+    --color-warning: #fbbf24;
+    --color-info: #a7a9a9;
+    --color-focus-ring: rgba(0, 255, 187, 0.5);
+    --color-btn-primary-text: #0a0a0c;
+    --color-card-border: rgba(75, 85, 99, 0.2);
+    --glass-bg: rgba(20, 20, 25, 0.4);
+    --glass-border: rgba(75, 85, 99, 0.2);
+    --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+    --glass-backdrop: blur(25px);
+}
+
+* { 
+    box-sizing: border-box; 
+    margin: 0;
+    padding: 0;
+}
+
+body { 
+    font-family: var(--font-family-base);
+    margin: 0; 
+    background-color: var(--color-background); 
+    color: var(--color-text); 
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transition: background-color var(--transition);
+}
+
+.main-container { 
+    display: grid; 
+    grid-template-columns: 320px 1fr 360px; 
+    gap: var(--space-24); 
+    padding: var(--space-32); 
+    max-width: 1800px; 
+    margin: auto; 
+}
+
+.panel { 
+    background: var(--glass-bg); 
+    backdrop-filter: var(--glass-backdrop);
+    -webkit-backdrop-filter: var(--glass-backdrop);
+    border: 1px solid var(--glass-border); 
+    border-radius: var(--radius-xl); 
+    padding: var(--space-24); 
+    box-shadow: var(--glass-shadow);
+    transition: all var(--transition);
+}
+
+.panel:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+h2 { 
+    font-size: var(--font-size-2xl); 
+    margin: 0 0 var(--space-24) 0; 
+    padding-bottom: var(--space-16); 
+    border-bottom: 2px solid var(--color-primary);
+    color: var(--color-text);
+    font-weight: var(--font-weight-bold);
+    position: relative;
+}
+
+h2::after {
+    content: "";
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 60px;
+    height: 2px;
+    background: var(--color-primary);
+    border-radius: var(--radius-full);
+}
+
+#analyse-container h4, #analyse-container h5 { 
+    margin-top: var(--space-32); 
+    margin-bottom: var(--space-16); 
+    padding-bottom: var(--space-8);
+    color: var(--color-primary); 
+    font-size: var(--font-size-lg); 
+    text-transform: none; 
+    font-weight: var(--font-weight-semibold);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.input-group { 
+    margin-bottom: var(--space-20); 
+}
+
+.input-group label { 
+    display: block; 
+    font-weight: var(--font-weight-medium); 
+    color: var(--color-text); 
+    margin-bottom: var(--space-8); 
+    font-size: var(--font-size-base); 
+}
+
+.input-group input, .input-group select { 
+    width: 100%; 
+    padding: var(--space-12) var(--space-16); 
+    border: 2px solid var(--color-border); 
+    background-color: var(--color-surface); 
+    color: var(--color-text); 
+    border-radius: var(--radius-lg); 
+    font-size: var(--font-size-base);
+    transition: all var(--transition);
+    outline: none;
+}
+
+.input-group input:focus, .input-group select:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px var(--color-focus-ring);
+}
+
+.input-group input:disabled { 
+    background-color: var(--color-secondary); 
+    opacity: 0.5; 
+    cursor: not-allowed;
+}
+
+.input-toggle { 
+    display: flex; 
+    background: var(--color-surface); 
+    border-radius: var(--radius-lg); 
+    padding: var(--space-4); 
+    margin-bottom: var(--space-16); 
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow-sm);
+}
+
+.toggle-btn { 
+    flex: 1; 
+    padding: var(--space-8) var(--space-12); 
+    border: none; 
+    background: transparent; 
+    color: var(--color-text-secondary); 
+    border-radius: var(--radius-lg); 
+    cursor: pointer; 
+    font-weight: var(--font-weight-medium);
+    transition: all var(--transition);
+}
+
+.toggle-btn.active { 
+    background: var(--color-primary); 
+    color: var(--color-btn-primary-text);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-1px);
+}
+
+.checkbox-group label { 
+    display: flex; 
+    align-items: center; 
+    gap: var(--space-12); 
+    background: var(--color-surface); 
+    padding: var(--space-12); 
+    border-radius: var(--radius-lg); 
+    border: 1px solid var(--color-border); 
+    cursor: pointer; 
+    margin-bottom: var(--space-8);
+    transition: all var(--transition);
+}
+
+.checkbox-group label:hover {
+    background: var(--color-secondary-hover);
+    border-color: var(--color-primary);
+}
+
+.dashboard-metrics { 
+    display: flex; 
+    flex-direction: column; 
+    gap: var(--space-20); 
+    margin-bottom: var(--space-32); 
+}
+
+.metric { 
+    display: flex; 
+    flex-direction: column; 
+}
+
+.metric-header { 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: baseline; 
+    margin-bottom: var(--space-8); 
+}
+
+.metric-title { 
+    font-weight: var(--font-weight-medium); 
+    color: var(--color-text); 
+}
+
+.metric-value { 
+    font-weight: var(--font-weight-bold);
+    color: var(--color-primary);
+}
+
+.progress-bar { 
+    width: 100%; 
+    height: 12px; 
+    background-color: var(--color-secondary); 
+    border-radius: var(--radius-full); 
+    overflow: hidden;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.progress-fill { 
+    height: 100%; 
+    border-radius: var(--radius-full); 
+    transition: width 0.5s ease-in-out;
+    position: relative;
+    overflow: hidden;
+}
+
+.progress-fill::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+    0% { left: -100%; }
+    100% { left: 100%; }
+}
+
+.progress-fill.good { 
+    background: linear-gradient(90deg, var(--color-success), var(--color-primary-hover)); 
+}
+
+.progress-fill.warning { 
+    background: linear-gradient(90deg, var(--color-warning), #d4a574); 
+}
+
+.progress-fill.critical { 
+    background: linear-gradient(90deg, var(--color-error), #d4354a); 
+}
+
+#analyse-container { 
+    text-align: left; 
+    max-height: 70vh; 
+    overflow-y: auto; 
+    padding-right: var(--space-8); 
+}
+
+.warnung { 
+    display: flex; 
+    align-items: flex-start; 
+    gap: var(--space-12); 
+    padding: var(--space-16); 
+    margin-bottom: var(--space-12); 
+    border-radius: var(--radius-lg); 
+    border: 1px solid;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: var(--shadow-sm);
+    transition: all var(--transition);
+}
+
+.warnung:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.warnung.kritisch { 
+    border-color: var(--color-error); 
+    background: linear-gradient(135deg, rgba(192, 21, 47, 0.1), rgba(192, 21, 47, 0.05));
+}
+
+.warnung.hinweis { 
+    border-color: var(--color-warning); 
+    background: linear-gradient(135deg, rgba(168, 75, 47, 0.1), rgba(168, 75, 47, 0.05));
+}
+
+.warnung.positiv { 
+    border-color: var(--color-success); 
+    background: linear-gradient(135deg, rgba(33, 128, 141, 0.1), rgba(33, 128, 141, 0.05));
+}
+
+.warnung-icon { 
+    font-size: var(--font-size-xl); 
+    line-height: 1.4; 
+}
+
+.plan-liste { 
+    list-style: none; 
+    padding-left: 0; 
+    margin: var(--space-8) 0 0 0; 
+}
+
+.plan-liste li { 
+    margin-bottom: var(--space-4); 
+    cursor: help; 
+}
+
+.plan-item { 
+    margin-bottom: var(--space-16); 
+    border-left: 4px solid var(--color-border); 
+    padding-left: var(--space-16);
+    background: var(--color-surface);
+    padding: var(--space-16);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    transition: all var(--transition);
+}
+
+.plan-item:hover {
+    transform: translateX(4px);
+    box-shadow: var(--shadow-md);
+}
+
+.plan-item.prio-high { 
+    border-left-color: var(--color-error);
+    background: linear-gradient(135deg, var(--color-surface), rgba(192, 21, 47, 0.05));
+}
+
+.plan-item.prio-medium { 
+    border-left-color: var(--color-warning);
+    background: linear-gradient(135deg, var(--color-surface), rgba(168, 75, 47, 0.05));
+}
+
+.plan-item.prio-low { 
+    border-left-color: var(--color-primary);
+    background: linear-gradient(135deg, var(--color-surface), rgba(33, 128, 141, 0.05));
+}
+
+.plan-item-title { 
+    font-weight: var(--font-weight-bold); 
+    color: var(--color-text); 
+    margin-bottom: var(--space-4);
+}
+
+.plan-item-desc { 
+    font-size: var(--font-size-sm); 
+    color: var(--color-text-secondary); 
+}
+
+.plan-item-priority { 
+    float: right; 
+    font-size: var(--font-size-xs); 
+    font-weight: var(--font-weight-medium); 
+    color: var(--color-text-secondary); 
+}
+
+.legend { 
+    margin-top: var(--space-24); 
+    display: flex; 
+    gap: var(--space-16); 
+    font-size: var(--font-size-xs); 
+    color: var(--color-text-secondary); 
+    align-items: center; 
+}
+
+.legend-item { 
+    display: flex; 
+    align-items: center; 
+    gap: var(--space-8); 
+}
+
+.legend-color { 
+    width: 12px; 
+    height: 12px; 
+    border-radius: var(--space-4); 
+}
+
+.tooltip-trigger { 
+    text-decoration: underline; 
+    text-decoration-style: dotted; 
+    cursor: help;
+    color: var(--color-primary);
+}
+
+#searchFish { 
+    width: 100%; 
+    margin-bottom: var(--space-16); 
+    background-color: var(--color-surface); 
+    border: 2px solid var(--color-border); 
+    transition: all var(--transition); 
+    border-radius: var(--radius-lg); 
+    padding: var(--space-12) var(--space-16);
+    color: var(--color-text);
+    font-size: var(--font-size-base);
+    outline: none;
+}
+
+#searchFish:focus { 
+    background-color: var(--color-background); 
+    border-color: var(--color-primary); 
+    box-shadow: 0 0 0 3px var(--color-focus-ring);
+}
+
+#searchFish::placeholder {
+    color: var(--color-text-secondary);
+}
+
+#fish-gallery { 
+    display: flex; 
+    flex-direction: column; 
+    gap: var(--space-8); 
+    max-height: 70vh; 
+    overflow-y: auto; 
+    padding-right: var(--space-8); 
+}
+
+.fish-card { 
+    background: var(--color-surface); 
+    border: 1px solid var(--color-border); 
+    border-radius: var(--radius-lg); 
+    padding: var(--space-12) var(--space-16); 
+    cursor: pointer; 
+    transition: all var(--transition); 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    border-left: 4px solid transparent;
+    box-shadow: var(--shadow-sm);
+}
+
+.fish-card.suitable { 
+    border-left-color: var(--color-success); 
+}
+
+.fish-card.borderline { 
+    border-left-color: var(--color-warning); 
+}
+
+.fish-card.unsuitable { 
+    border-left-color: var(--color-error); 
+}
+
+.fish-card:hover { 
+    border-color: var(--color-primary); 
+    background-color: var(--color-secondary-hover); 
+    border-left-color: var(--color-primary);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.fish-card-name { 
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text);
+}
+
+.fish-card-size { 
+    font-size: var(--font-size-sm); 
+    color: var(--color-text-secondary); 
+}
+
+/* MODERN SCROLLBAR */
+*::-webkit-scrollbar { 
+    width: 8px; 
+}
+
+*::-webkit-scrollbar-track { 
+    background: var(--color-surface); 
+}
+
+*::-webkit-scrollbar-thumb { 
+    background-color: var(--color-text-secondary); 
+    border-radius: var(--space-4); 
+    border: 2px solid var(--color-surface);
+    transition: background-color var(--transition);
+}
+
+*::-webkit-scrollbar-thumb:hover { 
+    background-color: var(--color-primary); 
+}
+
+/* RESPONSIVE DESIGN */
+@media (max-width: 1200px) {
+    .main-container {
+        grid-template-columns: 1fr;
+        gap: var(--space-16);
+        padding: var(--space-16);
+    }
+}
+
+@media (max-width: 768px) {
+    .main-container {
+        padding: var(--space-12);
+        gap: var(--space-12);
+    }
+    
+    .panel {
+        padding: var(--space-16);
+    }
+    
+    h2 {
+        font-size: var(--font-size-xl);
+    }
+}
+    </style>
+</head>
+<body class="theme-light">
+    <header class="header">
+        <div class="header__content">
+            <h1 class="header__title">AquaCalc</h1>
+
+            <!-- Theme-Dropdown -->
+            <div class="header__theme-dropdown">
+                <button id="themeToggle" class="theme-toggle" aria-expanded="false">
+                    <span class="theme-icon">☀️</span>
+                    <span class="theme-text">Light</span>
+                    <span class="dropdown-arrow">▼</span>
+                </button>
+
+                <div id="themeDropdown" class="theme-dropdown">
+                    <div class="theme-option active" data-theme="light">
+                        <span class="theme-icon">☀️</span>
+                        <span class="theme-text">Light</span>
+                    </div>
+                    <div class="theme-option" data-theme="dark">
+                        <span class="theme-icon">🌙</span>
+                        <span class="theme-text">Dark</span>
+                    </div>
+                    <div class="theme-option" data-theme="eco">
+                        <span class="theme-icon">🌿</span>
+                        <span class="theme-text">Eco</span>
+                    </div>
+                    <div class="theme-option" data-theme="luxury">
+                        <span class="theme-icon">✨</span>
+                        <span class="theme-text">Luxury</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+</body>
+<main class="main-container">
+    <!-- === LEFT PANEL: SETUP === -->
+    <aside class="panel">
+        <h2>⚙️ Setup</h2>
+        <h4>Becken</h4>
+        <div class="input-toggle">
+            <button id="dimBtn" class="toggle-btn active">Dimensionen</button>
+            <button id="volBtn" class="toggle-btn">Volumen</button>
+        </div>
+        <div id="dimInputs">
+            <div class="input-group"><label for="tankLaenge">Länge (cm)</label><input type="number" id="tankLaenge" value="100"></div>
+            <div class="input-group"><label for="tankBreite">Breite (cm)</label><input type="number" id="tankBreite" value="40"></div>
+            <div class="input-group"><label for="tankHoehe">Höhe (cm)</label><input type="number" id="tankHoehe" value="50"></div>
+        </div>
+        <div id="volInput" style="display: none;">
+            <div class="input-group"><label for="tankVolumen">Netto-Volumen (Liter)</label><input type="number" id="tankVolumen" value="180" disabled></div>
+        </div>
+        <h4>Technik & Einrichtung</h4>
+        <div class="input-group"><label for="filterLeistung">Filterleistung (L/h)</label><input type="number" id="filterLeistung" value="600"></div>
+        <div class="input-group"><label for="bodengrund">Bodengrund</label>
+            <select id="bodengrund"><option value="sand">Feiner Sand</option><option value="kies">Kies (2-5mm)</option><option value="soil">Soil</option></select>
+        </div>
+        <h4>Wirbellose</h4>
+        <div class="checkbox-group"><label><input type="checkbox" id="garnelenCheck"> Zwerggarnelen</label></div>
+    </aside>
+
+    <!-- === MIDDLE PANEL: DASHBOARD === -->
+    <section class="panel">
+        <h2>📊 Analyse</h2>
+        <div class="dashboard-metrics">
+            <div class="metric"><div class="metric-header"><span class="metric-title">Besatzdichte</span><span id="besatzValue" class="metric-value">0%</span></div><div class="progress-bar"><div id="besatzBar" class="progress-fill"></div></div></div>
+            <div class="metric"><div class="metric-header"><span class="metric-title">Filter-Effizienz</span><span id="filterValue" class="metric-value">Gut</span></div><div class="progress-bar"><div id="filterBar" class="progress-fill"></div></div></div>
+            <div class="metric"><div class="metric-header"><span class="metric-title">Harmonie-Index</span><span id="harmonyValue" class="metric-value">100%</span></div><div class="progress-bar"><div id="harmonyBar" class="progress-fill"></div></div></div>
+        </div>
+        <div id="analyse-container"></div>
+    </section>
+
+    <!-- === RIGHT PANEL: FISH FINDER === -->
+    <aside class="panel">
+        <h2>Fische hinzufügen</h2>
+        <input type="search" id="searchFish" placeholder="Fisch suchen...">
+        <div id="fish-gallery"></div>
+    </aside>
+</main>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    // --- START petsData.json Content ---
+    const fischDataRaw = [{"id":187,"name":"Guppy","aquarium":{"size":"ab 54 Litern"},"stocking":{"adultSize":"bis 6 cm","compatibility":["Friedlich","Lebhaft","sehr vermehrungsfreudig","Langflossig"]}},{"id":188,"name":"Neonsalmler","aquarium":{"size":"ab 60 Litern"},"stocking":{"adultSize":"bis 4 cm","groupSize":"ab 10 Tieren","compatibility":["Friedlich","Schwarmfisch","Schüchtern"]}},{"id":189,"name":"Skalar","aquarium":{"size":"ab 240 Litern"},"stocking":{"adultSize":"bis 15 cm","groupSize":"ab 5 Tieren","compatibility":["Revierbildend","Räuberisch gegenüber kleinen Fischen (z.B. Neons)"]}},{"id":190,"name":"Kampffisch (Betta splendens)","aquarium":{"size":"ab 25 Litern"},"stocking":{"adultSize":"bis 7 cm","groupSize":"Einzelhaltung (Männchen)","compatibility":["Männchen untereinander aggressiv","Langflossig"]}},{"id":191,"name":"Platy","aquarium":{"size":"ab 54 Litern"},"stocking":{"adultSize":"bis 6 cm","compatibility":["Friedlich","Lebhaft","Gesellig"]}},{"id":192,"name":"Molly","aquarium":{"size":"ab 80 Litern"},"stocking":{"adultSize":"bis 10 cm","compatibility":["Friedlich","Lebhaft","Robust"]}},{"id":193,"name":"Antennenwels","aquarium":{"size":"ab 80 Litern"},"stocking":{"adultSize":"bis 14 cm","compatibility":["Friedlich","Nützlich","Nachtaktiv","Bodenbewohner"]}},{"id":194,"name":"Diskusbuntbarsch","aquarium":{"size":"ab 300 Litern"},"stocking":{"adultSize":"bis 20 cm","groupSize":"ab 5 Tieren","compatibility":["Friedlich","Empfindlich","Majestätisch"]}},{"id":195,"name":"Goldfisch","aquarium":{"size":"ab 200 Litern"},"stocking":{"adultSize":"bis 30 cm","compatibility":["Friedlich","Gesellig","Kaltwasserfisch"]}},{"id":196,"name":"Zebrabärbling","aquarium":{"size":"ab 60 Litern"},"stocking":{"adultSize":"bis 5 cm","groupSize":"ab 8 Tieren","compatibility":["Lebhaft","Friedlich","Schwarmfisch"]}},{"id":197,"name":"Schwertträger","aquarium":{"size":"ab 100 Litern"},"stocking":{"adultSize":"bis 12 cm","compatibility":["Friedlich","Lebhaft","Gesellig"]}},{"id":198,"name":"Corydoras (Panzerwels)","aquarium":{"size":"ab 60 Litern"},"stocking":{"adultSize":"bis 7 cm","groupSize":"ab 6 Tieren","compatibility":["Friedlich","Gesellig","Bodenbewohner","benötigt Sandboden"]}},{"id":199,"name":"Königssalmler","aquarium":{"size":"ab 200 Litern"},"stocking":{"adultSize":"bis 10 cm","groupSize":"ab 8 Tieren","compatibility":["Lebhaft","Schwarmfisch","Robust"]}},{"id":200,"name":"Kirschbarbe","aquarium":{"size":"ab 60 Litern"},"stocking":{"adultSize":"bis 5 cm","groupSize":"ab 8 Tieren","compatibility":["Friedlich","Schwarmfisch","Lebhaft"]}},{"id":201,"name":"Kardinalfisch","aquarium":{"size":"ab 60 Litern"},"stocking":{"adultSize":"bis 4 cm","groupSize":"ab 10 Tieren","compatibility":["Friedlich","Schwarmfisch","Kaltwasserfisch"]}},{"id":202,"name":"Black Molly","aquarium":{"size":"ab 80 Litern"},"stocking":{"adultSize":"bis 10 cm","compatibility":["Friedlich","Lebhaft","Sozial"]}},{"id":203,"name":"Endler Guppy","aquarium":{"size":"ab 30 Litern"},"stocking":{"adultSize":"bis 4 cm","compatibility":["Friedlich","Lebhaft","Vermehrungsfreudig","Langflossig"]}},{"id":204,"name":"Harlekin Rasbora","aquarium":{"size":"ab 60 Litern"},"stocking":{"adultSize":"bis 5 cm","groupSize":"ab 8 Tieren","compatibility":["Friedlich","Schwarmfisch","Aktiv"]}},{"id":205,"name":"Weiße Wolken Gebirgssalmler","aquarium":{"size":"ab 54 Litern"},"stocking":{"adultSize":"bis 4 cm","groupSize":"ab 8 Tieren","compatibility":["Friedlich","Schwarmfisch","Kaltwasserfisch"]}},{"id":206,"name":"Bristlenose Pleco (Antennenwels kleinbleibend)","aquarium":{"size":"ab 80 Litern"},"stocking":{"adultSize":"bis 12 cm","compatibility":["Friedlich","Bodenbewohner","Nützlich"]}},{"id":207,"name":"Glaswels","aquarium":{"size":"ab 100 Litern"},"stocking":{"adultSize":"bis 10 cm","groupSize":"ab 6 Tieren","compatibility":["Friedlich","Schwarmfisch","Scheu"]}},{"id":208,"name":"Kuhli-Schmerle","aquarium":{"size":"ab 60 Litern"},"stocking":{"adultSize":"bis 10 cm","groupSize":"ab 6 Tieren","compatibility":["Friedlich","Bodenbewohner","Scheu","benötigt Sandboden"]}},{"id":209,"name":"Perlhuhnbärbling","aquarium":{"size":"ab 30 Litern"},"stocking":{"adultSize":"bis 2.5 cm","groupSize":"ab 10 Tieren","compatibility":["Friedlich","Schwarmfisch","Lebhaft"]}},{"id":210,"name":"Blauer Fadenfisch","aquarium":{"size":"ab 120 Litern"},"stocking":{"adultSize":"bis 12 cm","compatibility":["Friedlich","Revierbildend","Ruhig"]}},{"id":211,"name":"Honiggurami","aquarium":{"size":"ab 60 Litern"},"stocking":{"adultSize":"bis 5 cm","compatibility":["Friedlich","Revierbildend","Ruhig"]}},{"id":213,"name":"Moskitobärbling","aquarium":{"size":"ab 20 Litern"},"stocking":{"adultSize":"bis 2 cm","groupSize":"ab 10 Tieren","compatibility":["Friedlich","Schwarmfisch","Scheu"]}},{"id":214,"name":"Rote von Rio","aquarium":{"size":"ab 60 Litern"},"stocking":{"adultSize":"bis 4 cm","groupSize":"ab 8 Tieren","compatibility":["Friedlich","Schwarmfisch","Lebhaft"]}},{"id":216,"name":"Rotkopfsalmler","aquarium":{"size":"ab 80 Litern"},"stocking":{"adultSize":"bis 5 cm","groupSize":"ab 10 Tieren","compatibility":["Friedlich","Schwarmfisch","Lebhaft"]}},{"id":217,"name":"Schmetterlingsbuntbarsch","aquarium":{"size":"ab 60 Litern"},"stocking":{"adultSize":"bis 7 cm","compatibility":["Friedlich","Revierbildend","Paarbildend"]}},{"id":218,"name":"Bolivianischer Schmetterlingsbuntbarsch","aquarium":{"size":"ab 80 Litern"},"stocking":{"adultSize":"bis 8 cm","compatibility":["Friedlich","Revierbildend","Sozial"]}},{"id":219,"name":"Pfauenaugenbuntbarsch (Oscar)","aquarium":{"size":"ab 500 Litern"},"stocking":{"adultSize":"bis 35 cm","compatibility":["Intelligent","Territorial","Groß","Räuberisch"]}},{"id":220,"name":"Roter Neon","aquarium":{"size":"ab 60 Litern"},"stocking":{"adultSize":"bis 5 cm","groupSize":"ab 10 Tieren","compatibility":["Friedlich","Schwarmfisch","Lebhaft"]}}];
+    // --- END petsData.json Content ---
+
+    // --- START Wasserwerte Data ---
+    const wasserwerteDaten = {
+        "Guppy": { pH: [6.5, 8.0], temp: [22, 28], gh: [8, 12] },
+        "Neonsalmler": { pH: [5.0, 7.5], temp: [20, 26], gh: [2, 15] },
+        "Skalar": { pH: [6.0, 7.4], temp: [24, 28], gh: [3, 15] },
+        "Kampffisch (Betta splendens)": { pH: [6.0, 7.5], temp: [24, 30], gh: [5, 20] },
+        "Platy": { pH: [7.0, 8.2], temp: [20, 26], gh: [10, 25] },
+        "Molly": { pH: [7.5, 8.5], temp: [24, 28], gh: [15, 30] },
+        "Antennenwels": { pH: [6.0, 7.8], temp: [22, 30], gh: [5, 20] },
+        "Diskusbuntbarsch": { pH: [5.0, 6.5], temp: [28, 31], gh: [1, 8] },
+        "Goldfisch": { pH: [7.0, 8.0], temp: [18, 22], gh: [10, 20] },
+        "Zebrabärbling": { pH: [6.0, 7.5], temp: [20, 26], gh: [5, 12] },
+        "Schwertträger": { pH: [7.0, 8.3], temp: [22, 28], gh: [10, 30] },
+        "Corydoras (Panzerwels)": { pH: [6.0, 7.5], temp: [22, 27], gh: [2, 18] },
+        "Königssalmler": { pH: [6.0, 7.5], temp: [23, 27], gh: [5, 12] },
+        "Kirschbarbe": { pH: [6.0, 7.5], temp: [22, 26], gh: [5, 12] },
+        "Kardinalfisch": { pH: [6.0, 8.0], temp: [18, 22], gh: [5, 20] },
+        "Black Molly": { pH: [7.5, 8.5], temp: [24, 28], gh: [15, 30] },
+        "Endler Guppy": { pH: [6.5, 8.0], temp: [22, 28], gh: [10, 25] },
+        "Harlekin Rasbora": { pH: [6.0, 7.5], temp: [22, 26], gh: [5, 12] },
+        "Weiße Wolken Gebirgssalmler": { pH: [6.0, 8.0], temp: [18, 22], gh: [5, 20] },
+        "Bristlenose Pleco (Antennenwels kleinbleibend)": { pH: [6.0, 7.8], temp: [22, 30], gh: [5, 20] },
+        "Glaswels": { pH: [6.0, 7.5], temp: [24, 28], gh: [2, 12] },
+        "Kuhli-Schmerle": { pH: [6.0, 7.0], temp: [24, 28], gh: [2, 10] },
+        "Perlhuhnbärbling": { pH: [6.5, 7.5], temp: [20, 26], gh: [5, 15] },
+        "Blauer Fadenfisch": { pH: [6.0, 7.5], temp: [24, 28], gh: [5, 15] },
+        "Honiggurami": { pH: [6.0, 7.5], temp: [22, 28], gh: [5, 15] },
+        "Moskitobärbling": { pH: [6.0, 7.0], temp: [20, 26], gh: [2, 10] },
+        "Rote von Rio": { pH: [6.0, 7.5], temp: [22, 26], gh: [5, 12] },
+        "Rotkopfsalmler": { pH: [5.5, 7.0], temp: [24, 28], gh: [2, 10] },
+        "Schmetterlingsbuntbarsch": { pH: [5.0, 6.5], temp: [25, 30], gh: [1, 10] },
+        "Bolivianischer Schmetterlingsbuntbarsch": { pH: [6.0, 7.5], temp: [24, 28], gh: [5, 15] },
+        "Pfauenaugenbuntbarsch (Oscar)": { pH: [6.0, 7.5], temp: [22, 28], gh: [5, 20] },
+        "Roter Neon": { pH: [4.0, 6.5], temp: [23, 27], gh: [1, 5] },
+    };
+    // --- END Wasserwerte Data ---
+
+    const ui = {
+        dimBtn: document.getElementById('dimBtn'), volBtn: document.getElementById('volBtn'),
+        dimInputs: document.getElementById('dimInputs'), volInput: document.getElementById('volInput'),
+        tankLaenge: document.getElementById('tankLaenge'), tankBreite: document.getElementById('tankBreite'), tankHoehe: document.getElementById('tankHoehe'),
+        tankVolumen: document.getElementById('tankVolumen'), filterLeistung: document.getElementById('filterLeistung'),
+        bodengrund: document.getElementById('bodengrund'), garnelenCheck: document.getElementById('garnelenCheck'),
+        besatzValue: document.getElementById('besatzValue'), besatzBar: document.getElementById('besatzBar'),
+        filterValue: document.getElementById('filterValue'), filterBar: document.getElementById('filterBar'),
+        harmonyValue: document.getElementById('harmonyValue'), harmonyBar: document.getElementById('harmonyBar'),
+        analyseContainer: document.getElementById('analyse-container'), fishGallery: document.getElementById('fish-gallery'), searchFish: document.getElementById('searchFish'),
+    };
+    
+    let fischDatenbank = {};
+    let aktuellerBesatzListe = [];
+    let setup = { inputMode: 'dims' };
+
+    function parseNumber(str) { return parseInt(str.replace(/[^0-9]/g, ''), 10) || 0; }
+    
+    function transformData() {
+        fischDataRaw.forEach(fish => {
+            const compatTags = new Set();
+            fish.stocking.compatibility.forEach(tag => {
+                const t = tag.toLowerCase();
+                if (t.includes('männchen untereinander aggressiv')) compatTags.add('maennchen_aggressiv');
+                if (t.includes('langflossige fische zwicken')) compatTags.add('flossenbeisser');
+                if (t.includes('räuberisch')) compatTags.add('raubfisch');
+                if (t.includes('benötigt sandboden')) compatTags.add('braucht_sand');
+                if (t.includes('langflossig')) compatTags.add('langflossig');
+                if (t.includes('schwarmfisch')) compatTags.add('schwarmfisch');
+                if (t.includes('bodenbewohner')) compatTags.add('zone_boden');
+            });
+            if (fish.name.includes("Kampffisch") || fish.name.includes("Skalar") || fish.name.includes("Oscar")) { compatTags.add('raubfisch'); compatTags.add('frisst_garnelen'); }
+            
+            fischDatenbank[fish.name] = {
+                groesse: parseNumber(fish.stocking.adultSize), minBecken: parseNumber(fish.aquarium.size),
+                minGruppe: fish.stocking.groupSize ? parseNumber(fish.stocking.groupSize) : 1,
+                tags: Array.from(compatTags),
+                wasserwerte: wasserwerteDaten[fish.name] || null // Wasserwerte hinzufügen
+            };
+        });
+    }
+
+    function init() {
+        transformData(); loadState(); setupEventListeners(); runFullUpdate();
+    }
+    
+    function setupEventListeners() {
+        Object.values(ui).forEach(el => {
+            if (el && el.tagName && (el.tagName === 'INPUT' || el.tagName === 'SELECT')) { el.addEventListener('input', runFullUpdate); }
+        });
+        ui.dimBtn.addEventListener('click', () => switchInputMode('dims'));
+        ui.volBtn.addEventListener('click', () => switchInputMode('vol'));
+        ui.fishGallery.addEventListener('click', e => {
+            const card = e.target.closest('.fish-card');
+            if (card) { addFisch(card.dataset.name); }
+        });
+        ui.analyseContainer.addEventListener('click', e => {
+            if (e.target.dataset.action === 'remove') { removeFisch(e.target.dataset.name); }
+        });
+    }
+
+    function switchInputMode(mode) {
+        setup.inputMode = mode;
+        const isDimMode = mode === 'dims';
+        ui.dimBtn.classList.toggle('active', isDimMode);
+        ui.volBtn.classList.toggle('active', !isDimMode);
+        ui.dimInputs.style.display = isDimMode ? 'block' : 'none';
+        ui.volInput.style.display = isDimMode ? 'none' : 'block';
+        Object.values(ui.dimInputs.querySelectorAll('input')).forEach(i => i.disabled = !isDimMode);
+        ui.tankVolumen.disabled = isDimMode;
+        runFullUpdate();
+    }
+
+    function runFullUpdate() {
+        updateSetup(); renderFishFinder();
+        const analysisResult = checkKompatibilitaet();
+        updateDashboard(analysisResult); 
+        saveState();
+    }
+
+    function updateSetup() {
+        if (setup.inputMode === 'dims') {
+            setup.volumen = (ui.tankLaenge.value * ui.tankBreite.value * ui.tankHoehe.value) * 0.9 / 1000 || 0;
+        } else {
+            setup.volumen = parseFloat(ui.tankVolumen.value) || 0;
+        }
+        setup.filterRate = (ui.filterLeistung.value / setup.volumen) || 0;
+        setup.bodengrund = ui.bodengrund.value;
+        setup.hatGarnelen = ui.garnelenCheck.checked;
+    }
+
+    function renderFishFinder() {
+        const searchTerm = ui.searchFish.value.toLowerCase();
+        ui.fishGallery.innerHTML = '';
+        Object.entries(fischDatenbank).sort().forEach(([name, data]) => {
+            if (name.toLowerCase().includes(searchTerm)) {
+                const card = document.createElement('div');
+                card.className = 'fish-card';
+                const sizeRatio = data.minBecken / setup.volumen;
+                if (sizeRatio <= 1) card.classList.add('suitable');
+                else if (sizeRatio <= 1.3) card.classList.add('borderline');
+                else card.classList.add('unsuitable');
+                card.dataset.name = name;
+                card.title = `"${name}" hinzufügen (benötigt mind. ${data.minBecken}L)`;
+                card.innerHTML = `<span class="fish-card-name">${name}</span><span class="fish-card-size">${data.groesse} cm</span>`;
+                ui.fishGallery.appendChild(card);
+            }
+        });
+    }
+    
+    function addFisch(name) {
+        const existing = aktuellerBesatzListe.find(f => f.name === name);
+        if (existing) { existing.anzahl++; } 
+        else { aktuellerBesatzListe.push({ name, anzahl: 1 }); }
+        runFullUpdate();
+    }
+
+    function removeFisch(nameToRemove) {
+        const fisch = aktuellerBesatzListe.find(f => f.name === nameToRemove);
+        if (fisch) {
+            fisch.anzahl--;
+            if (fisch.anzahl === 0) { aktuellerBesatzListe = aktuellerBesatzListe.filter(f => f.name !== nameToRemove); }
+        }
+        runFullUpdate();
+    }
+    
+    function checkKompatibilitaet() {
+        let warnungen = []; let score = 100;
+        const lockerungsfaktor = 0.5;
+        const summeCmRoh = aktuellerBesatzListe.reduce((s, f) => s + fischDatenbank[f.name].groesse * f.anzahl, 0);
+        const summeCmAngepasst = summeCmRoh * lockerungsfaktor;
+        const besatzProzent = (summeCmAngepasst / (setup.volumen / 1.5 || 1)) * 100;
+        
+        const bioLoadReductionFactor = 0.375; 
+        const bioLoadFactor = Math.min(1, summeCmRoh / (setup.volumen * 0.5));
+        const effektiveFilterRate = setup.filterRate * (1 - (bioLoadFactor * bioLoadReductionFactor));
+
+        if (effektiveFilterRate < 2) score -= 40; else if (effektiveFilterRate < 3) score -= 15;
+        if (besatzProzent > 130) score -= 40; else if (besatzProzent > 110) score -= 15;
+        
+        let aggressiveMaleCount = 0; let vorschlaege = [];
+        let fuetterungsArten = new Set();
+        let wasserwerteEmpfehlungen = {
+            pH_min: 14, pH_max: 0, temp_min: 100, temp_max: 0, gh_min: 100, gh_max: 0,
+            ph_konflikt: false, temp_konflikt: false, gh_konflikt: false
+        };
+
+        aktuellerBesatzListe.forEach((fisch) => {
+            const data = fischDatenbank[fisch.name];
+            
+            if (data.tags.includes('raubfisch')) fuetterungsArten.add('Proteinreiches Futter');
+            else if (data.tags.includes('zone_boden')) fuetterungsArten.add('Sinkfutter (Tabletten)');
+            else if (fisch.name.includes('Antennenwels') || fisch.name.includes('Pleco')) fuetterungsArten.add('Algentabs & Gemüse');
+            else fuetterungsArten.add('Hochwertiges Flockenfutter');
+
+            if (data.wasserwerte) {
+                const [currentpHMin, currentpHMax] = data.wasserwerte.pH;
+                const [currentTempMin, currentTempMax] = data.wasserwerte.temp;
+                const [currentGHMin, currentGHMax] = data.wasserwerte.gh;
+
+                if (wasserwerteEmpfehlungen.pH_min === 14) wasserwerteEmpfehlungen.pH_min = currentpHMin;
+                if (wasserwerteEmpfehlungen.pH_max === 0) wasserwerteEmpfehlungen.pH_max = currentpHMax;
+                if (wasserwerteEmpfehlungen.temp_min === 100) wasserwerteEmpfehlungen.temp_min = currentTempMin;
+                if (wasserwerteEmpfehlungen.temp_max === 0) wasserwerteEmpfehlungen.temp_max = currentTempMax;
+                if (wasserwerteEmpfehlungen.gh_min === 100) wasserwerteEmpfehlungen.gh_min = currentGHMin;
+                if (wasserwerteEmpfehlungen.gh_max === 0) wasserwerteEmpfehlungen.gh_max = currentGHMax;
+
+                wasserwerteEmpfehlungen.pH_min = Math.max(wasserwerteEmpfehlungen.pH_min, currentpHMin);
+                wasserwerteEmpfehlungen.pH_max = Math.min(wasserwerteEmpfehlungen.pH_max, currentpHMax);
+                wasserwerteEmpfehlungen.temp_min = Math.max(wasserwerteEmpfehlungen.temp_min, currentTempMin);
+                wasserwerteEmpfehlungen.temp_max = Math.min(wasserwerteEmpfehlungen.temp_max, currentTempMax);
+                wasserwerteEmpfehlungen.gh_min = Math.max(wasserwerteEmpfehlungen.gh_min, currentGHMin);
+                wasserwerteEmpfehlungen.gh_max = Math.min(wasserwerteEmpfehlungen.gh_max, currentGHMax);
+            }
+
+            if (data.minBecken > setup.volumen) { score -= 30; warnungen.push({ l: 'kritisch', msg: `<b>${fisch.name}</b> benötigt ein größeres Becken (mind. ${data.minBecken}L).` }); }
+            if (data.tags.includes('maennchen_aggressiv')) aggressiveMaleCount += fisch.anzahl;
+            if (data.tags.includes('schwarmfisch') && fisch.anzahl < data.minGruppe) { score -= 5; warnungen.push({ l: 'hinweis', msg: `<b>${fisch.name}</b> sollte in Gruppen von mind. ${data.minGruppe} gehalten werden.` }); }
+            if (setup.hatGarnelen && data.tags.includes('frisst_garnelen')) { score -= 15; warnungen.push({ l: 'kritisch', msg: `<b>${fisch.name}</b> ist ein Fressfeind für <b>Zwerggarnelen</b>.` }); }
+            if (data.tags.includes('braucht_sand') && setup.bodengrund !== 'sand') { score -= 10; warnungen.push({ l: 'hinweis', msg: `<b>${fisch.name}</b> benötigt Sandboden zum Schutz seiner Barteln.` }); vorschlaege.push('Wechseln Sie zu feinem Sand, um die Barteln Ihrer Panzerwelse zu schützen.')}
+        });
+        
+        if (aggressiveMaleCount > 1) { score = 0; warnungen.unshift({ l: 'kritisch', msg: `<b>${aggressiveMaleCount} aggressive Männchen</b> im selben Becken führen zu tödlichen Kämpfen.` }); }
+        
+        if (besatzProzent > 110) vorschlaege.push('Ihre Besatzdichte ist erhöht. Beobachten Sie die Wasserwerte genau und führen Sie regelmäßige Wasserwechsel durch.');
+        if (effektiveFilterRate < 2) vorschlaege.push('Ihre Filterleistung ist kritisch. Erwägen Sie einen stärkeren Filter oder eine Reduzierung des Besatzes.');
+        
+        if (aktuellerBesatzListe.length > 1) {
+            if (wasserwerteEmpfehlungen.pH_min >= wasserwerteEmpfehlungen.pH_max) wasserwerteEmpfehlungen.ph_konflikt = true;
+            if (wasserwerteEmpfehlungen.temp_min >= wasserwerteEmpfehlungen.temp_max) wasserwerteEmpfehlungen.temp_konflikt = true;
+            if (wasserwerteEmpfehlungen.gh_min >= wasserwerteEmpfehlungen.gh_max) wasserwerteEmpfehlungen.gh_konflikt = true;
+
+            if (wasserwerteEmpfehlungen.ph_konflikt) { score -= 25; warnungen.push({ l: 'kritisch', msg: `<b>Starker pH-Wert-Konflikt</b> unter den Fischen. Eine gemeinsame Haltung ist schwierig.` }); }
+            if (wasserwerteEmpfehlungen.temp_konflikt) { score -= 15; warnungen.push({ l: 'kritisch', msg: `<b>Temperatur-Konflikt</b> unter den Fischen. Nicht alle Arten vertragen die gleichen Temperaturen.` }); }
+            if (wasserwerteEmpfehlungen.gh_konflikt) { score -= 10; warnungen.push({ l: 'hinweis', msg: `<b>Wasserhärte-Konflikt</b> unter den Fischen. Unterschiedliche Härteanforderungen können zu Stress führen.` }); }
+        }
+
+        let individuelleFuetterung;
+        if (aktuellerBesatzListe.some(f => fischDatenbank[f.name].tags.includes('zone_boden'))) {
+            individuelleFuetterung = 'Täglich 1-2x eine Menge füttern, die in 2-3 Minuten gefressen wird. Stellen Sie sicher, dass Sinkfutter auch die Bodenbewohner erreicht.';
+        } else if (aktuellerBesatzListe.some(f => fischDatenbank[f.name].name.includes('Skalar') || fischDatenbank[f.name].name.includes('Diskus'))) {
+            individuelleFuetterung = 'Füttern Sie 2-3x täglich kleine Portionen, um die Verdauung zu schonen und die Wasserqualität hoch zu halten.';
+        } else {
+            individuelleFuetterung = 'Täglich 1x eine Menge füttern, die von den Fischen innerhalb von 1-2 Minuten vollständig aufgenommen wird. Ein Fastentag pro Woche ist vorteilhaft.';
+        }
+
+        const plan = {
+            woechentlich: [
+                { task: `Wasserwechsel: ca. ${(setup.volumen * 0.25).toFixed(0)} Liter`, reason: 'Entfernt angesammelte Schadstoffe wie Nitrat und hält das Wasser frisch. Dies ist die wichtigste regelmäßige Pflegemaßnahme.', priority: 'high' },
+                { task: 'Funktion der Technik prüfen', reason: 'Sicherstellen, dass Filter, Heizer und Beleuchtung einwandfrei arbeiten, um ein stabiles Milieu zu gewährleisten.', priority: 'high'},
+                { task: 'Bodengrund absaugen', reason: 'Entfernt Futterreste und Ausscheidungen, die sich ansammeln und das Wasser belasten. Beugt Algen und Keimen vor.', priority: 'medium' },
+                { task: 'Scheiben reinigen', reason: 'Verbessert die Optik und ermöglicht eine klare Sicht auf die Fische und Pflanzen.', priority: 'low' }
+            ],
+            fuetterung: {
+                regel: individuelleFuetterung,
+                arten: Array.from(fuetterungsArten).join(' / ')
+            },
+            vorschlaege
+        };
+
+        const analyseTexte = {
+            besatz: (val => {
+                if (val > 130) return { status: 'kritisch', text: `<b>Stark überbesetzt (${val.toFixed(0)}%).</b> Dies führt zu extremem Stress und hoher Wasserbelastung. Eine Reduzierung des Besatzes ist dringend erforderlich.` };
+                if (val > 110) return { status: 'hinweis', text: `<b>Erhöhte Besatzdichte (${val.toFixed(0)}%).</b> Das biologische Gleichgewicht ist anfällig. Regelmäßige Wasserwechsel und eine starke Filterung sind entscheidend.` };
+                return { status: 'positiv', text: `<b>Optimale Besatzdichte (${val.toFixed(0)}%).</b> Ihr Becken bietet ausreichend Platz und die biologische Belastung ist im gesunden Bereich.` };
+            })(besatzProzent),
+            filter: (val => {
+                let text;
+                if (val < 2) text = `<b>Filterung unzureichend.</b> Die Filterleistung reicht nicht aus, um die Wasserqualität stabil zu halten. Schadstoffe können sich ansammeln.`;
+                else if (val < 3) text = `<b>Filterung grenzwertig.</b> Bei hoher Belastung kann die Filterleistung an ihre Grenzen stoßen. Beobachten Sie die Wasserwerte.`;
+                else text = `<b>Gute Filterleistung.</b> Ihr Filter sorgt für eine ausreichende Umwälzung und Reinigung des Wassers.`;
+                return { 
+                    status: val < 2 ? 'kritisch' : val < 3 ? 'hinweis' : 'positiv', 
+                    text: text,
+                    value: val.toFixed(1)
+                };
+            })(effektiveFilterRate)
+        };
+
+        return { score: Math.max(0, score), warnungen, besatzProzent, effektiveFilterRate, plan, wasserwerteEmpfehlungen, analyseTexte };
+    }
+
+    function updateDashboard(analysisResult) {
+        const { score, warnungen, besatzProzent, effektiveFilterRate, plan, wasserwerteEmpfehlungen, analyseTexte } = analysisResult;
+
+        ui.besatzValue.textContent = `${besatzProzent.toFixed(0)}%`;
+        ui.besatzBar.style.width = `${Math.min(100, besatzProzent)}%`;
+        ui.besatzBar.className = 'progress-fill ' + (besatzProzent > 130 ? 'critical' : besatzProzent > 110 ? 'warning' : 'good');
+        
+        let filterStatus = 'Gut';
+        if (effektiveFilterRate < 2) filterStatus = 'Kritisch'; else if (effektiveFilterRate < 3) filterStatus = 'Mittel';
+        ui.filterValue.textContent = filterStatus;
+        ui.filterBar.style.width = `${Math.min(100, (effektiveFilterRate / 5) * 100)}%`;
+        ui.filterBar.className = 'progress-fill ' + (effektiveFilterRate < 2 ? 'critical' : effektiveFilterRate < 3 ? 'warning' : 'good');
+
+        ui.harmonyValue.textContent = `${score.toFixed(0)}%`;
+        ui.harmonyBar.style.width = `${score}%`;
+        ui.harmonyBar.className = 'progress-fill ' + (score < 50 ? 'critical' : score < 80 ? 'warning' : 'good');
+        
+        let html = '<h4>Aktueller Besatz</h4>';
+        if (aktuellerBesatzListe.length === 0) { html += '<p style="color: var(--text-secondary);">Füge Fische hinzu.</p>'; } 
+        else { aktuellerBesatzListe.forEach((f) => { html += `<div style="display:flex; justify-content: space-between; align-items: center; padding: 0.25rem 0;"><span>${f.anzahl}x ${f.name}</span><button data-action="remove" data-name="${f.name}" style="background:none; border:none; color:var(--danger); cursor:pointer; font-size: 1.2rem; line-height: 1;">&times;</button></div>`; }); }
+        
+        html += '<h4>System-Analyse</h4>';
+        if (aktuellerBesatzListe.length > 0) {
+            html += `<div class="warnung ${analyseTexte.besatz.status}"><span class="warnung-icon">${analyseTexte.besatz.status === 'positiv' ? '✅' : (analyseTexte.besatz.status === 'hinweis' ? '🟡' : '🔴')}</span><div>${analyseTexte.besatz.text}</div></div>`;
+            html += `<div class="warnung ${analyseTexte.filter.status}"><span class="warnung-icon">${analyseTexte.filter.status === 'positiv' ? '✅' : (analyseTexte.filter.status === 'hinweis' ? '🟡' : '🔴')}</span><div>${analyseTexte.filter.text} <span class="tooltip-trigger" title="Die effektive Filterleistung gibt an, wie oft pro Stunde das gesamte Aquarienwasser durch den Filter umgewälzt wird, unter Berücksichtigung der biologischen Belastung (Bio-Load). Ein Wert von 3x/h bedeutet, dass das Wasser dreimal pro Stunde gefiltert wird.">(eff. ${analyseTexte.filter.value}x/h)</span></div></div>`;
+        }
+        
+        if (warnungen.length > 0) { warnungen.sort((a, b) => (a.l === 'kritisch' ? -1 : 1)).forEach(w => { html += `<div class="warnung ${w.l}"><span class="warnung-icon">${w.l === 'kritisch' ? '🔴' : '🟡'}</span><div>${w.msg}</div></div>`; }); } 
+        else if (aktuellerBesatzListe.length > 0) { html += `<div class="warnung positiv"><span class="warnung-icon">✅</span><div><b>Keine Kompatibilitätsprobleme:</b> Die Fische passen sozial gut zusammen.</div></div>`; }
+        else { html += `<div class="warnung positiv"><span class="warnung-icon">✅</span><div>Bereit für die Planung.</div></div>`; }
+
+        if (aktuellerBesatzListe.length > 0) {
+            html += `<h5>Optimale Wasserwerte</h5>`;
+            html += `<ul class="plan-liste">`;
+            if (wasserwerteEmpfehlungen.ph_konflikt) {
+                html += `<li title="Der pH-Wert gibt an, ob das Wasser sauer (unter 7), neutral (7) oder basisch (über 7) ist.">pH-Bereich: <b>Konflikt!</b></li>`;
+            } else {
+                html += `<li title="Der pH-Wert gibt an, ob das Wasser sauer (unter 7), neutral (7) oder basisch (über 7) ist.">pH-Bereich: ${wasserwerteEmpfehlungen.pH_min.toFixed(1)} - ${wasserwerteEmpfehlungen.pH_max.toFixed(1)}</li>`;
+            }
+            if (wasserwerteEmpfehlungen.temp_konflikt) {
+                html += `<li title="Die Wassertemperatur beeinflusst den Stoffwechsel und die Aktivität der Fische.">Temperatur: <b>Konflikt!</b></li>`;
+            } else {
+                 html += `<li title="Die Wassertemperatur beeinflusst den Stoffwechsel und die Aktivität der Fische.">Temperatur: ${wasserwerteEmpfehlungen.temp_min.toFixed(0)}°C - ${wasserwerteEmpfehlungen.temp_max.toFixed(0)}°C</li>`;
+            }
+            if (wasserwerteEmpfehlungen.gh_konflikt) {
+                html += `<li title="Die Gesamthärte (GH) misst die gelösten Mineralien (hauptsächlich Calcium und Magnesium) im Wasser.">Gesamthärte: <b>Konflikt!</b></li>`;
+            } else {
+                html += `<li title="Die Gesamthärte (GH) misst die gelösten Mineralien (hauptsächlich Calcium und Magnesium) im Wasser.">Gesamthärte (GH): ${wasserwerteEmpfehlungen.gh_min.toFixed(0)} - ${wasserwerteEmpfehlungen.gh_max.toFixed(0)} °dH</li>`;
+            }
+            html += `</ul>`;
+
+            html += `<h5>Fütterung</h5><ul class="plan-liste">`;
+            html += `<li><b>Futterarten:</b> ${plan.fuetterung.arten || 'Allgemeines Futter'}</li>`;
+            html += `<li><b>Fütterungsregel:</b> ${plan.fuetterung.regel}</li>`;
+            html += `</ul>`;
+
+            html += `<h5>Wöchentliche Pflege</h5>`;
+            plan.woechentlich.forEach(item => {
+                html += `<div class="plan-item prio-${item.priority}">
+                            <span class="plan-item-priority">${item.priority === 'high' ? 'Höchste Priorität' : (item.priority === 'medium' ? 'Wichtig' : 'Empfohlen')}</span>
+                            <div class="plan-item-title">${item.task}</div>
+                            <div class="plan-item-desc">${item.reason}</div>
+                         </div>`;
+            });
+            html += `<div class="legend">
+                        <div class="legend-item"><div class="legend-color" style="background-color: var(--danger);"></div>Höchste Priorität</div>
+                        <div class="legend-item"><div class="legend-color" style="background-color: var(--warning);"></div>Wichtig</div>
+                        <div class="legend-item"><div class="legend-color" style="background-color: var(--primary);"></div>Empfohlen</div>
+                    </div>`
+
+            if(plan.vorschlaege.length > 0) {
+                html += `<h5>Vorschläge zur Optimierung</h5><ul class="plan-liste"><li>${plan.vorschlaege.join('</li><li>')}</li></ul>`;
+            }
+        }
+        ui.analyseContainer.innerHTML = html;
+    }
+    
+    function saveState() {
+        const state = { mode: setup.inputMode, laenge: ui.tankLaenge.value, breite: ui.tankBreite.value, hoehe: ui.tankHoehe.value, volumen: ui.tankVolumen.value, filter: ui.filterLeistung.value, boden: ui.bodengrund.value, garnelen: ui.garnelenCheck.checked, besatz: aktuellerBesatzListe };
+        localStorage.setItem('aquaSphereState', JSON.stringify(state));
+    }
+
+    function loadState() {
+        const state = JSON.parse(localStorage.getItem('aquaSphereState'));
+        if (state) {
+            switchInputMode(state.mode || 'dims');
+            ui.tankLaenge.value = state.laenge || 100; ui.tankBreite.value = state.breite || 40; ui.tankHoehe.value = state.hoehe || 50;
+            ui.tankVolumen.value = state.volumen || 180; ui.filterLeistung.value = state.filter || 600;
+            ui.bodengrund.value = state.boden || 'sand';
+            ui.garnelenCheck.checked = state.garnelen || false;
+            aktuellerBesatzListe = state.besatz || [];
+        }
+    }
+    init();
+});
+
+
+    // CORRECTED Theme Dropdown Functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('Theme system initializing...');
+        
+        const themeDropdown = document.querySelector('.header__theme-dropdown');
+        const themeToggle = document.getElementById('themeToggle');
+        const themeDropdownMenu = document.getElementById('themeDropdown');
+        const themeOptions = document.querySelectorAll('.theme-option');
+
+        // Debug: Check if elements are found
+        console.log('Theme elements found:', {
+            dropdown: !!themeDropdown,
+            toggle: !!themeToggle, 
+            menu: !!themeDropdownMenu,
+            options: themeOptions.length
+        });
+
+        // Prüfen ob alle Elemente vorhanden sind
+        if (!themeDropdown || !themeToggle || !themeDropdownMenu) {
+            console.error('Theme-Toggle-Elemente nicht gefunden');
+            return;
+        } // FIXED: Added missing closing bracket here!
+
+        const themeIcon = themeToggle.querySelector('.theme-icon');
+        const themeText = themeToggle.querySelector('.theme-text');
+        const body = document.body;
+
+        // Theme-Konfiguration
+        const themes = {
+            light: { icon: '☀️', text: 'Light', className: 'theme-light' },
+            dark: { icon: '🌙', text: 'Dark', className: 'theme-dark' },
+            eco: { icon: '🌿', text: 'Eco', className: 'theme-eco' },
+            luxury: { icon: '✨', text: 'Luxury', className: 'theme-luxury' }
+        };
+
+        // Aktuelles Theme ermitteln
+        let currentTheme = localStorage.getItem('theme') || 'light';
+
+        // Theme anwenden
+        function applyTheme(themeName) {
+            const theme = themes[themeName];
+            if (!theme) return;
+
+            console.log('Applying theme:', themeName);
+
+            // Alle Theme-Klassen entfernen
+            body.className = body.className.replace(/theme-\w+/g, '');
+            body.classList.add(theme.className);
+
+            // Button-Inhalt aktualisieren
+            if (themeIcon) themeIcon.textContent = theme.icon;
+            if (themeText) themeText.textContent = theme.text;
+
+            // Active-Status der Optionen aktualisieren
+            themeOptions.forEach(option => {
+                option.classList.remove('active');
+                if (option.dataset.theme === themeName) {
+                    option.classList.add('active');
+                }
+            });
+
+            localStorage.setItem('theme', themeName);
+            currentTheme = themeName;
+            console.log('Theme gewechselt zu:', theme.text);
+        }
+
+        // Dropdown öffnen/schließen
+        function toggleDropdown() {
+            const isOpen = themeDropdown.classList.contains('open');
+            console.log('Toggle dropdown, currently open:', isOpen);
+            
+            if (isOpen) {
+                closeDropdown();
+            } else {
+                openDropdown();
+            }
+        }
+
+        function openDropdown() {
+            console.log('Opening dropdown');
+            themeDropdown.classList.add('open');
+            themeToggle.setAttribute('aria-expanded', 'true');
+        }
+
+        function closeDropdown() {
+            console.log('Closing dropdown');
+            themeDropdown.classList.remove('open');
+            themeToggle.setAttribute('aria-expanded', 'false');
+        }
+
+        // Event Listeners
+        themeToggle.addEventListener('click', function(e) {
+            e.stopPropagation();
+            console.log('Theme toggle clicked');
+            toggleDropdown();
+        });
+
+        themeOptions.forEach(option => {
+            option.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const selectedTheme = this.dataset.theme;
+                console.log('Theme option clicked:', selectedTheme);
+                applyTheme(selectedTheme);
+                closeDropdown();
+            });
+        });
+
+        document.addEventListener('click', function(e) {
+            if (!themeDropdown.contains(e.target)) {
+                closeDropdown();
+            }
+        });
+
+        // Initiales Theme setzen
+        applyTheme(currentTheme);
+        console.log('Theme system initialized successfully');
+    });
+</script>
+</body>
+</html>

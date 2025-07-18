@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>myPetCare.wiki</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" type="image/png" href="images/favicon.png">
+</head>
+<body>
+    <!-- HEADER -->
+<header class="header">
+    <div class="container">
+        <div class="header__content">
+            <!-- LOGO -->
+            <a href="#" class="header__logo" data-category="home">
+                <span class="header__logo-text">myPetCare.wiki</span>
+            </a>
+            
+            <!-- NAVIGATION -->
+            <nav class="header__nav">
+                <ul class="header__nav-list">
+
+                    <div id="auth-links">
+    <li><a href="#" class="header__nav-link" data-category="register">Registrieren</a></li>
+    <li><a href="#" class="header__nav-link" data-category="login">Anmelden</a></li>
+    <li><button id="logout-btn" class="btn btn--secondary logged-in" style="display: none;">Logout</button></li>
+    <li><a href="#" class="header__nav-link admin-link" data-category="admin-login" style="display: none;">Admin</a></li>
+</div>
+
+<!-- User Session (nur sichtbar wenn eingeloggt) -->
+        <div id="user-session" style="display: none;">
+            <li class="dropdown">
+                <span class="header__nav-link" id="username-display">Benutzer</span>
+                <ul class="dropdown-menu">
+                    <li><a href="#" class="dropdown-link" data-category="my-pets">❤️ Meine Haustiere</a></li>
+                    <li><a href="#" class="dropdown-link" data-category="pet-profile">🐾 Neues Profil</a></li>
+                    <li><a href="#" class="dropdown-link" id="logout-btn">🚪 Logout</a></li>
+                </ul>
+            </li>
+        </div>
+
+<a href="#" id="admin-panel-link" data-category="admin-log" class="header__nav-link admin-only" style="display: none;">Audit Log</a>
+
+                    <!-- Favoriten -->
+                    <li>
+                        <a href="#" class="header__nav-link" id="favorites-link">
+                            ❤️ Favoriten 
+                            <span class="favorites-counter" style="display: none;">0</span>
+                        </a>
+                    </li>
+                    
+                    <!-- Home -->
+                    <li>
+                        <a href="#" class="header__nav-link" data-category="home">🏠 Home</a>
+                    </li>
+                    
+                    <!-- Kategorien Dropdown -->
+                    <li class="dropdown">
+                        <span class="header__nav-link">
+                            📚 Kategorien <span class="dropdown-arrow">▼</span>
+                        </span>
+                        <ul class="dropdown-menu">
+                            <li><a href="#" class="dropdown-link" data-category="dogs">🐕 Hunde</a></li>
+                            <li><a href="#" class="dropdown-link" data-category="cats">🐱 Katzen</a></li>
+                            <li><a href="#" class="dropdown-link" data-category="rodents">🐹 Nager & Kleintiere</a></li>
+                            <li><a href="#" class="dropdown-link" data-category="birds">🦜 Ziervögel</a></li>
+                            <li><a href="#" class="dropdown-link" data-category="fish">🐠 Aquarienfische</a></li>
+                            <li><a href="#" class="dropdown-link" data-category="reptiles">🦎 Reptilien</a></li>
+                        </ul>
+                    </li>
+                    
+                    <!-- Tools Dropdown -->
+                    <li class="dropdown">
+                        <span class="header__nav-link">
+                            🛠️ Tools <span class="dropdown-arrow">▼</span>
+                        </span>
+                        <ul class="dropdown-menu">
+                            <li><a href="tools/hunde/index.html" class="dropdown-link">🐕 Welcher Hund passt zu mir?</a></li>
+                            <li><a href="tools/fische/aquacalc.html" class="dropdown-link">🧮 Aquacalc-Tool</a></li>
+                        </ul>
+                    </li>
+                    
+                    <!-- Blog -->
+                    <li>
+                        <a href="#" class="header__nav-link" data-category="blog">📝 Blog</a>
+                    </li>
+
+                    <li>
+    <a href="#" class="header__nav-link" data-category="comparison">🔍 Vergleichen</a>
+</li>
+                </ul>
+            </nav>
+
+            <!-- HEADER CONTROLS -->
+<div class="header__controls">
+    <!-- Theme Dropdown -->
+    <div class="header__theme-dropdown">
+        <button class="header__theme-toggle" id="theme-toggle">
+            <span id="theme-icon">🌙</span>
+            <span class="dropdown-arrow">▼</span>
+        </button>
+        <div class="theme-dropdown-menu" id="theme-dropdown">
+            <button class="theme-option" data-theme="light">
+                <span class="theme-option-icon">☀️</span>
+                <span class="theme-option-text">Hell</span>
+            </button>
+            <button class="theme-option" data-theme="dark">
+                <span class="theme-option-icon">🌙</span>
+                <span class="theme-option-text">Dunkel</span>
+            </button>
+            <button class="theme-option" data-theme="luxury">
+                <span class="theme-option-icon">✨</span>
+                <span class="theme-option-text">Luxury</span>
+            </button>
+            <button class="theme-option" data-theme="eco">
+                <span class="theme-option-icon">🌿</span>
+                <span class="theme-option-text">Eco</span>
+            </button>
+            
+            <!-- Neue erweiterte Themes -->
+            <button class="theme-option" data-theme="playful">
+                <span class="theme-option-icon">🎾</span>
+                <span class="theme-option-text">Playful</span>
+            </button>
+            
+            <!-- Saisonale Themes -->
+            <button class="theme-option" data-theme="seasonal-spring">
+                <span class="theme-option-icon">🌸</span>
+                <span class="theme-option-text">Frühling</span>
+            </button>
+            <button class="theme-option" data-theme="seasonal-summer">
+                <span class="theme-option-icon">☀️</span>
+                <span class="theme-option-text">Sommer</span>
+            </button>
+            <button class="theme-option" data-theme="seasonal-autumn">
+                <span class="theme-option-icon">🍂</span>
+                <span class="theme-option-text">Herbst</span>
+            </button>
+            <button class="theme-option" data-theme="seasonal-winter">
+                <span class="theme-option-icon">❄️</span>
+                <span class="theme-option-text">Winter</span>
+            </button>
+        </div>
+    </div>
+</div>
+</header>
+
+    <main>
+        <!-- HERO SECTION -->
+        <section class="hero">
+  <picture class="hero__background">
+    <source srcset="images/hero-bg.png" type="image/png">
+    <source srcset="images/hero-bg.png" type="image/png">
+    <img src="images/hero-bg.png" alt="Hero Background" class="hero__bg-image">
+  </picture>
+  
+  <div class="hero__content">
+    <h1 class="hero__title">Jeanine ist cute</h1>
+    <p class="hero__description"></p>
+  </div>
+</section>
+
+<!-- ANIMAL OF THE DAY - IM SPOILER -->
+<section class="animal-of-day-section">
+    <div class="container">
+        <details class="animal-of-day-spoiler" open>
+            <summary class="animal-of-day-spoiler__title">
+                <span>🌟 Tier des Tages</span>
+                <span class="spoiler-arrow">▼</span>
+            </summary>
+            
+            <div class="animal-of-day-card" id="animal-of-day-card">
+                <!-- Der Inhalt wird von JavaScript geladen -->
+                <div class="loading-spinner"></div>
+            </div>
+        </details>
+    </div>
+</section>
+
+        <!-- KATEGORIEN SECTION -->
+        <section class="categories-section" id="categories-section">
+            <div class="container">
+                <h2 class="section__title">Tier-Kategorien</h2>
+                <div class="categories__grid" id="categories-grid">
+                    <!-- Kategorien werden dynamisch geladen -->
+                </div>
+            </div>
+        </section>
+
+        <!-- ERWEITERTE VERGLEICHSFUNKTION -->
+<section class="comparison-section" id="comparison-section" style="display: none;">
+    <div class="container">
+        <h2 class="section__title">Tier-Vergleich</h2>
+        
+        <!-- Vergleichsauswahl -->
+        <div class="comparison-selector">
+            <div class="comparison-slots">
+                <div class="comparison-slot" id="slot-1">
+                    <div class="slot-placeholder">
+                        <span class="slot-icon">🐾</span>
+                        <span class="slot-text">Tier 1 auswählen</span>
+                        <button class="slot-select-btn" data-slot="1">Auswählen</button>
+                    </div>
+                </div>
+                
+                <div class="comparison-slot" id="slot-2">
+                    <div class="slot-placeholder">
+                        <span class="slot-icon">🐾</span>
+                        <span class="slot-text">Tier 2 auswählen</span>
+                        <button class="slot-select-btn" data-slot="2">Auswählen</button>
+                    </div>
+                </div>
+                
+                <div class="comparison-slot" id="slot-3">
+                    <div class="slot-placeholder">
+                        <span class="slot-icon">🐾</span>
+                        <span class="slot-text">Tier 3 auswählen (optional)</span>
+                        <button class="slot-select-btn" data-slot="3">Auswählen</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="comparison-actions">
+                <button class="btn btn--secondary" id="clear-comparison">Vergleich zurücksetzen</button>
+                <button class="btn btn--primary" id="export-comparison" disabled>Als PDF exportieren</button>
+                <button class="btn btn--primary" id="export-image" disabled>Als Bild exportieren</button>
+            </div>
+        </div>
+        
+        <!-- Radar Chart Container -->
+        <div class="radar-chart-container" id="radar-chart-container" style="display: none;">
+            <canvas id="radar-chart" width="600" height="400"></canvas>
+        </div>
+        
+        <!-- Detaillierte Vergleichstabelle -->
+        <div class="comparison-table-container" id="comparison-table-container" style="display: none;">
+            <table class="comparison-table" id="comparison-table">
+                <thead>
+                    <tr id="comparison-header">
+                        <th>Eigenschaft</th>
+                    </tr>
+                </thead>
+                <tbody id="comparison-body">
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<!-- Tier-Auswahl Modal -->
+<div id="animal-selection-modal" class="modal hidden">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 class="modal-title">Tier auswählen</h2>
+            <button class="modal-close" id="selection-modal-close">×</button>
+        </div>
+        <div class="modal-body">
+            <div class="animal-search">
+                <input type="text" id="animal-search-input" placeholder="Tierart suchen...">
+            </div>
+            <div class="animal-grid" id="animal-selection-grid">
+                <!-- Wird dynamisch gefüllt -->
+            </div>
+        </div>
+    </div>
+</div>
+
+        <!-- TOOLS SECTION -->
+        <section class="tools-section" id="tools-section">
+            <div class="container">
+                <h2 class="section__title">Nützliche Tools</h2>
+                <div class="tools__grid">
+                    <div class="tool-card">
+                        <div class="tool-card__icon">🎯</div>
+                        <div class="tool-card__content">
+                            <h3 class="tool-card__title">Rassen-Berater</h3>
+                            <p class="tool-card__description">
+                                Finden Sie heraus, welche Tierrasse am besten zu Ihrem Lebensstil passt.
+                            </p>
+                            <button class="btn btn--mini btn--primary" data-category="tools">Beratung starten</button>
+                        </div>
+                    </div>
+                    
+                    <div class="tool-card">
+                        <div class="tool-card__icon">⚖️</div>
+                        <div class="tool-card__content">
+                            <h3 class="tool-card__title">Hunderassen-Vergleichstool</h3>
+                            <p class="tool-card__description">
+                                Vergleichen Sie Hunderassen anhand wichtiger Merkmale, um die perfekte Wahl zu treffen.
+                            </p>
+                            <a href="tools/hunde/index.html" class="btn btn--mini btn--primary">Vergleich starten</a>
+                        </div>
+                    </div>
+                    
+                    <div class="tool-card">
+                        <div class="tool-card__icon">🧮</div>
+                        <div class="tool-card__content">
+                            <h3 class="tool-card__title">Aquacalc-Tool</h3>
+                            <p class="tool-card__description">
+                                Berechnen Sie wichtige Werte wie Volumen, Bodengrundmenge und mehr für Ihr Aquarium.
+                            </p>
+                            <a href="tools/fische/aquacalc.html" class="btn btn--mini btn--primary">Rechner öffnen</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Species-Section -->
+<section class="species-section" id="species-section" style="display: none;">
+    <div class="container">
+        <h2 class="section__title" id="species-title">Tierarten</h2>
+        
+        <!-- List.js Container -->
+        <div id="species-list">
+            <!-- Suchfeld -->
+            <div class="species__search-container">
+                <input class="search" placeholder="Tierart suchen..." />
+                <span class="search-results">Gefunden: <span class="result-count">0</span> Tiere</span>
+            </div>
+            
+            <!-- Filter-Dropdowns -->
+            <div class="advanced-filters-container">
+    <div class="filter-header">
+        <h3>🔍 Erweiterte Filter</h3>
+        <button class="filter-toggle-btn">
+            <span>Filter anzeigen</span>
+            <span class="filter-arrow">▼</span>
+        </button>
+    </div>
+    
+    <div class="filter-panel">
+        <div class="filter-grid">
+            <!-- Temperament Filter -->
+            <div class="filter-group">
+                <label>Temperament</label>
+                <div class="checkbox-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" class="temperament-filter" value="freundlich">
+                        <span>Freundlich</span>
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" class="temperament-filter" value="energisch">
+                        <span>Energisch</span>
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" class="temperament-filter" value="ruhig">
+                        <span>Ruhig</span>
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" class="temperament-filter" value="verspielt">
+                        <span>Verspielt</span>
+                    </label>
+                </div>
+            </div>
+            
+            <!-- Größe Filter -->
+            <div class="filter-group">
+                <label>Größe</label>
+                <div class="toggle-group">
+                    <button class="toggle-btn size-filter" data-value="klein">Klein</button>
+                    <button class="toggle-btn size-filter" data-value="mittel">Mittel</button>
+                    <button class="toggle-btn size-filter" data-value="groß">Groß</button>
+                </div>
+            </div>
+            
+            <!-- Pflegeaufwand Filter -->
+            <div class="filter-group">
+                <label>Pflegeaufwand</label>
+                <div class="range-slider-container">
+                    <input type="range" class="care-range-filter" min="1" max="5" value="3">
+                    <div class="range-labels">
+                        <span>Niedrig</span>
+                        <span>Hoch</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Lebenserwartung Filter -->
+            <div class="filter-group">
+                <label>Lebenserwartung (Jahre)</label>
+                <div class="dual-range-container">
+                    <input type="number" class="min-age" placeholder="Min" min="1" max="30">
+                    <span>bis</span>
+                    <input type="number" class="max-age" placeholder="Max" min="1" max="30">
+                </div>
+            </div>
+        </div>
+        
+        <!-- Filter Presets -->
+        <div class="filter-presets">
+            <h4>Schnellfilter</h4>
+            <div class="preset-buttons">
+                <button class="preset-btn" data-preset="anfaenger">Für Anfänger</button>
+                <button class="preset-btn" data-preset="familie">Familienfreundlich</button>
+                <button class="preset-btn" data-preset="apartment">Wohnung geeignet</button>
+                <button class="preset-btn" data-preset="aktiv">Aktive Tiere</button>
+            </div>
+        </div>
+        
+        <!-- Filter Actions -->
+        <div class="filter-actions">
+            <button class="btn btn--secondary" id="clear-filters">Filter zurücksetzen</button>
+            <button class="btn btn--primary" id="save-filters">Filter speichern</button>
+        </div>
+    </div>
+</div>
+            
+            <!-- Sortier-Buttons -->
+            <div class="species__sort">
+                <button class="sort btn btn--mini" data-sort="name">Nach Name</button>
+                <button class="sort btn btn--mini" data-sort="size">Nach Größe</button>
+                <button class="sort btn btn--mini" data-sort="care-level">Nach Pflege</button>
+            </div>
+            
+            <!-- Species Grid (wird von List.js verwaltet) -->
+            <div id="species-grid" class="species__grid list"></div>
+            
+            <!-- Pagination -->
+            <div class="pagination-container">
+                <ul class="pagination"></ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Nach den bestehenden Sektionen einfügen -->
+<section class="auth-section" id="login-section" style="display: none;">
+    <div class="container">
+        <div class="auth-container">
+            <h2>Anmelden</h2>
+            <form id="login-form" class="auth-form">
+                <div class="form-group">
+                    <label for="login-email">E-Mail oder Benutzername</label>
+                    <input type="text" id="login-email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Passwort</label>
+                    <input type="password" id="login-password" name="password" required>
+                </div>
+                <button type="submit" class="btn btn--primary">Anmelden</button>
+            </form>
+            <button class="btn btn--secondary" data-category="home">Zurück zur Startseite</button>
+        </div>
+    </div>
+</section>
+
+<section class="auth-section" id="register-section" style="display: none;">
+    <div class="container">
+        <div class="auth-container">
+            <h2>Registrieren</h2>
+            <form id="register-form" class="auth-form">
+                <div class="form-group">
+                    <label for="register-username">Benutzername</label>
+                    <input type="text" id="register-username" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-password">Passwort</label>
+                    <input type="password" id="register-password" name="password" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-password-confirm">Passwort bestätigen</label>
+                    <input type="password" id="register-password-confirm" name="passwordConfirm" required>
+                </div>
+                <button type="submit" class="btn btn--primary">Registrieren</button>
+            </form>
+            <button class="btn btn--secondary" data-category="home">Zurück zur Startseite</button>
+        </div>
+    </div>
+</section>
+
+<!-- BLOG SECTION -->
+<section class="blog-section" id="blog-section" style="display: none;">
+    <div class="container">
+        <!-- Blog Header -->
+        <div class="blog-header">
+            <div class="blog-header__content">
+                <h2 class="blog-header__title">Blog & Ratgeber</h2>
+                <p class="blog-header__subtitle">
+                    Entdecken Sie wertvolle Tipps und Expertenwissen rund um Haustiere
+                </p>
+            </div>
+            <div class="blog-header__stats">
+                <div class="blog-stat">
+                    <span class="blog-stat__number" id="blog-total-count">0</span>
+                    <span class="blog-stat__label">Artikel</span>
+                </div>
+                <div class="blog-stat">
+                    <span class="blog-stat__number" id="blog-filtered-count">0</span>
+                    <span class="blog-stat__label">Gefiltert</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Blog Controls -->
+        <div class="blog-controls">
+            <div class="blog-controls__main">
+                <!-- Search -->
+                <div class="blog-search">
+                    <div class="blog-search__input-wrapper">
+                        <svg class="blog-search__icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"/>
+                            <path d="M21 21l-4.35-4.35"/>
+                        </svg>
+                        <input type="text" 
+                               id="blog-search" 
+                               class="blog-search__input" 
+                               placeholder="Artikel durchsuchen..."
+                               autocomplete="off">
+                        <button class="blog-search__clear" id="blog-search-clear">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="18" y1="6" x2="6" y2="18"/>
+                                <line x1="6" y1="6" x2="18" y2="18"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Filters -->
+                <div class="blog-filters">
+                    <div class="blog-filters__group">
+                        <button class="blog-filter-btn active" data-filter="all">
+                            <span class="blog-filter-btn__icon">📚</span>
+                            <span class="blog-filter-btn__text">Alle</span>
+                            <span class="blog-filter-btn__count" id="blog-count-all">0</span>
+                        </button>
+                        <button class="blog-filter-btn" data-filter="hunde">
+                            <span class="blog-filter-btn__icon">🐕</span>
+                            <span class="blog-filter-btn__text">Hunde</span>
+                            <span class="blog-filter-btn__count" id="blog-count-hunde">0</span>
+                        </button>
+                        <button class="blog-filter-btn" data-filter="katzen">
+                            <span class="blog-filter-btn__icon">🐱</span>
+                            <span class="blog-filter-btn__text">Katzen</span>
+                            <span class="blog-filter-btn__count" id="blog-count-katzen">0</span>
+                        </button>
+                        <button class="blog-filter-btn" data-filter="nagetiere">
+                            <span class="blog-filter-btn__icon">🐰</span>
+                            <span class="blog-filter-btn__text">Nagetiere</span>
+                            <span class="blog-filter-btn__count" id="blog-count-nagetiere">0</span>
+                        </button>
+                        <button class="blog-filter-btn" data-filter="reptilien">
+                            <span class="blog-filter-btn__icon">🦎</span>
+                            <span class="blog-filter-btn__text">Reptilien</span>
+                            <span class="blog-filter-btn__count" id="blog-count-reptilien">0</span>
+                        </button>
+                        <button class="blog-filter-btn" data-filter="voegel">
+                            <span class="blog-filter-btn__icon">🦜</span>
+                            <span class="blog-filter-btn__text">Vögel</span>
+                            <span class="blog-filter-btn__count" id="blog-count-voegel">0</span>
+                        </button>
+                        <button class="blog-filter-btn" data-filter="fische">
+                            <span class="blog-filter-btn__icon">🐠</span>
+                            <span class="blog-filter-btn__text">Fische</span>
+                            <span class="blog-filter-btn__count" id="blog-count-fische">0</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="blog-controls__secondary">
+                <!-- Sort -->
+                <div class="blog-sort">
+                    <label class="blog-sort__label">Sortieren:</label>
+                    <select id="blog-sort" class="blog-sort__select">
+                        <option value="newest">Neueste zuerst</option>
+                        <option value="oldest">Älteste zuerst</option>
+                        <option value="alphabetical">Alphabetisch</option>
+                        <option value="reading-time">Lesezeit</option>
+                        <option value="popular">Beliebt</option>
+                    </select>
+                </div>
+
+                <!-- View Mode -->
+                <div class="blog-view-mode">
+                    <button class="view-mode-btn active" data-mode="grid" title="Raster-Ansicht">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="3" width="7" height="7"/>
+                            <rect x="14" y="3" width="7" height="7"/>
+                            <rect x="14" y="14" width="7" height="7"/>
+                            <rect x="3" y="14" width="7" height="7"/>
+                        </svg>
+                    </button>
+                    <button class="view-mode-btn" data-mode="list" title="Listen-Ansicht">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="8" y1="6" x2="21" y2="6"/>
+                            <line x1="8" y1="12" x2="21" y2="12"/>
+                            <line x1="8" y1="18" x2="21" y2="18"/>
+                            <line x1="3" y1="6" x2="3.01" y2="6"/>
+                            <line x1="3" y1="12" x2="3.01" y2="12"/>
+                            <line x1="3" y1="18" x2="3.01" y2="18"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Blog Grid -->
+        <div class="blog-grid blog-grid--grid" id="blog-grid">
+            <!-- Blog cards will be inserted here -->
+        </div>
+
+        <!-- Blog Pagination -->
+        <div class="blog-pagination" id="blog-pagination">
+            <!-- Pagination buttons will be inserted here -->
+        </div>
+
+        <!-- Load More Button (Alternative to pagination) -->
+        <div class="blog-load-more" id="blog-load-more-container" style="display: none;">
+            <button class="blog-load-more__btn" id="blog-load-more">
+                <span>Weitere Artikel laden</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+</section>
+
+<!-- BLOG MODAL -->
+<div id="blog-modal" class="blog-modal">
+    <div class="blog-modal__overlay"></div>
+    <div class="blog-modal__container">
+        <div class="blog-modal__header">
+            <button class="blog-modal__close" id="blog-modal-close">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"/>
+                    <line x1="6" y1="6" x2="18" y2="18"/>
+                </svg>
+            </button>
+        </div>
+        
+        <div class="blog-modal__content" id="blog-modal-content">
+            <!-- Article content will be inserted here -->
+        </div>
+    </div>
+</div>
+
+<!-- ======================================================== -->
+<!--   FINALER HTML-BLOCK FÜR DEN PROFIL-ERSTELLER            -->
+<!-- ======================================================== -->
+<section class="pet-profile-section" id="pet-profile-section" style="display: none;">
+    <div class="container">
+        <h2 class="section__title">Haustier-Profil erstellen</h2>
+        
+        <!-- Fortschrittsanzeige -->
+        <div class="wizard-progress">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+            <div class="progress-steps">
+                <div class="step active" data-step="1"><div class="step-number">1</div><div class="step-label">Grunddaten</div></div>
+                <div class="step" data-step="2"><div class="step-number">2</div><div class="step-label">Aussehen</div></div>
+                <div class="step" data-step="3"><div class="step-number">3</div><div class="step-label">Charakter</div></div>
+                <div class="step" data-step="4"><div class="step-number">4</div><div class="step-label">Gesundheit</div></div>
+                <div class="step" data-step="5"><div class="step-number">5</div><div class="step-label">Besitzer</div></div>
+                <div class="step" data-step="6"><div class="step-number">6</div><div class="step-label">Überprüfung</div></div>
+            </div>
+        </div>
+
+        <!-- Mehrstufiges Formular -->
+        <form id="pet-profile-form" class="wizard-form">
+            <!-- Schritt 1: Grundinformationen -->
+            <div class="form-step active" id="step-1">
+                <h3 class="step-title">Grundinformationen</h3>
+                <div class="form-grid">
+                    <div class="form-group"><label for="pet-name">Tiername *</label><input type="text" id="pet-name" name="petName" required></div>
+                    <div class="form-group"><label for="pet-species">Tierart *</label><select id="pet-species" name="species" required><option value="">Bitte wählen</option><option value="dog">Hund</option><option value="cat">Katze</option><option value="bird">Vogel</option><option value="fish">Fisch</option><option value="reptile">Reptil</option><option value="rodent">Nagetier</option></select></div>
+                    <div class="form-group"><label for="pet-breed">Rasse</label><input type="text" id="pet-breed" name="breed"></div>
+                    <div class="form-group"><label for="pet-gender">Geschlecht</label><select id="pet-gender" name="gender"><option value="">Bitte wählen</option><option value="male">Männlich</option><option value="female">Weiblich</option><option value="neutered-male">Kastriert (m)</option><option value="spayed-female">Sterilisiert (w)</option></select></div>
+                    <div class="form-group"><label for="pet-birthdate">Geburtsdatum</label><input type="date" id="pet-birthdate" name="birthDate"></div>
+                    <div class="form-group"><label for="pet-microchip">Mikrochip-Nummer</label><input type="text" id="pet-microchip" name="microchip"></div>
+                </div>
+            </div>
+
+            <!-- Schritt 2: Körperliche Merkmale -->
+            <div class="form-step" id="step-2">
+                <h3 class="step-title">Körperliche Merkmale</h3>
+                <div class="form-grid">
+                    <div class="form-group full-width">
+                        <label>Profilbild</label>
+                        <div class="image-upload-container">
+                            <div class="drop-zone" id="image-drop-zone">
+                                <div class="drop-zone-content">
+                                    <div class="upload-icon">📷</div>
+                                    <p>Bild hierher ziehen oder klicken zum Auswählen</p>
+                                    <p class="upload-hint">JPG, PNG oder GIF (max. 5MB)</p>
+                                </div>
+                                <input type="file" id="profile-image" name="profileImage" accept="image/*" hidden>
+                            </div>
+                            <div class="image-preview-container" id="image-preview-container" style="display: none;">
+                                <img id="image-preview" src="#" alt="Bildvorschau">
+                                <button type="button" class="btn btn--secondary btn--mini" id="image-remove-btn">Bild entfernen</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group"><label for="pet-size">Größe</label><select id="pet-size" name="size"><option value="">Bitte wählen</option><option value="very-small">Sehr klein</option><option value="small">Klein</option><option value="medium">Mittel</option><option value="large">Groß</option><option value="very-large">Sehr groß</option></select></div>
+                    <div class="form-group"><label for="pet-weight">Gewicht (kg)</label><input type="number" id="pet-weight" name="weight" min="0" step="0.1"></div>
+                    <div class="form-group"><label for="fur-color" id="color-label">Fell-/Feder-/Hautfarbe</label><input type="text" id="fur-color" name="furColor"></div>
+                </div>
+                <div class="species-specific-fields" id="bird-fields-appearance" style="display: none;"><h4 class="subsection-title">Vogel-spezifische Merkmale</h4><div class="form-grid"><div class="form-group"><label for="bird-plumage">Gefiederart</label><input type="text" id="bird-plumage" name="birdPlumage"></div><div class="form-group"><label for="bird-beak-type">Schnabeltyp</label><input type="text" id="bird-beak-type" name="birdBeakType"></div></div></div>
+                <div class="species-specific-fields" id="fish-fields-appearance" style="display: none;"><h4 class="subsection-title">Fisch-spezifische Merkmale</h4><div class="form-grid"><div class="form-group"><label for="fish-scale-color">Schuppenfarbe</label><input type="text" id="fish-scale-color" name="fishScaleColor"></div><div class="form-group"><label for="fish-fin-type">Flossentyp</label><input type="text" id="fish-fin-type" name="fishFinType"></div></div></div>
+                <div class="species-specific-fields" id="reptile-fields-appearance" style="display: none;"><h4 class="subsection-title">Reptil-spezifische Merkmale</h4><div class="form-grid"><div class="form-group"><label for="reptile-skin-pattern">Hautmuster/Farbe</label><input type="text" id="reptile-skin-pattern" name="reptileSkinPattern"></div><div class="form-group"><label for="reptile-species-type">Art des Reptils</label><input type="text" id="reptile-species-type" name="reptileSpeciesType"></div></div></div>
+            </div>
+
+            <!-- Schritt 3: Charakter & Verhalten -->
+            <div class="form-step" id="step-3">
+                <h3 class="step-title">Charakter &amp; Verhalten</h3>
+                <div class="form-grid">
+                    <div class="form-group full-width"><label>Temperament (Mehrfachauswahl möglich)</label><div class="checkbox-grid"><label class="checkbox-label"><input type="checkbox" name="temperament" value="freundlich"><span>Freundlich</span></label><label class="checkbox-label"><input type="checkbox" name="temperament" value="verspielt"><span>Verspielt</span></label><label class="checkbox-label"><input type="checkbox" name="temperament" value="ruhig"><span>Ruhig</span></label><label class="checkbox-label"><input type="checkbox" name="temperament" value="energetisch"><span>Energisch</span></label><label class="checkbox-label"><input type="checkbox" name="temperament" value="treu"><span>Treu</span></label><label class="checkbox-label"><input type="checkbox" name="temperament" value="unabhängig"><span>Unabhängig</span></label><label class="checkbox-label"><input type="checkbox" name="temperament" value="beschützend"><span>Beschützend</span></label><label class="checkbox-label"><input type="checkbox" name="temperament" value="schüchtern"><span>Schüchtern</span></label></div></div>
+                    <div class="form-group"><label for="activity-level">Aktivitätslevel</label><div class="slider-container"><input type="range" id="activity-level" name="activityLevel" min="1" max="5" value="3"><div class="slider-labels"><span>Niedrig</span><span>Hoch</span></div></div></div>
+                    <div class="form-group"><label for="social-behavior">Sozialverhalten</label><select id="social-behavior" name="socialBehavior"><option value="">Bitte wählen</option><option value="sehr-sozial">Sehr sozial</option><option value="sozial">Sozial</option><option value="wählerisch">Wählerisch</option><option value="zurückhaltend">Zurückhaltend</option><option value="einzelgänger">Einzelgänger</option></select></div>
+                    <div class="form-group full-width"><label for="special-traits">Besondere Eigenschaften & Vorlieben</label><textarea id="special-traits" name="specialTraits" rows="3" placeholder="z.B. liebt Wasserspiele, hat Angst vor Gewitter..."></textarea></div>
+                </div>
+            </div>
+
+            <!-- Schritt 4: Gesundheit & Pflege -->
+            <div class="form-step" id="step-4">
+                <h3 class="step-title">Gesundheit &amp; Pflege</h3>
+                <div class="form-grid">
+                    <div class="form-group"><label for="health-status">Gesundheitszustand</label><select id="health-status" name="healthStatus"><option value="">Bitte wählen</option><option value="ausgezeichnet">Ausgezeichnet</option><option value="gut">Gut</option></select></div>
+                    <div class="form-group full-width"><label for="allergies">Allergien/Unverträglichkeiten</label><textarea id="allergies" name="allergies" rows="2"></textarea></div>
+                    <div class="form-group full-width"><label for="care-notes">Allgemeine Pflegehinweise</label><textarea id="care-notes" name="careNotes" rows="4"></textarea></div>
+                </div>
+                <div class="species-specific-fields" id="dog-fields-care" style="display: none;"><h4 class="subsection-title">Hunde-spezifische Pflege</h4><div class="form-grid"><div class="form-group"><label for="dog-training-level">Trainingslevel</label><select id="dog-training-level" name="dogTrainingLevel"><option value="">Bitte wählen</option><option value="grundkommandos">Grundkommandos</option></select></div></div></div>
+                <div class="species-specific-fields" id="cat-fields-care" style="display: none;"><h4 class="subsection-title">Katzen-spezifische Pflege</h4><div class="form-grid"><div class="form-group"><label>Freigang</label><select name="catOutdoor"><option value="nein">Nein, reine Wohnungskatze</option><option value="ja">Ja, Freigänger</option></select></div></div></div>
+                <div class="species-specific-fields" id="fish-fields-care" style="display: none;"><h4 class="subsection-title">Fisch-spezifische Pflege</h4><div class="form-grid"><div class="form-group"><label for="fish-tank-size">Aquariumgröße (Liter)</label><input type="number" id="fish-tank-size" name="fishTankSize"></div><div class="form-group"><label for="fish-water-type">Wasserart</label><select id="fish-water-type" name="fishWaterType"><option value="süsswasser">Süßwasser</option><option value="salzwasser">Salzwasser</option></select></div></div></div>
+            </div>
+
+            <!-- Schritt 5: Besitzer & Kontaktdaten -->
+            <div class="form-step" id="step-5">
+                <h3 class="step-title">Besitzer &amp; Kontaktdaten</h3>
+                <div class="form-grid">
+                    <div class="form-group"><label for="owner-name">Besitzer Name *</label><input type="text" id="owner-name" name="ownerName" required></div>
+                    <div class="form-group"><label for="owner-email">E-Mail *</label><input type="email" id="owner-email" name="ownerEmail" required></div>
+                </div>
+            </div>
+
+            <!-- Schritt 6: Überprüfung & Bestätigung -->
+            <div class="form-step" id="step-6">
+                <h3 class="step-title">Überprüfung &amp; Bestätigung</h3>
+                <div class="review-container">
+                    <h4 class="subsection-title">Zusammenfassung Deiner Eingaben</h4>
+                    <div id="profile-summary" class="profile-summary-grid"><p>Bitte gehe einen Schritt zurück, um deine Eingaben zu machen.</p></div>
+                </div>
+                <div class="privacy-section">
+                    <h4 class="subsection-title">Einwilligungen</h4>
+                    <div class="form-group"><label class="checkbox-label"><input type="checkbox" id="privacy-accepted" name="privacyAccepted" required><span>Ich habe die <a href="/datenschutz" target="_blank">Datenschutzerklärung</a> gelesen und akzeptiere sie. *</span></label></div>
+                    <div class="form-group"><label class="checkbox-label"><input type="checkbox" id="public-profile" name="publicProfile"><span>Mein Profil öffentlich sichtbar machen (z.B. für die Community).</span></label></div>
+                </div>
+            </div>
+            
+            <!-- Navigations-Buttons -->
+            <div class="form-navigation">
+                <button type="button" class="btn btn--secondary" id="prev-btn" style="display: none;">← Zurück</button>
+                <button type="button" class="btn btn--primary" id="next-btn">Weiter →</button>
+                <button type="submit" class="btn btn--primary" id="submit-btn" style="display: none;">Profil erstellen</button>
+            </div>
+        </form>
+    </div>
+</section>
+
+<!-- NEU: MEINE HAUSTIERE ÜBERSICHT -->
+<section class="my-pets-section" id="my-pets-section" style="display: none;">
+    <div class="container">
+        <h2 class="section__title">Meine Haustiere</h2>
+        <p class="section__subtitle">Hier finden Sie eine Übersicht aller von Ihnen erstellten Haustier-Profile.</p>
+        <div class="my-pets-actions">
+             <button class="btn btn--primary" id="add-new-profile-btn">Neues Profil erstellen</button>
+        </div>
+        <div class="my-pets-grid" id="my-pets-grid">
+            <!-- Haustier-Karten werden hier dynamisch eingefügt -->
+        </div>
+        <div class="empty-state" id="my-pets-empty" style="display: none;">
+            <h3>Noch keine Profile erstellt</h3>
+            <p>Klicken Sie auf "Neues Profil erstellen", um Ihr erstes Haustier hinzuzufügen.</p>
+        </div>
+
+    <div class="account-section danger-zone" style="margin-top: 4rem; border-top: 1px solid var(--border-color); padding-top: 2rem;">
+            <h3>Gefahrenzone</h3>
+            <p>Diese Aktionen können nicht rückgängig gemacht werden.</p>
+            <button id="delete-account-btn" class="btn btn--danger">Konto endgültig löschen</button>
+        </div>
+    </div>
+</section>
+
+<!-- NEU: HAUSTIER-PROFIL DETAILANSICHT -->
+<section class="pet-profile-detail-section" id="pet-profile-detail-section" style="display: none;">
+    <div class="container">
+        <div id="profile-detail-content">
+            <!-- Inhalt wird dynamisch geladen -->
+        </div>
+    </div>
+</section>
+        
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer__container">
+                <div class="footer__section">
+                    <h3 class="footer__title">myPetCare.wiki</h3>
+                    <p>Ihr zuverlässiger Ratgeber für alle Themen rund um Haustiere. Von der Auswahl des richtigen Tieres bis zur optimalen Pflege - wir sind für Sie da.</p>
+                </div>
+                
+                <div class="footer__section">
+                    <h3 class="footer__title">Service</h3>
+                    <ul>
+                        <li><a href="tools/hunde/index.html" class="header__nav-link">Hunderassen-Vergleichstool</a></li>
+                        <li><a href="tools/fische/aquacalc.html" class="header__nav-link">Aquacalc-Tool</a></li>
+                        <li><a href="#" class="header__nav-link" data-category="blog">Blog</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer__section">
+                    <h3 class="footer__title">Newsletter</h3>
+                    <p>Bleiben Sie über neue Artikel und Features informiert.</p>
+                    <form class="footer__form">
+                        <input type="email" class="footer__input" placeholder="Ihre E-Mail-Adresse">
+                        <button type="submit" class="btn btn--primary">Abonnieren</button>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="footer__bottom">
+                <p>&copy; 2025 myPetCare.wiki. Alle Rechte vorbehalten.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- SPECIES MODAL -->
+<div id="species-modal" class="modal hidden">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 id="modal-title" class="modal-title">Tierart Details</h2>
+            <button class="modal-close" aria-label="Modal schließen">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+
+        <div id="eigenschaften-modal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 id="eigenschaften-modal-title">Eigenschaften</h2>
+            <button class="modal-close" id="eigenschaften-modal-close">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div id="eigenschaften-content">
+                <!-- Eigenschaften-Inhalt wird hier eingefügt -->
+            </div>
+        </div>
+    </div>
+</div>
+        
+        <div class="modal-body-container">
+            <!-- Galerie-Sektion -->
+            <div class="modal-gallery">
+                <!-- Galerie wird dynamisch geladen -->
+            </div>
+            
+            <!-- Hauptinhalt mit Tabs -->
+            <div class="modal-body">
+                <!-- Tab-Navigation -->
+                <div class="modal-tabs">
+                    <button class="modal-tab active" data-tab="overview">Übersicht</button>
+                    <button class="modal-tab" data-tab="properties">Eigenschaften</button>
+                    <button class="modal-tab" data-tab="care">Pflege</button>
+                    <button class="modal-tab" data-tab="health">Gesundheit</button>
+                </div>
+
+                <!-- Tab-Inhalte -->
+                <div class="modal-tab-content active" id="tab-overview">
+                    <!-- Übersicht wird durch JavaScript befüllt -->
+                </div>
+                
+                <!-- NEUER EIGENSCHAFTEN-TAB -->
+                <div class="modal-tab-content" id="tab-properties">
+                    <!-- Eigenschaften werden durch JavaScript befüllt -->
+                </div>
+                
+                <div class="modal-tab-content" id="tab-care">
+                    <!-- Pflege wird durch JavaScript befüllt -->
+                </div>
+                
+                <div class="modal-tab-content" id="tab-health">
+                    <!-- Gesundheit wird durch JavaScript befüllt -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="eigenschaften-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="eigenschaften-modal-title">Eigenschaften</h2>
+                <button class="modal-close" id="eigenschaften-modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="eigenschaften-content">
+                    <!-- Eigenschaften-Inhalt wird hier eingefügt -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JUMP TO TOP BUTTON -->
+    <a href="#" id="jumpToTopBtn" class="jump-to-top">↑</a>
+
+    <!-- READING PROGRESS BAR -->
+    <div class="reading-progress">
+        <div class="reading-progress__bar"></div>
+    </div>
+
+<!-- SCRIPTS mit korrigierter Ladereihenfolge -->
+<script>console.log('🔄 Starting script loading...');</script>
+<script>
+window.haustierWissen = window.haustierWissen || {
+    petsData: {
+        categories: [],
+        species: {}
+    }
+};
+console.log('✅ haustierWissen initialized');
+</script>
+<script src="https://cdn.jsdelivr.net/npm/list.js@2.3.1/dist/list.min.js"></script>
+<script>console.log('✅ List.js loaded');</script>
+<script src="pet-profile-creator.js"></script>
+<script src="auth-manager.js"></script>
+<script src="script.js"></script>
+<script>console.log('✅ Main script loaded');</script>
+<script src="https://threejs.org/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.158.0/examples/js/loaders/GLTFLoader.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.158.0/examples/js/controls/OrbitControls.js"></script>
+</div>
+</body>
+</html>
