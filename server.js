@@ -108,7 +108,7 @@ const upload = multer({
 // 5. Spezifische HTML-Routen
 // Diese Routen werden zuerst geprüft und haben Vorrang vor der allgemeinen `express.static`-Middleware.
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'improved_index.html'));
+  res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 app.get('/admin', (req, res) => {
