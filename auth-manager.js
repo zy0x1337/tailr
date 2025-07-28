@@ -139,15 +139,47 @@ class AuthManager {
     }
 
     /**
-     * Environment Variable sicher abrufen
-     */
-    getEnvironmentVariable(key) {
-        // Verschiedene Quellen prüfen
-        return process?.env?.[key] || 
-               window.ENV?.[key] || 
-               window.NETLIFY_ENV?.[key] || 
-               null;
+ * Environment Variable sicher abrufen (Browser-kompatibel)
+ */
+getEnvironmentVariable(key) {
+    // Sichere Überprüfung für verschiedene Quellen
+    
+    // 1. Webpack/Vite Environment Variables (zur Build-Zeit injiziert)
+    if (typeof process !== 'undefined' && process.env && process.env[key]) {
+        return process.env[key];
     }
+    
+    // 2. Window-basierte Environment Variables
+    if (window.ENV && window.ENV[key]) {
+        return window.ENV[key];
+    }
+    
+    // 3. Netlify-spezifische Environment Variables
+    if (window.NETLIFY_ENV && window.NETLIFY_ENV[key]) {
+        return window.NETLIFY_ENV[key];
+    }
+    
+    // 4. Globale Variables (manuell gesetzt)
+    if (window[key]) {
+        return window[key];
+    }
+    
+    // 5. Meta-Tags auslesen (Alternative Methode)
+    const metaTag = document.querySelector(`meta[name="env-${key.toLowerCase()}"]`);
+    if (metaTag) {
+        return metaTag.getAttribute('content');
+    }
+    
+    // 6. Fallback für bekannte Netlify-Patterns
+    if (key === 'AUTH0_DOMAIN' && window.location.hostname.includes('netlify.app')) {
+        // Versuche Auth0-Domain aus bekannten Patterns zu ermitteln
+        const siteName = window.location.hostname.split('.')[0];
+        return `${siteName}.auth0.com`; // Dies ist nur ein Fallback-Beispiel
+    }
+    
+    console.warn(`⚠️ Environment Variable '${key}' nicht gefunden`);
+    return null;
+}
 
     /**
      * Auth0 Client erstellen
