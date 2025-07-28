@@ -1,0 +1,171 @@
+/* Impressum-spezifische Styles */
+.impressum-container {
+    min-height: calc(100vh - 200px);
+    padding: 2rem 0;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+}
+
+.content-wrapper {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.impressum-container h1 {
+    font-size: 2.5rem;
+    color: #2c3e50;
+    text-align: center;
+    margin-bottom: 3rem;
+    font-weight: 700;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.impressum-section {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    border: 1px solid #e1e8ed;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.impressum-section:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.impressum-section h2 {
+    font-size: 1.5rem;
+    color: #34495e;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 0.5rem;
+}
+
+.info-block {
+    line-height: 1.7;
+}
+
+.info-block p {
+    margin-bottom: 0.8rem;
+    color: #555;
+    font-size: 1rem;
+}
+
+.info-block p:last-child {
+    margin-bottom: 0;
+}
+
+.info-block strong {
+    color: #2c3e50;
+    font-weight: 600;
+}
+
+/* Navigation anpassen */
+.nav-menu a.active {
+    background: #3498db;
+    color: white;
+    border-radius: 5px;
+    padding: 0.5rem 1rem;
+}
+
+/* Footer Styling */
+footer {
+    background: #2c3e50;
+    color: white;
+    padding: 2rem 0;
+    margin-top: 3rem;
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    text-align: center;
+}
+
+.footer-container p {
+    margin-bottom: 0.5rem;
+}
+
+.footer-container a {
+    color: #3498db;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-container a:hover {
+    color: #2980b9;
+    text-decoration: underline;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .content-wrapper {
+        padding: 0 1rem;
+    }
+    
+    .impressum-container h1 {
+        font-size: 2rem;
+        margin-bottom: 2rem;
+    }
+    
+    .impressum-section {
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .impressum-section h2 {
+        font-size: 1.3rem;
+    }
+    
+    .info-block p {
+        font-size: 0.95rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .impressum-container {
+        padding: 1rem 0;
+    }
+    
+    .impressum-section {
+        padding: 1rem;
+        border-radius: 8px;
+    }
+    
+    .impressum-container h1 {
+        font-size: 1.8rem;
+    }
+}
+
+/* Zusätzliche Styling-Verbesserungen */
+.impressum-section p {
+    text-align: justify;
+    hyphens: auto;
+}
+
+/* Smooth Scrolling */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Print Styles */
+@media print {
+    .impressum-container {
+        background: white;
+        padding: 0;
+    }
+    
+    .impressum-section {
+        box-shadow: none;
+        border: 1px solid #ccc;
+        break-inside: avoid;
+    }
+    
+    header, footer {
+        display: none;
+    }
+}
