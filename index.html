@@ -3870,10 +3870,10 @@
                  REGISTER TITLE - SEO OPTIMIERT
                  ======================================== -->
             <!-- H2 für hierarchische SEO-Struktur -->
-            <h2 id="register-title"
+            <h1 id="register-title"
                 itemprop="name">
                 Registrieren - Kostenloses tailr.wiki Konto erstellen
-            </h2>
+            </h1>
             
             <!-- ========================================
                  REGISTER DESCRIPTION (SEO-ERGÄNZUNG)
@@ -4284,7 +4284,7 @@
                 <div class="auth-alternative">
                     <p class="auth-alternative-text">
                         Bereits ein Account? 
-                        <a href="/anmelden" 
+                        <a href="/login" 
                            class="auth-link"
                            aria-label="Mit bestehendem Account anmelden"
                            title="Zur Anmelde-Seite wechseln">
@@ -4666,120 +4666,394 @@
 }
 </style>
 
-<!-- BLOG SECTION -->
-<section class="blog-section" id="blog-section" style="display: none;">
+<!-- ========================================
+     BLOG SECTION - SEO & ACCESSIBILITY OPTIMIERT
+     ======================================== -->
+<!-- Haustierpflege Blog mit interaktiven Filtern und SEO -->
+<section class="blog-section" 
+         id="blog-section" 
+         style="display: none;"
+         role="region" 
+         aria-labelledby="blog-title"
+         itemscope 
+         itemtype="https://schema.org/Blog">
+    
     <div class="container">
-        <!-- Blog Header -->
-        <div class="blog-header">
+        
+        <!-- ========================================
+             BLOG HEADER - TITLE & STATISTICS
+             ======================================== -->
+        <!-- Header mit Blog-Titel und Artikel-Statistiken -->
+        <header class="blog-header" 
+                role="banner"
+                aria-labelledby="blog-title">
+            
+            <!-- Blog Header Content -->
             <div class="blog-header__content">
-                <h2 class="blog-header__title">Blog & Ratgeber</h2>
-                <p class="blog-header__subtitle">
-                    Entdecken Sie wertvolle Tipps und Expertenwissen rund um Haustiere
+                
+                <!-- Blog Title - SEO optimiert -->
+                <h2 class="blog-header__title" 
+                    id="blog-title"
+                    itemprop="name">
+                    Blog & Ratgeber - Expertenwissen für Haustierpflege
+                </h2>
+                
+                <!-- Blog Subtitle/Description -->
+                <p class="blog-header__subtitle" 
+                   itemprop="description"
+                   aria-describedby="blog-title">
+                    Entdecken Sie wertvolle Tipps und Expertenwissen rund um Haustiere, 
+                    Gesundheit, Pflege und artgerechte Haltung von unseren Fachexperten.
                 </p>
             </div>
-            <div class="blog-header__stats">
-                <div class="blog-stat">
-                    <span class="blog-stat__number" id="blog-total-count">0</span>
+            
+            <!-- Blog Statistics -->
+            <div class="blog-header__stats" 
+                 role="complementary"
+                 aria-label="Blog-Statistiken">
+                
+                <!-- Total Articles Count -->
+                <div class="blog-stat" 
+                     itemscope 
+                     itemtype="https://schema.org/Audience">
+                    <span class="blog-stat__number" 
+                          id="blog-total-count"
+                          aria-label="Gesamtanzahl verfügbarer Artikel"
+                          itemprop="audienceType">0</span>
                     <span class="blog-stat__label">Artikel</span>
                 </div>
+                
+                <!-- Filtered Articles Count -->
                 <div class="blog-stat">
-                    <span class="blog-stat__number" id="blog-filtered-count">0</span>
+                    <span class="blog-stat__number" 
+                          id="blog-filtered-count"
+                          aria-label="Anzahl gefilterter Artikel"
+                          aria-live="polite">0</span>
                     <span class="blog-stat__label">Gefiltert</span>
                 </div>
             </div>
-        </div>
-
-        <!-- Blog Controls -->
-        <div class="blog-controls">
+        </header>
+        <!-- Ende: Blog Header -->
+        
+        <!-- ========================================
+             BLOG CONTROLS - SEARCH, FILTER & SORT
+             ======================================== -->
+        <!-- Interaktive Steuerungselemente für Blog-Navigation -->
+        <div class="blog-controls" 
+             role="group"
+             aria-labelledby="controls-title">
+            
+            <!-- Controls Title (Screen Reader Only) -->
+            <h3 class="sr-only" id="controls-title">
+                Blog-Steuerung und Filter
+            </h3>
+            
+            <!-- Main Controls Container -->
             <div class="blog-controls__main">
-                <!-- Search -->
-                <div class="blog-search">
+                
+                <!-- ========================================
+                     BLOG SEARCH FUNCTIONALITY
+                     ======================================== -->
+                <!-- Live-Suche für Blog-Artikel -->
+                <div class="blog-search" 
+                     role="search"
+                     aria-labelledby="search-label">
+                    
+                    <!-- Search Label (Screen Reader Only) -->
+                    <label class="sr-only" 
+                           id="search-label" 
+                           for="blog-search">
+                        Blog-Artikel durchsuchen
+                    </label>
+                    
+                    <!-- Search Input Wrapper -->
                     <div class="blog-search__input-wrapper">
-                        <svg class="blog-search__icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        
+                        <!-- Search Icon -->
+                        <svg class="blog-search__icon" 
+                             width="20" 
+                             height="20" 
+                             viewBox="0 0 24 24" 
+                             fill="none" 
+                             stroke="currentColor" 
+                             stroke-width="2"
+                             aria-hidden="true"
+                             role="img">
+                            <title>Suche</title>
                             <circle cx="11" cy="11" r="8"/>
                             <path d="M21 21l-4.35-4.35"/>
                         </svg>
-                        <input type="text" 
+                        
+                        <!-- Search Input -->
+                        <input type="search" 
                                id="blog-search" 
                                class="blog-search__input" 
-                               placeholder="Artikel durchsuchen..."
-                               autocomplete="off">
-                        <button class="blog-search__clear" id="blog-search-clear">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                               placeholder="Artikel durchsuchen... (z.B. Hundepflege, Katzengesundheit)"
+                               autocomplete="off"
+                               aria-label="Blog-Artikel nach Titeln, Kategorien oder Inhalten durchsuchen"
+                               aria-describedby="search-instructions"
+                               maxlength="100"
+                               spellcheck="false">
+                        
+                        <!-- Search Instructions (Screen Reader Only) -->
+                        <div class="sr-only" id="search-instructions">
+                            Geben Sie Suchbegriffe ein, um Artikel nach Titel, Kategorie oder Inhalt zu filtern. 
+                            Die Ergebnisse werden automatisch aktualisiert.
+                        </div>
+                        
+                        <!-- Clear Search Button -->
+                        <button class="blog-search__clear" 
+                                id="blog-search-clear"
+                                type="button"
+                                aria-label="Suchbegriff löschen"
+                                title="Suche zurücksetzen"
+                                style="display: none;">
+                            <svg width="16" 
+                                 height="16" 
+                                 viewBox="0 0 24 24" 
+                                 fill="none" 
+                                 stroke="currentColor" 
+                                 stroke-width="2"
+                                 aria-hidden="true">
                                 <line x1="18" y1="6" x2="6" y2="18"/>
                                 <line x1="6" y1="6" x2="18" y2="18"/>
                             </svg>
+                            <span class="sr-only">Suche löschen</span>
                         </button>
                     </div>
                 </div>
-
-                <!-- Filters -->
-                <div class="blog-filters">
-                    <div class="blog-filters__group">
-                        <button class="blog-filter-btn active" data-filter="all">
-                            <span class="blog-filter-btn__icon">📚</span>
+                <!-- Ende: Blog Search -->
+                
+                <!-- ========================================
+                     BLOG CATEGORY FILTERS
+                     ======================================== -->
+                <!-- Filterbuttons für verschiedene Tierkategorien -->
+                <div class="blog-filters" 
+                     role="group"
+                     aria-labelledby="filters-title">
+                    
+                    <!-- Filters Title (Screen Reader Only) -->
+                    <h4 class="sr-only" id="filters-title">
+                        Nach Tierarten filtern
+                    </h4>
+                    
+                    <!-- Filter Buttons Group -->
+                    <div class="blog-filters__group" 
+                         role="radiogroup"
+                         aria-labelledby="filters-title">
+                        
+                        <!-- All Articles Filter -->
+                        <button class="blog-filter-btn active" 
+                                data-filter="all"
+                                type="button"
+                                role="radio"
+                                aria-checked="true"
+                                aria-label="Alle Artikel anzeigen"
+                                title="Alle verfügbaren Blog-Artikel anzeigen">
+                            <span class="blog-filter-btn__icon" 
+                                  aria-hidden="true">📚</span>
                             <span class="blog-filter-btn__text">Alle</span>
-                            <span class="blog-filter-btn__count" id="blog-count-all">0</span>
+                            <span class="blog-filter-btn__count" 
+                                  id="blog-count-all"
+                                  aria-label="Anzahl aller Artikel">0</span>
                         </button>
-                        <button class="blog-filter-btn" data-filter="hunde">
-                            <span class="blog-filter-btn__icon">🐕</span>
+                        
+                        <!-- Dogs Category Filter -->
+                        <button class="blog-filter-btn" 
+                                data-filter="hunde"
+                                type="button"
+                                role="radio"
+                                aria-checked="false"
+                                aria-label="Nur Hunde-Artikel anzeigen"
+                                title="Artikel über Hundepflege und Hundegesundheit">
+                            <span class="blog-filter-btn__icon" 
+                                  aria-hidden="true">🐕</span>
                             <span class="blog-filter-btn__text">Hunde</span>
-                            <span class="blog-filter-btn__count" id="blog-count-hunde">0</span>
+                            <span class="blog-filter-btn__count" 
+                                  id="blog-count-hunde"
+                                  aria-label="Anzahl Hunde-Artikel">0</span>
                         </button>
-                        <button class="blog-filter-btn" data-filter="katzen">
-                            <span class="blog-filter-btn__icon">🐱</span>
+                        
+                        <!-- Cats Category Filter -->
+                        <button class="blog-filter-btn" 
+                                data-filter="katzen"
+                                type="button"
+                                role="radio"
+                                aria-checked="false"
+                                aria-label="Nur Katzen-Artikel anzeigen"
+                                title="Artikel über Katzenpflege und Katzengesundheit">
+                            <span class="blog-filter-btn__icon" 
+                                  aria-hidden="true">🐱</span>
                             <span class="blog-filter-btn__text">Katzen</span>
-                            <span class="blog-filter-btn__count" id="blog-count-katzen">0</span>
+                            <span class="blog-filter-btn__count" 
+                                  id="blog-count-katzen"
+                                  aria-label="Anzahl Katzen-Artikel">0</span>
                         </button>
-                        <button class="blog-filter-btn" data-filter="nagetiere">
-                            <span class="blog-filter-btn__icon">🐰</span>
+                        
+                        <!-- Small Animals Category Filter -->
+                        <button class="blog-filter-btn" 
+                                data-filter="nagetiere"
+                                type="button"
+                                role="radio"
+                                aria-checked="false"
+                                aria-label="Nur Nagetiere-Artikel anzeigen"
+                                title="Artikel über Nagetiere, Kaninchen und Kleintiere">
+                            <span class="blog-filter-btn__icon" 
+                                  aria-hidden="true">🐰</span>
                             <span class="blog-filter-btn__text">Nagetiere</span>
-                            <span class="blog-filter-btn__count" id="blog-count-nagetiere">0</span>
+                            <span class="blog-filter-btn__count" 
+                                  id="blog-count-nagetiere"
+                                  aria-label="Anzahl Nagetiere-Artikel">0</span>
                         </button>
-                        <button class="blog-filter-btn" data-filter="reptilien">
-                            <span class="blog-filter-btn__icon">🦎</span>
+                        
+                        <!-- Reptiles Category Filter -->
+                        <button class="blog-filter-btn" 
+                                data-filter="reptilien"
+                                type="button"
+                                role="radio"
+                                aria-checked="false"
+                                aria-label="Nur Reptilien-Artikel anzeigen"
+                                title="Artikel über Reptilienhaltung und Terraristik">
+                            <span class="blog-filter-btn__icon" 
+                                  aria-hidden="true">🦎</span>
                             <span class="blog-filter-btn__text">Reptilien</span>
-                            <span class="blog-filter-btn__count" id="blog-count-reptilien">0</span>
+                            <span class="blog-filter-btn__count" 
+                                  id="blog-count-reptilien"
+                                  aria-label="Anzahl Reptilien-Artikel">0</span>
                         </button>
-                        <button class="blog-filter-btn" data-filter="voegel">
-                            <span class="blog-filter-btn__icon">🦜</span>
+                        
+                        <!-- Birds Category Filter -->
+                        <button class="blog-filter-btn" 
+                                data-filter="voegel"
+                                type="button"
+                                role="radio"
+                                aria-checked="false"
+                                aria-label="Nur Vögel-Artikel anzeigen"
+                                title="Artikel über Ziervögel und Vogelhaltung">
+                            <span class="blog-filter-btn__icon" 
+                                  aria-hidden="true">🦜</span>
                             <span class="blog-filter-btn__text">Vögel</span>
-                            <span class="blog-filter-btn__count" id="blog-count-voegel">0</span>
+                            <span class="blog-filter-btn__count" 
+                                  id="blog-count-voegel"
+                                  aria-label="Anzahl Vögel-Artikel">0</span>
                         </button>
-                        <button class="blog-filter-btn" data-filter="fische">
-                            <span class="blog-filter-btn__icon">🐠</span>
+                        
+                        <!-- Fish Category Filter -->
+                        <button class="blog-filter-btn" 
+                                data-filter="fische"
+                                type="button"
+                                role="radio"
+                                aria-checked="false"
+                                aria-label="Nur Fische-Artikel anzeigen"
+                                title="Artikel über Aquaristik und Fischpflege">
+                            <span class="blog-filter-btn__icon" 
+                                  aria-hidden="true">🐠</span>
                             <span class="blog-filter-btn__text">Fische</span>
-                            <span class="blog-filter-btn__count" id="blog-count-fische">0</span>
+                            <span class="blog-filter-btn__count" 
+                                  id="blog-count-fische"
+                                  aria-label="Anzahl Fische-Artikel">0</span>
                         </button>
                     </div>
                 </div>
+                <!-- Ende: Blog Filters -->
+                
             </div>
-
+            <!-- Ende: Main Controls -->
+            
+            <!-- ========================================
+                 SECONDARY CONTROLS - SORT & VIEW MODE
+                 ======================================== -->
+            <!-- Sekundäre Steuerungselemente -->
             <div class="blog-controls__secondary">
-                <!-- Sort -->
-                <div class="blog-sort">
-                    <label class="blog-sort__label">Sortieren:</label>
-                    <select id="blog-sort" class="blog-sort__select">
+                
+                <!-- ========================================
+                     BLOG SORT FUNCTIONALITY
+                     ======================================== -->
+                <!-- Sortieroptionen für Blog-Artikel -->
+                <div class="blog-sort" 
+                     role="group"
+                     aria-labelledby="sort-label">
+                    
+                    <!-- Sort Label -->
+                    <label class="blog-sort__label" 
+                           id="sort-label" 
+                           for="blog-sort">
+                        Sortieren:
+                    </label>
+                    
+                    <!-- Sort Select Dropdown -->
+                    <select id="blog-sort" 
+                            class="blog-sort__select"
+                            aria-labelledby="sort-label"
+                            aria-describedby="sort-instructions">
+                        
                         <option value="newest">Neueste zuerst</option>
                         <option value="oldest">Älteste zuerst</option>
                         <option value="alphabetical">Alphabetisch</option>
-                        <option value="reading-time">Lesezeit</option>
-                        <option value="popular">Beliebt</option>
+                        <option value="reading-time">Nach Lesezeit</option>
+                        <option value="popular">Beliebteste zuerst</option>
                     </select>
+                    
+                    <!-- Sort Instructions (Screen Reader Only) -->
+                    <div class="sr-only" id="sort-instructions">
+                        Wählen Sie eine Sortieroption aus, um die Artikel-Reihenfolge zu ändern
+                    </div>
                 </div>
-
-                <!-- View Mode -->
-                <div class="blog-view-mode">
-                    <button class="view-mode-btn active" data-mode="grid" title="Raster-Ansicht">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <!-- Ende: Blog Sort -->
+                
+                <!-- ========================================
+                     VIEW MODE TOGGLE
+                     ======================================== -->
+                <!-- Grid/List View Toggle Buttons -->
+                <div class="blog-view-mode" 
+                     role="group"
+                     aria-labelledby="view-mode-title">
+                    
+                    <!-- View Mode Title (Screen Reader Only) -->
+                    <h4 class="sr-only" id="view-mode-title">
+                        Ansichtsmodus wählen
+                    </h4>
+                    
+                    <!-- Grid View Button -->
+                    <button class="view-mode-btn active" 
+                            data-mode="grid"
+                            type="button"
+                            role="radio"
+                            aria-checked="true"
+                            aria-label="Raster-Ansicht aktivieren"
+                            title="Artikel in Raster-Layout anzeigen">
+                        <svg width="20" 
+                             height="20" 
+                             viewBox="0 0 24 24" 
+                             fill="none" 
+                             stroke="currentColor" 
+                             stroke-width="2"
+                             aria-hidden="true">
+                            <title>Raster-Ansicht</title>
                             <rect x="3" y="3" width="7" height="7"/>
                             <rect x="14" y="3" width="7" height="7"/>
                             <rect x="14" y="14" width="7" height="7"/>
                             <rect x="3" y="14" width="7" height="7"/>
                         </svg>
+                        <span class="sr-only">Raster-Ansicht</span>
                     </button>
-                    <button class="view-mode-btn" data-mode="list" title="Listen-Ansicht">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    
+                    <!-- List View Button -->
+                    <button class="view-mode-btn" 
+                            data-mode="list"
+                            type="button"
+                            role="radio"
+                            aria-checked="false"
+                            aria-label="Listen-Ansicht aktivieren"
+                            title="Artikel in Listen-Layout anzeigen">
+                        <svg width="20" 
+                             height="20" 
+                             viewBox="0 0 24 24" 
+                             fill="none" 
+                             stroke="currentColor" 
+                             stroke-width="2"
+                             aria-hidden="true">
+                            <title>Listen-Ansicht</title>
                             <line x1="8" y1="6" x2="21" y2="6"/>
                             <line x1="8" y1="12" x2="21" y2="12"/>
                             <line x1="8" y1="18" x2="21" y2="18"/>
@@ -4787,32 +5061,409 @@
                             <line x1="3" y1="12" x2="3.01" y2="12"/>
                             <line x1="3" y1="18" x2="3.01" y2="18"/>
                         </svg>
+                        <span class="sr-only">Listen-Ansicht</span>
+                    </button>
+                </div>
+                <!-- Ende: View Mode -->
+                
+            </div>
+            <!-- Ende: Secondary Controls -->
+            
+        </div>
+        <!-- Ende: Blog Controls -->
+        
+        <!-- ========================================
+             BLOG GRID - ARTICLES DISPLAY
+             ======================================== -->
+        <!-- Hauptbereich für Blog-Artikel-Anzeige -->
+        <main class="blog-grid blog-grid--grid" 
+              id="blog-grid"
+              role="main"
+              aria-labelledby="articles-title"
+              aria-live="polite"
+              aria-busy="false"
+              itemscope
+              itemtype="https://schema.org/ItemList">
+            
+            <!-- Articles Title (Screen Reader Only) -->
+            <h3 class="sr-only" id="articles-title">
+                Blog-Artikel Ergebnisse
+            </h3>
+            
+            <!-- Loading State -->
+            <div class="blog-loading" 
+                 id="blog-loading"
+                 style="display: none;"
+                 role="status"
+                 aria-label="Blog-Artikel werden geladen...">
+                
+                <div class="loading-spinner" aria-hidden="true"></div>
+                <span class="loading-text">Blog-Artikel werden geladen...</span>
+            </div>
+            
+            <!-- Empty State -->
+            <div class="blog-empty" 
+                 id="blog-empty"
+                 style="display: none;"
+                 role="status">
+                
+                <div class="empty-content">
+                    <div class="empty-icon" aria-hidden="true">📝</div>
+                    <h3>Keine Artikel gefunden</h3>
+                    <p>Versuchen Sie andere Suchbegriffe oder ändern Sie die Filter.</p>
+                    <button type="button" 
+                            class="btn btn--primary" 
+                            id="reset-blog-filters">
+                        Filter zurücksetzen
                     </button>
                 </div>
             </div>
-        </div>
-
-        <!-- Blog Grid -->
-        <div class="blog-grid blog-grid--grid" id="blog-grid">
-            <!-- Blog cards will be inserted here -->
-        </div>
-
-        <!-- Blog Pagination -->
-        <div class="blog-pagination" id="blog-pagination">
-            <!-- Pagination buttons will be inserted here -->
-        </div>
-
-        <!-- Load More Button (Alternative to pagination) -->
-        <div class="blog-load-more" id="blog-load-more-container" style="display: none;">
-            <button class="blog-load-more__btn" id="blog-load-more">
+            
+            <!-- Dynamic Blog Cards werden hier von JavaScript eingefügt -->
+            
+            <!-- SEO Template für Crawler (Hidden) -->
+            <div class="seo-blog-template" style="display: none;">
+                <article itemscope itemtype="https://schema.org/BlogPosting">
+                    <meta itemprop="headline" content="Haustierpflege Blog-Artikel">
+                    <meta itemprop="description" content="Expertentipps und Ratgeber für optimale Haustierpflege">
+                    <meta itemprop="author" content="tailr.wiki Expertenteam">
+                    <meta itemprop="publisher" content="tailr.wiki">
+                </article>
+            </div>
+            
+        </main>
+        <!-- Ende: Blog Grid -->
+        
+        <!-- ========================================
+             BLOG PAGINATION
+             ======================================== -->
+        <!-- Seitennavigation für Blog-Artikel -->
+        <nav class="blog-pagination" 
+             id="blog-pagination"
+             role="navigation"
+             aria-labelledby="pagination-title"
+             style="display: none;">
+            
+            <!-- Pagination Title (Screen Reader Only) -->
+            <h3 class="sr-only" id="pagination-title">
+                Blog-Artikel Seitennavigation
+            </h3>
+            
+            <!-- Pagination buttons werden von JavaScript eingefügt -->
+        </nav>
+        <!-- Ende: Blog Pagination -->
+        
+        <!-- ========================================
+             LOAD MORE FUNCTIONALITY
+             ======================================== -->
+        <!-- Alternative zu Pagination - Load More Button -->
+        <div class="blog-load-more" 
+             id="blog-load-more-container" 
+             style="display: none;"
+             role="region"
+             aria-labelledby="load-more-title">
+            
+            <!-- Load More Title (Screen Reader Only) -->
+            <h3 class="sr-only" id="load-more-title">
+                Weitere Artikel laden
+            </h3>
+            
+            <!-- Load More Button -->
+            <button class="blog-load-more__btn" 
+                    id="blog-load-more"
+                    type="button"
+                    aria-describedby="load-more-description">
+                
+                <!-- Button Text -->
                 <span>Weitere Artikel laden</span>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                
+                <!-- Arrow Icon -->
+                <svg width="16" 
+                     height="16" 
+                     viewBox="0 0 24 24" 
+                     fill="none" 
+                     stroke="currentColor" 
+                     stroke-width="2"
+                     aria-hidden="true">
                     <path d="M5 12h14M12 5l7 7-7 7"/>
                 </svg>
+                
+                <!-- Description (Screen Reader Only) -->
+                <span class="sr-only" id="load-more-description">
+                    Lädt weitere Blog-Artikel zur aktuellen Auswahl
+                </span>
             </button>
         </div>
+        <!-- Ende: Load More -->
+        
     </div>
+    <!-- Ende: Container -->
+    
+    <!-- ========================================
+         STRUCTURED DATA - JSON-LD
+         ======================================== -->
+    <!-- Schema.org für Blog Section -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Blog",
+        "name": "tailr.wiki Blog & Ratgeber",
+        "description": "Expertenwissen und Tipps für optimale Haustierpflege. Ratgeber für Hunde, Katzen, Kleintiere, Reptilien, Vögel und Fische von Fachexperten.",
+        "url": "https://tailr.netlify.app/blog",
+        "publisher": {
+            "@type": "Organization",
+            "name": "tailr.wiki",
+            "url": "https://tailr.netlify.app",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://tailr.netlify.app/images/tailr-logo.png"
+            }
+        },
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://tailr.netlify.app/#blog-section"
+        },
+        "inLanguage": "de-DE",
+        "audience": {
+            "@type": "Audience",
+            "audienceType": "Tierhalter und Haustierpflege-Interessierte"
+        },
+        "about": [
+            {
+                "@type": "Thing",
+                "name": "Hundepflege",
+                "description": "Ratgeber und Tipps zur optimalen Pflege von Hunden"
+            },
+            {
+                "@type": "Thing", 
+                "name": "Katzenpflege",
+                "description": "Expertenwissen zur artgerechten Haltung und Pflege von Katzen"
+            },
+            {
+                "@type": "Thing",
+                "name": "Haustierpflege",
+                "description": "Umfassende Ratgeber für alle Aspekte der Haustierpflege und -gesundheit"
+            }
+        ],
+        "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://tailr.netlify.app/blog/search?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+        }
+    }
+    </script>
+    
 </section>
+<!-- Ende: Blog Section -->
+
+<!-- ========================================
+     ACCESSIBILITY HELPER STYLES
+     ======================================== -->
+<!-- Screen Reader Only und Blog-spezifische Utility Classes -->
+<style>
+.sr-only {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+}
+
+/* Blog Loading State */
+.blog-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 2rem;
+    text-align: center;
+}
+
+.loading-spinner {
+    width: 50px;
+    height: 50px;
+    border: 4px solid var(--color-border);
+    border-top: 4px solid var(--color-primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 1.5rem;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.loading-text {
+    color: var(--color-text-secondary);
+    font-size: 1rem;
+}
+
+/* Blog Empty State */
+.blog-empty {
+    text-align: center;
+    padding: 4rem 2rem;
+}
+
+.empty-content {
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.empty-icon {
+    font-size: 4rem;
+    margin-bottom: 1.5rem;
+    opacity: 0.4;
+    display: block;
+}
+
+.empty-content h3 {
+    margin: 0 0 1rem 0;
+    font-size: 1.3rem;
+    color: var(--color-text);
+}
+
+.empty-content p {
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+    margin-bottom: 2rem;
+}
+
+/* Filter Button States */
+.blog-filter-btn[aria-checked="true"] {
+    background: var(--color-primary);
+    color: white;
+    border-color: var(--color-primary);
+}
+
+.blog-filter-btn:focus {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+/* View Mode Button States */
+.view-mode-btn[aria-checked="true"] {
+    background: var(--color-primary);
+    color: white;
+}
+
+.view-mode-btn:focus {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+/* Search Clear Button */
+.blog-search__clear[style*="display: none"] {
+    display: none !important;
+}
+
+.blog-search__clear:focus {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+/* Blog Grid Layout States */
+.blog-grid--grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.blog-grid--list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+/* Load More Button */
+.blog-load-more__btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0 auto;
+    padding: 1rem 2rem;
+    background: var(--color-primary);
+    color: white;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.blog-load-more__btn:hover {
+    background: var(--color-primary-dark);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.blog-load-more__btn:focus {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+/* SEO Template Hidden */
+.seo-blog-template {
+    display: none !important;
+    visibility: hidden !important;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .blog-controls__main {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .blog-controls__secondary {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: stretch;
+    }
+    
+    .blog-filters__group {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .blog-grid--grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+    .blog-filter-btn,
+    .view-mode-btn {
+        border-width: 2px;
+        font-weight: 600;
+    }
+    
+    .loading-spinner {
+        border-width: 3px;
+    }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+    .loading-spinner {
+        animation: none;
+    }
+    
+    .blog-load-more__btn:hover {
+        transform: none;
+    }
+    
+    * {
+        transition: none !important;
+    }
+}
+</style>
 
 <!-- BLOG MODAL -->
 <div id="blog-modal" class="blog-modal">
@@ -5064,7 +5715,6 @@
                 <!-- Tab-Navigation -->
                 <div class="modal-tabs">
                     <button class="modal-tab active" data-tab="overview">Übersicht</button>
-                    <button class="modal-tab" data-tab="properties">Eigenschaften</button>
                     <button class="modal-tab" data-tab="care">Pflege</button>
                     <button class="modal-tab" data-tab="health">Gesundheit</button>
                 </div>
