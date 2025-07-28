@@ -1618,7 +1618,7 @@ setupEventListeners() {
         });
     }
 
-    // 1. Dropdown Logout-Button
+    // Dropdown Logout-Button
     document.addEventListener('click', (e) => {
         if (e.target.matches('#logout-btn-dropdown')) {
             e.preventDefault();
@@ -1811,6 +1811,101 @@ setupEventListeners() {
 
     console.log('✅ Alle Event-Listener wurden erfolgreich eingerichtet');
 }
+
+/**
+     * ZENTRALE LOGOUT-HANDLER-METHODE
+     */
+    async handleLogout() {
+        console.log('🚪 Logout-Handler wird ausgeführt...');
+        
+        if (!this.authManager) {
+            console.error('❌ AuthManager nicht verfügbar');
+            return;
+        }
+        
+        if (!this.authManager.isAuthenticated()) {
+            console.warn('⚠️ Benutzer ist bereits abgemeldet');
+            this.showHome();
+            return;
+        }
+        
+        try {
+            // Loading-State für alle Logout-Buttons
+            this.setLogoutButtonsLoading(true);
+            
+            // Logout durchführen
+            await this.authManager.logout();
+            
+            console.log('✅ Logout erfolgreich');
+            
+            // Navigation aktualisieren
+            this.updateNavigationForLogout();
+            
+            // Zur Startseite navigieren
+            this.showHome();
+            
+        } catch (error) {
+            console.error('❌ Logout fehlgeschlagen:', error);
+            this.showNotification('Logout fehlgeschlagen. Versuchen Sie es erneut.', 'error');
+        } finally {
+            // Loading-State zurücksetzen
+            this.setLogoutButtonsLoading(false);
+        }
+    }
+
+    /**
+     * LOGOUT-BUTTONS LOADING-STATE SETZEN
+     */
+    setLogoutButtonsLoading(loading) {
+        const logoutButtons = [
+            document.getElementById('logout-btn-dropdown'),
+            document.querySelector('[data-category="logout"]'),
+            document.getElementById('auth-logout-btn')
+        ];
+        
+        logoutButtons.forEach(button => {
+            if (button) {
+                if (loading) {
+                    button.disabled = true;
+                    const originalText = button.textContent;
+                    button.setAttribute('data-original-text', originalText);
+                    button.textContent = '🔄 Wird abgemeldet...';
+                } else {
+                    button.disabled = false;
+                    const originalText = button.getAttribute('data-original-text');
+                    button.textContent = originalText || '🚪 Logout';
+                }
+            }
+        });
+    }
+
+    /**
+     * NAVIGATION NACH LOGOUT AKTUALISIEREN
+     */
+    updateNavigationForLogout() {
+        // Guest-Session anzeigen
+        const guestSession = document.getElementById('guest-session');
+        if (guestSession) {
+            guestSession.style.display = 'flex';
+        }
+        
+        // User-Session verstecken
+        const userSession = document.getElementById('user-session');
+        if (userSession) {
+            userSession.style.display = 'none';
+        }
+        
+        // Alle aktiven Navigation-States zurücksetzen
+        document.querySelectorAll('.header__nav-link.active').forEach(link => {
+            link.classList.remove('active');
+        });
+        
+        // Home-Link aktivieren
+        const homeLink = document.querySelector('[data-category="home"]');
+        if (homeLink) {
+            homeLink.classList.add('active');
+        }
+    }
 
 /**
  * Erweiterte Navigation mit Auth0-Integration
