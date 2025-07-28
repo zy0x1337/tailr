@@ -4642,18 +4642,33 @@
 }
 </style>
 
-<!-- ========================================
-     BLOG - SEO OPTIMIERTE VERSION
-     ======================================== -->
-<section class="blog-section" id="blog-section" style="display: none;" aria-labelledby="blog-hero-title">
+<!-- BLOG SECTION -->
+<main class="blog-section" id="blog-section" style="display: none;" 
+      role="main" 
+      aria-labelledby="blog-main-title">
+
   <div class="container">
-    <!-- Blog Hero -->
-    <header class="blog-hero">
+    
+    <!-- Skip Navigation Link -->
+    <a href="#blog-content" class="sr-only sr-only-focusable">
+      Zum Hauptinhalt springen
+    </a>
+
+    <!-- Blog Header -->
+    <header class="blog-hero" role="banner" aria-labelledby="blog-main-title">
       <div class="blog-hero__content">
-        <h1 class="blog-hero__title" id="blog-hero-title">Wissen & Tipps für Haustierliebhaber</h1>
-        <p class="blog-hero__subtitle">Entdecken Sie wertvolle Ratgeber und Expertentipps für die optimale Pflege Ihrer Lieblinge. Von Grundlagen der Tierpflege bis zu spezialisierten Tipps für verschiedene Tierarten.</p>
+        <h1 class="blog-hero__title" id="blog-main-title">
+          Wissen & Tipps für Haustierliebhaber
+        </h1>
+        <p class="blog-hero__subtitle">
+          Entdecken Sie wertvolle Ratgeber und Expertentipps für die optimale Pflege Ihrer Lieblinge. 
+          Von Grundlagen der Tierpflege bis zu spezialisierten Tipps für verschiedene Tierarten.
+        </p>
       </div>
-      <div class="blog-hero__stats" role="complementary" aria-label="Blog-Statistiken">
+      
+      <div class="blog-hero__stats" role="complementary" aria-labelledby="stats-heading">
+        <h2 class="sr-only" id="stats-heading">Blog-Statistiken</h2>
+        
         <div class="blog-stat">
           <span class="blog-stat__number" id="blog-count" aria-describedby="blog-count-label">17</span>
           <span class="blog-stat__label" id="blog-count-label">Artikel verfügbar</span>
@@ -4801,7 +4816,7 @@
     </div>
 
     <!-- Blog Articles Grid -->
-    <main class="blog-grid" 
+    <section class="blog-grid" 
           id="blog-grid" 
           role="tabpanel" 
           aria-labelledby="filter-all"
@@ -4812,7 +4827,7 @@
         <div class="loading-spinner" aria-label="Artikel werden geladen"></div>
         <p>Artikel werden geladen...</p>
       </div>
-    </main>
+    </section>
 
     <!-- Load More Section -->
     <aside class="blog-load-container" role="complementary">
@@ -4826,7 +4841,179 @@
       <div id="load-more-help" class="sr-only">Lädt weitere Artikel der aktuellen Kategorie</div>
     </aside>
   </div>
-</section>
+
+  <!-- Schema.org Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    "name": "TAILR.WIKI - Haustier Ratgeber & Tipps",
+    "description": "Wertvolle Ratgeber und Expertentipps für die optimale Pflege Ihrer Lieblinge",
+    "url": "https://tailr.wiki/blog",
+    "publisher": {
+      "@type": "Organization",
+      "name": "TAILR.WIKI",
+      "url": "https://tailr.wiki",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://tailr.wiki/assets/logo.png"
+      }
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://tailr.wiki/blog"
+    },
+    "blogPost": [],
+    "numberOfItems": 17,
+    "about": [
+      {
+        "@type": "Thing",
+        "name": "Haustierpflege",
+        "description": "Umfassende Ratgeber zur artgerechten Pflege von Haustieren"
+      },
+      {
+        "@type": "Thing", 
+        "name": "Tierhaltung",
+        "description": "Expertentipps für verantwortungsvolle Tierhaltung"
+      },
+      {
+        "@type": "Thing",
+        "name": "Haustier Ratgeber",
+        "description": "Wissenschaftlich fundierte Informationen zu verschiedenen Haustierarten"
+      }
+    ],
+    "audience": {
+      "@type": "Audience",
+      "audienceType": "Haustierbesitzer und -interessierte"
+    },
+    "inLanguage": "de-DE",
+    "keywords": "Haustiere, Tierpflege, Ratgeber, Hunde, Katzen, Nagetiere, Reptilien, Vögel, Fische"
+  }
+  </script>
+
+  <!-- Inline Screen Reader Styles -->
+  <style>
+  .sr-only {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+  }
+
+  .sr-only-focusable:focus {
+    position: static !important;
+    width: auto !important;
+    height: auto !important;
+    padding: inherit !important;
+    margin: inherit !important;
+    overflow: visible !important;
+    clip: auto !important;
+    white-space: normal !important;
+    z-index: 999999 !important;
+    background: var(--color-primary, #007bff) !important;
+    color: white !important;
+    padding: 8px 16px !important;
+    border-radius: 4px !important;
+    text-decoration: none !important;
+    font-weight: bold !important;
+  }
+
+  [aria-live] {
+    font-weight: normal;
+  }
+
+  .loading-announcement {
+    position: absolute;
+    left: -10000px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+
+  /* Focus Management */
+  [aria-hidden="true"] {
+    display: none !important;
+  }
+
+  /* High Contrast Support */
+  @media (prefers-contrast: high) {
+    .filter-btn {
+      border-width: 2px !important;
+    }
+    
+    .filter-btn--active {
+      border-width: 3px !important;
+    }
+    
+    .search-input:focus {
+      border-width: 3px !important;
+    }
+  }
+
+  /* Reduced Motion Support */
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  /* Screen Reader Optimizations */
+  .blog-loading[aria-hidden="false"] {
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem;
+    gap: 1rem;
+  }
+
+  .loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid var(--color-border, #e5e7eb);
+    border-top: 4px solid var(--color-primary, #007bff);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  /* Touch Device Accessibility */
+  @media (hover: none) and (pointer: coarse) {
+    .filter-btn,
+    .search-btn,
+    .blog-load-btn {
+      min-height: 44px !important;
+      min-width: 44px !important;
+    }
+  }
+
+  /* Print Styles */
+  @media print {
+    .sr-only,
+    .blog-filters,
+    .blog-load-container,
+    script {
+      display: none !important;
+    }
+    
+    .blog-grid {
+      display: block !important;
+    }
+  }
+  </style>
+
+</main>
 
 <!-- BLOG DETAIL SECTION -->
 <section class="blog-detail-section" 
