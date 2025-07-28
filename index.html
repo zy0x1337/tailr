@@ -8557,29 +8557,915 @@
 }
 </style>
 
-<!-- MEINE HAUSTIERE ÜBERSICHT -->
-<section class="my-pets-section" id="my-pets-section" style="display: none;">
+<!-- ========================================
+     MEINE HAUSTIERE SECTION - SEO & ACCESSIBILITY OPTIMIERT
+     ======================================== -->
+<!-- Benutzer-Dashboard für Haustier-Profile mit vollständiger Accessibility -->
+<section class="my-pets-section" 
+         id="my-pets-section" 
+         style="display: none;"
+         role="region" 
+         aria-labelledby="my-pets-title"
+         itemscope 
+         itemtype="https://schema.org/ItemList">
+    
     <div class="container">
-        <h2 class="section__title">Meine Haustiere</h2>
-        <p class="section__subtitle">Hier finden Sie eine Übersicht aller von Ihnen erstellten Haustier-Profile.</p>
-        <div class="my-pets-actions">
-             <button class="btn btn--primary" id="add-new-profile-btn">Neues Profil erstellen</button>
+        
+        <!-- ========================================
+             SECTION HEADER - TITLE & DESCRIPTION
+             ======================================== -->
+        <!-- Header mit Titel und Beschreibung -->
+        <header class="my-pets-header" 
+                role="banner"
+                aria-labelledby="my-pets-title">
+            
+            <!-- Section Title - SEO optimiert -->
+            <h2 class="section__title" 
+                id="my-pets-title"
+                itemprop="name">
+                Meine Haustiere - Persönliche Haustier-Profile Übersicht
+            </h2>
+            
+            <!-- Section Subtitle/Description -->
+            <p class="section__subtitle" 
+               itemprop="description"
+               aria-describedby="my-pets-title">
+                Hier finden Sie eine Übersicht aller von Ihnen erstellten Haustier-Profile. 
+                Verwalten Sie Informationen, bearbeiten Sie Details und fügen Sie neue Haustiere hinzu.
+            </p>
+        </header>
+        <!-- Ende: Section Header -->
+        
+        <!-- ========================================
+             PETS ACTIONS - CONTROL BUTTONS
+             ======================================== -->
+        <!-- Aktionsbereich für Profil-Management -->
+        <div class="my-pets-actions" 
+             role="group"
+             aria-labelledby="actions-title">
+            
+            <!-- Actions Title (Screen Reader Only) -->
+            <h3 class="sr-only" id="actions-title">
+                Haustier-Profile Aktionen
+            </h3>
+            
+            <!-- Add New Profile Button -->
+            <button class="btn btn--primary" 
+                    id="add-new-profile-btn"
+                    type="button"
+                    aria-describedby="add-profile-description"
+                    title="Neues Haustier-Profil mit dem Profil-Ersteller anlegen">
+                
+                <!-- Button Icon -->
+                <span class="btn-icon" aria-hidden="true">➕</span>
+                
+                <!-- Button Text -->
+                <span class="btn-text">Neues Profil erstellen</span>
+                
+                <!-- Button Description (Screen Reader Only) -->
+                <span class="sr-only" id="add-profile-description">
+                    Öffnet den mehrstufigen Profil-Ersteller für ein neues Haustier
+                </span>
+            </button>
+            
+            <!-- Additional Actions (Hidden until pets exist) -->
+            <div class="secondary-actions" 
+                 id="secondary-actions"
+                 style="display: none;"
+                 role="group"
+                 aria-label="Zusätzliche Aktionen">
+                
+                <!-- Export All Profiles -->
+                <button class="btn btn--secondary btn--mini" 
+                        id="export-all-btn"
+                        type="button"
+                        aria-label="Alle Haustier-Profile als PDF exportieren"
+                        title="Gesamtübersicht aller Profile als PDF herunterladen">
+                    📄 Alle exportieren
+                </button>
+                
+                <!-- Import Profiles -->
+                <button class="btn btn--ghost btn--mini" 
+                        id="import-profiles-btn"
+                        type="button"
+                        aria-label="Haustier-Profile importieren"
+                        title="Profile aus Datei oder anderem Service importieren">
+                    📥 Importieren
+                </button>
+            </div>
         </div>
-        <div class="my-pets-grid" id="my-pets-grid">
-            <!-- Haustier-Karten werden hier dynamisch eingefügt -->
+        <!-- Ende: Pets Actions -->
+        
+        <!-- ========================================
+             PETS GRID - PROFILE CARDS DISPLAY
+             ======================================== -->
+        <!-- Hauptbereich für Haustier-Profile Anzeige -->
+        <main class="my-pets-grid" 
+              id="my-pets-grid"
+              role="main"
+              aria-labelledby="pets-grid-title"
+              aria-live="polite"
+              aria-busy="false"
+              itemscope
+              itemtype="https://schema.org/ItemList">
+            
+            <!-- Grid Title (Screen Reader Only) -->
+            <h3 class="sr-only" id="pets-grid-title">
+                Ihre erstellten Haustier-Profile
+            </h3>
+            
+            <!-- ========================================
+                 LOADING STATE
+                 ======================================== -->
+            <!-- Loading indicator für Profile laden -->
+            <div class="pets-loading" 
+                 id="pets-loading"
+                 role="status"
+                 aria-label="Haustier-Profile werden geladen..."
+                 aria-live="polite">
+                
+                <div class="loading-spinner" aria-hidden="true">
+                    <div class="spinner-circle"></div>
+                </div>
+                
+                <span class="loading-text">
+                    Ihre Haustier-Profile werden geladen...
+                </span>
+                
+                <!-- Screen Reader Information -->
+                <span class="sr-only">
+                    Bitte warten, während Ihre gespeicherten Haustier-Profile geladen werden.
+                </span>
+            </div>
+            
+            <!-- ========================================
+                 DYNAMIC CONTENT CONTAINER
+                 ======================================== -->
+            <!-- Container für JavaScript-generierte Profil-Karten -->
+            <div class="pets-content" 
+                 id="pets-dynamic-content"
+                 style="display: none;">
+                
+                <!-- SEO Template für Crawler (Hidden) -->
+                <div class="seo-pets-template" style="display: none;">
+                    
+                    <!-- Example Pet Profile for SEO -->
+                    <article class="pet-card" 
+                             itemscope 
+                             itemtype="https://schema.org/Pet">
+                        <meta itemprop="name" content="Beispiel-Haustier">
+                        <meta itemprop="species" content="Hund">
+                        <meta itemprop="breed" content="Golden Retriever">
+                        <meta itemprop="description" content="Freundliches Familienhaustier mit vollständigem Profil">
+                        <meta itemprop="owner" content="Haustierbesitzer">
+                    </article>
+                </div>
+            </div>
+            
+            <!-- ========================================
+                 ERROR STATE
+                 ======================================== -->
+            <!-- Error handling für failed profile loads -->
+            <div class="pets-error" 
+                 id="pets-error"
+                 style="display: none;"
+                 role="alert"
+                 aria-live="assertive">
+                
+                <div class="error-content">
+                    <div class="error-icon" aria-hidden="true">⚠️</div>
+                    
+                    <h3 class="error-title">Profile konnten nicht geladen werden</h3>
+                    
+                    <p class="error-message">
+                        Ihre Haustier-Profile sind temporär nicht verfügbar. 
+                        Bitte versuchen Sie es später erneut oder kontaktieren Sie den Support.
+                    </p>
+                    
+                    <div class="error-actions">
+                        <button class="btn btn--primary error-retry" 
+                                type="button"
+                                id="pets-retry-btn"
+                                aria-label="Profile erneut laden">
+                            🔄 Erneut versuchen
+                        </button>
+                        
+                        <a href="/hilfe/profile" 
+                           class="btn btn--ghost"
+                           aria-label="Hilfe zu Profil-Problemen aufrufen"
+                           title="Detaillierte Hilfestellung bei Profil-Problemen">
+                            ❓ Hilfe
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+        </main>
+        <!-- Ende: Pets Grid -->
+        
+        <!-- ========================================
+             EMPTY STATE - NO PROFILES YET
+             ======================================== -->
+        <!-- Leerer Zustand wenn noch keine Profile existieren -->
+        <div class="empty-state" 
+             id="my-pets-empty" 
+             style="display: none;"
+             role="status"
+             aria-labelledby="empty-title"
+             aria-describedby="empty-description">
+            
+            <!-- Empty State Content -->
+            <div class="empty-content">
+                
+                <!-- Empty Icon -->
+                <div class="empty-icon" aria-hidden="true">🐾</div>
+                
+                <!-- Empty Title -->
+                <h3 class="empty-title" id="empty-title">
+                    Noch keine Haustier-Profile erstellt
+                </h3>
+                
+                <!-- Empty Description -->
+                <p class="empty-description" id="empty-description">
+                    Klicken Sie auf "Neues Profil erstellen", um Ihr erstes Haustier hinzuzufügen 
+                    und alle wichtigen Informationen zu verwalten.
+                </p>
+                
+                <!-- Empty State Action -->
+                <div class="empty-actions">
+                    <button class="btn btn--primary btn--large" 
+                            type="button"
+                            id="empty-add-profile"
+                            aria-label="Erstes Haustier-Profil erstellen">
+                        🚀 Erstes Profil erstellen
+                    </button>
+                    
+                    <!-- Learn More Link -->
+                    <a href="/hilfe/profil-erstellen" 
+                       class="btn btn--ghost"
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       aria-label="Anleitung zum Profil-Ersteller in neuem Tab öffnen"
+                       title="Schritt-für-Schritt Anleitung zur Profil-Erstellung">
+                        📚 Anleitung ansehen
+                    </a>
+                </div>
+                
+                <!-- Empty State Benefits -->
+                <div class="empty-benefits" 
+                     role="complementary"
+                     aria-labelledby="benefits-title">
+                    
+                    <h4 class="sr-only" id="benefits-title">
+                        Vorteile von Haustier-Profilen
+                    </h4>
+                    
+                    <div class="benefits-list">
+                        <div class="benefit-item">
+                            <span class="benefit-icon" aria-hidden="true">📋</span>
+                            <span class="benefit-text">Wichtige Daten zentral verwalten</span>
+                        </div>
+                        <div class="benefit-item">
+                            <span class="benefit-icon" aria-hidden="true">🏥</span>
+                            <span class="benefit-text">Gesundheitsinformationen speichern</span>
+                        </div>
+                        <div class="benefit-item">
+                            <span class="benefit-icon" aria-hidden="true">📱</span>
+                            <span class="benefit-text">Jederzeit mobil abrufbar</span>
+                        </div>
+                        <div class="benefit-item">
+                            <span class="benefit-icon" aria-hidden="true">🔒</span>
+                            <span class="benefit-text">Sicher und datenschutzkonform</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="empty-state" id="my-pets-empty" style="display: none;">
-            <h3>Noch keine Profile erstellt</h3>
-            <p>Klicken Sie auf "Neues Profil erstellen", um Ihr erstes Haustier hinzuzufügen.</p>
-        </div>
-
-    <div class="account-section danger-zone" style="margin-top: 4rem; border-top: 1px solid var(--border-color); padding-top: 2rem;">
-            <h3>Gefahrenzone</h3>
-            <p>Diese Aktionen können nicht rückgängig gemacht werden.</p>
-            <button id="delete-account-btn" class="btn btn--danger">Konto endgültig löschen</button>
-        </div>
+        <!-- Ende: Empty State -->
+        
+        <!-- ========================================
+             ACCOUNT DANGER ZONE - DESTRUCTIVE ACTIONS
+             ======================================== -->
+        <!-- Gefahrenbereich für irreversible Aktionen -->
+        <aside class="account-section danger-zone" 
+               style="margin-top: 4rem; border-top: 1px solid var(--border-color); padding-top: 2rem;"
+               role="complementary"
+               aria-labelledby="danger-zone-title"
+               aria-describedby="danger-zone-warning">
+            
+            <!-- Danger Zone Title -->
+            <h3 class="danger-zone-title" id="danger-zone-title">
+                ⚠️ Gefahrenzone - Irreversible Aktionen
+            </h3>
+            
+            <!-- Warning Description -->
+            <p class="danger-zone-description" id="danger-zone-warning">
+                <strong>Achtung:</strong> Diese Aktionen können nicht rückgängig gemacht werden. 
+                Alle Ihre Haustier-Profile und Kontodaten werden permanent gelöscht.
+            </p>
+            
+            <!-- Danger Zone Actions -->
+            <div class="danger-zone-actions" 
+                 role="group"
+                 aria-labelledby="danger-zone-title">
+                
+                <!-- Delete Account Button -->
+                <button id="delete-account-btn" 
+                        class="btn btn--danger"
+                        type="button"
+                        aria-describedby="delete-account-warning"
+                        data-confirm-required="true"
+                        title="Konto und alle Daten permanent löschen">
+                    
+                    <!-- Button Icon -->
+                    <span class="btn-icon" aria-hidden="true">🗑️</span>
+                    
+                    <!-- Button Text -->
+                    <span class="btn-text">Konto endgültig löschen</span>
+                </button>
+                
+                <!-- Delete Account Warning (Screen Reader Only) -->
+                <div class="sr-only" id="delete-account-warning">
+                    Warnung: Löscht Ihr gesamtes Konto und alle Haustier-Profile permanent. 
+                    Diese Aktion kann nicht rückgängig gemacht werden. 
+                    Eine Bestätigung wird erforderlich sein.
+                </div>
+                
+                <!-- Alternative Actions -->
+                <div class="alternative-actions">
+                    <a href="/konto/deaktivieren" 
+                       class="btn btn--ghost btn--small"
+                       aria-label="Konto temporär deaktivieren statt löschen"
+                       title="Konto vorübergehend deaktivieren (kann reaktiviert werden)">
+                        ⏸️ Konto deaktivieren
+                    </a>
+                    
+                    <a href="/konto/daten-export" 
+                       class="btn btn--ghost btn--small"
+                       aria-label="Kontodaten vor Löschung exportieren"
+                       title="Alle Ihre Daten vor der Löschung sichern">
+                        💾 Daten exportieren
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Legal Information -->
+            <div class="legal-info" 
+                 role="contentinfo">
+                <p class="legal-text">
+                    ℹ️ Nach der Konto-Löschung werden alle personenbezogenen Daten gemäß DSGVO 
+                    innerhalb von 30 Tagen vollständig entfernt. Weitere Informationen in unserer 
+                    <a href="/datenschutz#datenloeschung" 
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       aria-label="Datenschutzerklärung zur Datenlöschung in neuem Tab öffnen">
+                        Datenschutzerklärung
+                    </a>.
+                </p>
+            </div>
+        </aside>
+        <!-- Ende: Danger Zone -->
+        
     </div>
+    <!-- Ende: Container -->
+    
+    <!-- ========================================
+         STRUCTURED DATA - JSON-LD
+         ======================================== -->
+    <!-- Schema.org für Pet Profiles Dashboard -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        "name": "Meine Haustiere - Persönliche Profile Übersicht",
+        "description": "Dashboard zur Verwaltung aller erstellten Haustier-Profile mit Bearbeitungs- und Exportfunktionen",
+        "url": "https://tailr.netlify.app/#my-pets-section",
+        "publisher": {
+            "@type": "Organization",
+            "name": "tailr.wiki",
+            "url": "https://tailr.netlify.app"
+        },
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://tailr.netlify.app/#my-pets-section"
+        },
+        "audience": {
+            "@type": "Audience",
+            "audienceType": "Registrierte Haustierbesitzer"
+        },
+        "potentialAction": [
+            {
+                "@type": "CreateAction",
+                "name": "Neues Haustier-Profil erstellen",
+                "target": "https://tailr.netlify.app/#pet-profile-section"
+            },
+            {
+                "@type": "UpdateAction",
+                "name": "Bestehende Profile bearbeiten",
+                "description": "Haustier-Profile verwalten und aktualisieren"
+            }
+        ],
+        "provider": {
+            "@type": "Organization",
+            "name": "tailr.wiki",
+            "url": "https://tailr.netlify.app"
+        }
+    }
+    </script>
+    
 </section>
+<!-- Ende: Meine Haustiere Section -->
+
+<!-- ========================================
+     ACCESSIBILITY HELPER STYLES
+     ======================================== -->
+<!-- Screen Reader Only und Dashboard-spezifische Utility Classes -->
+<style>
+.sr-only {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+}
+
+/* Section Header */
+.my-pets-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.section__subtitle {
+    font-size: clamp(1rem, 2vw, 1.1rem);
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+    max-width: 600px;
+    margin: 1rem auto 0;
+    padding: 0 1rem;
+}
+
+/* Pets Actions */
+.my-pets-actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 3rem;
+    flex-wrap: wrap;
+}
+
+.secondary-actions {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+}
+
+.btn-icon {
+    font-size: 1.1em;
+    margin-right: 0.5rem;
+}
+
+/* Loading State */
+.pets-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 2rem;
+    text-align: center;
+}
+
+.loading-spinner {
+    margin-bottom: 1.5rem;
+}
+
+.spinner-circle {
+    width: 50px;
+    height: 50px;
+    border: 4px solid var(--color-border);
+    border-top: 4px solid var(--color-primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.loading-text {
+    color: var(--color-text-secondary);
+    font-size: 1rem;
+}
+
+/* Error State */
+.pets-error {
+    text-align: center;
+    padding: 4rem 2rem;
+}
+
+.error-content {
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.error-icon {
+    font-size: 4rem;
+    margin-bottom: 1.5rem;
+    display: block;
+}
+
+.error-title {
+    margin: 0 0 1rem 0;
+    font-size: 1.3rem;
+    color: var(--color-text);
+}
+
+.error-message {
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+    margin-bottom: 2rem;
+}
+
+.error-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* Empty State */
+.empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    margin: 2rem 0;
+}
+
+.empty-content {
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.empty-icon {
+    font-size: 5rem;
+    margin-bottom: 2rem;
+    opacity: 0.6;
+    display: block;
+}
+
+.empty-title {
+    margin: 0 0 1rem 0;
+    font-size: 1.5rem;
+    color: var(--color-text);
+}
+
+.empty-description {
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+    margin-bottom: 2.5rem;
+    font-size: 1.1rem;
+}
+
+.empty-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-bottom: 3rem;
+    flex-wrap: wrap;
+}
+
+.btn--large {
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    border-radius: 8px;
+}
+
+/* Empty State Benefits */
+.empty-benefits {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--color-border);
+}
+
+.benefits-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.benefit-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem;
+    background: var(--color-background);
+    border-radius: 8px;
+    border: 1px solid var(--color-border-light);
+}
+
+.benefit-icon {
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+
+.benefit-text {
+    color: var(--color-text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+/* Pets Grid */
+.my-pets-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+/* Danger Zone */
+.danger-zone {
+    background: rgba(239, 68, 68, 0.05);
+    border: 1px solid rgba(239, 68, 68, 0.2) !important;
+    border-radius: 8px;
+    padding: 2rem;
+    margin-top: 4rem;
+    position: relative;
+}
+
+.danger-zone::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #ef4444, #dc2626);
+    border-radius: 8px 8px 0 0;
+}
+
+.danger-zone-title {
+    margin: 0 0 1rem 0;
+    font-size: 1.2rem;
+    color: #dc2626;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.danger-zone-description {
+    color: var(--color-text);
+    line-height: 1.6;
+    margin-bottom: 2rem;
+    padding: 1rem;
+    background: rgba(239, 68, 68, 0.1);
+    border-radius: 6px;
+    border-left: 4px solid #ef4444;
+}
+
+.danger-zone-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start;
+}
+
+.btn--danger {
+    background: #ef4444;
+    color: white;
+    border: 2px solid #dc2626;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.btn--danger:hover {
+    background: #dc2626;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+
+.btn--danger:focus {
+    outline: 3px solid rgba(239, 68, 68, 0.5);
+    outline-offset: 2px;
+}
+
+.alternative-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+}
+
+.btn--small {
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+}
+
+/* Legal Info */
+.legal-info {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--color-border);
+}
+
+.legal-text {
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+    line-height: 1.5;
+    margin: 0;
+}
+
+.legal-text a {
+    color: var(--color-primary);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.legal-text a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .my-pets-actions {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 1rem;
+    }
+    
+    .secondary-actions {
+        justify-content: center;
+    }
+    
+    .my-pets-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .benefits-list {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .empty-actions {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .empty-actions .btn {
+        width: 100%;
+        max-width: 300px;
+    }
+    
+    .danger-zone {
+        padding: 1.5rem;
+        margin-top: 3rem;
+    }
+    
+    .danger-zone-actions {
+        align-items: stretch;
+    }
+    
+    .alternative-actions {
+        flex-direction: column;
+    }
+    
+    .alternative-actions .btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .empty-state {
+        padding: 3rem 1.5rem;
+    }
+    
+    .empty-icon {
+        font-size: 4rem;
+    }
+    
+    .empty-title {
+        font-size: 1.3rem;
+    }
+    
+    .empty-description {
+        font-size: 1rem;
+    }
+    
+    .benefit-item {
+        padding: 0.75rem;
+        flex-direction: column;
+        text-align: center;
+        gap: 0.5rem;
+    }
+    
+    .my-pets-actions .btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* Theme-spezifische Anpassungen */
+[data-theme="dark"] .empty-state {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .danger-zone {
+    background: rgba(239, 68, 68, 0.1);
+}
+
+[data-theme="luxury"] .empty-icon::after {
+    content: " ✨";
+}
+
+[data-theme="playful"] .empty-icon {
+    animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-10px);
+    }
+    60% {
+        transform: translateY(-5px);
+    }
+}
+
+/* Accessibility Enhancements */
+@media (prefers-reduced-motion: reduce) {
+    .loading-spinner,
+    .btn:hover,
+    [data-theme="playful"] .empty-icon {
+        animation: none;
+        transform: none;
+        transition: none;
+    }
+}
+
+@media (prefers-contrast: high) {
+    .danger-zone {
+        border-width: 3px !important;
+    }
+    
+    .btn--danger {
+        border-width: 3px;
+        font-weight: 700;
+    }
+    
+    .empty-state {
+        border-width: 2px;
+    }
+}
+
+/* Focus States */
+.my-pets-actions .btn:focus,
+.empty-actions .btn:focus,
+.alternative-actions .btn:focus {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+/* Print Styles */
+@media print {
+    .danger-zone,
+    .my-pets-actions,
+    .empty-actions {
+        display: none !important;
+    }
+    
+    .empty-state {
+        background: transparent !important;
+        border: 1px solid #ccc !important;
+    }
+    
+    .my-pets-grid {
+        break-inside: avoid;
+    }
+}
+
+/* SEO Template Hidden */
+.seo-pets-template {
+    display: none !important;
+    visibility: hidden !important;
+}
+</style>
 
 <!-- HAUSTIER-PROFIL DETAILANSICHT -->
 <section class="pet-profile-detail-section" id="pet-profile-detail-section" style="display: none;">
