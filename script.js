@@ -2051,39 +2051,48 @@ handleNavigation(catId, linkEl) {
     // Die korrekte Sektion basierend auf der 'data-category' (catId) anzeigen
     switch (catId) {
         case 'home':
+            console.log('🏠 Startseite wird angezeigt');
             this.showHome();
             this.updateURL('home');
+            document.title = 'tailr.wiki - Haustierpflege & Ratgeber';
             break;
 
-        // ⭐ AUTH-INTEGRATION (Vereinheitlicht)
+        // ⭐ AUTH-INTEGRATION (Modal statt Section)
         case 'auth':
         case 'login':
         case 'register':
             console.log('🔐 Auth-Modal wird geöffnet');
             this.showAuthModal();
+            // Wichtig: Return da Modal keine weitere Navigation benötigt
             return;
 
         case 'admin-login':
             console.log('👑 Admin-Login wird angezeigt');
             this.showSection(document.getElementById('admin-login-section'));
             this.updateURL('admin-login');
+            document.title = 'Admin Login - tailr.wiki';
             break;
 
         case 'blog':
             console.log('📝 Blog-Übersicht wird angezeigt');
             this.showBlog();
+            this.updateURL('blog');
+            document.title = 'Ratgeber - tailr.wiki';
             break;
 
-        // ⭐ MY-PETS mit Authentifizierungsprüfung
+        // ⭐ MY-PETS mit Authentifizierungsprüfung (Modal-Integration)
         case 'my-pets':
             console.log('🐾 Meine Tiere wird angezeigt');
             if (this.authManager?.isAuthenticated()) {
                 this.showMyPets();
+                this.updateURL('my-pets');
+                document.title = 'Meine Haustiere - tailr.wiki';
             } else {
-                console.log('⚠️ Nicht authentifiziert - Weiterleitung zu Auth');
-                this.showAuth();
-                // Optional: Weiterleitung nach Login merken
+                console.log('⚠️ Nicht authentifiziert - Auth-Modal wird geöffnet');
+                this.showAuthModal();
+                // Weiterleitung nach Login merken
                 sessionStorage.setItem('redirectAfterLogin', 'my-pets');
+                return;
             }
             break;
 
@@ -2092,10 +2101,12 @@ handleNavigation(catId, linkEl) {
             if (this.authManager?.isAuthenticated()) {
                 this.showSection(this.petProfileSection);
                 this.updateURL('pet-profile');
+                document.title = 'Tierprofil - tailr.wiki';
             } else {
-                console.log('⚠️ Nicht authentifiziert - Weiterleitung zu Auth');
-                this.showAuth();
+                console.log('⚠️ Nicht authentifiziert - Auth-Modal wird geöffnet');
+                this.showAuthModal();
                 sessionStorage.setItem('redirectAfterLogin', 'pet-profile');
+                return;
             }
             break;
 
@@ -2103,44 +2114,68 @@ handleNavigation(catId, linkEl) {
             console.log('🛠️ Tools werden angezeigt');
             this.showSection(this.toolsSection);
             this.updateURL('tools');
+            document.title = 'Tools - tailr.wiki';
             break;
 
         case 'comparison':
             console.log('⚖️ Vergleich wird angezeigt');
             this.showSection(this.comparisonSection);
             this.updateURL('comparison');
+            document.title = 'Vergleich - tailr.wiki';
             break;
 
-        // ⭐ ADMIN-LOG mit Berechtigungsprüfung
+        // ⭐ ADMIN-LOG mit erweiterten Berechtigungsprüfungen
         case 'admin-log':
-            console.log('📊 Admin-Log wird angezeigt');
+            console.log('📊 Admin-Log Berechtigung wird geprüft...');
             if (this.authManager?.isAuthenticated() && this.authManager?.isCurrentUserAdmin()) {
+                console.log('✅ Admin-Berechtigung bestätigt');
                 this.showAdminLog();
+                this.updateURL('admin-log');
+                document.title = 'Admin Log - tailr.wiki';
             } else if (this.authManager?.isAuthenticated()) {
                 console.warn('⚠️ Keine Admin-Berechtigung');
                 this.showHome();
                 this.showNotification('Keine Berechtigung für Admin-Bereich', 'error');
             } else {
-                console.log('⚠️ Nicht authentifiziert - Weiterleitung zu Auth');
-                this.showAuth();
+                console.log('⚠️ Nicht authentifiziert - Auth-Modal wird geöffnet');
+                this.showAuthModal();
                 sessionStorage.setItem('redirectAfterLogin', 'admin-login');
+                return;
             }
             break;
 
-        // ⭐ LOGOUT-Handling
+        // ⭐ LOGOUT-Handling (erweitert)
         case 'logout':
             console.log('🚪 Logout wird durchgeführt');
             if (this.authManager?.isAuthenticated()) {
-                this.authManager.logout();
+                this.handleLogout();
             } else {
+                console.log('⚠️ Bereits abgemeldet - zur Startseite');
                 this.showHome();
             }
-            break;
+            // Return da Logout eigene Navigation durchführt
+            return;
 
         default:
             // Dieser Fall fängt alle Tierkategorien ab (z.B. 'dogs', 'cats')
             console.log(`🐾 Tierkategorie wird angezeigt: ${catId}`);
             this.showCategory(catId);
+            
+            // Dynamischer Title basierend auf Kategorie
+            const categoryNames = {
+                'dogs': 'Hunde',
+                'cats': 'Katzen', 
+                'birds': 'Vögel',
+                'fish': 'Fische',
+                'rabbits': 'Kaninchen',
+                'hamsters': 'Hamster',
+                'guinea-pigs': 'Meerschweinchen',
+                'reptiles': 'Reptilien'
+            };
+            
+            const categoryTitle = categoryNames[catId] || catId.charAt(0).toUpperCase() + catId.slice(1);
+            document.title = `${categoryTitle} - tailr.wiki`;
+            this.updateURL(catId);
             break;
     }
 
