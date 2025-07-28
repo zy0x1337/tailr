@@ -627,18 +627,222 @@
 
     <main>
         <!-- HERO SECTION -->
-        <section class="hero">
-  <picture class="hero__background">
-    <source srcset="images/hero-bg.png" type="image/png">
-    <source srcset="images/hero-bg.png" type="image/png">
-    <img src="images/hero-bg.png" alt="Hero Background" class="hero__bg-image">
-  </picture>
-  
-  <div class="hero__content">
-    <h1 class="hero__title">Jeanine ist cute</h1>
-    <p class="hero__description"></p>
-  </div>
+        <!-- ========================================
+     HERO SECTION - PRIMARY LANDING AREA
+     ======================================== -->
+<!-- Main hero section with semantic markup and SEO optimization -->
+<section class="hero" 
+         role="banner" 
+         aria-labelledby="hero-title"
+         itemscope 
+         itemtype="https://schema.org/WebPageElement">
+    
+    <!-- ========================================
+         RESPONSIVE HERO BACKGROUND IMAGE
+         ======================================== -->
+    <!-- Optimized picture element for different devices and formats -->
+    <picture class="hero__background">
+        <!-- WebP format for modern browsers (bessere Kompression) -->
+        <source srcset="images/hero-bg.webp 1920w, 
+                        images/hero-bg-tablet.webp 1024w, 
+                        images/hero-bg-mobile.webp 768w" 
+                type="image/webp"
+                media="(min-width: 768px)">
+        
+        <!-- AVIF format für optimale Performance -->
+        <source srcset="images/hero-bg.avif 1920w, 
+                        images/hero-bg-tablet.avif 1024w, 
+                        images/hero-bg-mobile.avif 768w" 
+                type="image/avif"
+                media="(min-width: 768px)">
+        
+        <!-- PNG fallback für ältere Browser -->
+        <source srcset="images/hero-bg.png 1920w, 
+                        images/hero-bg-tablet.png 1024w, 
+                        images/hero-bg-mobile.png 768w" 
+                type="image/png">
+        
+        <!-- Fallback img element mit SEO-optimiertem Alt-Text -->
+        <img src="images/hero-bg.png" 
+             alt="Glückliche Haustiere verschiedener Arten - tailr.wiki digitale Haustierpflege" 
+             class="hero__bg-image"
+             width="1920" 
+             height="800"
+             loading="eager"
+             decoding="async"
+             itemprop="image"
+             aria-hidden="true">
+    </picture>
+    
+    <!-- ========================================
+         HERO CONTENT - PRIMARY MESSAGE
+         ======================================== -->
+    <!-- Main content container with semantic structure -->
+    <div class="hero__content" 
+         role="main" 
+         aria-labelledby="hero-title"
+         itemscope 
+         itemtype="https://schema.org/Organization">
+        
+        <!-- ========================================
+             PRIMARY HEADING - H1 FOR SEO
+             ======================================== -->
+        <!-- SEO-optimierte H1 mit Keywords für Haustierpflege -->
+        <h1 class="hero__title" 
+            id="hero-title"
+            itemprop="name"
+            aria-label="tailr.wiki - Hauptüberschrift für digitale Haustierpflege">
+            Digitale Haustierpflege für moderne Tierhalter
+        </h1>
+        
+        <!-- ========================================
+             HERO DESCRIPTION - VALUE PROPOSITION
+             ======================================== -->
+        <!-- Überzeugende Beschreibung mit Call-to-Action Keywords -->
+        <p class="hero__description" 
+           itemprop="description"
+           aria-describedby="hero-title">
+            Verwalten Sie Impfungen, Tierarzttermine und Gesundheitsdaten Ihrer Haustiere 
+            <strong>einfach, sicher und digital</strong>. 
+            Kostenlose Tools für Hunde, Katzen, Kleintiere und mehr.
+        </p>
+        
+        <!-- ========================================
+             CALL-TO-ACTION BUTTONS
+             ======================================== -->
+        <!-- Primary CTA für bessere Conversion -->
+        <div class="hero__actions" 
+             role="group" 
+             aria-label="Hauptaktionen">
+            
+            <!-- Primary Action Button -->
+            <a href="/register" 
+               class="btn btn--primary hero__cta"
+               role="button"
+               aria-label="Kostenloses tailr.wiki Konto erstellen"
+               title="Jetzt registrieren - Digitale Haustierpflege starten"
+               itemprop="potentialAction"
+               itemscope 
+               itemtype="https://schema.org/RegisterAction">
+                <span itemprop="name">Kostenlos starten</span>
+                <span class="btn__icon" aria-hidden="true">🐾</span>
+            </a>
+            
+            <!-- Secondary Action Button -->
+            <a href="/demo" 
+               class="btn btn--secondary hero__cta-secondary"
+               role="button"
+               aria-label="tailr.wiki Demo ansehen"
+               title="Live-Demo - Haustierpflege-Tools testen">
+                Demo ansehen
+                <span class="btn__icon" aria-hidden="true">▶️</span>
+            </a>
+        </div>
+        
+        <!-- ========================================
+             TRUST INDICATORS / SOCIAL PROOF
+             ======================================== -->
+        <!-- Vertrauen schaffende Elemente -->
+        <div class="hero__trust" 
+             role="complementary" 
+             aria-label="Vertrauensindikatoren">
+            
+            <!-- User Statistics -->
+            <div class="hero__stats" 
+                 itemscope 
+                 itemtype="https://schema.org/Audience">
+                <span class="hero__stat-item">
+                    <strong itemprop="audienceType">5.000+</strong> 
+                    zufriedene Tierhalter
+                </span>
+                <span class="hero__stat-item">
+                    <strong>15.000+</strong> 
+                    verwaltete Haustiere
+                </span>
+                <span class="hero__stat-item">
+                    <strong>100%</strong> 
+                    kostenlos
+                </span>
+            </div>
+            
+            <!-- Feature Highlights -->
+            <div class="hero__features" 
+                 role="list" 
+                 aria-label="Hauptfunktionen">
+                
+                <span class="hero__feature" role="listitem">
+                    ✅ Impfkalender
+                </span>
+                <span class="hero__feature" role="listitem">
+                    ✅ Gesundheitstagebuch
+                </span>
+                <span class="hero__feature" role="listitem">
+                    ✅ Tierarzt-Reminder
+                </span>
+                <span class="hero__feature" role="listitem">
+                    ✅ Alle Tierarten
+                </span>
+            </div>
+        </div>
+        
+        <!-- ========================================
+             STRUCTURED DATA - BREADCRUMB
+             ======================================== -->
+        <!-- Breadcrumb für bessere Navigation -->
+        <nav class="hero__breadcrumb" 
+             aria-label="Breadcrumb Navigation"
+             itemscope 
+             itemtype="https://schema.org/BreadcrumbList">
+            
+            <ol class="breadcrumb-list">
+                <li itemprop="itemListElement" 
+                    itemscope 
+                    itemtype="https://schema.org/ListItem">
+                    <a href="/" 
+                       itemprop="item"
+                       aria-label="tailr.wiki Startseite">
+                        <span itemprop="name">Home</span>
+                    </a>
+                    <meta itemprop="position" content="1">
+                </li>
+            </ol>
+        </nav>
+        
+    </div>
+    <!-- Ende: Hero Content -->
+    
+    <!-- ========================================
+         SCHEMA.ORG STRUCTURED DATA
+         ======================================== -->
+    <!-- JSON-LD für erweiterte SEO-Informationen -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "tailr.wiki",
+        "description": "Digitale Haustierpflege für moderne Tierhalter",
+        "url": "https://tailr.netlify.app",
+        "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://tailr.netlify.app/search?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+        },
+        "mainEntity": {
+            "@type": "SoftwareApplication",
+            "name": "tailr.wiki Haustierpflege-App",
+            "applicationCategory": "HealthApplication",
+            "operatingSystem": "Web Browser",
+            "offers": {
+                "@type": "Offer",
+                "price": "0",
+                "priceCurrency": "EUR"
+            }
+        }
+    }
+    </script>
+    
 </section>
+<!-- Ende: Hero Section -->
 
 <!-- ANIMAL OF THE DAY - IM SPOILER -->
 <section class="animal-of-day-section">
