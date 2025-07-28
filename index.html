@@ -862,22 +862,390 @@
 </section>
 <!-- Ende: Hero Section -->
 
-<!-- ANIMAL OF THE DAY - IM SPOILER -->
-<section class="animal-of-day-section">
+<!-- ========================================
+     TIER DES TAGES - FEATURED CONTENT SECTION
+     ======================================== -->
+<!-- Daily featured animal content optimiert für SEO und Social Sharing -->
+<section class="animal-of-day-section" 
+         role="region" 
+         aria-labelledby="animal-of-day-title"
+         itemscope 
+         itemtype="https://schema.org/Article">
+    
     <div class="container">
-        <details class="animal-of-day-spoiler" open>
-            <summary class="animal-of-day-spoiler__title">
-                <span>🌟 Tier des Tages</span>
-                <span class="spoiler-arrow">▼</span>
+        
+        <!-- ========================================
+             INTERACTIVE SPOILER/ACCORDION
+             ======================================== -->
+        <!-- Collapsible content für bessere UX -->
+        <details class="animal-of-day-spoiler" 
+                 open
+                 itemscope 
+                 itemtype="https://schema.org/FAQPage">
+            
+            <!-- Spoiler Title/Summary -->
+            <summary class="animal-of-day-spoiler__title"
+                     role="button"
+                     aria-expanded="true"
+                     aria-controls="animal-content"
+                     tabindex="0"
+                     itemprop="mainEntity"
+                     itemscope
+                     itemtype="https://schema.org/Question">
+                
+                <!-- Title mit SEO-optimiertem Text -->
+                <span class="spoiler-title-text" 
+                      id="animal-of-day-title"
+                      itemprop="name">
+                    🌟 Tier des Tages
+                </span>
+                
+                <!-- Accessible Arrow Indicator -->
+                <span class="spoiler-arrow" 
+                      aria-hidden="true" 
+                      role="presentation">▼</span>
+                
+                <!-- Screen Reader Text -->
+                <span class="sr-only">Klicken zum Öffnen/Schließen</span>
             </summary>
             
-            <div class="animal-of-day-card" id="animal-of-day-card">
-                <!-- Der Inhalt wird von JavaScript geladen -->
-                <div class="loading-spinner"></div>
+            <!-- ========================================
+                 ANIMAL CARD CONTENT AREA
+                 ======================================== -->
+            <!-- Main content container für Featured Animal -->
+            <div class="animal-of-day-card" 
+                 id="animal-of-day-card"
+                 role="main"
+                 aria-live="polite"
+                 aria-busy="true"
+                 itemprop="acceptedAnswer"
+                 itemscope
+                 itemtype="https://schema.org/Answer">
+                
+                <!-- ========================================
+                     LOADING STATE
+                     ======================================== -->
+                <!-- Accessibility-optimierter Loading Spinner -->
+                <div class="loading-spinner" 
+                     id="animal-loading"
+                     role="status" 
+                     aria-label="Tier des Tages wird geladen..."
+                     aria-live="polite">
+                    
+                    <!-- Spinning Animation -->
+                    <div class="spinner-animation" aria-hidden="true">
+                        <div class="spinner-circle"></div>
+                    </div>
+                    
+                    <!-- Loading Text -->
+                    <span class="loading-text">
+                        Tier des Tages wird geladen...
+                    </span>
+                    
+                    <!-- Fallback für Screen Reader -->
+                    <span class="sr-only">
+                        Bitte warten, während das heutige Featured Animal geladen wird.
+                    </span>
+                </div>
+                
+                <!-- ========================================
+                     ANIMAL CONTENT TEMPLATE (Hidden by default)
+                     ======================================== -->
+                <!-- Template für dynamischen Content (wird von JS befüllt) -->
+                <article class="animal-content" 
+                         id="animal-content"
+                         style="display: none;"
+                         itemscope
+                         itemtype="https://schema.org/Animal">
+                    
+                    <!-- Animal Header -->
+                    <header class="animal-header">
+                        
+                        <!-- Featured Badge -->
+                        <div class="featured-badge" 
+                             role="img" 
+                             aria-label="Featured Animal Badge">
+                            <span class="badge-icon" aria-hidden="true">⭐</span>
+                            <span class="badge-text">Featured</span>
+                        </div>
+                        
+                        <!-- Animal Title -->
+                        <h2 class="animal-title" 
+                            id="animal-name"
+                            itemprop="name">
+                            <!-- Wird von JavaScript gefüllt -->
+                            <span class="animal-emoji" aria-hidden="true"></span>
+                            <span class="animal-name-text"></span>
+                        </h2>
+                        
+                        <!-- Animal Subtitle/Scientific Name -->
+                        <p class="animal-subtitle" 
+                           itemprop="scientificName">
+                            <!-- Wissenschaftlicher Name wird hier eingefügt -->
+                        </p>
+                        
+                        <!-- Sharing Actions -->
+                        <div class="animal-share" 
+                             role="group" 
+                             aria-label="Tier des Tages teilen">
+                            
+                            <button class="share-btn share-btn--facebook" 
+                                    type="button"
+                                    aria-label="Auf Facebook teilen"
+                                    title="Tier des Tages auf Facebook teilen"
+                                    data-share="facebook">
+                                📘 Facebook
+                            </button>
+                            
+                            <button class="share-btn share-btn--twitter" 
+                                    type="button"
+                                    aria-label="Auf Twitter teilen"
+                                    title="Tier des Tages auf Twitter teilen"
+                                    data-share="twitter">
+                                🐦 Twitter
+                            </button>
+                            
+                            <button class="share-btn share-btn--copy" 
+                                    type="button"
+                                    aria-label="Link kopieren"
+                                    title="Link zum Tier des Tages kopieren"
+                                    data-share="copy">
+                                🔗 Link kopieren
+                            </button>
+                        </div>
+                    </header>
+                    
+                    <!-- Animal Image -->
+                    <figure class="animal-image-container" 
+                            itemprop="image"
+                            itemscope
+                            itemtype="https://schema.org/ImageObject">
+                        
+                        <!-- Responsive Animal Image -->
+                        <picture class="animal-picture">
+                            <!-- WebP für moderne Browser -->
+                            <source srcset="" 
+                                    type="image/webp" 
+                                    id="animal-image-webp">
+                            
+                            <!-- AVIF für optimale Performance -->
+                            <source srcset="" 
+                                    type="image/avif" 
+                                    id="animal-image-avif">
+                            
+                            <!-- Fallback Image -->
+                            <img src="" 
+                                 alt="" 
+                                 class="animal-image"
+                                 id="animal-image"
+                                 width="400" 
+                                 height="300"
+                                 loading="lazy"
+                                 decoding="async"
+                                 itemprop="url">
+                        </picture>
+                        
+                        <!-- Image Caption -->
+                        <figcaption class="animal-image-caption" 
+                                    itemprop="caption">
+                            <!-- Bildunterschrift wird von JS eingefügt -->
+                        </figcaption>
+                    </figure>
+                    
+                    <!-- Animal Description -->
+                    <div class="animal-description" 
+                         itemprop="description">
+                        
+                        <!-- Kurze Beschreibung -->
+                        <div class="animal-summary" 
+                             id="animal-summary">
+                            <!-- Wird von JavaScript gefüllt -->
+                        </div>
+                        
+                        <!-- Fakten Liste -->
+                        <div class="animal-facts" 
+                             role="list" 
+                             aria-label="Interessante Fakten">
+                            
+                            <h3 class="facts-title">Interessante Fakten:</h3>
+                            
+                            <ul class="facts-list" 
+                                id="animal-facts-list">
+                                <!-- Fakten werden von JS hinzugefügt -->
+                            </ul>
+                        </div>
+                        
+                        <!-- Care Tips -->
+                        <div class="animal-care-tips" 
+                             id="animal-care-tips"
+                             style="display: none;">
+                            
+                            <h3 class="care-tips-title">Pflegetipps:</h3>
+                            
+                            <div class="care-tips-content">
+                                <!-- Pflegetipps werden von JS eingefügt -->
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Animal Actions -->
+                    <footer class="animal-footer">
+                        
+                        <!-- Action Buttons -->
+                        <div class="animal-actions" 
+                             role="group" 
+                             aria-label="Tier-Aktionen">
+                            
+                            <!-- Learn More Button -->
+                            <a href="#" 
+                               class="btn btn--primary animal-learn-more"
+                               id="animal-learn-more-btn"
+                               role="button"
+                               aria-label="Mehr über dieses Tier erfahren"
+                               title="Detaillierte Informationen zur Tierpflege">
+                                📚 Mehr erfahren
+                            </a>
+                            
+                            <!-- Add to Favorites -->
+                            <button class="btn btn--secondary animal-favorite" 
+                                    type="button"
+                                    id="animal-favorite-btn"
+                                    aria-label="Zu Favoriten hinzufügen"
+                                    title="Tier zu Favoriten hinzufügen"
+                                    data-animal-id="">
+                                ❤️ Favorit
+                            </button>
+                        
+                        <!-- Related Animals -->
+                        <div class="related-animals" 
+                             id="related-animals"
+                             style="display: none;"
+                             role="complementary"
+                             aria-label="Ähnliche Tiere">
+                            
+                            <h4 class="related-title">Ähnliche Tiere:</h4>
+                            
+                            <div class="related-animals-list">
+                                <!-- Verwandte Tiere werden von JS hinzugefügt -->
+                            </div>
+                        </div>
+                        
+                        <!-- Update Information -->
+                        <div class="animal-meta" 
+                             role="contentinfo">
+                            
+                            <time class="last-updated" 
+                                  id="animal-last-updated"
+                                  itemprop="datePublished"
+                                  datetime="">
+                                Zuletzt aktualisiert: 
+                                <span class="update-date"></span>
+                            </time>
+                            
+                            <div class="content-source" 
+                                 itemprop="publisher"
+                                 itemscope
+                                 itemtype="https://schema.org/Organization">
+                                
+                                <span itemprop="name">tailr.wiki</span>
+                            </div>
+                        </div>
+                    </footer>
+                    
+                </article>
+                <!-- Ende: Animal Content Template -->
+                
+                <!-- ========================================
+                     ERROR STATE
+                     ======================================== -->
+                <!-- Fehlerbehandlung für failed loads -->
+                <div class="error-state" 
+                     id="animal-error"
+                     style="display: none;"
+                     role="alert"
+                     aria-live="assertive">
+                    
+                    <div class="error-icon" aria-hidden="true">⚠️</div>
+                    
+                    <div class="error-content">
+                        <h3 class="error-title">Tier konnte nicht geladen werden</h3>
+                        <p class="error-message">
+                            Das heutige Featured Animal ist temporär nicht verfügbar. 
+                            Bitte versuchen Sie es später erneut.
+                        </p>
+                        
+                        <button class="btn btn--primary error-retry" 
+                                type="button"
+                                id="animal-retry-btn"
+                                aria-label="Tier des Tages erneut laden">
+                            🔄 Erneut versuchen
+                        </button>
+                    </div>
+                </div>
+                
             </div>
+            <!-- Ende: Animal Card Content Area -->
+            
         </details>
+        <!-- Ende: Animal of Day Spoiler -->
+        
     </div>
+    <!-- Ende: Container -->
+    
+    <!-- ========================================
+         STRUCTURED DATA - JSON-LD
+         ======================================== -->
+    <!-- Schema.org für Featured Content -->
+    <script type="application/ld+json" id="animal-structured-data">
+    {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": "Tier des Tages",
+        "description": "Täglich wechselnde Featured Animals mit Pflegetipps und interessanten Fakten",
+        "publisher": {
+            "@type": "Organization",
+            "name": "tailr.wiki",
+            "url": "https://tailr.netlify.app"
+        },
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://tailr.netlify.app/#animal-of-day"
+        },
+        "datePublished": "",
+        "dateModified": "",
+        "author": {
+            "@type": "Organization",
+            "name": "tailr.wiki"
+        }
+    }
+    </script>
+    
 </section>
+<!-- Ende: Tier des Tages Section -->
+
+<!-- ========================================
+     PRELOAD RESOURCES FOR PERFORMANCE
+     ======================================== -->
+<!-- Critical resources für bessere Core Web Vitals -->
+<link rel="preload" 
+      href="/api/animal-of-day" 
+      as="fetch" 
+      crossorigin="anonymous">
+
+<!-- Screen Reader Only Styles -->
+<style>
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+</style>
 
         <!-- KATEGORIEN SECTION -->
         <section class="categories-section" id="categories-section">
