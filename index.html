@@ -626,7 +626,7 @@
 <!-- Ende: Main Header -->
 
     <main>
-        <!-- HERO SECTION -->
+
         <!-- ========================================
      HERO SECTION - PRIMARY LANDING AREA
      ======================================== -->
@@ -862,7 +862,6 @@
 </section>
 <!-- Ende: Hero Section -->
 
-<!-- ANIMAL OF THE DAY - IM SPOILER -->
 <!-- ========================================
      TIER DES TAGES - SEO OPTIMIERTE VERSION
      ======================================== -->
@@ -1069,15 +1068,354 @@
 }
 </style>
 
-        <!-- KATEGORIEN SECTION -->
-        <section class="categories-section" id="categories-section">
-            <div class="container">
-                <h2 class="section__title">Tier-Kategorien</h2>
-                <div class="categories__grid" id="categories-grid">
-                    <!-- Kategorien werden dynamisch geladen -->
+        <!-- ========================================
+     TIER-KATEGORIEN SECTION - SEO OPTIMIERT
+     ======================================== -->
+<!-- Hauptkategorien für verschiedene Tierarten mit SEO und Accessibility -->
+<section class="categories-section" 
+         id="categories-section"
+         role="region" 
+         aria-labelledby="categories-title"
+         itemscope 
+         itemtype="https://schema.org/ItemList">
+    
+    <div class="container">
+        
+        <!-- ========================================
+             SECTION TITLE - SEO OPTIMIERT
+             ======================================== -->
+        <!-- H2 für hierarchische SEO-Struktur -->
+        <h2 class="section__title" 
+            id="categories-title"
+            itemprop="name">
+            Tier-Kategorien - Pflege für alle Haustierarten
+        </h2>
+        
+        <!-- ========================================
+             SECTION DESCRIPTION
+             ======================================== -->
+        <!-- SEO-Description für bessere Kategorisierung -->
+        <p class="section__description" 
+           itemprop="description"
+           aria-describedby="categories-title">
+            Entdecken Sie umfassende Pflegeguides und Expertentipps für alle Haustierarten. 
+            Von Hunden und Katzen bis hin zu Reptilien und Aquarienfischen.
+        </p>
+        
+        <!-- ========================================
+             CATEGORIES GRID - DYNAMIC CONTENT AREA
+             ======================================== -->
+        <!-- Grid container für Tier-Kategorien -->
+        <div class="categories__grid" 
+             id="categories-grid"
+             role="list"
+             aria-label="Verfügbare Tier-Kategorien"
+             aria-live="polite"
+             aria-busy="true">
+            
+            <!-- ========================================
+                 LOADING STATE
+                 ======================================== -->
+            <!-- Accessibility-optimierter Loading State -->
+            <div class="categories-loading" 
+                 id="categories-loading"
+                 role="status" 
+                 aria-label="Tier-Kategorien werden geladen..."
+                 aria-live="polite">
+                
+                <!-- Loading Spinner -->
+                <div class="loading-spinner" aria-hidden="true">
+                    <div class="spinner-circle"></div>
+                </div>
+                
+                <!-- Loading Text -->
+                <span class="loading-text">
+                    Tier-Kategorien werden geladen...
+                </span>
+                
+                <!-- Screen Reader Information -->
+                <span class="sr-only">
+                    Bitte warten, während die verfügbaren Haustier-Kategorien geladen werden.
+                </span>
+            </div>
+            
+            <!-- ========================================
+                 DYNAMIC CONTENT PLACEHOLDER
+                 ======================================== -->
+            <!-- Container für JavaScript-generierte Kategorien -->
+            <div class="categories-content" 
+                 id="categories-dynamic-content"
+                 style="display: none;">
+                
+                <!-- Template für SEO Crawlers -->
+                <div class="seo-categories-template" style="display: none;">
+                    
+                    <!-- Hunde Kategorie -->
+                    <article class="category-item" 
+                             itemscope 
+                             itemtype="https://schema.org/ListItem"
+                             role="listitem">
+                        <meta itemprop="position" content="1">
+                        <div itemprop="item" 
+                             itemscope 
+                             itemtype="https://schema.org/Thing">
+                            <h3 itemprop="name">Hunde - Hundepflege und Gesundheit</h3>
+                            <p itemprop="description">
+                                Umfassende Pflegeguides für über 150 Hunderassen. 
+                                Ernährung, Gesundheit, Erziehung und Verhalten.
+                            </p>
+                            <meta itemprop="url" content="https://tailr.netlify.app/kategorien/hunde">
+                        </div>
+                    </article>
+                    
+                    <!-- Katzen Kategorie -->
+                    <article class="category-item" 
+                             itemscope 
+                             itemtype="https://schema.org/ListItem"
+                             role="listitem">
+                        <meta itemprop="position" content="2">
+                        <div itemprop="item" 
+                             itemscope 
+                             itemtype="https://schema.org/Thing">
+                            <h3 itemprop="name">Katzen - Katzenpflege und Verhalten</h3>
+                            <p itemprop="description">
+                                Experten-Ratgeber für Katzenhaltung, Gesundheit und artgerechte Pflege. 
+                                Für alle Katzenrassen und -arten.
+                            </p>
+                            <meta itemprop="url" content="https://tailr.netlify.app/kategorien/katzen">
+                        </div>
+                    </article>
+                    
+                    <!-- Weitere Kategorien für SEO -->
+                    <article class="category-item" 
+                             itemscope 
+                             itemtype="https://schema.org/ListItem"
+                             role="listitem">
+                        <meta itemprop="position" content="3">
+                        <div itemprop="item" 
+                             itemscope 
+                             itemtype="https://schema.org/Thing">
+                            <h3 itemprop="name">Kleintiere - Nager und Kaninchen</h3>
+                            <p itemprop="description">
+                                Pflege für Hamster, Meerschweinchen, Kaninchen und andere Kleintiere. 
+                                Haltung, Ernährung und Gesundheitsvorsorge.
+                            </p>
+                            <meta itemprop="url" content="https://tailr.netlify.app/kategorien/nager">
+                        </div>
+                    </article>
+                    
+                    <article class="category-item" 
+                             itemscope 
+                             itemtype="https://schema.org/ListItem"
+                             role="listitem">
+                        <meta itemprop="position" content="4">
+                        <div itemprop="item" 
+                             itemscope 
+                             itemtype="https://schema.org/Thing">
+                            <h3 itemprop="name">Ziervögel - Vogelhaltung und Pflege</h3>
+                            <p itemprop="description">
+                                Artgerechte Haltung von Wellensittichen, Kanarienvögeln und Papageien. 
+                                Käfigpflege, Ernährung und Gesundheit.
+                            </p>
+                            <meta itemprop="url" content="https://tailr.netlify.app/kategorien/voegel">
+                        </div>
+                    </article>
+                    
+                    <article class="category-item" 
+                             itemscope 
+                             itemtype="https://schema.org/ListItem"
+                             role="listitem">
+                        <meta itemprop="position" content="5">
+                        <div itemprop="item" 
+                             itemscope 
+                             itemtype="https://schema.org/Thing">
+                            <h3 itemprop="name">Aquarienfische - Aquaristik und Fischpflege</h3>
+                            <p itemprop="description">
+                                Süßwasser- und Salzwasser-Aquaristik. Wasserpflege, Fischgesundheit 
+                                und optimale Aquarium-Bedingungen.
+                            </p>
+                            <meta itemprop="url" content="https://tailr.netlify.app/kategorien/fische">
+                        </div>
+                    </article>
+                    
+                    <article class="category-item" 
+                             itemscope 
+                             itemtype="https://schema.org/ListItem"
+                             role="listitem">
+                        <meta itemprop="position" content="6">
+                        <div itemprop="item" 
+                             itemscope 
+                             itemtype="https://schema.org/Thing">
+                            <h3 itemprop="name">Reptilien - Terrarium und Reptilienpflege</h3>
+                            <p itemprop="description">
+                                Haltung von Echsen, Schlangen und Schildkröten. Terrarium-Einrichtung, 
+                                Temperatur-Management und Gesundheitsvorsorge.
+                            </p>
+                            <meta itemprop="url" content="https://tailr.netlify.app/kategorien/reptilien">
+                        </div>
+                    </article>
                 </div>
             </div>
-        </section>
+            
+            <!-- ========================================
+                 ERROR STATE
+                 ======================================== -->
+            <!-- Accessible error handling -->
+            <div class="categories-error" 
+                 id="categories-error"
+                 style="display: none;"
+                 role="alert"
+                 aria-live="assertive">
+                
+                <div class="error-content">
+                    <h3 class="error-title">Kategorien konnten nicht geladen werden</h3>
+                    <p class="error-message">
+                        Die Tier-Kategorien sind temporär nicht verfügbar. 
+                        Bitte versuchen Sie es später erneut oder besuchen Sie unsere 
+                        <a href="/tiere" 
+                           aria-label="Alle Tierarten direkt anzeigen"
+                           title="Direkt zu allen verfügbaren Tierarten">
+                            Tierarten-Übersicht
+                        </a>.
+                    </p>
+                    
+                    <button class="btn btn--primary categories-retry" 
+                            type="button"
+                            id="categories-retry-btn"
+                            aria-label="Kategorien erneut laden">
+                        🔄 Erneut versuchen
+                    </button>
+                </div>
+            </div>
+            
+            <!-- ========================================
+                 NOSCRIPT FALLBACK
+                 ======================================== -->
+            <!-- Fallback für deaktiviertes JavaScript -->
+            <noscript>
+                <div class="categories-noscript">
+                    <h3>JavaScript ist deaktiviert</h3>
+                    <p>
+                        Für die beste Erfahrung mit den Tier-Kategorien aktivieren Sie bitte JavaScript. 
+                        Alternativ können Sie direkt zu unseren Kategorien navigieren:
+                    </p>
+                    
+                    <ul class="noscript-categories-list">
+                        <li><a href="/kategorien/hunde" title="Hundepflege und Gesundheit">🐕 Hunde</a></li>
+                        <li><a href="/kategorien/katzen" title="Katzenpflege und Verhalten">🐱 Katzen</a></li>
+                        <li><a href="/kategorien/nager" title="Kleintiere und Nager">🐹 Kleintiere</a></li>
+                        <li><a href="/kategorien/voegel" title="Ziervögel und Vogelhaltung">🦜 Vögel</a></li>
+                        <li><a href="/kategorien/fische" title="Aquaristik und Fischpflege">🐠 Fische</a></li>
+                        <li><a href="/kategorien/reptilien" title="Reptilien und Terrarium">🦎 Reptilien</a></li>
+                    </ul>
+                </div>
+            </noscript>
+            
+        </div>
+        <!-- Ende: Categories Grid -->
+        
+        <!-- ========================================
+             CATEGORIES FOOTER
+             ======================================== -->
+        <!-- Zusätzliche Navigation und Information -->
+        <div class="categories-footer" 
+             role="contentinfo">
+            
+            <!-- View All Link -->
+            <div class="categories-view-all">
+                <a href="/tiere" 
+                   class="btn btn--ghost"
+                   aria-label="Alle Tierarten und Unterkategorien anzeigen"
+                   title="Vollständige Übersicht aller verfügbaren Tierarten">
+                    📋 Alle Tierarten anzeigen
+                </a>
+            </div>
+            
+            <!-- Last Updated Information -->
+            <div class="categories-meta">
+                <time class="last-updated" 
+                      itemprop="dateModified"
+                      datetime="">
+                    Kategorien zuletzt aktualisiert: 
+                    <span class="update-date" id="categories-last-updated"></span>
+                </time>
+            </div>
+        </div>
+        
+    </div>
+    <!-- Ende: Container -->
+    
+    <!-- ========================================
+         STRUCTURED DATA - JSON-LD
+         ======================================== -->
+    <!-- Schema.org für Kategorien-Navigation -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        "name": "Tier-Kategorien - tailr.wiki Haustierpflege",
+        "description": "Umfassende Kategorien für alle Haustierarten mit Pflegeguides, Gesundheitstipps und Expertenwissen",
+        "url": "https://tailr.netlify.app/#categories-section",
+        "publisher": {
+            "@type": "Organization",
+            "name": "tailr.wiki",
+            "url": "https://tailr.netlify.app"
+        },
+        "numberOfItems": 6,
+        "itemListOrder": "https://schema.org/ItemListOrderAscending",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Hunde - Hundepflege und Gesundheit",
+                "description": "Umfassende Pflegeguides für über 150 Hunderassen",
+                "url": "https://tailr.netlify.app/kategorien/hunde"
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Katzen - Katzenpflege und Verhalten",
+                "description": "Experten-Ratgeber für Katzenhaltung und artgerechte Pflege",
+                "url": "https://tailr.netlify.app/kategorien/katzen"
+            },
+            {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "Kleintiere - Nager und Kaninchen",
+                "description": "Pflege für Hamster, Meerschweinchen und Kaninchen",
+                "url": "https://tailr.netlify.app/kategorien/nager"
+            },
+            {
+                "@type": "ListItem",
+                "position": 4,
+                "name": "Ziervögel - Vogelhaltung und Pflege",
+                "description": "Artgerechte Haltung von Wellensittichen und Papageien",
+                "url": "https://tailr.netlify.app/kategorien/voegel"
+            },
+            {
+                "@type": "ListItem",
+                "position": 5,
+                "name": "Aquarienfische - Aquaristik und Fischpflege",
+                "description": "Süßwasser- und Salzwasser-Aquaristik mit Expertenratgeber",
+                "url": "https://tailr.netlify.app/kategorien/fische"
+            },
+            {
+                "@type": "ListItem",
+                "position": 6,
+                "name": "Reptilien - Terrarium und Reptilienpflege",
+                "description": "Haltung von Echsen, Schlangen und Schildkröten",
+                "url": "https://tailr.netlify.app/kategorien/reptilien"
+            }
+        ],
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://tailr.netlify.app/#categories-section"
+        }
+    }
+    </script>
+    
+</section>
+<!-- Ende: Tier-Kategorien Section -->
 
         <!-- ERWEITERTE VERGLEICHSFUNKTION -->
 <section class="comparison-section" id="comparison-section" style="display: none;">
