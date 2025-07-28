@@ -77,11 +77,11 @@ class AuthManager {
             console.log('✅ AuthManager: Erfolgreich initialisiert');
             this.triggerCallback('onInitialized', this.getStatus());
             
-            // ⭐ WICHTIG: Automatischer State-Wechsel nach Initialisierung
-            setTimeout(() => {
-                console.log('🔄 Automatischer State-Übergang nach Initialisierung');
-                this.showAppropriateState();
-            }, 200);
+           // Automatischer State-Wechsel nach Initialisierung
+           // setTimeout(() => {
+           //     console.log('🔄 Automatischer State-Übergang nach Initialisierung');
+           //     this.showAppropriateState();
+           // }, 200);
             
         } catch (error) {
             console.error('❌ AuthManager: Initialisierung fehlgeschlagen', error);
