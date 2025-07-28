@@ -785,20 +785,46 @@ class AuthManager {
         }
     }
 
-    /**
-     * Event-Callbacks auslösen
-     */
-    triggerCallback(event, data) {
-        if (this.callbacks[event]) {
-            this.callbacks[event].forEach(callback => {
-                try {
-                    callback(data);
-                } catch (error) {
-                    console.error(`❌ Callback-Fehler für Event '${event}':`, error);
-                }
-            });
-        }
+/**
+ * Event-Callbacks für UI-Integration
+ */
+triggerCallback(event, data) {
+    if (this.callbacks[event]) {
+        this.callbacks[event].forEach(callback => {
+            try {
+                callback(data);
+            } catch (error) {
+                console.error(`❌ Callback-Fehler für Event '${event}':`, error);
+            }
+        });
     }
+    
+    // SPEZIELLE UI-BEHANDLUNG
+    if (event === 'onLogin' && data) {
+        // Nach erfolgreichem Login zur Startseite
+        setTimeout(() => {
+            if (this.app && typeof this.app.showHome === 'function') {
+                this.app.showHome();
+            }
+        }, 1000);
+    }
+}
+
+/**
+ * Navigation-Link-Status basierend auf Auth-Status aktualisieren
+ */
+updateNavigationAuthStatus() {
+    const authNavLink = document.getElementById('auth-nav-link');
+    if (!authNavLink) return;
+    
+    if (this.isAuthenticated()) {
+        authNavLink.innerHTML = '👤 Profil';
+        authNavLink.dataset.category = 'my-pets';
+    } else {
+        authNavLink.innerHTML = '🔐 Anmelden';
+        authNavLink.dataset.category = 'auth';
+    }
+}
 
     /**
      * ========================================

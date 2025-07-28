@@ -75,6 +75,18 @@ initializeDOM() {
     this.comparisonSection = document.getElementById('comparison-section');
     this.myPetsSection = document.getElementById('my-pets-section');
     this.petProfileDetailSection = document.getElementById('pet-profile-detail-section');
+    this.authSection = document.getElementById('auth-section');
+    this.authNavLink = document.getElementById('auth-nav-link');
+
+    // Auth-Button-Referenzen
+    this.authLoginBtn = document.getElementById('auth-login-btn');
+    this.authLoginPopupBtn = document.getElementById('auth-login-popup-btn');
+    this.authLogoutBtn = document.getElementById('auth-logout-btn');
+    this.authRetryBtn = document.getElementById('retry-auth-btn');
+
+    // User-Interface-Referenzen
+    this.userDashboardBtn = document.getElementById('user-dashboard-btn');
+    this.userSettingsBtn = document.getElementById('user-settings-btn');
 
     // ===== HAUPT-MODAL REFERENZEN =====
     this.speciesModal = document.getElementById('species-modal');
@@ -402,6 +414,204 @@ cleanup() {
     this.updateFavoriteButtons();
     this.petProfileCreator = new PetProfileCreator('pet-profile-form', this);
     this.authManager = new AuthManager(this);
+    // AUTH-CALLBACKS REGISTRIEREN
+    this.authManager.on('onUserChange', (user) => {
+        this.updateAuthNavigation(user);
+        this.updateUIBasedOnAuthState(user);
+    });
+    
+    this.authManager.on('onLogin', (user) => {
+        console.log('✅ Benutzer angemeldet');
+        this.showNotification(`Willkommen zurück, ${this.authManager.getUserDisplayName()}!`, 'success');
+        this.handlePostLoginRedirection();
+    });
+    
+    this.authManager.on('onLogout', () => {
+        console.log('📤 Benutzer abgemeldet');
+        this.showNotification('Sie wurden erfolgreich abgemeldet', 'info');
+        this.handleNavigation('home');
+    });
+    
+    this.authManager.on('onError', (error) => {
+        console.error('🚨 Auth-Fehler:', error);
+        this.showNotification('Authentifizierungsfehler aufgetreten', 'error');
+    });
+}
+
+/**
+ * Auth-Bereich anzeigen
+ */
+showAuth() {
+    console.log('🔐 Auth-Bereich wird angezeigt');
+    
+    // Alle anderen Sektionen verstecken
+    this.hideAllSections();
+    
+    // Auth-Section anzeigen
+    if (this.authSection) {
+        this.authSection.classList.add('active');
+        this.authSection.style.display = 'flex';
+    }
+    
+    // URL und Titel aktualisieren
+    this.updateURL('auth');
+    document.title = 'Anmelden - tailr.wiki';
+    
+    // Navigation aktualisieren
+    this.updateActiveNavigation('auth');
+}
+
+/**
+ * Navigation nach erfolgreichem Login
+ */
+handlePostLoginRedirection() {
+    const redirectTo = sessionStorage.getItem('redirectAfterLogin');
+    if (redirectTo) {
+        sessionStorage.removeItem('redirectAfterLogin');
+        console.log(`🔄 Weiterleitung nach Login zu: ${redirectTo}`);
+        
+        // Kurze Verzögerung für bessere UX
+        setTimeout(() => {
+            this.handleNavigation(redirectTo);
+        }, 1000);
+    } else {
+        // Standard: Zur Startseite
+        setTimeout(() => {
+            this.showHome();
+        }, 1000);
+    }
+}
+
+/**
+ * Auth-Navigation basierend auf Status aktualisieren
+ */
+updateAuthNavigation(user) {
+    const authNavLink = document.getElementById('auth-nav-link');
+    if (!authNavLink) return;
+    
+    if (user) {
+        // Benutzer ist angemeldet
+        authNavLink.innerHTML = `👤 ${this.authManager.getUserDisplayName()}`;
+        authNavLink.dataset.category = 'my-pets';
+        authNavLink.title = 'Meine Tiere anzeigen';
+        
+        // Admin-Navigation sichtbar machen falls Admin
+        const adminNavLink = document.querySelector('[data-category="admin-log"]');
+        if (adminNavLink) {
+            adminNavLink.style.display = this.authManager.isCurrentUserAdmin() ? 'block' : 'none';
+        }
+        
+        // Logout-Link hinzufügen/anzeigen
+        this.updateLogoutNavigation(true);
+        
+    } else {
+        // Benutzer ist nicht angemeldet
+        authNavLink.innerHTML = '🔐 Anmelden';
+        authNavLink.dataset.category = 'auth';
+        authNavLink.title = 'Anmelden oder Registrieren';
+        
+        // Admin-Navigation verstecken
+        const adminNavLink = document.querySelector('[data-category="admin-log"]');
+        if (adminNavLink) {
+            adminNavLink.style.display = 'none';
+        }
+        
+        // Logout-Link verstecken
+        this.updateLogoutNavigation(false);
+    }
+}
+
+/**
+ * Logout-Navigation verwalten
+ */
+updateLogoutNavigation(show) {
+    let logoutLink = document.querySelector('[data-category="logout"]');
+    
+    if (show && !logoutLink) {
+        // Logout-Link erstellen
+        const nav = document.querySelector('.nav-menu');
+        if (nav) {
+            logoutLink = document.createElement('a');
+            logoutLink.href = '#';
+            logoutLink.className = 'nav-link logout-link';
+            logoutLink.dataset.category = 'logout';
+            logoutLink.innerHTML = '🚪 Abmelden';
+            logoutLink.title = 'Abmelden';
+            nav.appendChild(logoutLink);
+        }
+    } else if (!show && logoutLink) {
+        // Logout-Link entfernen
+        logoutLink.remove();
+    }
+}
+
+/**
+ * Navigation verfolgen (für Analytics)
+ */
+trackNavigation(category) {
+    // Optional: Analytics-Integration
+    if (typeof gtag !== 'undefined') {
+        gtag('event', 'navigation', {
+            'event_category': 'User Navigation',
+            'event_label': category,
+            'custom_parameter_1': this.authManager?.isAuthenticated() ? 'authenticated' : 'anonymous'
+        });
+    }
+    
+    console.log(`📊 Navigation verfolgt: ${category}`);
+}
+
+/**
+ * Benachrichtigungen anzeigen
+ */
+showNotification(message, type = 'info') {
+    const notification = document.createElement('div');
+    notification.className = `notification notification--${type}`;
+    notification.innerHTML = `
+        <div class="notification-content">
+            <span class="notification-icon">
+                ${type === 'error' ? '❌' : type === 'success' ? '✅' : 'ℹ️'}
+            </span>
+            <span class="notification-message">${message}</span>
+            <button class="notification-close">&times;</button>
+        </div>
+    `;
+    
+    document.body.appendChild(notification);
+    
+    // Auto-Remove nach 5 Sekunden
+    setTimeout(() => {
+        notification.remove();
+    }, 5000);
+    
+    // Close-Button Handler
+    notification.querySelector('.notification-close').addEventListener('click', () => {
+        notification.remove();
+    });
+}
+
+/**
+ * URL aktualisieren
+ */
+updateURL(section) {
+    const newURL = `${window.location.origin}${window.location.pathname}#${section}`;
+    window.history.pushState({ section }, '', newURL);
+}
+
+/**
+ * Aktive Navigation aktualisieren
+ */
+updateActiveNavigation(activeCategory) {
+    // Alle aktiven Zustände entfernen
+    document.querySelectorAll('.nav-link.active').forEach(link => {
+        link.classList.remove('active');
+    });
+    
+    // Aktive Navigation setzen
+    const activeLink = document.querySelector(`[data-category="${activeCategory}"]`);
+    if (activeLink) {
+        activeLink.classList.add('active');
+    }
 }
 
     async showMyPets() {
@@ -1338,11 +1548,203 @@ setupEventListeners() {
         this.setupTouchEvents();
     }
 
+    /**
+     * 🔐 AUTH-SPEZIFISCHE NAVIGATION
+     */
+    // Auth-Navigation Links
+    document.addEventListener('click', (e) => {
+        const category = e.target.dataset?.category;
+        if (category) {
+            e.preventDefault();
+            this.handleNavigation(category, e.target);
+        }
+    });
+
+    /**
+     * 🔑 AUTH-BUTTON EVENT LISTENERS
+     */
+    // Login-Button (in Auth-Section)
+    const loginBtn = document.getElementById('auth-login-btn');
+    if (loginBtn) {
+        loginBtn.addEventListener('click', async (e) => {
+            e.preventDefault();
+            if (this.authManager?.isInitialized) {
+                await this.authManager.login();
+            } else {
+                console.warn('⚠️ AuthManager noch nicht bereit');
+            }
+        });
+    }
+
+    // Popup-Login-Button (falls vorhanden)
+    const loginPopupBtn = document.getElementById('auth-login-popup-btn');
+    if (loginPopupBtn) {
+        loginPopupBtn.addEventListener('click', async (e) => {
+            e.preventDefault();
+            if (this.authManager?.isInitialized) {
+                await this.authManager.loginWithPopup();
+            }
+        });
+    }
+
+    // Logout-Button (wird dynamisch erstellt)
+    document.addEventListener('click', (e) => {
+        if (e.target.matches('[data-category="logout"]')) {
+            e.preventDefault();
+            this.handleNavigation('logout', e.target);
+        }
+    });
+
+    /**
+     * 👤 USER-PROFILE INTERACTIONS
+     */
+    // User-Dashboard-Button
+    const dashboardBtn = document.getElementById('user-dashboard-btn');
+    if (dashboardBtn) {
+        dashboardBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            this.handleNavigation('my-pets', e.target);
+        });
+    }
+
+    // User-Settings-Button
+    const settingsBtn = document.getElementById('user-settings-btn');
+    if (settingsBtn) {
+        settingsBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            this.showUserSettings();
+        });
+    }
+
+    /**
+     * ⚠️ ERROR-HANDLING BUTTONS
+     */
+    // Retry-Auth-Button (bei Fehlern)
+    const retryBtn = document.getElementById('retry-auth-btn');
+    if (retryBtn) {
+        retryBtn.addEventListener('click', async (e) => {
+            e.preventDefault();
+            if (this.authManager) {
+                await this.authManager.reset();
+            }
+        });
+    }
+
+    /**
+     * 🧭 ERWEITERTE NAVIGATION
+     */
+    // Back-to-App Navigation aus Auth-Bereich
+    document.addEventListener('click', (e) => {
+        if (e.target.matches('.back-to-app-btn')) {
+            e.preventDefault();
+            this.handleNavigation('home', e.target);
+        }
+    });
+
+    // Help-Links in Auth-Bereich
+    document.addEventListener('click', (e) => {
+        if (e.target.matches('.help-link')) {
+            // Externe Links in neuem Tab öffnen
+            if (e.target.target === '_blank') {
+                return; // Browser default behavior
+            }
+        }
+    });
+
+    /**
+     * ⌨️ KEYBOARD-SHORTCUTS (für Entwicklung)
+     */
+    document.addEventListener('keydown', (e) => {
+        // Debug-Shortcut: Strg+Shift+A für Auth-Debug
+        if (e.ctrlKey && e.shiftKey && e.key === 'A') {
+            e.preventDefault();
+            this.debugAuthManager();
+        }
+
+        // Auth-Bereich öffnen: Strg+L
+        if (e.ctrlKey && e.key === 'l') {
+            e.preventDefault();
+            this.handleNavigation('auth');
+        }
+
+        // Logout: Strg+Shift+L
+        if (e.ctrlKey && e.shiftKey && e.key === 'L') {
+            e.preventDefault();
+            if (this.authManager?.isAuthenticated()) {
+                this.handleNavigation('logout');
+            }
+        }
+    });
+
+    /**
+     * 📱 RESPONSIVE AUTH-UI
+     */
+    // Mobile Menu Toggle für Auth-Links
+    const authMobileToggle = document.getElementById('auth-mobile-toggle');
+    if (authMobileToggle) {
+        authMobileToggle.addEventListener('click', (e) => {
+            e.preventDefault();
+            this.toggleMobileAuthMenu();
+        });
+    }
+
+    /**
+     * 🔄 AUTO-REFRESH TOKEN HANDLING
+     */
+    // Page Visibility API für Token-Refresh
+    document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'visible' && this.authManager?.isAuthenticated()) {
+            // Token-Status prüfen wenn Seite wieder sichtbar wird
+            setTimeout(() => {
+                this.authManager.checkAuthentication();
+            }, 1000);
+        }
+    });
+
+    /**
+     * 💾 LOCAL STORAGE SYNCHRONIZATION
+     */
+    // Storage Events für Multi-Tab-Synchronization
+    window.addEventListener('storage', (e) => {
+        if (e.key === 'auth0.is.authenticated') {
+            // Auth-Status zwischen Tabs synchronisieren
+            if (this.authManager) {
+                this.authManager.checkAuthentication();
+            }
+        }
+    });
+
+    /**
+     * ⚡ PERFORMANCE OPTIMIERUNG
+     */
+    // Intersection Observer für Auth-Section
+    if ('IntersectionObserver' in window) {
+        const authSection = document.getElementById('auth-section');
+        if (authSection) {
+            const authObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        // Auth-Section ist sichtbar - sicherstellen dass sie korrekt initialisiert ist
+                        if (this.authManager && !this.authManager.isInitialized) {
+                            console.log('🔄 Auth-Section sichtbar - Initialisierung prüfen');
+                        }
+                    }
+                });
+            });
+            authObserver.observe(authSection);
+        }
+    }
+
+    console.log('✅ Auth0-Event-Listeners eingerichtet');
+
     console.log('✅ Alle Event-Listener wurden erfolgreich eingerichtet');
 }
 
+/**
+ * Erweiterte Navigation mit Auth0-Integration
+ */
 handleNavigation(catId, linkEl) {
-    console.log(`Navigiere zu: ${catId}`);
+    console.log(`🧭 Navigiere zu: ${catId}`);
 
     // WICHTIG: Alle Modals schließen bei Navigation
     this.cleanupAllModals();
@@ -1365,39 +1767,100 @@ handleNavigation(catId, linkEl) {
     switch (catId) {
         case 'home':
             this.showHome();
+            this.updateURL('home');
             break;
+
+        // ⭐ AUTH-INTEGRATION (Vereinheitlicht)
+        case 'auth':
         case 'login':
-            this.showSection(document.getElementById('login-section'));
-            break;
         case 'register':
-            this.showSection(document.getElementById('register-section'));
+            console.log('🔐 Auth-Bereich wird angezeigt');
+            this.showAuth();
             break;
+
         case 'admin-login':
+            console.log('👑 Admin-Login wird angezeigt');
             this.showSection(document.getElementById('admin-login-section'));
+            this.updateURL('admin-login');
             break;
+
         case 'blog':
+            console.log('📝 Blog-Übersicht wird angezeigt');
             this.showBlog();
             break;
+
+        // ⭐ MY-PETS mit Authentifizierungsprüfung
         case 'my-pets':
-            this.showMyPets();
+            console.log('🐾 Meine Tiere wird angezeigt');
+            if (this.authManager?.isAuthenticated()) {
+                this.showMyPets();
+            } else {
+                console.log('⚠️ Nicht authentifiziert - Weiterleitung zu Auth');
+                this.showAuth();
+                // Optional: Weiterleitung nach Login merken
+                sessionStorage.setItem('redirectAfterLogin', 'my-pets');
+            }
             break;
+
         case 'pet-profile':
-            this.showSection(this.petProfileSection);
+            console.log('🐕 Tierprofil wird angezeigt');
+            if (this.authManager?.isAuthenticated()) {
+                this.showSection(this.petProfileSection);
+                this.updateURL('pet-profile');
+            } else {
+                console.log('⚠️ Nicht authentifiziert - Weiterleitung zu Auth');
+                this.showAuth();
+                sessionStorage.setItem('redirectAfterLogin', 'pet-profile');
+            }
             break;
+
         case 'tools':
+            console.log('🛠️ Tools werden angezeigt');
             this.showSection(this.toolsSection);
+            this.updateURL('tools');
             break;
+
         case 'comparison':
+            console.log('⚖️ Vergleich wird angezeigt');
             this.showSection(this.comparisonSection);
+            this.updateURL('comparison');
             break;
+
+        // ⭐ ADMIN-LOG mit Berechtigungsprüfung
         case 'admin-log':
-            this.showAdminLog();
+            console.log('📊 Admin-Log wird angezeigt');
+            if (this.authManager?.isAuthenticated() && this.authManager?.isCurrentUserAdmin()) {
+                this.showAdminLog();
+            } else if (this.authManager?.isAuthenticated()) {
+                console.warn('⚠️ Keine Admin-Berechtigung');
+                this.showHome();
+                this.showNotification('Keine Berechtigung für Admin-Bereich', 'error');
+            } else {
+                console.log('⚠️ Nicht authentifiziert - Weiterleitung zu Auth');
+                this.showAuth();
+                sessionStorage.setItem('redirectAfterLogin', 'admin-login');
+            }
             break;
+
+        // ⭐ LOGOUT-Handling
+        case 'logout':
+            console.log('🚪 Logout wird durchgeführt');
+            if (this.authManager?.isAuthenticated()) {
+                this.authManager.logout();
+            } else {
+                this.showHome();
+            }
+            break;
+
         default:
             // Dieser Fall fängt alle Tierkategorien ab (z.B. 'dogs', 'cats')
+            console.log(`🐾 Tierkategorie wird angezeigt: ${catId}`);
             this.showCategory(catId);
             break;
     }
+
+    // Navigation-Ereignis für Analytics verfolgen
+    this.trackNavigation(catId);
 }
 
 navigateToSection(sectionId) {
@@ -1434,6 +1897,86 @@ handleWindowResize() {
     document.body.classList.toggle('mobile-view', viewport < 768);
     document.body.classList.toggle('tablet-view', viewport >= 768 && viewport < 1024);
     document.body.classList.toggle('desktop-view', viewport >= 1024);
+}
+
+/**
+ * Auth-Manager Debug-Funktion
+ */
+debugAuthManager() {
+    console.group('🔍 AuthManager Debug (Keyboard Shortcut)');
+    
+    if (this.authManager) {
+        console.log('✅ AuthManager verfügbar');
+        console.log('Status:', this.authManager.getStatus());
+        
+        // Detaillierte Debug-Informationen
+        if (typeof this.authManager.debugState === 'function') {
+            this.authManager.debugState();
+        }
+        
+        // UI-State testen
+        if (this.authManager.isInitialized && !this.authManager.isAuthenticated()) {
+            console.log('🔧 Auto-Fix: Zum Login-Bereich wechseln');
+            this.handleNavigation('auth');
+        }
+    } else {
+        console.error('❌ AuthManager nicht verfügbar');
+    }
+    
+    console.groupEnd();
+}
+
+/**
+ * User-Settings anzeigen
+ */
+showUserSettings() {
+    if (!this.authManager?.isAuthenticated()) {
+        this.handleNavigation('auth');
+        return;
+    }
+
+    console.log('⚙️ User-Settings wird angezeigt');
+    // Implementierung für User-Settings Modal/Seite
+    this.showNotification('User-Settings werden bald verfügbar sein', 'info');
+}
+
+/**
+ * Mobile Auth-Menu Toggle
+ */
+toggleMobileAuthMenu() {
+    const mobileAuthMenu = document.getElementById('mobile-auth-menu');
+    if (mobileAuthMenu) {
+        mobileAuthMenu.classList.toggle('active');
+    }
+}
+
+/**
+ * Benachrichtigungen anzeigen (aus vorheriger Antwort)
+ */
+showNotification(message, type = 'info') {
+    const notification = document.createElement('div');
+    notification.className = `notification notification--${type}`;
+    notification.innerHTML = `
+        <div class="notification-content">
+            <span class="notification-icon">
+                ${type === 'error' ? '❌' : type === 'success' ? '✅' : 'ℹ️'}
+            </span>
+            <span class="notification-message">${message}</span>
+            <button class="notification-close">&times;</button>
+        </div>
+    `;
+    
+    document.body.appendChild(notification);
+    
+    // Auto-Remove nach 5 Sekunden
+    setTimeout(() => {
+        notification.remove();
+    }, 5000);
+    
+    // Close-Button Handler
+    notification.querySelector('.notification-close').addEventListener('click', () => {
+        notification.remove();
+    });
 }
 
 /**
@@ -4270,10 +4813,6 @@ hideAllSections() {
         '#comparison-section', 
         '#my-pets-section',
         '#pet-profile-detail-section',
-        '#login-section',
-        '#register-section',
-        '#admin-login-section',
-        '#admin-log-section'
     ];
     
     // Sektionen über Selektoren verstecken
@@ -4294,12 +4833,18 @@ hideAllSections() {
         this.petProfileSection,
         this.comparisonSection,
         this.myPetsSection,
-        this.petProfileDetailSection
+        this.petProfileDetailSection,
+        this.adminLogSection,
+        this.authSection,
+        document.getElementById('login-section'),
+        document.getElementById('register-section'),
+        document.getElementById('admin-login-section')
     ];
     
     sections.forEach(section => {
-        if (section && section.style) {
+        if (section) {
             section.style.display = 'none';
+            section.classList.remove('active');
         }
     });
     

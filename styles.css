@@ -12402,3 +12402,34 @@ body.theme-playful {
     border-radius: 50%;
     animation: spin 1s linear infinite;
 }
+
+/* Auth-Section Styling */
+.auth-section {
+    display: none; /* Standardmäßig versteckt */
+    min-height: 100vh;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-background);
+    padding: 2rem 0;
+}
+
+.auth-section.active {
+    display: flex; /* Nur wenn aktiv */
+}
+
+/* Navigation-Link für Auth */
+.nav-link[data-category="auth"] {
+    color: var(--color-primary);
+}
+
+.nav-link[data-category="auth"]:hover {
+    background: var(--color-primary);
+    color: white;
+}
+
+/* Responsive Auth-Section */
+@media (max-width: 768px) {
+    .auth-section {
+        padding: 1rem 0;
+    }
+}
