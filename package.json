@@ -1,7 +1,7 @@
 {
   "name": "petcare-admin-backend",
   "version": "1.0.0",
-  "description": "Backend für myPetCare.wiki Admin Panel",
+  "description": "Backend für tailr.wiki Admin Panel",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",

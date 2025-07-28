@@ -605,7 +605,7 @@ app.post('/api/blog', upload.fields([
       category: req.body.category,
       title: req.body.title,
       author: {
-        name: req.body.authorName || 'myPetCare.wiki admin',
+        name: req.body.authorName || 'tailr.wiki admin',
         avatar: req.body.authorAvatar || 'images/avatar-admin.jpg'
       },
       date: new Date().toISOString().split('T')[0],

@@ -4350,7 +4350,7 @@ showComparison() {
     this.hideAllSections();
     
     // Home-Sektionen anzeigen
-    document.title = 'myPetCare.wiki';
+    document.title = 'tailr.wiki';
     this.categoriesSection.style.display = 'block';
     this.toolsSection.style.display = 'block';
     
@@ -4403,7 +4403,7 @@ showBlog() {
     if (!post || !this.blogDetailSection) return;
     
     this.hideAllSections();
-    document.title = `${post.title} – myPetCare.wiki`;
+    document.title = `${post.title} – tailr.wiki`;
     
     this.blogDetailSection.innerHTML = `
       <div class="container">
@@ -4414,7 +4414,7 @@ showBlog() {
                  alt="${post.author?.name || 'Admin'}" 
                  class="blog-meta__avatar"
                  onerror="this.style.display='none'">
-            <div class="blog-meta__author">${post.author?.name || 'myPetCare.wiki Admin'}</div>
+            <div class="blog-meta__author">${post.author?.name || 'tailr.wiki Admin'}</div>
             <div class="blog-meta__info">
               <p><strong>Veröffentlicht:</strong><br>${post.date || 'Unbekannt'}</p>
               <p><strong>Lesezeit:</strong><br>${post.readingTime || 'Unbekannt'}</p>
