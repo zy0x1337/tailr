@@ -628,460 +628,221 @@
     <main>
         <!-- HERO SECTION -->
         <!-- ========================================
-     TAILR.WIKI - DIGITALE HAUSTIERPFLEGE HEADER
+     HERO SECTION - PRIMARY LANDING AREA
      ======================================== -->
-<!-- Semantic header optimiert für Haustierpflege-App -->
-<header class="header" role="banner" itemscope itemtype="https://schema.org/WebSite">
-    <div class="container">
-        <div class="header__content">
-            
-            <!-- ========================================
-                 BRAND LOGO & SITE IDENTITY
-                 ======================================== -->
-            <!-- Logo als H1 für SEO-Boost -->
-            <h1 class="header__logo-wrapper">
-                <a href="/" 
-                   class="header__logo" 
-                   aria-label="tailr.wiki - Digitale Haustierpflege Startseite"
-                   title="tailr.wiki - Ihr digitaler Haustierpflege-Assistent"
-                   itemprop="url">
-                    <img src="images/tailr-logo.svg" 
-                         alt="tailr.wiki Logo" 
-                         class="header__logo-image"
-                         width="120" 
-                         height="40">
-                    <span class="header__logo-text" itemprop="name">tailr.wiki</span>
-                </a>
-            </h1>
-            
-            <!-- ========================================
-                 QUICK SEARCH BAR
-                 ======================================== -->
-            <!-- Suchfunktion für Haustierpflege-Inhalte -->
-            <div class="header__search" role="search">
-                <form class="search-form" action="/search" method="GET">
-                    <div class="search-input-wrapper">
-                        <input type="search" 
-                               class="search-input" 
-                               name="q"
-                               placeholder="Suche nach Tierarten, Krankheiten, Tipps..."
-                               aria-label="Haustierpflege-Inhalte durchsuchen"
-                               autocomplete="off"
-                               maxlength="100">
-                        <button type="submit" 
-                                class="search-btn"
-                                aria-label="Suche starten"
-                                title="In tailr.wiki suchen">
-                            🔍
-                        </button>
-                    </div>
-                    
-                    <!-- Quick Search Suggestions -->
-                    <div class="search-suggestions" id="search-suggestions" style="display: none;">
-                        <div class="suggestion-category">
-                            <span class="suggestion-label">Beliebte Suchanfragen:</span>
-                            <a href="/search?q=impfung+hund" class="suggestion-item">Impfung Hund</a>
-                            <a href="/search?q=katze+gesundheit" class="suggestion-item">Katze Gesundheit</a>
-                            <a href="/search?q=aquarium+pflege" class="suggestion-item">Aquarium Pflege</a>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            
-            <!-- ========================================
-                 PRIMARY NAVIGATION
-                 ======================================== -->
-            <!-- Hauptnavigation für Haustierpflege-Bereiche -->
-            <nav class="header__nav" role="navigation" aria-label="Hauptnavigation">
-                <ul class="header__nav-list" role="menubar">
-                    
-                    <!-- ========================================
-                         MEINE HAUSTIERE BEREICH (Logged In)
-                         ======================================== -->
-                    <!-- Pet Management für eingeloggte User -->
-                    <li class="dropdown logged-in-only" role="none" style="display: none;">
-                        <span class="header__nav-link header__nav-link--primary"
-                              role="button"
-                              aria-haspopup="true"
-                              aria-expanded="false"
-                              aria-label="Meine Haustiere verwalten"
-                              title="Alle meine registrierten Haustiere">
-                            🐾 Meine Haustiere <span class="pet-counter">0</span>
-                            <span class="dropdown-arrow">▼</span>
-                        </span>
-                        
-                        <ul class="dropdown-menu dropdown-menu--wide" role="menu">
-                            <!-- Dynamisch generierte Haustierliste -->
-                            <li class="dropdown-header" role="none">
-                                <span class="dropdown-header-text">Meine Tiere</span>
-                                <a href="/pet/add" 
-                                   class="btn btn--small btn--primary"
-                                   aria-label="Neues Haustier hinzufügen">+ Hinzufügen</a>
-                            </li>
-                            
-                            <!-- Beispiel Haustier-Einträge -->
-                            <li role="none">
-                                <a href="/pet/profile/1" 
-                                   class="dropdown-link dropdown-link--pet"
-                                   role="menuitem">
-                                    <div class="pet-preview">
-                                        <img src="images/pet-avatars/dog-default.svg" 
-                                             alt="Max - Hund" 
-                                             class="pet-avatar">
-                                        <div class="pet-info">
-                                            <span class="pet-name">Max</span>
-                                            <span class="pet-type">🐕 Golden Retriever</span>
-                                            <span class="pet-status">Impfung fällig</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            
-                            <li class="dropdown-divider" role="separator"></li>
-                            
-                            <li role="none">
-                                <a href="/pets/dashboard" 
-                                   class="dropdown-link"
-                                   role="menuitem">
-                                    📊 Haustiere-Dashboard
-                                </a>
-                            </li>
-                            <li role="none">
-                                <a href="/pets/health-calendar" 
-                                   class="dropdown-link"
-                                   role="menuitem">
-                                    📅 Gesundheitskalender
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    
-                    <!-- ========================================
-                         GESUNDHEITS-TOOLS
-                         ======================================== -->
-                    <!-- Haustierpflege und Gesundheitstools -->
-                    <li class="dropdown" role="none">
-                        <span class="header__nav-link"
-                              role="button"
-                              aria-haspopup="true"
-                              aria-expanded="false"
-                              title="Gesundheits- und Pflegetools für Haustiere">
-                            🏥 Gesundheit <span class="dropdown-arrow">▼</span>
-                        </span>
-                        
-                        <ul class="dropdown-menu" role="menu">
-                            <li role="none">
-                                <a href="/health/symptom-checker" 
-                                   class="dropdown-link"
-                                   role="menuitem"
-                                   title="Symptome bei Haustieren prüfen">
-                                    🩺 Symptom-Checker
-                                </a>
-                            </li>
-                            <li role="none">
-                                <a href="/health/vaccination-planner" 
-                                   class="dropdown-link"
-                                   role="menuitem"
-                                   title="Impfplan für Haustiere erstellen">
-                                    💉 Impfplaner
-                                </a>
-                            </li>
-                            <li role="none">
-                                <a href="/health/weight-tracker" 
-                                   class="dropdown-link"
-                                   role="menuitem"
-                                   title="Gewichtsverlauf von Haustieren verfolgen">
-                                    ⚖️ Gewichts-Tracker
-                                </a>
-                            </li>
-                            <li role="none">
-                                <a href="/health/medication-reminder" 
-                                   class="dropdown-link"
-                                   role="menuitem"
-                                   title="Medikamenten-Erinnerungen einrichten">
-                                    💊 Medikamenten-Reminder
-                                </a>
-                            </li>
-                            <li class="dropdown-divider" role="separator"></li>
-                            <li role="none">
-                                <a href="/veterinarians" 
-                                   class="dropdown-link"
-                                   role="menuitem"
-                                   title="Tierärzte in der Nähe finden">
-                                    🏥 Tierärzte finden
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    
-                    <!-- ========================================
-                         TIERARTEN-NAVIGATION
-                         ======================================== -->
-                    <!-- Kategorien nach Tierarten -->
-                    <li class="dropdown" role="none">
-                        <span class="header__nav-link" 
-                              role="button"
-                              aria-haspopup="true"
-                              aria-expanded="false"
-                              title="Pflege-Guides für verschiedene Tierarten">
-                            🦮 Tierarten <span class="dropdown-arrow">▼</span>
-                        </span>
-                        
-                        <ul class="dropdown-menu dropdown-menu--grid" role="menu">
-                            <!-- Beliebte Haustiere -->
-                            <li class="dropdown-section" role="none">
-                                <span class="dropdown-section-title">Beliebte Haustiere</span>
-                                <div class="dropdown-grid">
-                                    <a href="/tiere/hunde" 
-                                       class="dropdown-link dropdown-link--featured"
-                                       role="menuitem"
-                                       title="Hundepflege, Gesundheit und Erziehung">
-                                        <span class="link-icon">🐕</span>
-                                        <span class="link-text">Hunde</span>
-                                        <span class="link-count">150+ Rassen</span>
-                                    </a>
-                                    <a href="/tiere/katzen" 
-                                       class="dropdown-link dropdown-link--featured"
-                                       role="menuitem"
-                                       title="Katzenpflege, Gesundheit und Verhalten">
-                                        <span class="link-icon">🐱</span>
-                                        <span class="link-text">Katzen</span>
-                                        <span class="link-count">80+ Rassen</span>
-                                    </a>
-                                </div>
-                            </li>
-                            
-                            <!-- Weitere Tierarten -->
-                            <li class="dropdown-section" role="none">
-                                <span class="dropdown-section-title">Weitere Tierarten</span>
-                                <div class="dropdown-grid">
-                                    <a href="/tiere/kleintiere" class="dropdown-link" role="menuitem">🐹 Kleintiere</a>
-                                    <a href="/tiere/voegel" class="dropdown-link" role="menuitem">🦜 Vögel</a>
-                                    <a href="/tiere/fische" class="dropdown-link" role="menuitem">🐠 Fische</a>
-                                    <a href="/tiere/reptilien" class="dropdown-link" role="menuitem">🦎 Reptilien</a>
-                                </div>
-                            </li>
-                        </ul>
-                    </li>
-                    
-                    <!-- ========================================
-                         PFLEGE-RATGEBER
-                         ======================================== -->
-                    <!-- Ratgeber und Wissensbereich -->
-                    <li class="dropdown" role="none">
-                        <span class="header__nav-link"
-                              role="button"
-                              aria-haspopup="true"
-                              aria-expanded="false"
-                              title="Expertenratgeber für Haustierpflege">
-                            📚 Ratgeber <span class="dropdown-arrow">▼</span>
-                        </span>
-                        
-                        <ul class="dropdown-menu" role="menu">
-                            <li role="none">
-                                <a href="/ratgeber/ernaehrung" 
-                                   class="dropdown-link"
-                                   role="menuitem"
-                                   title="Gesunde Ernährung für Haustiere">
-                                    🥘 Ernährung & Futter
-                                </a>
-                            </li>
-                            <li role="none">
-                                <a href="/ratgeber/verhalten" 
-                                   class="dropdown-link"
-                                   role="menuitem"
-                                   title="Haustierverhalten verstehen und trainieren">
-                                    🎯 Verhalten & Training
-                                </a>
-                            </li>
-                            <li role="none">
-                                <a href="/ratgeber/pflege" 
-                                   class="dropdown-link"
-                                   role="menuitem"
-                                   title="Körperpflege und Hygiene für Haustiere">
-                                    🛁 Körperpflege
-                                </a>
-                            </li>
-                            <li role="none">
-                                <a href="/ratgeber/haltung" 
-                                   class="dropdown-link"
-                                   role="menuitem"
-                                   title="Artgerechte Haltung verschiedener Tierarten">
-                                    🏠 Haltung & Umgebung
-                                </a>
-                            </li>
-                            <li class="dropdown-divider" role="separator"></li>
-                            <li role="none">
-                                <a href="/blog" 
-                                   class="dropdown-link"
-                                   role="menuitem"
-                                   title="Aktuelle Artikel von Haustier-Experten">
-                                    📝 Expert*innen-Blog
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    
-                    <!-- ========================================
-                         NOTFALL & ERSTE HILFE
-                         ======================================== -->
-                    <!-- Wichtiger Notfall-Bereich -->
-                    <li role="none">
-                        <a href="/notfall" 
-                           class="header__nav-link header__nav-link--emergency"
-                           role="menuitem"
-                           aria-label="Erste Hilfe für Haustiere im Notfall"
-                           title="Notfall-Hilfe für Haustiere - Sofortige Unterstützung">
-                            🚨 Notfall
-                        </a>
-                    </li>
-                    
-                </ul>
-                <!-- Ende: Primary Navigation -->
-            </nav>
-            
-            <!-- ========================================
-                 USER AREA & HEADER CONTROLS
-                 ======================================== -->
-            <!-- Benutzerbereich und Einstellungen -->
-            <div class="header__user-area">
-                
-                <!-- ========================================
-                     NOTIFICATIONS (Logged In Only)
-                     ======================================== -->
-                <!-- Benachrichtigungen für eingeloggte User -->
-                <div class="header__notifications logged-in-only" style="display: none;">
-                    <button class="notification-toggle" 
-                            id="notification-toggle"
-                            type="button"
-                            aria-label="Benachrichtigungen anzeigen"
-                            title="Erinnerungen und Updates">
-                        <span class="notification-icon">🔔</span>
-                        <span class="notification-badge" style="display: none;">3</span>
-                    </button>
-                    
-                    <!-- Notification Dropdown -->
-                    <div class="notification-dropdown" id="notification-dropdown" style="display: none;">
-                        <div class="notification-header">
-                            <h3>Benachrichtigungen</h3>
-                            <button class="btn btn--text btn--small" id="mark-all-read">Alle als gelesen</button>
-                        </div>
-                        
-                        <div class="notification-list">
-                            <!-- Beispiel Benachrichtigungen -->
-                            <div class="notification-item notification-item--unread">
-                                <div class="notification-content">
-                                    <strong>Impfung fällig</strong>
-                                    <p>Max benötigt seine jährliche Tollwut-Impfung</p>
-                                    <time>vor 2 Stunden</time>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="notification-footer">
-                            <a href="/notifications" class="btn btn--text">Alle anzeigen</a>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- ========================================
-                     USER AUTHENTICATION
-                     ======================================== -->
-                <!-- Login/Register für nicht eingeloggte User -->
-                <div id="auth-buttons" class="header__auth">
-                    <a href="/login" 
-                       class="btn btn--ghost btn--small"
-                       aria-label="Bei tailr.wiki anmelden"
-                       title="Anmelden - Haustierdaten synchronisieren">
-                        Anmelden
-                    </a>
-                    <a href="/register" 
-                       class="btn btn--primary btn--small"
-                       aria-label="Kostenloses tailr.wiki Konto erstellen"
-                       title="Registrieren - Digitale Haustierpflege starten">
-                        Kostenlos starten
-                    </a>
-                </div>
-                
-                <!-- User Profile Dropdown (Logged In) -->
-                <div id="user-profile" class="header__profile logged-in-only" style="display: none;">
-                    <button class="profile-toggle" 
-                            id="profile-toggle"
-                            type="button"
-                            aria-haspopup="true"
-                            aria-expanded="false"
-                            aria-label="Benutzerprofil-Menü öffnen">
-                        <img src="images/avatars/user-default.svg" 
-                             alt="Benutzerprofil" 
-                             class="profile-avatar"
-                             width="32" 
-                             height="32">
-                        <span class="profile-name" id="profile-name">Benutzer</span>
-                        <span class="dropdown-arrow">▼</span>
-                    </button>
-                    
-                    <!-- Profile Dropdown Menu -->
-                    <div class="profile-dropdown" id="profile-dropdown" style="display: none;">
-                        <div class="profile-info">
-                            <img src="images/avatars/user-default.svg" alt="Profil" class="profile-avatar-large">
-                            <div class="profile-details">
-                                <strong id="profile-display-name">Max Mustermann</strong>
-                                <span id="profile-email">max@example.com</span>
-                            </div>
-                        </div>
-                        
-                        <nav class="profile-menu">
-                            <a href="/profile" class="profile-menu-item">⚙️ Profil bearbeiten</a>
-                            <a href="/pets/dashboard" class="profile-menu-item">🐾 Meine Haustiere</a>
-                            <a href="/settings" class="profile-menu-item">🔧 Einstellungen</a>
-                            <a href="/subscription" class="profile-menu-item">⭐ Premium</a>
-                            <div class="profile-menu-divider"></div>
-                            <button id="logout-btn" class="profile-menu-item profile-menu-item--danger">
-                                🚪 Abmelden
-                            </button>
-                        </nav>
-                    </div>
-                </div>
-                
-                <!-- ========================================
-                     THEME SWITCHER
-                     ======================================== -->
-                <!-- Kompakter Theme Switcher -->
-                <div class="header__theme">
-                    <button class="theme-toggle" 
-                            id="theme-toggle"
-                            type="button"
-                            aria-label="Theme wechseln"
-                            title="Design ändern">
-                        <span id="theme-icon">🌙</span>
-                    </button>
-                </div>
-                
-            </div>
-            <!-- Ende: User Area -->
-            
-        </div>
-        <!-- Ende: Header Content -->
-    </div>
-    <!-- Ende: Container -->
+<!-- Main hero section with semantic markup and SEO optimization -->
+<section class="hero" 
+         role="banner" 
+         aria-labelledby="hero-title"
+         itemscope 
+         itemtype="https://schema.org/WebPageElement">
     
     <!-- ========================================
-         MOBILE MENU TOGGLE
+         RESPONSIVE HERO BACKGROUND IMAGE
          ======================================== -->
-    <!-- Mobile Navigation Button -->
-    <button class="mobile-menu-toggle" 
-            id="mobile-menu-toggle"
-            type="button"
-            aria-label="Hauptmenü öffnen"
-            aria-expanded="false"
-            aria-controls="mobile-navigation">
-        <span class="hamburger-line"></span>
-        <span class="hamburger-line"></span>
-        <span class="hamburger-line"></span>
-    </button>
+    <!-- Optimized picture element for different devices and formats -->
+    <picture class="hero__background">
+        <!-- WebP format for modern browsers (bessere Kompression) -->
+        <source srcset="images/hero-bg.webp 1920w, 
+                        images/hero-bg-tablet.webp 1024w, 
+                        images/hero-bg-mobile.webp 768w" 
+                type="image/webp"
+                media="(min-width: 768px)">
+        
+        <!-- AVIF format für optimale Performance -->
+        <source srcset="images/hero-bg.avif 1920w, 
+                        images/hero-bg-tablet.avif 1024w, 
+                        images/hero-bg-mobile.avif 768w" 
+                type="image/avif"
+                media="(min-width: 768px)">
+        
+        <!-- PNG fallback für ältere Browser -->
+        <source srcset="images/hero-bg.png 1920w, 
+                        images/hero-bg-tablet.png 1024w, 
+                        images/hero-bg-mobile.png 768w" 
+                type="image/png">
+        
+        <!-- Fallback img element mit SEO-optimiertem Alt-Text -->
+        <img src="images/hero-bg.png" 
+             alt="Glückliche Haustiere verschiedener Arten - tailr.wiki digitale Haustierpflege" 
+             class="hero__bg-image"
+             width="1920" 
+             height="800"
+             loading="eager"
+             decoding="async"
+             itemprop="image"
+             aria-hidden="true">
+    </picture>
     
-</header>
-<!-- Ende: tailr.wiki Header -->
+    <!-- ========================================
+         HERO CONTENT - PRIMARY MESSAGE
+         ======================================== -->
+    <!-- Main content container with semantic structure -->
+    <div class="hero__content" 
+         role="main" 
+         aria-labelledby="hero-title"
+         itemscope 
+         itemtype="https://schema.org/Organization">
+        
+        <!-- ========================================
+             PRIMARY HEADING - H1 FOR SEO
+             ======================================== -->
+        <!-- SEO-optimierte H1 mit Keywords für Haustierpflege -->
+        <h1 class="hero__title" 
+            id="hero-title"
+            itemprop="name"
+            aria-label="tailr.wiki - Hauptüberschrift für digitale Haustierpflege">
+            Digitale Haustierpflege für moderne Tierhalter
+        </h1>
+        
+        <!-- ========================================
+             HERO DESCRIPTION - VALUE PROPOSITION
+             ======================================== -->
+        <!-- Überzeugende Beschreibung mit Call-to-Action Keywords -->
+        <p class="hero__description" 
+           itemprop="description"
+           aria-describedby="hero-title">
+            Verwalten Sie Impfungen, Tierarzttermine und Gesundheitsdaten Ihrer Haustiere 
+            <strong>einfach, sicher und digital</strong>. 
+            Kostenlose Tools für Hunde, Katzen, Kleintiere und mehr.
+        </p>
+        
+        <!-- ========================================
+             CALL-TO-ACTION BUTTONS
+             ======================================== -->
+        <!-- Primary CTA für bessere Conversion -->
+        <div class="hero__actions" 
+             role="group" 
+             aria-label="Hauptaktionen">
+            
+            <!-- Primary Action Button -->
+            <a href="/register" 
+               class="btn btn--primary hero__cta"
+               role="button"
+               aria-label="Kostenloses tailr.wiki Konto erstellen"
+               title="Jetzt registrieren - Digitale Haustierpflege starten"
+               itemprop="potentialAction"
+               itemscope 
+               itemtype="https://schema.org/RegisterAction">
+                <span itemprop="name">Kostenlos starten</span>
+                <span class="btn__icon" aria-hidden="true">🐾</span>
+            </a>
+            
+            <!-- Secondary Action Button -->
+            <a href="/demo" 
+               class="btn btn--secondary hero__cta-secondary"
+               role="button"
+               aria-label="tailr.wiki Demo ansehen"
+               title="Live-Demo - Haustierpflege-Tools testen">
+                Demo ansehen
+                <span class="btn__icon" aria-hidden="true">▶️</span>
+            </a>
+        </div>
+        
+        <!-- ========================================
+             TRUST INDICATORS / SOCIAL PROOF
+             ======================================== -->
+        <!-- Vertrauen schaffende Elemente -->
+        <div class="hero__trust" 
+             role="complementary" 
+             aria-label="Vertrauensindikatoren">
+            
+            <!-- User Statistics -->
+            <div class="hero__stats" 
+                 itemscope 
+                 itemtype="https://schema.org/Audience">
+                <span class="hero__stat-item">
+                    <strong itemprop="audienceType">5.000+</strong> 
+                    zufriedene Tierhalter
+                </span>
+                <span class="hero__stat-item">
+                    <strong>15.000+</strong> 
+                    verwaltete Haustiere
+                </span>
+                <span class="hero__stat-item">
+                    <strong>100%</strong> 
+                    kostenlos
+                </span>
+            </div>
+            
+            <!-- Feature Highlights -->
+            <div class="hero__features" 
+                 role="list" 
+                 aria-label="Hauptfunktionen">
+                
+                <span class="hero__feature" role="listitem">
+                    ✅ Impfkalender
+                </span>
+                <span class="hero__feature" role="listitem">
+                    ✅ Gesundheitstagebuch
+                </span>
+                <span class="hero__feature" role="listitem">
+                    ✅ Tierarzt-Reminder
+                </span>
+                <span class="hero__feature" role="listitem">
+                    ✅ Alle Tierarten
+                </span>
+            </div>
+        </div>
+        
+        <!-- ========================================
+             STRUCTURED DATA - BREADCRUMB
+             ======================================== -->
+        <!-- Breadcrumb für bessere Navigation -->
+        <nav class="hero__breadcrumb" 
+             aria-label="Breadcrumb Navigation"
+             itemscope 
+             itemtype="https://schema.org/BreadcrumbList">
+            
+            <ol class="breadcrumb-list">
+                <li itemprop="itemListElement" 
+                    itemscope 
+                    itemtype="https://schema.org/ListItem">
+                    <a href="/" 
+                       itemprop="item"
+                       aria-label="tailr.wiki Startseite">
+                        <span itemprop="name">Home</span>
+                    </a>
+                    <meta itemprop="position" content="1">
+                </li>
+            </ol>
+        </nav>
+        
+    </div>
+    <!-- Ende: Hero Content -->
+    
+    <!-- ========================================
+         SCHEMA.ORG STRUCTURED DATA
+         ======================================== -->
+    <!-- JSON-LD für erweiterte SEO-Informationen -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "tailr.wiki",
+        "description": "Digitale Haustierpflege für moderne Tierhalter",
+        "url": "https://tailr.netlify.app",
+        "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://tailr.netlify.app/search?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+        },
+        "mainEntity": {
+            "@type": "SoftwareApplication",
+            "name": "tailr.wiki Haustierpflege-App",
+            "applicationCategory": "HealthApplication",
+            "operatingSystem": "Web Browser",
+            "offers": {
+                "@type": "Offer",
+                "price": "0",
+                "priceCurrency": "EUR"
+            }
+        }
+    }
+    </script>
+    
+</section>
+<!-- Ende: Hero Section -->
 
 <!-- ANIMAL OF THE DAY - IM SPOILER -->
 <section class="animal-of-day-section">
