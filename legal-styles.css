@@ -1,17 +1,20 @@
-/* Impressum-spezifische Styles */
-.impressum-container {
+/* Gemeinsame Styles für Impressum und Datenschutz */
+
+/* Container */
+.legal-container {
     min-height: calc(100vh - 200px);
     padding: 2rem 0;
     background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
 }
 
 .content-wrapper {
-    max-width: 800px;
+    max-width: 900px;
     margin: 0 auto;
     padding: 0 2rem;
 }
 
-.impressum-container h1 {
+/* Hauptüberschrift */
+.legal-container h1 {
     font-size: 2.5rem;
     color: #2c3e50;
     text-align: center;
@@ -20,7 +23,8 @@
     text-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-.impressum-section {
+/* Sections */
+.legal-section {
     background: white;
     border-radius: 12px;
     padding: 2rem;
@@ -30,12 +34,13 @@
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.impressum-section:hover {
+.legal-section:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 25px rgba(0,0,0,0.15);
 }
 
-.impressum-section h2 {
+/* Überschriften */
+.legal-section h2 {
     font-size: 1.5rem;
     color: #34495e;
     margin-bottom: 1.5rem;
@@ -44,14 +49,29 @@
     padding-bottom: 0.5rem;
 }
 
+.legal-section h3 {
+    font-size: 1.2rem;
+    color: #2c3e50;
+    margin-bottom: 1rem;
+    margin-top: 1.5rem;
+    font-weight: 600;
+}
+
+.legal-section h3:first-child {
+    margin-top: 0;
+}
+
+/* Text-Blöcke */
 .info-block {
     line-height: 1.7;
 }
 
 .info-block p {
-    margin-bottom: 0.8rem;
+    margin-bottom: 1rem;
     color: #555;
     font-size: 1rem;
+    text-align: justify;
+    hyphens: auto;
 }
 
 .info-block p:last-child {
@@ -63,7 +83,54 @@
     font-weight: 600;
 }
 
-/* Navigation anpassen */
+/* Listen */
+.info-block ul {
+    margin: 1rem 0;
+    padding-left: 1.5rem;
+}
+
+.info-block li {
+    margin-bottom: 0.5rem;
+    color: #555;
+    line-height: 1.6;
+}
+
+.info-block li strong {
+    color: #2c3e50;
+}
+
+/* Kontakt-Info Box */
+.contact-info {
+    background: #f8f9fa;
+    border-left: 4px solid #3498db;
+    padding: 1rem 1.5rem;
+    margin: 1rem 0;
+    border-radius: 0 8px 8px 0;
+}
+
+.contact-info p {
+    margin-bottom: 0.5rem;
+    color: #2c3e50;
+}
+
+.contact-info p:last-child {
+    margin-bottom: 0;
+}
+
+/* Links */
+.info-block a {
+    color: #3498db;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    word-break: break-all;
+}
+
+.info-block a:hover {
+    color: #2980b9;
+    text-decoration: underline;
+}
+
+/* Navigation */
 .nav-menu a.active {
     background: #3498db;
     color: white;
@@ -71,7 +138,7 @@
     padding: 0.5rem 1rem;
 }
 
-/* Footer Styling */
+/* Footer */
 footer {
     background: #2c3e50;
     color: white;
@@ -107,44 +174,54 @@ footer {
         padding: 0 1rem;
     }
     
-    .impressum-container h1 {
+    .legal-container h1 {
         font-size: 2rem;
         margin-bottom: 2rem;
     }
     
-    .impressum-section {
+    .legal-section {
         padding: 1.5rem;
         margin-bottom: 1.5rem;
     }
     
-    .impressum-section h2 {
+    .legal-section h2 {
         font-size: 1.3rem;
+    }
+    
+    .legal-section h3 {
+        font-size: 1.1rem;
     }
     
     .info-block p {
         font-size: 0.95rem;
     }
+    
+    .contact-info {
+        padding: 0.8rem 1rem;
+    }
 }
 
 @media (max-width: 480px) {
-    .impressum-container {
+    .legal-container {
         padding: 1rem 0;
     }
     
-    .impressum-section {
+    .legal-section {
         padding: 1rem;
         border-radius: 8px;
     }
     
-    .impressum-container h1 {
+    .legal-container h1 {
         font-size: 1.8rem;
     }
-}
-
-/* Zusätzliche Styling-Verbesserungen */
-.impressum-section p {
-    text-align: justify;
-    hyphens: auto;
+    
+    .legal-section h2 {
+        font-size: 1.2rem;
+    }
+    
+    .legal-section h3 {
+        font-size: 1rem;
+    }
 }
 
 /* Smooth Scrolling */
@@ -154,18 +231,46 @@ html {
 
 /* Print Styles */
 @media print {
-    .impressum-container {
+    .legal-container {
         background: white;
         padding: 0;
     }
     
-    .impressum-section {
+    .legal-section {
         box-shadow: none;
         border: 1px solid #ccc;
         break-inside: avoid;
+        margin-bottom: 1rem;
     }
     
     header, footer {
         display: none;
     }
+    
+    .legal-container h1 {
+        color: black;
+        text-shadow: none;
+    }
+    
+    .legal-section h2,
+    .legal-section h3 {
+        color: black;
+    }
+    
+    .info-block a {
+        color: black;
+        text-decoration: underline;
+    }
+}
+
+/* Fokus-Styles für Barrierefreiheit */
+.legal-section:focus-within {
+    outline: 2px solid #3498db;
+    outline-offset: 2px;
+}
+
+.info-block a:focus {
+    outline: 2px solid #3498db;
+    outline-offset: 2px;
+    border-radius: 2px;
 }
