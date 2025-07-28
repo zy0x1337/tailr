@@ -591,6 +591,32 @@ showNotification(message, type = 'info') {
 }
 
 /**
+ * URL-basierte Navigation erweitern
+ */
+handleURLRouting() {
+    const path = window.location.pathname;
+    const hash = window.location.hash.substring(1);
+    
+    // URL-basierte Navigation
+    switch (hash) {
+        case 'auth':
+        case 'login':
+        case 'register':
+            this.showAuth();
+            break;
+        case 'my-pets':
+            if (this.authManager?.isAuthenticated()) {
+                this.showMyPets();
+            } else {
+                this.showAuth();
+            }
+            break;
+        default:
+            this.showHome();
+    }
+}
+
+/**
  * URL aktualisieren
  */
 updateURL(section) {
