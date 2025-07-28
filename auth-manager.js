@@ -78,10 +78,10 @@ class AuthManager {
             this.triggerCallback('onInitialized', this.getStatus());
             
            // Automatischer State-Wechsel nach Initialisierung
-           // setTimeout(() => {
-           //     console.log('🔄 Automatischer State-Übergang nach Initialisierung');
-           //     this.showAppropriateState();
-           // }, 200);
+            setTimeout(() => {
+                console.log('🔄 Automatischer State-Übergang nach Initialisierung');
+                this.showAppropriateState();
+            }, 200);
             
         } catch (error) {
             console.error('❌ AuthManager: Initialisierung fehlgeschlagen', error);
@@ -464,27 +464,27 @@ class AuthManager {
      * Angemessenen State basierend auf Status anzeigen
      */
     showAppropriateState() {
-        console.log('🎯 State-Bestimmung wird durchgeführt...', {
-            hasError: this.hasError,
-            isLoading: this.isLoading,
-            isInitialized: this.isInitialized,
-            isAuthenticated: this.isAuthenticated()
-        });
-        
-        if (this.hasError) {
-            console.log('➡️ Wechsel zu: error');
-            this.setState('error');
-        } else if (this.isLoading || !this.isInitialized) {
-            console.log('➡️ Bleibe bei: loading');
-            this.setState('loading');
-        } else if (this.isAuthenticated()) {
-            console.log('➡️ Wechsel zu: logged-in');
-            this.setState('logged-in');
-        } else {
-            console.log('➡️ Wechsel zu: logged-out');
-            this.setState('logged-out');
-        }
+    console.log('🎯 State-Bestimmung wird durchgeführt...', {
+        hasError: this.hasError,
+        isLoading: this.isLoading, 
+        isInitialized: this.isInitialized,
+        isAuthenticated: this.isAuthenticated()
+    });
+    
+    if (this.hasError) {
+        console.log('➡️ Wechsel zu: error');
+        this.setState('error');
+    } else if (this.isLoading || !this.isInitialized) {
+        console.log('➡️ Wechsel zu: loading');
+        this.setState('loading');
+    } else if (this.isAuthenticated()) {
+        console.log('➡️ Wechsel zu: logged-in');
+        this.setState('logged-in');
+    } else {
+        console.log('➡️ Wechsel zu: logged-out');
+        this.setState('logged-out');
     }
+}
 
     /**
      * Debug-Methode für State-Probleme
@@ -530,47 +530,47 @@ class AuthManager {
      * Automatisches Debug und Fix für State-Probleme
      */
     autoDebugAndFix() {
-        console.log('🔍 Auto-Debug wird ausgeführt...');
-        
-        // Status prüfen
-        const status = this.getStatus();
-        console.log('Status:', status);
-        
-        // DOM-Elemente prüfen
-        const elements = {
-            loading: document.getElementById('auth-loading'),
-            loggedOut: document.getElementById('auth-logged-out'),
-            loggedIn: document.getElementById('auth-logged-in'),
-            error: document.getElementById('auth-error')
-        };
-        
-        let hasVisibleElement = false;
-        Object.keys(elements).forEach(key => {
-            const element = elements[key];
-            if (element) {
-                const display = window.getComputedStyle(element).display;
-                if (display !== 'none') {
-                    hasVisibleElement = true;
-                }
-                console.log(`${key}: ${display}`);
+    console.log('🔍 Auto-Debug wird ausgeführt...');
+    
+    // Status prüfen
+    const status = this.getStatus();
+    console.log('Status:', status);
+    
+    // DOM-Elemente prüfen
+    const elements = {
+        loading: document.getElementById('auth-loading'),
+        loggedOut: document.getElementById('auth-logged-out'), 
+        loggedIn: document.getElementById('auth-logged-in'),
+        error: document.getElementById('auth-error')
+    };
+
+    let hasVisibleElement = false;
+    Object.keys(elements).forEach(key => {
+        const element = elements[key];
+        if (element) {
+            const display = window.getComputedStyle(element).display;
+            if (display !== 'none') {
+                hasVisibleElement = true;
             }
-        });
-        
-        // Problem erkennen und automatisch lösen
-        if (status.isInitialized && !status.hasError && !hasVisibleElement) {
-            console.log('🚨 State-Problem erkannt: Kein sichtbares Element!');
-            console.log('🔧 Automatische Reparatur wird durchgeführt...');
-            
-            // Richtigen State setzen
-            if (status.isAuthenticated) {
-                this.setState('logged-in');
-            } else {
-                this.setState('logged-out');
-            }
-            
-            console.log('✅ State-Problem automatisch behoben');
+            console.log(`${key}: ${display}`);
         }
+    });
+
+    // KORRIGIERTE PROBLEM-ERKENNUNG
+    if (status.isInitialized && !status.hasError) {
+        console.log('🔧 State-Korrektur wird angewendet...');
+        
+        if (status.isAuthenticated) {
+            console.log('➡️ Wechsel zu: logged-in');
+            this.setState('logged-in');
+        } else {
+            console.log('➡️ Wechsel zu: logged-out');  
+            this.setState('logged-out');
+        }
+        
+        console.log('✅ State-Problem automatisch behoben');
     }
+}
 
     /**
      * ========================================
@@ -1134,4 +1134,4 @@ if (typeof window !== 'undefined' && window.location.hostname.includes('localhos
     window.debugAuth = () => window.haustierWissenInstance?.authManager?.debugState();
 }
 
-console.log('📦 AuthManager geladen - Version 2.3 (VOLLSTÄNDIG KORRIGIERT)');
+console.log('📦 AuthManager geladen - Version 2.3');
