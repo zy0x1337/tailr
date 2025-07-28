@@ -4643,132 +4643,235 @@
 </style>
 
 <!-- BLOG SECTION -->
-<section class="blog-section" id="blog-section" style="display: none;">
+<main class="blog-section" id="blog-section" style="display: none;" role="main" aria-labelledby="blog-main-heading">
     <div class="container">
         <!-- Blog Hero -->
-        <div class="blog-hero">
+        <header class="blog-hero">
             <div class="blog-hero__content">
-                <h2 class="blog-hero__title">Wissen & Tipps</h2>
+                <h1 class="blog-hero__title" id="blog-main-heading">Wissen & Tipps für Ihre Haustiere</h1>
                 <p class="blog-hero__subtitle">Entdecken Sie wertvolle Ratgeber und Expertentipps für die optimale Pflege Ihrer Lieblinge</p>
             </div>
-            <div class="blog-hero__stats">
+            <div class="blog-hero__stats" role="region" aria-label="Blog-Statistiken">
                 <div class="blog-stat">
-                    <span class="blog-stat__number" id="blog-count">17</span>
-                    <span class="blog-stat__label">Artikel</span>
+                    <span class="blog-stat__number" id="blog-count" aria-describedby="blog-count-label">17</span>
+                    <span class="blog-stat__label" id="blog-count-label">Artikel</span>
                 </div>
                 <div class="blog-stat">
-                    <span class="blog-stat__number">6</span>
-                    <span class="blog-stat__label">Kategorien</span>
+                    <span class="blog-stat__number" aria-describedby="category-count-label">6</span>
+                    <span class="blog-stat__label" id="category-count-label">Kategorien</span>
                 </div>
             </div>
-        </div>
+        </header>
+
+        <!-- Skip Link für Accessibility -->
+        <a href="#blog-grid" class="skip-link">Direkt zu den Artikeln springen</a>
 
         <!-- Blog Filters -->
-        <div class="blog-filters">
-            <div class="blog-filters__main">
-                <button class="filter-btn filter-btn--active" data-filter="all">
-                    <span class="filter-btn__icon">📚</span>
+        <nav class="blog-filters" role="navigation" aria-labelledby="filter-navigation">
+            <h2 class="sr-only" id="filter-navigation">Blog-Filter und Suche</h2>
+            
+            <div class="blog-filters__main" role="group" aria-labelledby="category-filters">
+                <h3 class="sr-only" id="category-filters">Nach Kategorie filtern</h3>
+                
+                <button class="filter-btn filter-btn--active" 
+                        data-filter="all" 
+                        aria-pressed="true"
+                        aria-describedby="count-all-desc">
+                    <span class="filter-btn__icon" aria-hidden="true">📚</span>
                     <span class="filter-btn__text">Alle Artikel</span>
-                    <span class="filter-btn__count" id="count-all">17</span>
+                    <span class="filter-btn__count" id="count-all" aria-label="17 Artikel">17</span>
+                    <span class="sr-only" id="count-all-desc">Zeigt alle 17 verfügbaren Artikel</span>
                 </button>
-                <button class="filter-btn" data-filter="hunde">
-                    <span class="filter-btn__icon">🐕</span>
+                
+                <button class="filter-btn" 
+                        data-filter="hunde" 
+                        aria-pressed="false"
+                        aria-describedby="count-hunde-desc">
+                    <span class="filter-btn__icon" aria-hidden="true">🐕</span>
                     <span class="filter-btn__text">Hunde</span>
-                    <span class="filter-btn__count" id="count-hunde">5</span>
+                    <span class="filter-btn__count" id="count-hunde" aria-label="5 Artikel">5</span>
+                    <span class="sr-only" id="count-hunde-desc">Zeigt 5 Artikel über Hunde</span>
                 </button>
-                <button class="filter-btn" data-filter="katzen">
-                    <span class="filter-btn__icon">🐱</span>
+                
+                <button class="filter-btn" 
+                        data-filter="katzen" 
+                        aria-pressed="false"
+                        aria-describedby="count-katzen-desc">
+                    <span class="filter-btn__icon" aria-hidden="true">🐱</span>
                     <span class="filter-btn__text">Katzen</span>
-                    <span class="filter-btn__count" id="count-katzen">3</span>
+                    <span class="filter-btn__count" id="count-katzen" aria-label="3 Artikel">3</span>
+                    <span class="sr-only" id="count-katzen-desc">Zeigt 3 Artikel über Katzen</span>
                 </button>
-                <button class="filter-btn" data-filter="nagetiere">
-                    <span class="filter-btn__icon">🐰</span>
+                
+                <button class="filter-btn" 
+                        data-filter="nagetiere" 
+                        aria-pressed="false"
+                        aria-describedby="count-nagetiere-desc">
+                    <span class="filter-btn__icon" aria-hidden="true">🐰</span>
                     <span class="filter-btn__text">Nagetiere</span>
-                    <span class="filter-btn__count" id="count-nagetiere">3</span>
+                    <span class="filter-btn__count" id="count-nagetiere" aria-label="3 Artikel">3</span>
+                    <span class="sr-only" id="count-nagetiere-desc">Zeigt 3 Artikel über Nagetiere</span>
                 </button>
-                <button class="filter-btn" data-filter="reptilien">
-                    <span class="filter-btn__icon">🦎</span>
+                
+                <button class="filter-btn" 
+                        data-filter="reptilien" 
+                        aria-pressed="false"
+                        aria-describedby="count-reptilien-desc">
+                    <span class="filter-btn__icon" aria-hidden="true">🦎</span>
                     <span class="filter-btn__text">Reptilien</span>
-                    <span class="filter-btn__count" id="count-reptilien">2</span>
+                    <span class="filter-btn__count" id="count-reptilien" aria-label="2 Artikel">2</span>
+                    <span class="sr-only" id="count-reptilien-desc">Zeigt 2 Artikel über Reptilien</span>
                 </button>
-                <button class="filter-btn" data-filter="vögel">
-                    <span class="filter-btn__icon">🦜</span>
+                
+                <button class="filter-btn" 
+                        data-filter="vögel" 
+                        aria-pressed="false"
+                        aria-describedby="count-voegel-desc">
+                    <span class="filter-btn__icon" aria-hidden="true">🦜</span>
                     <span class="filter-btn__text">Vögel</span>
-                    <span class="filter-btn__count" id="count-voegel">1</span>
+                    <span class="filter-btn__count" id="count-voegel" aria-label="1 Artikel">1</span>
+                    <span class="sr-only" id="count-voegel-desc">Zeigt 1 Artikel über Vögel</span>
                 </button>
-                <button class="filter-btn" data-filter="fische">
-                    <span class="filter-btn__icon">🐠</span>
+                
+                <button class="filter-btn" 
+                        data-filter="fische" 
+                        aria-pressed="false"
+                        aria-describedby="count-fische-desc">
+                    <span class="filter-btn__icon" aria-hidden="true">🐠</span>
                     <span class="filter-btn__text">Fische</span>
-                    <span class="filter-btn__count" id="count-fische">1</span>
+                    <span class="filter-btn__count" id="count-fische" aria-label="1 Artikel">1</span>
+                    <span class="sr-only" id="count-fische-desc">Zeigt 1 Artikel über Fische</span>
                 </button>
-                <button class="filter-btn" data-filter="haustiere">
-                    <span class="filter-btn__icon">🏠</span>
+                
+                <button class="filter-btn" 
+                        data-filter="haustiere" 
+                        aria-pressed="false"
+                        aria-describedby="count-haustiere-desc">
+                    <span class="filter-btn__icon" aria-hidden="true">🏠</span>
                     <span class="filter-btn__text">Allgemein</span>
-                    <span class="filter-btn__count" id="count-haustiere">3</span>
+                    <span class="filter-btn__count" id="count-haustiere" aria-label="3 Artikel">3</span>
+                    <span class="sr-only" id="count-haustiere-desc">Zeigt 3 allgemeine Artikel über Haustiere</span>
                 </button>
             </div>
             
-            <div class="blog-filters__secondary">
-                <div class="search-container">
-                    <input type="text" class="search-input" placeholder="Artikel durchsuchen..." id="blog-search">
-                    <button class="search-btn">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+            <div class="blog-filters__secondary" role="group" aria-labelledby="search-sort-controls">
+                <h3 class="sr-only" id="search-sort-controls">Suche und Sortierung</h3>
+                
+                <div class="search-container" role="search">
+                    <label for="blog-search" class="sr-only">Blog-Artikel durchsuchen</label>
+                    <input type="search" 
+                           class="search-input" 
+                           placeholder="Artikel durchsuchen..." 
+                           id="blog-search"
+                           aria-describedby="search-help"
+                           autocomplete="off">
+                    <span class="sr-only" id="search-help">Geben Sie Suchbegriffe ein, um Artikel zu finden</span>
+                    
+                    <button class="search-btn" 
+                            type="submit" 
+                            aria-label="Suche starten">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                             <path d="M21.71 20.29L18 16.61A9 9 0 1 0 16.61 18l3.68 3.68a1 1 0 0 0 1.42-1.42zM11 18a7 7 0 1 1 7-7 7 7 0 0 1-7 7z"/>
                         </svg>
                     </button>
                 </div>
-                <select class="sort-select" id="blog-sort">
-                    <option value="newest">Neueste zuerst</option>
-                    <option value="oldest">Älteste zuerst</option>
-                    <option value="reading-time">Nach Lesezeit</option>
-                    <option value="alphabetical">Alphabetisch</option>
-                </select>
+                
+                <div class="sort-container">
+                    <label for="blog-sort" class="sr-only">Artikel sortieren nach</label>
+                    <select class="sort-select" id="blog-sort" aria-describedby="sort-help">
+                        <option value="newest">Neueste zuerst</option>
+                        <option value="oldest">Älteste zuerst</option>
+                        <option value="reading-time">Nach Lesezeit</option>
+                        <option value="alphabetical">Alphabetisch</option>
+                    </select>
+                    <span class="sr-only" id="sort-help">Wählen Sie die gewünschte Sortierreihenfolge</span>
+                </div>
             </div>
-        </div>
+        </nav>
 
         <!-- Blog Grid -->
-        <div class="blog-grid" id="blog-grid">
-            <!-- Blog-Karten werden hier dynamisch eingefügt -->
-        </div>
-
-        <!-- Load More Button -->
-        <div class="blog-load-container">
-    <button class="blog-load-btn" id="blog-load-more-btn">
-        <span class="load-text">Mehr Artikel laden</span>
-        <span class="loading-text" style="display: none;">Lädt...</span>
-    </button>
-</div>
-</section>
-
-        <!-- BLOG DETAIL SECTION -->
-        <section class="blog-detail-section" id="blog-detail-section" style="display: none;">
-            <div class="container">
-                <!-- Blog-Detail-Inhalt wird dynamisch geladen -->
+        <section class="blog-grid" 
+                 id="blog-grid" 
+                 role="region" 
+                 aria-labelledby="articles-heading"
+                 aria-live="polite"
+                 aria-describedby="articles-status">
+            <h2 class="sr-only" id="articles-heading">Blog-Artikel</h2>
+            <div class="sr-only" id="articles-status" aria-atomic="true">
+                <!-- Status-Updates für gefilterte Ergebnisse -->
             </div>
+            <!-- Blog-Karten werden hier dynamisch eingefügt -->
         </section>
 
-        <!-- Blog Detail Modal -->
-<div class="blog-modal" id="blog-modal">
-    <div class="blog-modal__overlay"></div>
-    <div class="blog-modal__container">
-        <div class="blog-modal__header">
-            <button class="blog-modal__close" id="blog-modal-close">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
-                </svg>
+        <!-- Load More Button -->
+        <div class="blog-load-container" role="region" aria-labelledby="load-more-heading">
+            <h3 class="sr-only" id="load-more-heading">Weitere Artikel laden</h3>
+            <button class="blog-load-btn" 
+                    id="blog-load-more-btn"
+                    aria-describedby="load-more-desc">
+                <span class="load-text">Mehr Artikel laden</span>
+                <span class="loading-text" style="display: none;" aria-hidden="true">Lädt...</span>
+                <span class="sr-only" id="load-more-desc">Lädt weitere Blog-Artikel</span>
             </button>
         </div>
-        <div class="blog-modal__content" id="blog-modal-content">
+    </div>
+</main>
+
+<!-- BLOG DETAIL SECTION -->
+<section class="blog-detail-section" 
+         id="blog-detail-section" 
+         style="display: none;"
+         role="main"
+         aria-labelledby="blog-detail-heading">
+    <div class="container">
+        <h1 class="sr-only" id="blog-detail-heading">Blog-Artikel Details</h1>
+        <!-- Blog-Detail-Inhalt wird dynamisch geladen -->
+    </div>
+</section>
+
+<!-- Blog Detail Modal -->
+<div class="blog-modal" 
+     id="blog-modal" 
+     role="dialog" 
+     aria-modal="true" 
+     aria-labelledby="modal-title"
+     aria-describedby="modal-content"
+     style="display: none;">
+    
+    <div class="blog-modal__overlay" aria-hidden="true"></div>
+    
+    <div class="blog-modal__container" role="document">
+        <header class="blog-modal__header">
+            <h2 class="sr-only" id="modal-title">Blog-Artikel im Detail</h2>
+            <button class="blog-modal__close" 
+                    id="blog-modal-close"
+                    aria-label="Modal schließen"
+                    type="button">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                </svg>
+                <span class="sr-only">Modal schließen</span>
+            </button>
+        </header>
+        
+        <main class="blog-modal__content" 
+              id="blog-modal-content"
+              tabindex="-1"
+              aria-describedby="modal-content">
             <!-- Blog-Artikel-Inhalt wird hier eingefügt -->
-        </div>
-        <div class="blog-modal__footer">
-            <button class="btn btn--secondary" id="blog-back-btn">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+        </main>
+        
+        <footer class="blog-modal__footer">
+            <button class="btn btn--secondary" 
+                    id="blog-back-btn"
+                    type="button"
+                    aria-label="Zurück zur Blog-Übersicht">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                     <path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/>
                 </svg>
                 <span>Zurück zur Übersicht</span>
             </button>
-        </div>
+        </footer>
     </div>
 </div>
 

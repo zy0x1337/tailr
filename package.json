@@ -16,6 +16,7 @@
     "multer": "^2.0.1"
   },
   "devDependencies": {
+    "@netlify/plugin-sitemap": "^0.8.1",
     "nodemon": "^3.0.1"
   }
 }
