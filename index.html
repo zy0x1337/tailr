@@ -4643,133 +4643,406 @@
 </style>
 
 <!-- BLOG SECTION -->
-<section class="blog-section" id="blog-section" style="display: none;">
-    <div class="container">
-        <!-- Blog Hero -->
-        <div class="blog-hero">
-            <div class="blog-hero__content">
-                <h2 class="blog-hero__title">Wissen & Tipps</h2>
-                <p class="blog-hero__subtitle">Entdecken Sie wertvolle Ratgeber und Expertentipps für die optimale Pflege Ihrer Lieblinge</p>
-            </div>
-            <div class="blog-hero__stats">
-                <div class="blog-stat">
-                    <span class="blog-stat__number" id="blog-count">17</span>
-                    <span class="blog-stat__label">Artikel</span>
-                </div>
-                <div class="blog-stat">
-                    <span class="blog-stat__number">6</span>
-                    <span class="blog-stat__label">Kategorien</span>
-                </div>
-            </div>
-        </div>
+<main class="blog-section" id="blog-section" style="display: none;" 
+      role="main" 
+      aria-labelledby="blog-main-title">
 
-        <!-- Blog Filters -->
-        <div class="blog-filters">
-            <div class="blog-filters__main">
-                <button class="filter-btn filter-btn--active" data-filter="all">
-                    <span class="filter-btn__icon">📚</span>
-                    <span class="filter-btn__text">Alle Artikel</span>
-                    <span class="filter-btn__count" id="count-all">17</span>
-                </button>
-                <button class="filter-btn" data-filter="hunde">
-                    <span class="filter-btn__icon">🐕</span>
-                    <span class="filter-btn__text">Hunde</span>
-                    <span class="filter-btn__count" id="count-hunde">5</span>
-                </button>
-                <button class="filter-btn" data-filter="katzen">
-                    <span class="filter-btn__icon">🐱</span>
-                    <span class="filter-btn__text">Katzen</span>
-                    <span class="filter-btn__count" id="count-katzen">3</span>
-                </button>
-                <button class="filter-btn" data-filter="nagetiere">
-                    <span class="filter-btn__icon">🐰</span>
-                    <span class="filter-btn__text">Nagetiere</span>
-                    <span class="filter-btn__count" id="count-nagetiere">3</span>
-                </button>
-                <button class="filter-btn" data-filter="reptilien">
-                    <span class="filter-btn__icon">🦎</span>
-                    <span class="filter-btn__text">Reptilien</span>
-                    <span class="filter-btn__count" id="count-reptilien">2</span>
-                </button>
-                <button class="filter-btn" data-filter="vögel">
-                    <span class="filter-btn__icon">🦜</span>
-                    <span class="filter-btn__text">Vögel</span>
-                    <span class="filter-btn__count" id="count-voegel">1</span>
-                </button>
-                <button class="filter-btn" data-filter="fische">
-                    <span class="filter-btn__icon">🐠</span>
-                    <span class="filter-btn__text">Fische</span>
-                    <span class="filter-btn__count" id="count-fische">1</span>
-                </button>
-                <button class="filter-btn" data-filter="haustiere">
-                    <span class="filter-btn__icon">🏠</span>
-                    <span class="filter-btn__text">Allgemein</span>
-                    <span class="filter-btn__count" id="count-haustiere">3</span>
-                </button>
-            </div>
-            
-            <div class="blog-filters__secondary">
-                <div class="search-container">
-                    <input type="text" class="search-input" placeholder="Artikel durchsuchen..." id="blog-search">
-                    <button class="search-btn">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M21.71 20.29L18 16.61A9 9 0 1 0 16.61 18l3.68 3.68a1 1 0 0 0 1.42-1.42zM11 18a7 7 0 1 1 7-7 7 7 0 0 1-7 7z"/>
-                        </svg>
-                    </button>
-                </div>
-                <select class="sort-select" id="blog-sort">
-                    <option value="newest">Neueste zuerst</option>
-                    <option value="oldest">Älteste zuerst</option>
-                    <option value="reading-time">Nach Lesezeit</option>
-                    <option value="alphabetical">Alphabetisch</option>
-                </select>
-            </div>
-        </div>
+  <div class="container">
+    
+    <!-- Skip Navigation Link -->
+    <a href="#blog-grid" class="sr-only sr-only-focusable">
+      Zum Blog-Inhalt springen
+    </a>
 
-        <!-- Blog Grid -->
-        <div class="blog-grid" id="blog-grid">
-            <!-- Blog-Karten werden hier dynamisch eingefügt -->
+    <!-- Blog Header -->
+    <header class="blog-hero" role="banner" aria-labelledby="blog-main-title">
+      <div class="blog-hero__content">
+        <h1 class="blog-hero__title" id="blog-main-title">
+          Wissen & Tipps für Haustierliebhaber
+        </h1>
+        <p class="blog-hero__subtitle">
+          Entdecken Sie wertvolle Ratgeber und Expertentipps für die optimale Pflege Ihrer Lieblinge. 
+          Von Grundlagen der Tierpflege bis zu spezialisierten Tipps für verschiedene Tierarten.
+        </p>
+      </div>
+      
+      <div class="blog-hero__stats" role="complementary" aria-labelledby="stats-heading">
+        <h2 class="sr-only" id="stats-heading">Blog-Statistiken</h2>
+        
+        <div class="blog-stat">
+          <span class="blog-stat__number" id="blog-count" aria-describedby="blog-count-label">17</span>
+          <span class="blog-stat__label" id="blog-count-label">Artikel verfügbar</span>
         </div>
+        <div class="blog-stat">
+          <span class="blog-stat__number" aria-describedby="category-count-label">6</span>
+          <span class="blog-stat__label" id="category-count-label">Tierkategorien</span>
+        </div>
+      </div>
+    </header>
 
-        <!-- Load More Button -->
-        <div class="blog-load-container">
-    <button class="blog-load-btn" id="blog-load-more-btn">
-        <span class="load-text">Mehr Artikel laden</span>
-        <span class="loading-text" style="display: none;">Lädt...</span>
-    </button>
-</div>
+    <!-- Blog Navigation & Filters -->
+    <nav class="blog-filters" role="navigation" aria-labelledby="blog-filter-heading">
+      <h2 class="sr-only" id="blog-filter-heading">Blog-Navigation und Filter</h2>
+      
+      <!-- Main Category Filters -->
+      <div class="blog-filters__main" role="tablist" aria-label="Artikel nach Kategorien filtern">
+        <button class="filter-btn filter-btn--active" 
+                data-filter="all" 
+                role="tab" 
+                aria-selected="true" 
+                aria-controls="blog-grid"
+                id="filter-all">
+          <span class="filter-btn__icon" aria-hidden="true">📚</span>
+          <span class="filter-btn__text">Alle Artikel</span>
+          <span class="filter-btn__count" id="count-all" aria-label="17 Artikel">17</span>
+        </button>
+        
+        <button class="filter-btn" 
+                data-filter="hunde" 
+                role="tab" 
+                aria-selected="false" 
+                aria-controls="blog-grid"
+                id="filter-hunde">
+          <span class="filter-btn__icon" aria-hidden="true">🐕</span>
+          <span class="filter-btn__text">Hunde</span>
+          <span class="filter-btn__count" id="count-hunde" aria-label="5 Artikel">5</span>
+        </button>
+        
+        <button class="filter-btn" 
+                data-filter="katzen" 
+                role="tab" 
+                aria-selected="false" 
+                aria-controls="blog-grid"
+                id="filter-katzen">
+          <span class="filter-btn__icon" aria-hidden="true">🐱</span>
+          <span class="filter-btn__text">Katzen</span>
+          <span class="filter-btn__count" id="count-katzen" aria-label="3 Artikel">3</span>
+        </button>
+        
+        <button class="filter-btn" 
+                data-filter="nagetiere" 
+                role="tab" 
+                aria-selected="false" 
+                aria-controls="blog-grid"
+                id="filter-nagetiere">
+          <span class="filter-btn__icon" aria-hidden="true">🐰</span>
+          <span class="filter-btn__text">Nagetiere</span>
+          <span class="filter-btn__count" id="count-nagetiere" aria-label="3 Artikel">3</span>
+        </button>
+        
+        <button class="filter-btn" 
+                data-filter="reptilien" 
+                role="tab" 
+                aria-selected="false" 
+                aria-controls="blog-grid"
+                id="filter-reptilien">
+          <span class="filter-btn__icon" aria-hidden="true">🦎</span>
+          <span class="filter-btn__text">Reptilien</span>
+          <span class="filter-btn__count" id="count-reptilien" aria-label="2 Artikel">2</span>
+        </button>
+        
+        <button class="filter-btn" 
+                data-filter="vögel" 
+                role="tab" 
+                aria-selected="false" 
+                aria-controls="blog-grid"
+                id="filter-voegel">
+          <span class="filter-btn__icon" aria-hidden="true">🦜</span>
+          <span class="filter-btn__text">Vögel</span>
+          <span class="filter-btn__count" id="count-voegel" aria-label="1 Artikel">1</span>
+        </button>
+        
+        <button class="filter-btn" 
+                data-filter="fische" 
+                role="tab" 
+                aria-selected="false" 
+                aria-controls="blog-grid"
+                id="filter-fische">
+          <span class="filter-btn__icon" aria-hidden="true">🐠</span>
+          <span class="filter-btn__text">Fische</span>
+          <span class="filter-btn__count" id="count-fische" aria-label="1 Artikel">1</span>
+        </button>
+        
+        <button class="filter-btn" 
+                data-filter="haustiere" 
+                role="tab" 
+                aria-selected="false" 
+                aria-controls="blog-grid"
+                id="filter-allgemein">
+          <span class="filter-btn__icon" aria-hidden="true">🏠</span>
+          <span class="filter-btn__text">Allgemein</span>
+          <span class="filter-btn__count" id="count-haustiere" aria-label="3 Artikel">3</span>
+        </button>
+      </div>
+
+      <!-- Search & Sort Controls -->
+      <div class="blog-filters__secondary">
+        <div class="search-container" role="search">
+          <label for="blog-search" class="sr-only">Artikel durchsuchen</label>
+          <input type="search" 
+                 class="search-input" 
+                 placeholder="Artikel durchsuchen..." 
+                 id="blog-search"
+                 aria-describedby="search-help"
+                 autocomplete="off"
+                 spellcheck="false">
+          <div id="search-help" class="sr-only">Geben Sie Suchbegriffe ein, um passende Artikel zu finden</div>
+          <button class="search-btn" 
+                  type="button" 
+                  aria-label="Suche starten"
+                  aria-describedby="search-help">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M21.71 20.29L18 16.61A9 9 0 1 0 16.61 18l3.68 3.68a1 1 0 0 0 1.42-1.42zM11 18a7 7 0 1 1 7-7 7 7 0 0 1-7 7z"/>
+            </svg>
+          </button>
+        </div>
+        
+        <div class="sort-container">
+          <label for="blog-sort" class="sr-only">Artikel sortieren nach</label>
+          <select class="sort-select" id="blog-sort" aria-describedby="sort-help">
+            <option value="newest">Neueste zuerst</option>
+            <option value="oldest">Älteste zuerst</option>
+            <option value="reading-time">Nach Lesezeit</option>
+            <option value="alphabetical">Alphabetisch</option>
+          </select>
+          <div id="sort-help" class="sr-only">Wählen Sie die Sortierreihenfolge der Artikel</div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Results Status -->
+    <div class="blog-results-status" role="status" aria-live="polite" aria-atomic="true" id="blog-results-status">
+      <span class="sr-only">Zeige alle 17 Artikel</span>
+    </div>
+
+    <!-- Blog Articles Grid -->
+    <section class="blog-grid" 
+          id="blog-grid" 
+          role="tabpanel" 
+          aria-labelledby="filter-all"
+          aria-live="polite"
+          aria-busy="false">
+      <!-- Blog-Karten werden hier dynamisch eingefügt -->
+    </section>
+
+    <!-- Load More Section -->
+    <aside class="blog-load-container" role="complementary">
+      <button class="blog-load-btn" 
+              id="blog-load-more-btn"
+              aria-describedby="load-more-help"
+              type="button">
+        <span class="load-text">Weitere Artikel laden</span>
+        <span class="loading-text" style="display: none;" aria-hidden="true">Lädt weitere Artikel...</span>
+      </button>
+      <div id="load-more-help" class="sr-only">Lädt weitere Artikel der aktuellen Kategorie</div>
+    </aside>
+  </div>
+
+  <!-- Schema.org Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    "name": "TAILR.WIKI - Haustier Ratgeber & Tipps",
+    "description": "Wertvolle Ratgeber und Expertentipps für die optimale Pflege Ihrer Lieblinge",
+    "url": "https://tailr.wiki/blog",
+    "publisher": {
+      "@type": "Organization",
+      "name": "TAILR.WIKI",
+      "url": "https://tailr.wiki",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://tailr.wiki/assets/logo.png"
+      }
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://tailr.wiki/blog"
+    },
+    "blogPost": [],
+    "numberOfItems": 17,
+    "about": [
+      {
+        "@type": "Thing",
+        "name": "Haustierpflege",
+        "description": "Umfassende Ratgeber zur artgerechten Pflege von Haustieren"
+      },
+      {
+        "@type": "Thing", 
+        "name": "Tierhaltung",
+        "description": "Expertentipps für verantwortungsvolle Tierhaltung"
+      },
+      {
+        "@type": "Thing",
+        "name": "Haustier Ratgeber",
+        "description": "Wissenschaftlich fundierte Informationen zu verschiedenen Haustierarten"
+      }
+    ],
+    "audience": {
+      "@type": "Audience",
+      "audienceType": "Haustierbesitzer und -interessierte"
+    },
+    "inLanguage": "de-DE",
+    "keywords": "Haustiere, Tierpflege, Ratgeber, Hunde, Katzen, Nagetiere, Reptilien, Vögel, Fische"
+  }
+  </script>
+
+  <!-- Inline Screen Reader Styles -->
+  <style>
+  .sr-only {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+  }
+
+  .sr-only-focusable:focus {
+    position: static !important;
+    width: auto !important;
+    height: auto !important;
+    padding: inherit !important;
+    margin: inherit !important;
+    overflow: visible !important;
+    clip: auto !important;
+    white-space: normal !important;
+    z-index: 999999 !important;
+    background: var(--color-primary, #3b82f6) !important;
+    color: white !important;
+    padding: 8px 16px !important;
+    border-radius: 4px !important;
+    text-decoration: none !important;
+    font-weight: bold !important;
+  }
+
+  [aria-live] {
+    font-weight: normal;
+  }
+
+  /* Focus Management */
+  [aria-hidden="true"] {
+    display: none !important;
+  }
+
+  /* High Contrast Support */
+  @media (prefers-contrast: high) {
+    .filter-btn {
+      border-width: 2px !important;
+    }
+    
+    .filter-btn--active {
+      border-width: 3px !important;
+    }
+    
+    .search-input:focus {
+      border-width: 3px !important;
+    }
+  }
+
+  /* Reduced Motion Support */
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  /* Touch Device Accessibility */
+  @media (hover: none) and (pointer: coarse) {
+    .filter-btn,
+    .search-btn,
+    .blog-load-btn {
+      min-height: 44px !important;
+      min-width: 44px !important;
+    }
+  }
+
+  /* Print Styles */
+  @media print {
+    .sr-only,
+    .blog-filters,
+    .blog-load-container,
+    script {
+      display: none !important;
+    }
+    
+    .blog-grid {
+      display: block !important;
+    }
+  }
+  </style>
+
+</main>
+
+<!-- BLOG DETAIL SECTION -->
+<section class="blog-detail-section" 
+         id="blog-detail-section" 
+         style="display: none;"
+         aria-labelledby="blog-detail-title"
+         role="main">
+  <div class="container">
+    <!-- Navigation Breadcrumb -->
+    <nav class="blog-breadcrumb" aria-label="Brotkrumen-Navigation">
+      <ol class="breadcrumb-list">
+        <li><a href="#blog-section" aria-label="Zurück zur Blog-Übersicht">Blog</a></li>
+        <li aria-current="page" id="current-article-title">Aktueller Artikel</li>
+      </ol>
+    </nav>
+    
+    <!-- Blog-Detail-Inhalt wird dynamisch geladen -->
+    <article class="blog-detail-content" id="blog-detail-content">
+      <!-- Dynamischer Inhalt -->
+    </article>
+  </div>
 </section>
 
-        <!-- BLOG DETAIL SECTION -->
-        <section class="blog-detail-section" id="blog-detail-section" style="display: none;">
-            <div class="container">
-                <!-- Blog-Detail-Inhalt wird dynamisch geladen -->
-            </div>
-        </section>
-
-        <!-- Blog Detail Modal -->
-<div class="blog-modal" id="blog-modal">
-    <div class="blog-modal__overlay"></div>
-    <div class="blog-modal__container">
-        <div class="blog-modal__header">
-            <button class="blog-modal__close" id="blog-modal-close">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
-                </svg>
-            </button>
-        </div>
-        <div class="blog-modal__content" id="blog-modal-content">
-            <!-- Blog-Artikel-Inhalt wird hier eingefügt -->
-        </div>
-        <div class="blog-modal__footer">
-            <button class="btn btn--secondary" id="blog-back-btn">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/>
-                </svg>
-                <span>Zurück zur Übersicht</span>
-            </button>
-        </div>
+<!-- Blog Detail Modal -->
+<div class="blog-modal" 
+     id="blog-modal" 
+     role="dialog" 
+     aria-modal="true" 
+     aria-labelledby="blog-modal-title"
+     aria-describedby="blog-modal-description"
+     tabindex="-1">
+  <div class="blog-modal__overlay" aria-hidden="true"></div>
+  <div class="blog-modal__container">
+    <header class="blog-modal__header">
+      <h2 class="sr-only" id="blog-modal-title">Artikel im Detail</h2>
+      <button class="blog-modal__close" 
+              id="blog-modal-close"
+              aria-label="Modal schließen"
+              type="button">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+        </svg>
+      </button>
+    </header>
+    
+    <div class="blog-modal__content" 
+         id="blog-modal-content"
+         role="document"
+         aria-describedby="blog-modal-description">
+      <div id="blog-modal-description" class="sr-only">Artikel-Detailansicht in einem Modal-Fenster</div>
+      <!-- Blog-Artikel-Inhalt wird hier eingefügt -->
     </div>
+    
+    <footer class="blog-modal__footer">
+      <button class="btn btn--secondary" 
+              id="blog-back-btn"
+              type="button"
+              aria-label="Zurück zur Blog-Übersicht">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/>
+        </svg>
+        <span>Zurück zur Übersicht</span>
+      </button>
+    </footer>
+  </div>
 </div>
 
 <!-- ========================================
