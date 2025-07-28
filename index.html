@@ -3278,10 +3278,10 @@
                  LOGIN TITLE - SEO OPTIMIERT
                  ======================================== -->
             <!-- H2 für hierarchische SEO-Struktur -->
-            <h2 id="login-title"
+            <h1 id="login-title"
                 itemprop="name">
                 Anmelden - Zugang zu Ihrem tailr.wiki Account
-            </h2>
+            </h1>
             
             <!-- ========================================
                  LOGIN DESCRIPTION (SEO-ERGÄNZUNG)
@@ -3486,7 +3486,7 @@
                 <div class="auth-alternative">
                     <p class="auth-alternative-text">
                         Noch kein Account? 
-                        <a href="/registrieren" 
+                        <a href="/register" 
                            class="auth-link"
                            aria-label="Neuen Account erstellen"
                            title="Kostenloses tailr.wiki Konto registrieren">
@@ -3844,29 +3844,827 @@
 }
 </style>
 
-<section class="auth-section" id="register-section" style="display: none;">
+<!-- ========================================
+     AUTH SECTION - REGISTER - SEO & ACCESSIBILITY OPTIMIERT
+     ======================================== -->
+<!-- Benutzer-Registrierung mit vollständiger Accessibility und SEO -->
+<section class="auth-section" 
+         id="register-section" 
+         style="display: none;"
+         role="region" 
+         aria-labelledby="register-title"
+         itemscope 
+         itemtype="https://schema.org/WebPage">
+    
     <div class="container">
-        <div class="auth-container">
-            <h2>Registrieren</h2>
-            <form id="register-form" class="auth-form">
-                <div class="form-group">
-                    <label for="register-username">Benutzername</label>
-                    <input type="text" id="register-username" name="username" required>
+        
+        <!-- ========================================
+             AUTH CONTAINER - REGISTER FORM WRAPPER
+             ======================================== -->
+        <!-- Hauptcontainer für Registrierungs-Formular -->
+        <div class="auth-container" 
+             role="main"
+             aria-labelledby="register-title">
+            
+            <!-- ========================================
+                 REGISTER TITLE - SEO OPTIMIERT
+                 ======================================== -->
+            <!-- H2 für hierarchische SEO-Struktur -->
+            <h2 id="register-title"
+                itemprop="name">
+                Registrieren - Kostenloses tailr.wiki Konto erstellen
+            </h2>
+            
+            <!-- ========================================
+                 REGISTER DESCRIPTION (SEO-ERGÄNZUNG)
+                 ======================================== -->
+            <!-- SEO-Description für bessere Kategorisierung -->
+            <p class="auth-description" 
+               itemprop="description"
+               aria-describedby="register-title">
+                Erstellen Sie Ihr kostenloses tailr.wiki Konto und verwalten Sie Ihre Haustierdaten, 
+                erhalten Sie personalisierte Pflegetipps und nutzen Sie alle Tools der Plattform.
+            </p>
+            
+            <!-- ========================================
+                 REGISTER FORM - INTERACTIVE REGISTRATION
+                 ======================================== -->
+            <!-- Semantisches Registrierungs-Formular mit Accessibility -->
+            <form id="register-form" 
+                  class="auth-form"
+                  role="form"
+                  aria-labelledby="register-title"
+                  aria-describedby="register-instructions"
+                  novalidate
+                  itemscope
+                  itemtype="https://schema.org/RegisterAction">
+                
+                <!-- Form Instructions (Screen Reader Only) -->
+                <div class="sr-only" id="register-instructions">
+                    Füllen Sie alle Felder aus, um Ihr kostenloses tailr.wiki Konto zu erstellen. 
+                    Alle Felder sind Pflichtfelder. Ihr Passwort muss mindestens 8 Zeichen lang sein.
                 </div>
-                <div class="form-group">
-                    <label for="register-password">Passwort</label>
-                    <input type="password" id="register-password" name="password" required>
+                
+                <!-- ========================================
+                     USERNAME FIELD
+                     ======================================== -->
+                <!-- Benutzername Eingabefeld -->
+                <div class="form-group" 
+                     role="group">
+                    
+                    <label for="register-username" 
+                           class="form-label"
+                           itemprop="name">
+                        Benutzername
+                        <span class="required-indicator" 
+                              aria-label="Pflichtfeld"
+                              title="Dieses Feld ist erforderlich">*</span>
+                    </label>
+                    
+                    <input type="text" 
+                           id="register-username" 
+                           name="username" 
+                           class="form-input"
+                           required
+                           aria-required="true"
+                           aria-describedby="username-help username-error"
+                           aria-invalid="false"
+                           autocomplete="username"
+                           placeholder="Ihr gewünschter Benutzername"
+                           minlength="3"
+                           maxlength="30"
+                           pattern="^[a-zA-Z0-9_-]+$"
+                           itemprop="alternateName">
+                    
+                    <!-- Help Text -->
+                    <div class="form-help" 
+                         id="username-help">
+                        3-30 Zeichen. Nur Buchstaben, Zahlen, Bindestrich und Unterstrich erlaubt. 
+                        Dieser Name wird öffentlich angezeigt.
+                    </div>
+                    
+                    <!-- Error Message Container -->
+                    <div class="form-error" 
+                         id="username-error"
+                         role="alert"
+                         aria-live="polite"
+                         style="display: none;">
+                        <!-- Fehlermeldung wird von JavaScript eingefügt -->
+                    </div>
+                    
+                    <!-- Username Availability Status -->
+                    <div class="username-status" 
+                         id="username-status"
+                         role="status"
+                         aria-live="polite"
+                         style="display: none;">
+                        <!-- Verfügbarkeitsstatus wird von JavaScript eingefügt -->
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="register-password-confirm">Passwort bestätigen</label>
-                    <input type="password" id="register-password-confirm" name="passwordConfirm" required>
+                
+                <!-- ========================================
+                     EMAIL FIELD (Ergänzung für vollständige Registrierung)
+                     ======================================== -->
+                <!-- E-Mail Eingabefeld für Account-Verifizierung -->
+                <div class="form-group" 
+                     role="group">
+                    
+                    <label for="register-email" 
+                           class="form-label">
+                        E-Mail-Adresse
+                        <span class="required-indicator" 
+                              aria-label="Pflichtfeld"
+                              title="Dieses Feld ist erforderlich">*</span>
+                    </label>
+                    
+                    <input type="email" 
+                           id="register-email" 
+                           name="email" 
+                           class="form-input"
+                           required
+                           aria-required="true"
+                           aria-describedby="email-help email-error"
+                           aria-invalid="false"
+                           autocomplete="email"
+                           placeholder="ihre@email.de"
+                           maxlength="100"
+                           itemprop="email">
+                    
+                    <!-- Help Text -->
+                    <div class="form-help" 
+                         id="email-help">
+                        Wird für die Konto-Bestätigung und wichtige Benachrichtigungen verwendet. 
+                        Ihre E-Mail wird nicht öffentlich angezeigt.
+                    </div>
+                    
+                    <!-- Error Message Container -->
+                    <div class="form-error" 
+                         id="email-error"
+                         role="alert"
+                         aria-live="polite"
+                         style="display: none;">
+                        <!-- Fehlermeldung wird von JavaScript eingefügt -->
+                    </div>
                 </div>
-                <button type="submit" class="btn btn--primary">Registrieren</button>
+                
+                <!-- ========================================
+                     PASSWORD FIELD
+                     ======================================== -->
+                <!-- Passwort Eingabefeld mit Stärke-Anzeige -->
+                <div class="form-group" 
+                     role="group">
+                    
+                    <label for="register-password" 
+                           class="form-label">
+                        Passwort
+                        <span class="required-indicator" 
+                              aria-label="Pflichtfeld"
+                              title="Dieses Feld ist erforderlich">*</span>
+                    </label>
+                    
+                    <div class="password-input-container">
+                        <input type="password" 
+                               id="register-password" 
+                               name="password" 
+                               class="form-input"
+                               required
+                               aria-required="true"
+                               aria-describedby="password-help password-error password-strength"
+                               aria-invalid="false"
+                               autocomplete="new-password"
+                               placeholder="Sicheres Passwort erstellen"
+                               minlength="8"
+                               maxlength="128">
+                        
+                        <!-- Password Visibility Toggle -->
+                        <button type="button" 
+                                class="password-toggle"
+                                id="password-toggle"
+                                aria-label="Passwort anzeigen oder verbergen"
+                                title="Passwort sichtbar machen"
+                                tabindex="0">
+                            <span class="password-toggle-icon" 
+                                  aria-hidden="true">👁️</span>
+                            <span class="sr-only">Passwort anzeigen</span>
+                        </button>
+                    </div>
+                    
+                    <!-- Password Strength Indicator -->
+                    <div class="password-strength" 
+                         id="password-strength"
+                         role="status"
+                         aria-live="polite"
+                         style="display: none;">
+                        <div class="strength-bar">
+                            <div class="strength-fill" data-strength="0"></div>
+                        </div>
+                        <span class="strength-text">Passwort-Stärke: <span class="strength-level">-</span></span>
+                    </div>
+                    
+                    <!-- Help Text -->
+                    <div class="form-help" 
+                         id="password-help">
+                        Mindestens 8 Zeichen. Empfohlen: Groß- und Kleinbuchstaben, Zahlen und Sonderzeichen 
+                        für maximale Sicherheit.
+                    </div>
+                    
+                    <!-- Error Message Container -->
+                    <div class="form-error" 
+                         id="password-error"
+                         role="alert"
+                         aria-live="polite"
+                         style="display: none;">
+                        <!-- Fehlermeldung wird von JavaScript eingefügt -->
+                    </div>
+                </div>
+                
+                <!-- ========================================
+                     PASSWORD CONFIRMATION FIELD
+                     ======================================== -->
+                <!-- Passwort-Bestätigung Eingabefeld -->
+                <div class="form-group" 
+                     role="group">
+                    
+                    <label for="register-password-confirm" 
+                           class="form-label">
+                        Passwort bestätigen
+                        <span class="required-indicator" 
+                              aria-label="Pflichtfeld"
+                              title="Dieses Feld ist erforderlich">*</span>
+                    </label>
+                    
+                    <div class="password-input-container">
+                        <input type="password" 
+                               id="register-password-confirm" 
+                               name="passwordConfirm" 
+                               class="form-input"
+                               required
+                               aria-required="true"
+                               aria-describedby="password-confirm-help password-confirm-error"
+                               aria-invalid="false"
+                               autocomplete="new-password"
+                               placeholder="Passwort wiederholen"
+                               minlength="8"
+                               maxlength="128">
+                        
+                        <!-- Password Visibility Toggle -->
+                        <button type="button" 
+                                class="password-toggle"
+                                id="password-confirm-toggle"
+                                aria-label="Passwort-Bestätigung anzeigen oder verbergen"
+                                title="Passwort-Bestätigung sichtbar machen"
+                                tabindex="0">
+                            <span class="password-toggle-icon" 
+                                  aria-hidden="true">👁️</span>
+                            <span class="sr-only">Passwort-Bestätigung anzeigen</span>
+                        </button>
+                    </div>
+                    
+                    <!-- Password Match Status -->
+                    <div class="password-match-status" 
+                         id="password-match-status"
+                         role="status"
+                         aria-live="polite"
+                         style="display: none;">
+                        <!-- Match-Status wird von JavaScript eingefügt -->
+                    </div>
+                    
+                    <!-- Help Text -->
+                    <div class="form-help" 
+                         id="password-confirm-help">
+                        Geben Sie Ihr Passwort erneut ein, um sicherzustellen, 
+                        dass es korrekt eingegeben wurde.
+                    </div>
+                    
+                    <!-- Error Message Container -->
+                    <div class="form-error" 
+                         id="password-confirm-error"
+                         role="alert"
+                         aria-live="polite"
+                         style="display: none;">
+                        <!-- Fehlermeldung wird von JavaScript eingefügt -->
+                    </div>
+                </div>
+                
+                <!-- ========================================
+                     TERMS & PRIVACY ACCEPTANCE
+                     ======================================== -->
+                <!-- Datenschutz und Nutzungsbedingungen Zustimmung -->
+                <div class="form-group" 
+                     role="group">
+                    
+                    <div class="checkbox-container">
+                        <label class="checkbox-label" 
+                               for="accept-terms">
+                            
+                            <input type="checkbox" 
+                                   id="accept-terms" 
+                                   name="acceptTerms" 
+                                   class="form-checkbox"
+                                   required
+                                   aria-required="true"
+                                   aria-describedby="terms-error"
+                                   aria-invalid="false">
+                            
+                            <span class="checkbox-text">
+                                Ich akzeptiere die 
+                                <a href="/nutzungsbedingungen" 
+                                   target="_blank"
+                                   rel="noopener noreferrer"
+                                   aria-label="Nutzungsbedingungen in neuem Tab öffnen">
+                                    Nutzungsbedingungen
+                                </a> und 
+                                <a href="/datenschutz" 
+                                   target="_blank"
+                                   rel="noopener noreferrer"
+                                   aria-label="Datenschutzerklärung in neuem Tab öffnen">
+                                    Datenschutzerklärung
+                                </a>
+                                <span class="required-indicator" 
+                                      aria-label="Pflichtfeld"
+                                      title="Zustimmung ist erforderlich">*</span>
+                            </span>
+                        </label>
+                        
+                        <!-- Error Message Container -->
+                        <div class="form-error" 
+                             id="terms-error"
+                             role="alert"
+                             aria-live="polite"
+                             style="display: none;">
+                            <!-- Fehler wird von JavaScript eingefügt -->
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- ========================================
+                     NEWSLETTER SUBSCRIPTION (Optional)
+                     ======================================== -->
+                <!-- Optionale Newsletter-Anmeldung -->
+                <div class="form-group" 
+                     role="group">
+                    
+                    <div class="checkbox-container">
+                        <label class="checkbox-label" 
+                               for="newsletter-subscribe">
+                            
+                            <input type="checkbox" 
+                                   id="newsletter-subscribe" 
+                                   name="newsletter" 
+                                   class="form-checkbox"
+                                   aria-describedby="newsletter-help">
+                            
+                            <span class="checkbox-text">
+                                Newsletter abonnieren (optional)
+                            </span>
+                        </label>
+                        
+                        <!-- Help Text -->
+                        <div class="form-help" 
+                             id="newsletter-help">
+                            Erhalten Sie wöchentliche Haustierpflege-Tipps und Updates zu neuen Features. 
+                            Jederzeit kündbar.
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- ========================================
+                     SUBMIT BUTTON
+                     ======================================== -->
+                <!-- Registrierungs-Button mit Loading State -->
+                <button type="submit" 
+                        class="btn btn--primary auth-submit-btn"
+                        id="register-submit"
+                        aria-describedby="submit-help"
+                        itemprop="potentialAction"
+                        itemscope
+                        itemtype="https://schema.org/RegisterAction">
+                    
+                    <!-- Button Text -->
+                    <span class="btn-text" 
+                          itemprop="name">Kostenloses Konto erstellen</span>
+                    
+                    <!-- Loading Spinner (Hidden by default) -->
+                    <span class="btn-loading" 
+                          style="display: none;"
+                          aria-hidden="true">
+                        <span class="loading-spinner"></span>
+                    </span>
+                    
+                    <!-- Button Help Text (Screen Reader Only) -->
+                    <span class="sr-only" id="submit-help">
+                        Klicken Sie hier oder drücken Sie Enter, um Ihr kostenloses Konto zu erstellen
+                    </span>
+                </button>
+                
+                <!-- ========================================
+                     FORM STATUS MESSAGES
+                     ======================================== -->
+                <!-- Success/Error Messages Container -->
+                <div class="form-status" 
+                     id="register-status"
+                     role="status"
+                     aria-live="polite"
+                     style="display: none;">
+                    <!-- Status-Nachrichten werden von JavaScript eingefügt -->
+                </div>
+                
             </form>
-            <button class="btn btn--secondary" data-category="home">Zurück zur Startseite</button>
+            <!-- Ende: Register Form -->
+            
+            <!-- ========================================
+                 ADDITIONAL AUTH OPTIONS
+                 ======================================== -->
+            <!-- Zusätzliche Authentifizierungs-Optionen -->
+            <div class="auth-additional" 
+                 role="complementary"
+                 aria-label="Zusätzliche Registrierungs-Optionen">
+                
+                <!-- Login Link -->
+                <div class="auth-alternative">
+                    <p class="auth-alternative-text">
+                        Bereits ein Account? 
+                        <a href="/anmelden" 
+                           class="auth-link"
+                           aria-label="Mit bestehendem Account anmelden"
+                           title="Zur Anmelde-Seite wechseln">
+                            Jetzt anmelden
+                        </a>
+                    </p>
+                </div>
+                
+                <!-- Registration Benefits -->
+                <div class="registration-benefits" 
+                     role="complementary"
+                     aria-labelledby="benefits-title">
+                    
+                    <h3 class="sr-only" id="benefits-title">
+                        Vorteile eines tailr.wiki Kontos
+                    </h3>
+                    
+                    <div class="benefits-list">
+                        <div class="benefit-item">
+                            <span class="benefit-icon" aria-hidden="true">🐾</span>
+                            <span class="benefit-text">Haustierdaten sicher speichern</span>
+                        </div>
+                        <div class="benefit-item">
+                            <span class="benefit-icon" aria-hidden="true">💡</span>
+                            <span class="benefit-text">Personalisierte Pflegetipps</span>
+                        </div>
+                        <div class="benefit-item">
+                            <span class="benefit-icon" aria-hidden="true">⭐</span>
+                            <span class="benefit-text">Favoriten und Tools nutzen</span>
+                        </div>
+                        <div class="benefit-item">
+                            <span class="benefit-icon" aria-hidden="true">🔒</span>
+                            <span class="benefit-text">100% kostenlos und sicher</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- ========================================
+                 NAVIGATION ACTIONS
+                 ======================================== -->
+            <!-- Navigation zurück zur Startseite -->
+            <div class="auth-navigation" 
+                 role="navigation"
+                 aria-label="Seiten-Navigation">
+                
+                <button class="btn btn--secondary" 
+                        data-category="home"
+                        type="button"
+                        aria-label="Zurück zur tailr.wiki Startseite"
+                        title="Zur Hauptseite ohne Registrierung zurückkehren">
+                    🏠 Zurück zur Startseite
+                </button>
+                
+                <!-- Help & Support Link -->
+                <div class="auth-help">
+                    <a href="/hilfe/registrierung" 
+                       class="help-link"
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       aria-label="Hilfe zur Registrierung in neuem Tab öffnen"
+                       title="Detaillierte Anleitung zur Konto-Erstellung">
+                        ❓ Hilfe zur Registrierung
+                    </a>
+                </div>
+            </div>
+            
+        </div>
+        <!-- Ende: Auth Container -->
+        
+    </div>
+    <!-- Ende: Container -->
+    
+    <!-- ========================================
+         SECURITY & PRIVACY INFORMATION
+         ======================================== -->
+    <!-- Sicherheits- und Datenschutz-Hinweise -->
+    <div class="auth-security-info" 
+         role="contentinfo">
+        
+        <div class="container">
+            <div class="security-notice">
+                <p class="security-text">
+                    🔒 Ihre Daten werden verschlüsselt übertragen und sicher gespeichert. 
+                    Wir verkaufen keine Daten und respektieren Ihre Privatsphäre. 
+                    Weitere Informationen in unserer 
+                    <a href="/datenschutz" 
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       aria-label="Datenschutzerklärung in neuem Tab öffnen">
+                        Datenschutzerklärung
+                    </a>.
+                </p>
+            </div>
         </div>
     </div>
+    
+    <!-- ========================================
+         STRUCTURED DATA - JSON-LD
+         ======================================== -->
+    <!-- Schema.org für Register-Seite -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": "Registrieren - tailr.wiki",
+        "description": "Erstellen Sie Ihr kostenloses tailr.wiki Konto für personalisierte Haustierpflege, sichere Datenverwaltung und Zugang zu allen Tools",
+        "url": "https://tailr.netlify.app/registrieren",
+        "isPartOf": {
+            "@type": "WebSite",
+            "name": "tailr.wiki",
+            "url": "https://tailr.netlify.app"
+        },
+        "potentialAction": {
+            "@type": "RegisterAction",
+            "target": {
+                "@type": "EntryPoint",
+                "urlTemplate": "https://tailr.netlify.app/registrieren",
+                "actionPlatform": ["http://schema.org/DesktopWebPlatform", "http://schema.org/MobileWebPlatform"]
+            },
+            "object": {
+                "@type": "UserAccount",
+                "name": "tailr.wiki Benutzerkonto"
+            },
+            "result": {
+                "@type": "UserAccount",
+                "description": "Kostenloses Benutzerkonto mit Zugang zu personalisierten Haustierpflege-Tools"
+            }
+        },
+        "provider": {
+            "@type": "Organization",
+            "name": "tailr.wiki",
+            "url": "https://tailr.netlify.app"
+        },
+        "audience": {
+            "@type": "Audience",
+            "audienceType": "Neue Tierhalter und Haustierpflege-Interessierte"
+        },
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "EUR",
+            "description": "Kostenlose Registrierung für tailr.wiki Haustierpflege-Platform"
+        }
+    }
+    </script>
+    
 </section>
+<!-- Ende: Auth Section - Register -->
+
+<!-- ========================================
+     ADDITIONAL STYLES FÜR REGISTER-SPEZIFISCHE ELEMENTE
+     ======================================== -->
+<!-- Zusätzliche Styles für Registrierungs-spezifische UI-Elemente -->
+<style>
+/* Password Strength Indicator */
+.password-strength {
+    margin-top: 0.75rem;
+}
+
+.strength-bar {
+    width: 100%;
+    height: 4px;
+    background: var(--color-border);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-bottom: 0.5rem;
+}
+
+.strength-fill {
+    height: 100%;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+    width: 0%;
+}
+
+.strength-fill[data-strength="1"] {
+    width: 20%;
+    background: #ef4444;
+}
+
+.strength-fill[data-strength="2"] {
+    width: 40%;
+    background: #f97316;
+}
+
+.strength-fill[data-strength="3"] {
+    width: 60%;
+    background: #eab308;
+}
+
+.strength-fill[data-strength="4"] {
+    width: 80%;
+    background: #22c55e;
+}
+
+.strength-fill[data-strength="5"] {
+    width: 100%;
+    background: #16a34a;
+}
+
+.strength-text {
+    font-size: 0.8rem;
+    color: var(--color-text-secondary);
+}
+
+.strength-level {
+    font-weight: 600;
+}
+
+/* Password Match Status */
+.password-match-status {
+    margin-top: 0.5rem;
+    padding: 0.5rem;
+    border-radius: 4px;
+    font-size: 0.85rem;
+}
+
+.password-match-status.match {
+    background: rgba(34, 197, 94, 0.1);
+    color: #166534;
+    border-left: 3px solid #22c55e;
+}
+
+.password-match-status.no-match {
+    background: rgba(239, 68, 68, 0.1);
+    color: #991b1b;
+    border-left: 3px solid #ef4444;
+}
+
+/* Username Status */
+.username-status {
+    margin-top: 0.5rem;
+    padding: 0.5rem;
+    border-radius: 4px;
+    font-size: 0.85rem;
+}
+
+.username-status.available {
+    background: rgba(34, 197, 94, 0.1);
+    color: #166534;
+    border-left: 3px solid #22c55e;
+}
+
+.username-status.taken {
+    background: rgba(239, 68, 68, 0.1);
+    color: #991b1b;
+    border-left: 3px solid #ef4444;
+}
+
+.username-status.checking {
+    background: rgba(59, 130, 246, 0.1);
+    color: #1e40af;
+    border-left: 3px solid #3b82f6;
+}
+
+/* Checkbox Styling */
+.checkbox-container {
+    margin: 1rem 0;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    cursor: pointer;
+    line-height: 1.5;
+}
+
+.form-checkbox {
+    width: 18px;
+    height: 18px;
+    border: 2px solid var(--color-border);
+    border-radius: 4px;
+    appearance: none;
+    background: var(--color-surface);
+    cursor: pointer;
+    position: relative;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+}
+
+.form-checkbox:checked {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+}
+
+.form-checkbox:checked::after {
+    content: "✓";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.form-checkbox:focus {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+.checkbox-text {
+    font-size: 0.9rem;
+    color: var(--color-text);
+}
+
+.checkbox-text a {
+    color: var(--color-primary);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.checkbox-text a:hover,
+.checkbox-text a:focus {
+    text-decoration: underline;
+}
+
+/* Registration Benefits */
+.registration-benefits {
+    margin: 2rem 0;
+    padding: 1.5rem;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+}
+
+.benefits-list {
+    display: grid;
+    gap: 1rem;
+}
+
+.benefit-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.9rem;
+}
+
+.benefit-icon {
+    font-size: 1.2rem;
+    flex-shrink: 0;
+}
+
+.benefit-text {
+    color: var(--color-text-secondary);
+}
+
+/* Responsive Design für Register-Elemente */
+@media (max-width: 768px) {
+    .benefits-list {
+        gap: 0.75rem;
+    }
+    
+    .benefit-item {
+        font-size: 0.85rem;
+    }
+    
+    .checkbox-label {
+        gap: 0.5rem;
+    }
+    
+    .checkbox-text {
+        font-size: 0.85rem;
+    }
+}
+
+/* Theme-spezifische Anpassungen für Register */
+[data-theme="dark"] .registration-benefits {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="luxury"] .registration-benefits {
+    background: linear-gradient(135deg, rgba(251, 191, 36, 0.1), rgba(245, 158, 11, 0.05));
+    border-color: rgba(251, 191, 36, 0.2);
+}
+</style>
 
 <!-- BLOG SECTION -->
 <section class="blog-section" id="blog-section" style="display: none;">
