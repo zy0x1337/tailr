@@ -6915,11 +6915,6 @@ addParallaxEffect() {
 // Methode zum Prüfen und Bereinigen von "Ghost-Modals"
 cleanupAllModals() {
     console.log('=== CLEANUP ALL MODALS ===');
-
-    // Alle anderen Modals schließen
-    this.closeContactModal();
-    this.closeImprintModal();
-    this.closePrivacyModal();
     
     // Auth-Modal nur schließen, wenn nicht ausgenommen
     if (!exceptAuthModal) {
