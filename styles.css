@@ -10935,6 +10935,7 @@ body.theme-playful {
     border: 1px solid var(--color-border-light);
     border-radius: 20px;
     transition: all 0.3s ease;
+    margin-bottom: 10px;
 }
 
 .last-updated::before {
