@@ -1618,11 +1618,12 @@ setupEventListeners() {
         });
     }
 
-    // Logout-Button (wird dynamisch erstellt)
+    // 1. Dropdown Logout-Button
     document.addEventListener('click', (e) => {
-        if (e.target.matches('[data-category="logout"]')) {
+        if (e.target.matches('#logout-btn-dropdown')) {
             e.preventDefault();
-            this.handleNavigation('logout', e.target);
+            console.log('🚪 Dropdown Logout-Button geklickt');
+            this.handleLogout();
         }
     });
 
