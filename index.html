@@ -688,12 +688,12 @@
              PRIMARY HEADING - H1 FOR SEO
              ======================================== -->
         <!-- SEO-optimierte H1 mit Keywords für Haustierpflege -->
-        <h2 class="hero__title" 
+        <h1 class="hero__title" 
             id="hero-title"
             itemprop="name"
             aria-label="tailr.wiki - Hauptüberschrift für digitale Haustierpflege">
             Digitale Haustierpflege für moderne Tierhalter
-        </h2>
+        </h1>
         
         <!-- ========================================
              HERO DESCRIPTION - VALUE PROPOSITION
@@ -1815,64 +1815,784 @@
 }
 </style>
 
-<!-- Tier-Auswahl Modal -->
-<div id="animal-selection-modal" class="modal hidden">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h2 class="modal-title">Tier auswählen</h2>
-            <button class="modal-close" id="selection-modal-close">×</button>
+<!-- ========================================
+     TIER-AUSWAHL MODAL - SEO & ACCESSIBILITY OPTIMIERT
+     ======================================== -->
+<!-- Interactive modal für Tierauswahl mit vollständiger Accessibility -->
+<div id="animal-selection-modal" 
+     class="modal hidden"
+     role="dialog"
+     aria-modal="true"
+     aria-labelledby="animal-modal-title"
+     aria-describedby="animal-modal-description"
+     aria-hidden="true"
+     tabindex="-1"
+     itemscope
+     itemtype="https://schema.org/SearchAction">
+    
+    <!-- ========================================
+         MODAL BACKDROP (Implicit)
+         ======================================== -->
+    <!-- Click outside to close functionality -->
+    
+    <!-- ========================================
+         MODAL CONTENT CONTAINER
+         ======================================== -->
+    <!-- Main modal content with proper focus management -->
+    <div class="modal-content" 
+         role="document"
+         aria-labelledby="animal-modal-title">
+        
+        <!-- ========================================
+             MODAL HEADER - TITLE & CONTROLS
+             ======================================== -->
+        <!-- Header mit Titel und Schließ-Button -->
+        <div class="modal-header" 
+             role="banner">
+            
+            <!-- Modal Title -->
+            <h2 class="modal-title" 
+                id="animal-modal-title"
+                itemprop="name">
+                Tier auswählen - Haustierart für Vergleich wählen
+            </h2>
+            
+            <!-- Modal Description (Screen Reader Only) -->
+            <p class="sr-only" 
+               id="animal-modal-description">
+                Wählen Sie eine Haustierart aus der Liste oder nutzen Sie die Suchfunktion. 
+                Drücken Sie Escape zum Schließen oder klicken Sie außerhalb des Dialogs.
+            </p>
+            
+            <!-- Close Button -->
+            <button class="modal-close" 
+                    id="selection-modal-close"
+                    type="button"
+                    aria-label="Tier-Auswahl schließen"
+                    title="Modal schließen und zur Hauptseite zurückkehren"
+                    data-dismiss="modal">
+                <span aria-hidden="true">×</span>
+                <span class="sr-only">Schließen</span>
+            </button>
         </div>
-        <div class="modal-body">
-            <div class="animal-search">
-                <input type="text" id="animal-search-input" placeholder="Tierart suchen...">
+        <!-- Ende: Modal Header -->
+        
+        <!-- ========================================
+             MODAL BODY - SEARCH & SELECTION
+             ======================================== -->
+        <!-- Hauptinhalt mit Suche und Tierauswahl -->
+        <div class="modal-body" 
+             role="main"
+             aria-live="polite">
+            
+            <!-- ========================================
+                 ANIMAL SEARCH FUNCTIONALITY
+                 ======================================== -->
+            <!-- Live search für Tierarten -->
+            <div class="animal-search" 
+                 role="search"
+                 aria-labelledby="search-label">
+                
+                <!-- Search Label (Screen Reader Only) -->
+                <label class="sr-only" 
+                       id="search-label" 
+                       for="animal-search-input">
+                    Haustierart suchen
+                </label>
+                
+                <!-- Search Input -->
+                <input type="text" 
+                       id="animal-search-input" 
+                       class="search-input"
+                       placeholder="Tierart suchen... (z.B. Hund, Katze, Wellensittich)"
+                       aria-label="Tierart suchen - Geben Sie den Namen ein"
+                       aria-describedby="search-instructions"
+                       autocomplete="off"
+                       autocapitalize="off"
+                       spellcheck="false"
+                       maxlength="50"
+                       itemprop="query-input">
+                
+                <!-- Search Instructions (Screen Reader Only) -->
+                <div class="sr-only" 
+                     id="search-instructions">
+                    Geben Sie den Namen der gewünschten Tierart ein. 
+                    Die Liste wird automatisch gefiltert während Sie tippen.
+                </div>
+                
+                <!-- Search Results Counter -->
+                <div class="search-results-info" 
+                     id="search-results-info"
+                     aria-live="polite"
+                     aria-atomic="true"
+                     style="display: none;">
+                    <!-- Wird von JavaScript aktualisiert -->
+                </div>
             </div>
-            <div class="animal-grid" id="animal-selection-grid">
-                <!-- Wird dynamisch gefüllt -->
-            </div>
-        </div>
-    </div>
-</div>
-
-        <!-- TOOLS SECTION -->
-        <section class="tools-section" id="tools-section">
-            <div class="container">
-                <h2 class="section__title">Nützliche Tools</h2>
-                <div class="tools__grid">
-                    <div class="tool-card">
-                        <div class="tool-card__icon">🎯</div>
-                        <div class="tool-card__content">
-                            <h3 class="tool-card__title">Rassen-Berater</h3>
-                            <p class="tool-card__description">
-                                Finden Sie heraus, welche Tierrasse am besten zu Ihrem Lebensstil passt.
-                            </p>
-                            <button class="btn btn--mini btn--primary" data-category="tools">Beratung starten</button>
-                        </div>
+            <!-- Ende: Animal Search -->
+            
+            <!-- ========================================
+                 ANIMAL SELECTION GRID
+                 ======================================== -->
+            <!-- Grid für verfügbare Tierarten -->
+            <div class="animal-grid" 
+                 id="animal-selection-grid"
+                 role="grid"
+                 aria-label="Verfügbare Haustierarten"
+                 aria-describedby="grid-instructions"
+                 aria-busy="false"
+                 tabindex="0">
+                
+                <!-- Grid Instructions (Screen Reader Only) -->
+                <div class="sr-only" 
+                     id="grid-instructions">
+                    Navigieren Sie mit Pfeiltasten durch die Tierarten. 
+                    Drücken Sie Enter oder Leertaste zum Auswählen.
+                </div>
+                
+                <!-- ========================================
+                     LOADING STATE
+                     ======================================== -->
+                <!-- Loading indicator für dynamic content -->
+                <div class="grid-loading" 
+                     id="animal-grid-loading"
+                     role="status"
+                     aria-label="Tierarten werden geladen..."
+                     aria-live="polite">
+                    
+                    <div class="loading-spinner" aria-hidden="true">
+                        <div class="spinner-circle"></div>
                     </div>
                     
-                    <div class="tool-card">
-                        <div class="tool-card__icon">⚖️</div>
-                        <div class="tool-card__content">
-                            <h3 class="tool-card__title">Hunderassen-Vergleichstool</h3>
-                            <p class="tool-card__description">
-                                Vergleichen Sie Hunderassen anhand wichtiger Merkmale, um die perfekte Wahl zu treffen.
-                            </p>
-                            <a href="tools/hunde/index.html" class="btn btn--mini btn--primary">Vergleich starten</a>
-                        </div>
-                    </div>
+                    <span class="loading-text">
+                        Verfügbare Tierarten werden geladen...
+                    </span>
+                </div>
+                
+                <!-- ========================================
+                     DYNAMIC CONTENT PLACEHOLDER
+                     ======================================== -->
+                <!-- Container für JavaScript-generierte Tierarten -->
+                <div class="animal-grid-content" 
+                     id="animal-grid-dynamic"
+                     style="display: none;">
                     
-                    <div class="tool-card">
-                        <div class="tool-card__icon">🧮</div>
-                        <div class="tool-card__content">
-                            <h3 class="tool-card__title">Aquacalc-Tool</h3>
-                            <p class="tool-card__description">
-                                Berechnen Sie wichtige Werte wie Volumen, Bodengrundmenge und mehr für Ihr Aquarium.
-                            </p>
-                            <a href="tools/fische/aquacalc.html" class="btn btn--mini btn--primary">Rechner öffnen</a>
+                    <!-- SEO Template für Crawler (Hidden) -->
+                    <div class="seo-animals-template" style="display: none;">
+                        
+                        <!-- Beispiel Tier-Items für SEO -->
+                        <div class="animal-item" 
+                             itemscope 
+                             itemtype="https://schema.org/Animal">
+                            <meta itemprop="name" content="Hund">
+                            <meta itemprop="description" content="Beliebtes Haustier, loyal und familienfreundlich">
+                            <meta itemprop="url" content="https://tailr.netlify.app/kategorien/hunde">
+                        </div>
+                        
+                        <div class="animal-item" 
+                             itemscope 
+                             itemtype="https://schema.org/Animal">
+                            <meta itemprop="name" content="Katze">
+                            <meta itemprop="description" content="Unabhängiges Haustier, pflegeleicht und anhänglich">
+                            <meta itemprop="url" content="https://tailr.netlify.app/kategorien/katzen">
+                        </div>
+                        
+                        <div class="animal-item" 
+                             itemscope 
+                             itemtype="https://schema.org/Animal">
+                            <meta itemprop="name" content="Wellensittich">
+                            <meta itemprop="description" content="Sozialer Ziervogel, intelligent und kommunikativ">
+                            <meta itemprop="url" content="https://tailr.netlify.app/kategorien/voegel">
                         </div>
                     </div>
                 </div>
+                
+                <!-- ========================================
+                     EMPTY STATE
+                     ======================================== -->
+                <!-- Keine Suchergebnisse gefunden -->
+                <div class="animal-grid-empty" 
+                     id="animal-grid-empty"
+                     style="display: none;"
+                     role="status"
+                     aria-live="polite">
+                    
+                    <div class="empty-state-content">
+                        <div class="empty-icon" aria-hidden="true">🔍</div>
+                        <h3 class="empty-title">Keine Tierarten gefunden</h3>
+                        <p class="empty-message">
+                            Versuchen Sie andere Suchbegriffe oder 
+                            <button type="button" 
+                                    class="btn-link" 
+                                    id="clear-search"
+                                    aria-label="Suche zurücksetzen">
+                                setzen Sie die Suche zurück
+                            </button>.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- ========================================
+                     ERROR STATE
+                     ======================================== -->
+                <!-- Error handling für failed loads -->
+                <div class="animal-grid-error" 
+                     id="animal-grid-error"
+                     style="display: none;"
+                     role="alert"
+                     aria-live="assertive">
+                    
+                    <div class="error-content">
+                        <div class="error-icon" aria-hidden="true">⚠️</div>
+                        <h3 class="error-title">Tierarten konnten nicht geladen werden</h3>
+                        <p class="error-message">
+                            Die verfügbaren Tierarten sind temporär nicht abrufbar. 
+                            Bitte versuchen Sie es erneut.
+                        </p>
+                        
+                        <button class="btn btn--primary error-retry" 
+                                type="button"
+                                id="animal-grid-retry"
+                                aria-label="Tierarten erneut laden">
+                            🔄 Erneut versuchen
+                        </button>
+                    </div>
+                </div>
+                
             </div>
-        </section>
+            <!-- Ende: Animal Selection Grid -->
+            
+        </div>
+        <!-- Ende: Modal Body -->
+        
+        <!-- ========================================
+             MODAL FOOTER (Optional)
+             ======================================== -->
+        <!-- Footer mit zusätzlichen Aktionen -->
+        <div class="modal-footer" 
+             role="contentinfo">
+            
+            <!-- Modal Actions -->
+            <div class="modal-actions">
+                <button class="btn btn--secondary" 
+                        type="button"
+                        data-dismiss="modal"
+                        aria-label="Auswahl abbrechen">
+                    Abbrechen
+                </button>
+                
+                <!-- Help Link -->
+                <a href="/hilfe/tierauswahl" 
+                   class="btn btn--ghost btn--small"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   aria-label="Hilfe zur Tierauswahl in neuem Tab öffnen"
+                   title="Detaillierte Anleitung zur Tierauswahl">
+                    ❓ Hilfe
+                </a>
+            </div>
+            
+            <!-- Modal Info -->
+            <div class="modal-info">
+                <span class="info-text">
+                    💡 Tipp: Nutzen Sie die Suchfunktion für schnellere Auswahl
+                </span>
+            </div>
+        </div>
+        <!-- Ende: Modal Footer -->
+        
+    </div>
+    <!-- Ende: Modal Content -->
+    
+    <!-- ========================================
+         KEYBOARD NAVIGATION INSTRUCTIONS
+         ======================================== -->
+    <!-- Screen Reader Instructions für Keyboard Users -->
+    <div class="sr-only" 
+         id="modal-keyboard-instructions">
+        <h3>Keyboard-Navigation:</h3>
+        <ul>
+            <li>Tab: Zum nächsten Element</li>
+            <li>Shift+Tab: Zum vorherigen Element</li>
+            <li>Enter/Leertaste: Element auswählen</li>
+            <li>Escape: Modal schließen</li>
+            <li>Pfeiltasten: In der Tierliste navigieren</li>
+        </ul>
+    </div>
+    
+</div>
+<!-- Ende: Tier-Auswahl Modal -->
+
+<!-- ========================================
+     STRUCTURED DATA - JSON-LD
+     ======================================== -->
+<!-- Schema.org für Animal Selection Interface -->
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "SearchAction",
+    "name": "Tier-Auswahl Interface",
+    "description": "Interaktive Auswahl von Haustierarten für Vergleich und Beratung",
+    "target": {
+        "@type": "EntryPoint",
+        "urlTemplate": "https://tailr.netlify.app/kategorien/{search_term_string}",
+        "actionPlatform": ["http://schema.org/DesktopWebPlatform", "http://schema.org/MobileWebPlatform"]
+    },
+    "query-input": "required name=search_term_string",
+    "object": {
+        "@type": "ItemList",
+        "name": "Verfügbare Haustierarten",
+        "description": "Vollständige Liste aller unterstützten Haustierarten für Vergleich und Beratung"
+    },
+    "provider": {
+        "@type": "Organization",
+        "name": "tailr.wiki",
+        "url": "https://tailr.netlify.app"
+    }
+}
+</script>
+
+<!-- ========================================
+     ACCESSIBILITY HELPER STYLES
+     ======================================== -->
+<!-- Screen Reader Only und Modal-spezifische Utility Classes -->
+<style>
+.sr-only {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+}
+
+/* Modal Accessibility Enhancements */
+.modal[aria-hidden="true"] {
+    display: none;
+}
+
+.modal[aria-hidden="false"] {
+    display: flex;
+}
+
+/* Focus Management */
+.modal-content:focus {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+/* Button Link Styling */
+.btn-link {
+    background: none;
+    border: none;
+    color: var(--color-primary);
+    text-decoration: underline;
+    cursor: pointer;
+    font-size: inherit;
+}
+
+.btn-link:hover,
+.btn-link:focus {
+    color: var(--color-primary-dark);
+    text-decoration: none;
+}
+
+/* Empty State Styling */
+.empty-state-content {
+    text-align: center;
+    padding: 3rem 2rem;
+}
+
+.empty-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+}
+
+/* Error State Styling */
+.error-content {
+    text-align: center;
+    padding: 2rem;
+}
+
+.error-icon {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+/* Grid Loading State */
+.grid-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 2rem;
+}
+
+.loading-spinner {
+    margin-bottom: 1rem;
+}
+
+.spinner-circle {
+    width: 40px;
+    height: 40px;
+    border: 3px solid var(--color-border);
+    border-top: 3px solid var(--color-primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+</style>
+
+        <!-- ========================================
+     NÜTZLICHE TOOLS SECTION - SEO OPTIMIERT
+     ======================================== -->
+<!-- Interaktive Haustierpflege-Tools mit SEO und Accessibility -->
+<section class="tools-section" 
+         id="tools-section"
+         role="region" 
+         aria-labelledby="tools-title"
+         itemscope 
+         itemtype="https://schema.org/ItemList">
+    
+    <div class="container">
+        
+        <!-- ========================================
+             SECTION TITLE - SEO OPTIMIERT
+             ======================================== -->
+        <!-- H2 für hierarchische SEO-Struktur -->
+        <h2 class="section__title" 
+            id="tools-title"
+            itemprop="name">
+            Nützliche Tools - Interaktive Haustierpflege-Helfer
+        </h2>
+        
+        <!-- ========================================
+             SECTION DESCRIPTION (SEO-ERGÄNZUNG)
+             ======================================== -->
+        <!-- SEO-Description für bessere Kategorisierung -->
+        <p class="section__description" 
+           itemprop="description"
+           aria-describedby="tools-title">
+            Professionelle Tools und Rechner für die optimale Haustierpflege. 
+            Rassen-Beratung, Vergleichstools und Aquarium-Rechner kostenlos nutzen.
+        </p>
+        
+        <!-- ========================================
+             TOOLS GRID - INTERACTIVE TOOLS
+             ======================================== -->
+        <!-- Grid container für Tool-Karten -->
+        <div class="tools__grid" 
+             role="list"
+             aria-label="Verfügbare Haustierpflege-Tools"
+             itemprop="itemListElement">
+            
+            <!-- ========================================
+                 TOOL CARD 1 - RASSEN-BERATER
+                 ======================================== -->
+            <!-- Interaktiver Rassen-Berater -->
+            <article class="tool-card" 
+                     role="listitem"
+                     itemscope 
+                     itemtype="https://schema.org/SoftwareApplication">
+                
+                <!-- Tool Icon -->
+                <div class="tool-card__icon" 
+                     role="img" 
+                     aria-label="Rassen-Berater Icon"
+                     aria-hidden="true">🎯</div>
+                
+                <!-- Tool Content -->
+                <div class="tool-card__content">
+                    
+                    <!-- Tool Title -->
+                    <h3 class="tool-card__title" 
+                        itemprop="name">
+                        Rassen-Berater - Perfekte Tierrasse finden
+                    </h3>
+                    
+                    <!-- Tool Description -->
+                    <p class="tool-card__description" 
+                       itemprop="description">
+                        Finden Sie heraus, welche Tierrasse am besten zu Ihrem Lebensstil, 
+                        Wohnsituation und Erfahrung passt. Kostenlose Beratung in wenigen Schritten.
+                    </p>
+                    
+                    <!-- Tool Action Button -->
+                    <button class="btn btn--mini btn--primary" 
+                            data-category="tools"
+                            type="button"
+                            aria-label="Interaktive Rassen-Beratung starten"
+                            title="Personalisierte Empfehlung für die ideale Tierrasse erhalten"
+                            itemprop="potentialAction"
+                            itemscope
+                            itemtype="https://schema.org/Action">
+                        <span itemprop="name">Beratung starten</span>
+                    </button>
+                    
+                    <!-- Hidden Schema.org Properties -->
+                    <meta itemprop="applicationCategory" content="LifestyleApplication">
+                    <meta itemprop="operatingSystem" content="Web Browser">
+                    <meta itemprop="offers" itemscope itemtype="https://schema.org/Offer">
+                    <meta itemprop="price" content="0">
+                    <meta itemprop="priceCurrency" content="EUR">
+                </div>
+            </article>
+            
+            <!-- ========================================
+                 TOOL CARD 2 - HUNDERASSEN-VERGLEICH
+                 ======================================== -->
+            <!-- Hunderassen-Vergleichstool -->
+            <article class="tool-card" 
+                     role="listitem"
+                     itemscope 
+                     itemtype="https://schema.org/SoftwareApplication">
+                
+                <!-- Tool Icon -->
+                <div class="tool-card__icon" 
+                     role="img" 
+                     aria-label="Vergleichstool Icon"
+                     aria-hidden="true">⚖️</div>
+                
+                <!-- Tool Content -->
+                <div class="tool-card__content">
+                    
+                    <!-- Tool Title -->
+                    <h3 class="tool-card__title" 
+                        itemprop="name">
+                        Hunderassen-Vergleichstool
+                    </h3>
+                    
+                    <!-- Tool Description -->
+                    <p class="tool-card__description" 
+                       itemprop="description">
+                        Vergleichen Sie Hunderassen anhand wichtiger Merkmale wie Größe, 
+                        Pflegeaufwand, Temperament und Eignung für Familien.
+                    </p>
+                    
+                    <!-- Tool Action Link -->
+                    <a href="/tools/hunde/welcher-hund" 
+                       class="btn btn--mini btn--primary"
+                       role="button"
+                       aria-label="Hunderassen interaktiv vergleichen"
+                       title="Detaillierter Vergleich von über 150 Hunderassen"
+                       itemprop="url">
+                        Vergleich starten
+                    </a>
+                    
+                    <!-- Hidden Schema.org Properties -->
+                    <meta itemprop="applicationCategory" content="UtilitiesApplication">
+                    <meta itemprop="operatingSystem" content="Web Browser">
+                    <meta itemprop="featureList" content="Hunderassen-Vergleich, Merkmale-Analyse, Familieneignung">
+                    <div itemprop="offers" itemscope itemtype="https://schema.org/Offer">
+                        <meta itemprop="price" content="0">
+                        <meta itemprop="priceCurrency" content="EUR">
+                    </div>
+                </div>
+            </article>
+            
+            <!-- ========================================
+                 TOOL CARD 3 - AQUACALC-TOOL
+                 ======================================== -->
+            <!-- Aquarium-Berechnungstool -->
+            <article class="tool-card" 
+                     role="listitem"
+                     itemscope 
+                     itemtype="https://schema.org/SoftwareApplication">
+                
+                <!-- Tool Icon -->
+                <div class="tool-card__icon" 
+                     role="img" 
+                     aria-label="Aquarium-Rechner Icon"
+                     aria-hidden="true">🧮</div>
+                
+                <!-- Tool Content -->
+                <div class="tool-card__content">
+                    
+                    <!-- Tool Title -->
+                    <h3 class="tool-card__title" 
+                        itemprop="name">
+                        Aquacalc-Tool - Aquarium-Rechner
+                    </h3>
+                    
+                    <!-- Tool Description -->
+                    <p class="tool-card__description" 
+                       itemprop="description">
+                        Berechnen Sie wichtige Aquarium-Werte wie Wasservolumen, Bodengrundmenge, 
+                        Heizleistung und optimale Fischbesatzdichte für Ihr Aquarium.
+                    </p>
+                    
+                    <!-- Tool Action Link -->
+                    <a href="/tools/fische/aquacalc" 
+                       class="btn btn--mini btn--primary"
+                       role="button"
+                       aria-label="Aquarium-Rechner öffnen"
+                       title="Professionelle Aquarium-Berechnungen - Wasserwerte und Technik"
+                       itemprop="url">
+                        Rechner öffnen
+                    </a>
+                    
+                    <!-- Hidden Schema.org Properties -->
+                    <meta itemprop="applicationCategory" content="UtilitiesApplication">
+                    <meta itemprop="operatingSystem" content="Web Browser">
+                    <meta itemprop="featureList" content="Volumen-Berechnung, Bodengrund-Rechner, Besatzdichte-Kalkulator">
+                    <div itemprop="offers" itemscope itemtype="https://schema.org/Offer">
+                        <meta itemprop="price" content="0">
+                        <meta itemprop="priceCurrency" content="EUR">
+                    </div>
+                </div>
+            </article>
+            
+        </div>
+        <!-- Ende: Tools Grid -->
+        
+        <!-- ========================================
+             TOOLS FOOTER INFORMATION
+             ======================================== -->
+        <!-- Zusätzliche Tool-Informationen -->
+        <div class="tools-footer" 
+             role="contentinfo">
+            
+            <!-- Tools Description -->
+            <div class="tools-info">
+                <p class="tools-disclaimer">
+                    💡 Alle Tools sind kostenlos verfügbar und basieren auf Expertenwissen 
+                    und bewährten Methoden der Haustierpflege.
+                </p>
+            </div>
+            
+            <!-- View All Tools Link -->
+            <div class="tools-view-all">
+                <a href="/tools" 
+                   class="btn btn--ghost"
+                   aria-label="Alle verfügbaren Tools anzeigen"
+                   title="Vollständige Übersicht aller Haustierpflege-Tools">
+                    🛠️ Alle Tools anzeigen
+                </a>
+            </div>
+            
+            <!-- Last Updated Information -->
+            <div class="tools-meta">
+                <time class="last-updated" 
+                      itemprop="dateModified"
+                      datetime="">
+                    Tools zuletzt aktualisiert: 
+                    <span class="update-date" id="tools-last-updated"></span>
+                </time>
+            </div>
+        </div>
+        
+    </div>
+    <!-- Ende: Container -->
+    
+    <!-- ========================================
+         STRUCTURED DATA - JSON-LD
+         ======================================== -->
+    <!-- Schema.org für Tools Collection -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        "name": "Haustierpflege-Tools - tailr.wiki",
+        "description": "Kostenlose interaktive Tools für optimale Haustierpflege: Rassen-Berater, Vergleichstools und Aquarium-Rechner",
+        "url": "https://tailr.netlify.app/#tools-section",
+        "publisher": {
+            "@type": "Organization",
+            "name": "tailr.wiki",
+            "url": "https://tailr.netlify.app"
+        },
+        "numberOfItems": 3,
+        "itemListOrder": "https://schema.org/ItemListOrderAscending",
+        "itemListElement": [
+            {
+                "@type": "SoftwareApplication",
+                "position": 1,
+                "name": "Rassen-Berater",
+                "description": "Interaktive Beratung zur Findung der perfekten Tierrasse basierend auf Lebensstil und Wohnsituation",
+                "applicationCategory": "LifestyleApplication",
+                "operatingSystem": "Web Browser",
+                "offers": {
+                    "@type": "Offer",
+                    "price": "0",
+                    "priceCurrency": "EUR"
+                }
+            },
+            {
+                "@type": "SoftwareApplication",
+                "position": 2,
+                "name": "Hunderassen-Vergleichstool",
+                "description": "Detaillierter Vergleich von Hunderassen anhand wichtiger Merkmale und Charaktereigenschaften",
+                "url": "https://tailr.netlify.app/tools/hunde/welcher-hund",
+                "applicationCategory": "UtilitiesApplication",
+                "operatingSystem": "Web Browser",
+                "offers": {
+                    "@type": "Offer",
+                    "price": "0",
+                    "priceCurrency": "EUR"
+                }
+            },
+            {
+                "@type": "SoftwareApplication",
+                "position": 3,
+                "name": "Aquacalc-Tool",
+                "description": "Professioneller Aquarium-Rechner für Wasservolumen, Bodengrund und optimale Fischbesatzdichte",
+                "url": "https://tailr.netlify.app/tools/fische/aquacalc",
+                "applicationCategory": "UtilitiesApplication",
+                "operatingSystem": "Web Browser",
+                "offers": {
+                    "@type": "Offer",
+                    "price": "0",
+                    "priceCurrency": "EUR"
+                }
+            }
+        ],
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://tailr.netlify.app/#tools-section"
+        }
+    }
+    </script>
+    
+</section>
+<!-- Ende: Nützliche Tools Section -->
+
+<!-- ========================================
+     ACCESSIBILITY HELPER STYLES
+     ======================================== -->
+<!-- Screen Reader Only Utility Classes -->
+<style>
+.sr-only {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+}
+
+.tools-footer {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--color-border);
+    text-align: center;
+}
+
+.tools-disclaimer {
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+    margin-bottom: 1.5rem;
+}
+</style>
 
         <!-- Species-Section -->
 <section class="species-section" id="species-section" style="display: none;">
