@@ -11054,8 +11054,8 @@
                     
                     <!-- Blog -->
                     <li class="footer__nav-item" role="listitem">
-                        <button type="button"
-                                class="footer__nav-link footer__nav-button" 
+                        <a href=" /blog"
+                                class="footer__nav-link" 
                                 data-category="blog"
                                 aria-label="Blog & Ratgeber öffnen"
                                 title="Expertenwissen und Haustierpflege-Tipps">
@@ -11073,17 +11073,6 @@
                             🎯 Rassen-Berater
                         </button>
                     </li>
-                    
-                    <!-- Alle Tools -->
-                    <li class="footer__nav-item" role="listitem">
-                        <a href="/tools" 
-                           class="footer__nav-link"
-                           aria-label="Alle verfügbaren Tools anzeigen"
-                           title="Vollständige Übersicht aller Haustierpflege-Tools">
-                            🔧 Alle Tools
-                        </a>
-                    </li>
-                </ul>
                 
                 <!-- Additional Service Info -->
                 <div class="footer__service-info">
@@ -11309,7 +11298,7 @@
                 <!-- Additional Info -->
                 <div class="footer__additional-info">
                     <p class="additional-text">
-                        Made with ❤️ for pet lovers | 
+                        Made with ❤️ | 
                         <span class="update-info">
                             Zuletzt aktualisiert: 
                             <time id="last-updated" 
@@ -11974,83 +11963,1236 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
-    <!-- SPECIES MODAL -->
-<div id="species-modal" class="modal hidden">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h2 id="modal-title" class="modal-title">Tierart Details</h2>
-            <button class="modal-close" aria-label="Modal schließen">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <line x1="18" y1="6" x2="6" y2="18"></line>
-                    <line x1="6" y1="6" x2="18" y2="18"></line>
-                </svg>
-            </button>
-        </div>
-
-        <div id="eigenschaften-modal" class="modal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h2 id="eigenschaften-modal-title">Eigenschaften</h2>
-            <button class="modal-close" id="eigenschaften-modal-close">&times;</button>
-        </div>
-        <div class="modal-body">
-            <div id="eigenschaften-content">
-                <!-- Eigenschaften-Inhalt wird hier eingefügt -->
-            </div>
-        </div>
-    </div>
-</div>
+    <!-- ========================================
+     SPECIES MODAL - SEO & ACCESSIBILITY OPTIMIERT
+     ======================================== -->
+<!-- Interactive modal für Tierarten-Details mit vollständiger Accessibility -->
+<div id="species-modal" 
+     class="modal hidden"
+     role="dialog"
+     aria-modal="true"
+     aria-labelledby="species-modal-title"
+     aria-describedby="species-modal-description"
+     aria-hidden="true"
+     tabindex="-1"
+     itemscope
+     itemtype="https://schema.org/Animal">
+    
+    <!-- ========================================
+         MODAL BACKDROP (Implicit)
+         ======================================== -->
+    <!-- Click outside to close functionality -->
+    
+    <!-- ========================================
+         MODAL CONTENT CONTAINER
+         ======================================== -->
+    <!-- Main modal content with proper focus management -->
+    <div class="modal-content" 
+         role="document"
+         aria-labelledby="species-modal-title">
         
-        <div class="modal-body-container">
-            <!-- Galerie-Sektion -->
-            <div class="modal-gallery">
-                <!-- Galerie wird dynamisch geladen -->
+        <!-- ========================================
+             MODAL HEADER - TITLE & CONTROLS
+             ======================================== -->
+        <!-- Header mit Titel und Schließ-Button -->
+        <header class="modal-header" 
+                role="banner">
+            
+            <!-- Modal Title -->
+            <h2 id="species-modal-title" 
+                class="modal-title"
+                itemprop="name">
+                Tierart Details - Umfassende Informationen
+            </h2>
+            
+            <!-- Modal Description (Screen Reader Only) -->
+            <p class="sr-only" id="species-modal-description">
+                Detailliertes Modal mit Informationen zur gewählten Tierart. 
+                Nutzen Sie die Tab-Navigation für verschiedene Bereiche. 
+                Drücken Sie Escape zum Schließen.
+            </p>
+            
+            <!-- Modal Actions -->
+            <div class="modal-actions" 
+                 role="group"
+                 aria-label="Modal-Aktionen">
+                
+                <!-- Bookmark Button -->
+                <button class="modal-action-btn" 
+                        id="bookmark-species"
+                        type="button"
+                        aria-label="Tierart als Favorit speichern"
+                        title="Zu Favoriten hinzufügen"
+                        aria-pressed="false">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                        <title>Favorit</title>
+                        <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+                    </svg>
+                    <span class="sr-only">Als Favorit speichern</span>
+                </button>
+                
+                <!-- Share Button -->
+                <button class="modal-action-btn" 
+                        id="share-species"
+                        type="button"
+                        aria-label="Tierart-Information teilen"
+                        title="Tierart-Details teilen">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                        <title>Teilen</title>
+                        <circle cx="18" cy="5" r="3"/>
+                        <circle cx="6" cy="12" r="3"/>
+                        <circle cx="18" cy="19" r="3"/>
+                        <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+                        <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+                    </svg>
+                    <span class="sr-only">Tierart teilen</span>
+                </button>
             </div>
             
-            <!-- Hauptinhalt mit Tabs -->
-            <div class="modal-body">
-                <!-- Tab-Navigation -->
-                <div class="modal-tabs">
-                    <button class="modal-tab active" data-tab="overview">Übersicht</button>
-                    <button class="modal-tab" data-tab="care">Pflege</button>
-                    <button class="modal-tab" data-tab="health">Gesundheit</button>
-                </div>
-
-                <!-- Tab-Inhalte -->
-                <div class="modal-tab-content active" id="tab-overview">
-                    <!-- Übersicht wird durch JavaScript befüllt -->
+            <!-- Close Button -->
+            <button class="modal-close" 
+                    type="button"
+                    aria-label="Tierart-Details schließen"
+                    title="Modal schließen und zur Übersicht zurückkehren"
+                    data-dismiss="modal">
+                
+                <!-- Close Icon SVG -->
+                <svg width="24" 
+                     height="24" 
+                     viewBox="0 0 24 24" 
+                     fill="none" 
+                     stroke="currentColor" 
+                     stroke-width="2"
+                     aria-hidden="true"
+                     role="img">
+                    <title>Schließen</title>
+                    <line x1="18" y1="6" x2="6" y2="18"/>
+                    <line x1="6" y1="6" x2="18" y2="18"/>
+                </svg>
+                
+                <!-- Screen Reader Text -->
+                <span class="sr-only">Modal schließen</span>
+            </button>
+        </header>
+        <!-- Ende: Modal Header -->
+        
+        <!-- ========================================
+             MODAL BODY CONTAINER - MAIN CONTENT
+             ======================================== -->
+        <!-- Container für Galerie und Hauptinhalt -->
+        <div class="modal-body-container" 
+             role="main">
+            
+            <!-- ========================================
+                 MODAL GALLERY SECTION
+                 ======================================== -->
+            <!-- Bildergalerie für Tierart -->
+            <section class="modal-gallery" 
+                     role="region"
+                     aria-labelledby="gallery-title"
+                     itemscope
+                     itemtype="https://schema.org/ImageGallery">
+                
+                <!-- Gallery Title (Screen Reader Only) -->
+                <h3 class="sr-only" id="gallery-title">
+                    Bildergalerie der Tierart
+                </h3>
+                
+                <!-- Gallery Loading State -->
+                <div class="gallery-loading" 
+                     id="gallery-loading"
+                     role="status"
+                     aria-label="Bilder werden geladen...">
+                    
+                    <div class="loading-spinner" aria-hidden="true"></div>
+                    <span class="loading-text">Bilder werden geladen...</span>
                 </div>
                 
-                <!-- NEUER EIGENSCHAFTEN-TAB -->
-                <div class="modal-tab-content" id="tab-properties">
-                    <!-- Eigenschaften werden durch JavaScript befüllt -->
+                <!-- Gallery Content (Dynamic) -->
+                <div class="gallery-content" 
+                     id="gallery-dynamic-content"
+                     style="display: none;"
+                     role="img"
+                     aria-labelledby="gallery-title">
+                    <!-- Galerie wird dynamisch geladen -->
                 </div>
                 
-                <div class="modal-tab-content" id="tab-care">
-                    <!-- Pflege wird durch JavaScript befüllt -->
+                <!-- Gallery Empty State -->
+                <div class="gallery-empty" 
+                     id="gallery-empty"
+                     style="display: none;"
+                     role="status">
+                    <div class="empty-icon" aria-hidden="true">📷</div>
+                    <span class="empty-text">Keine Bilder verfügbar</span>
+                </div>
+            </section>
+            <!-- Ende: Modal Gallery -->
+            
+            <!-- ========================================
+                 MODAL BODY - TABBED CONTENT
+                 ======================================== -->
+            <!-- Hauptinhalt mit Tab-Navigation -->
+            <main class="modal-body" 
+                  role="main"
+                  aria-labelledby="content-title">
+                
+                <!-- Content Title (Screen Reader Only) -->
+                <h3 class="sr-only" id="content-title">
+                    Tierart-Informationen mit Tab-Navigation
+                </h3>
+                
+                <!-- ========================================
+                     TAB NAVIGATION
+                     ======================================== -->
+                <!-- Accessible Tab-Navigation -->
+                <nav class="modal-tabs" 
+                     role="tablist"
+                     aria-label="Tierart-Informationen Navigation">
+                    
+                    <!-- Overview Tab -->
+                    <button class="modal-tab active" 
+                            data-tab="overview"
+                            role="tab"
+                            aria-selected="true"
+                            aria-controls="tab-overview"
+                            tabindex="0"
+                            id="tab-btn-overview">
+                        <span class="tab-icon" aria-hidden="true">📋</span>
+                        <span class="tab-text">Übersicht</span>
+                    </button>
+                    
+                    <!-- Properties Tab -->
+                    <button class="modal-tab" 
+                            data-tab="properties"
+                            role="tab"
+                            aria-selected="false"
+                            aria-controls="tab-properties"
+                            tabindex="-1"
+                            id="tab-btn-properties">
+                        <span class="tab-icon" aria-hidden="true">⚙️</span>
+                        <span class="tab-text">Eigenschaften</span>
+                    </button>
+                    
+                    <!-- Care Tab -->
+                    <button class="modal-tab" 
+                            data-tab="care"
+                            role="tab"
+                            aria-selected="false"
+                            aria-controls="tab-care"
+                            tabindex="-1"
+                            id="tab-btn-care">
+                        <span class="tab-icon" aria-hidden="true">🛠️</span>
+                        <span class="tab-text">Pflege</span>
+                    </button>
+                    
+                    <!-- Health Tab -->
+                    <button class="modal-tab" 
+                            data-tab="health"
+                            role="tab"
+                            aria-selected="false"
+                            aria-controls="tab-health"
+                            tabindex="-1"
+                            id="tab-btn-health">
+                        <span class="tab-icon" aria-hidden="true">🏥</span>
+                        <span class="tab-text">Gesundheit</span>
+                    </button>
+                </nav>
+                <!-- Ende: Tab Navigation -->
+                
+                <!-- ========================================
+                     TAB CONTENT PANELS
+                     ======================================== -->
+                
+                <!-- Overview Tab Content -->
+                <div class="modal-tab-content active" 
+                     id="tab-overview"
+                     role="tabpanel"
+                     aria-labelledby="tab-btn-overview"
+                     aria-hidden="false"
+                     tabindex="0">
+                    
+                    <!-- Loading State -->
+                    <div class="tab-loading" 
+                         id="overview-loading"
+                         role="status"
+                         aria-label="Übersicht wird geladen...">
+                        <div class="loading-spinner" aria-hidden="true"></div>
+                        <span class="loading-text">Übersicht wird geladen...</span>
+                    </div>
+                    
+                    <!-- Dynamic Content Container -->
+                    <div class="tab-content-dynamic" 
+                         id="overview-content"
+                         style="display: none;"
+                         itemprop="description">
+                        <!-- Übersicht wird durch JavaScript befüllt -->
+                    </div>
+                    
+                    <!-- Empty State -->
+                    <div class="tab-empty" 
+                         id="overview-empty"
+                         style="display: none;"
+                         role="status">
+                        <div class="empty-icon" aria-hidden="true">📋</div>
+                        <span class="empty-text">Keine Übersicht verfügbar</span>
+                    </div>
                 </div>
                 
-                <div class="modal-tab-content" id="tab-health">
-                    <!-- Gesundheit wird durch JavaScript befüllt -->
+                <!-- Properties Tab Content -->
+                <div class="modal-tab-content" 
+                     id="tab-properties"
+                     role="tabpanel"
+                     aria-labelledby="tab-btn-properties"
+                     aria-hidden="true"
+                     tabindex="0">
+                    
+                    <!-- Loading State -->
+                    <div class="tab-loading" 
+                         id="properties-loading"
+                         role="status"
+                         aria-label="Eigenschaften werden geladen...">
+                        <div class="loading-spinner" aria-hidden="true"></div>
+                        <span class="loading-text">Eigenschaften werden geladen...</span>
+                    </div>
+                    
+                    <!-- Dynamic Content Container -->
+                    <div class="tab-content-dynamic" 
+                         id="properties-content"
+                         style="display: none;">
+                        <!-- Eigenschaften werden durch JavaScript befüllt -->
+                    </div>
+                    
+                    <!-- Empty State -->
+                    <div class="tab-empty" 
+                         id="properties-empty"
+                         style="display: none;"
+                         role="status">
+                        <div class="empty-icon" aria-hidden="true">⚙️</div>
+                        <span class="empty-text">Keine Eigenschaften verfügbar</span>
+                    </div>
                 </div>
-            </div>
+                
+                <!-- Care Tab Content -->
+                <div class="modal-tab-content" 
+                     id="tab-care"
+                     role="tabpanel"
+                     aria-labelledby="tab-btn-care"
+                     aria-hidden="true"
+                     tabindex="0">
+                    
+                    <!-- Loading State -->
+                    <div class="tab-loading" 
+                         id="care-loading"
+                         role="status"
+                         aria-label="Pflegeinformationen werden geladen...">
+                        <div class="loading-spinner" aria-hidden="true"></div>
+                        <span class="loading-text">Pflegeinformationen werden geladen...</span>
+                    </div>
+                    
+                    <!-- Dynamic Content Container -->
+                    <div class="tab-content-dynamic" 
+                         id="care-content"
+                         style="display: none;">
+                        <!-- Pflege wird durch JavaScript befüllt -->
+                    </div>
+                    
+                    <!-- Empty State -->
+                    <div class="tab-empty" 
+                         id="care-empty"
+                         style="display: none;"
+                         role="status">
+                        <div class="empty-icon" aria-hidden="true">🛠️</div>
+                        <span class="empty-text">Keine Pflegeinformationen verfügbar</span>
+                    </div>
+                </div>
+                
+                <!-- Health Tab Content -->
+                <div class="modal-tab-content" 
+                     id="tab-health"
+                     role="tabpanel"
+                     aria-labelledby="tab-btn-health"
+                     aria-hidden="true"
+                     tabindex="0">
+                    
+                    <!-- Loading State -->
+                    <div class="tab-loading" 
+                         id="health-loading"
+                         role="status"
+                         aria-label="Gesundheitsinformationen werden geladen...">
+                        <div class="loading-spinner" aria-hidden="true"></div>
+                        <span class="loading-text">Gesundheitsinformationen werden geladen...</span>
+                    </div>
+                    
+                    <!-- Dynamic Content Container -->
+                    <div class="tab-content-dynamic" 
+                         id="health-content"
+                         style="display: none;">
+                        <!-- Gesundheit wird durch JavaScript befüllt -->
+                    </div>
+                    
+                    <!-- Empty State -->
+                    <div class="tab-empty" 
+                         id="health-empty"
+                         style="display: none;"
+                         role="status">
+                        <div class="empty-icon" aria-hidden="true">🏥</div>
+                        <span class="empty-text">Keine Gesundheitsinformationen verfügbar</span>
+                    </div>
+                </div>
+                
+            </main>
+            <!-- Ende: Modal Body -->
+            
         </div>
-    </div>
-</div>
-
-<div id="eigenschaften-modal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 id="eigenschaften-modal-title">Eigenschaften</h2>
-                <button class="modal-close" id="eigenschaften-modal-close">&times;</button>
+        <!-- Ende: Modal Body Container -->
+        
+        <!-- ========================================
+             MODAL FOOTER (Optional)
+             ======================================== -->
+        <!-- Footer mit zusätzlichen Aktionen -->
+        <footer class="modal-footer" 
+                role="contentinfo"
+                style="display: none;">
+            
+            <!-- Additional Actions -->
+            <div class="modal-footer-actions" 
+                 role="group"
+                 aria-label="Zusätzliche Aktionen">
+                
+                <!-- Compare Button -->
+                <button class="btn btn--secondary btn--small" 
+                        id="compare-species"
+                        type="button"
+                        aria-label="Tierart zum Vergleich hinzufügen">
+                    ⚖️ Vergleichen
+                </button>
+                
+                <!-- More Info Button -->
+                <button class="btn btn--ghost btn--small" 
+                        id="more-info-species"
+                        type="button"
+                        aria-label="Weitere Informationen zur Tierart">
+                    ℹ️ Mehr Infos
+                </button>
             </div>
-            <div class="modal-body">
-                <div id="eigenschaften-content">
+            
+            <!-- Close Action -->
+            <div class="modal-footer-close">
+                <button class="btn btn--primary" 
+                        type="button"
+                        data-dismiss="modal"
+                        aria-label="Modal schließen">
+                    Schließen
+                </button>
+            </div>
+        </footer>
+        
+    </div>
+    <!-- Ende: Modal Content -->
+    
+    <!-- ========================================
+         KEYBOARD NAVIGATION INSTRUCTIONS
+         ======================================== -->
+    <!-- Screen Reader Instructions für Keyboard Users -->
+    <div class="sr-only" 
+         id="modal-keyboard-instructions">
+        <h4>Keyboard-Navigation im Tierart-Modal:</h4>
+        <ul>
+            <li>Tab: Zum nächsten interaktiven Element</li>
+            <li>Shift+Tab: Zum vorherigen Element</li>
+            <li>Pfeil-Tasten: Zwischen Tabs navigieren</li>
+            <li>Enter/Leertaste: Tab oder Button aktivieren</li>
+            <li>Escape: Modal schließen</li>
+        </ul>
+    </div>
+    
+    <!-- Hidden Schema.org Properties -->
+    <meta itemprop="url" content="">
+    <meta itemprop="image" content="">
+    <meta itemprop="species" content="">
+    
+</div>
+<!-- Ende: Species Modal -->
+
+<!-- ========================================
+     EIGENSCHAFTEN MODAL (Separates Modal)
+     ======================================== -->
+<!-- Zusätzliches Modal für detaillierte Eigenschaften-Ansicht -->
+<div id="eigenschaften-modal" 
+     class="modal"
+     role="dialog"
+     aria-modal="true"
+     aria-labelledby="eigenschaften-modal-title"
+     aria-describedby="eigenschaften-modal-description"
+     aria-hidden="true"
+     tabindex="-1">
+    
+    <!-- Modal Content -->
+    <div class="modal-content" 
+         role="document"
+         aria-labelledby="eigenschaften-modal-title">
+        
+        <!-- Modal Header -->
+        <header class="modal-header" 
+                role="banner">
+            
+            <!-- Modal Title -->
+            <h2 id="eigenschaften-modal-title" 
+                class="modal-title">
+                Detaillierte Eigenschaften - Tierart Charakteristika
+            </h2>
+            
+            <!-- Modal Description (Screen Reader Only) -->
+            <p class="sr-only" id="eigenschaften-modal-description">
+                Separates Modal mit detaillierten Eigenschaften der gewählten Tierart. 
+                Drücken Sie Escape zum Schließen oder Tab zum Navigieren.
+            </p>
+            
+            <!-- Close Button -->
+            <button class="modal-close" 
+                    id="eigenschaften-modal-close"
+                    type="button"
+                    aria-label="Eigenschaften-Modal schließen"
+                    title="Eigenschaften schließen und zurück zur Hauptansicht"
+                    data-dismiss="modal">
+                
+                <!-- Close Icon -->
+                <span aria-hidden="true">&times;</span>
+                <span class="sr-only">Eigenschaften schließen</span>
+            </button>
+        </header>
+        
+        <!-- Modal Body -->
+        <main class="modal-body" 
+              role="main"
+              aria-labelledby="eigenschaften-modal-title">
+            
+            <!-- Properties Content Container -->
+            <div id="eigenschaften-content" 
+                 role="region"
+                 aria-live="polite"
+                 aria-busy="false">
+                
+                <!-- Loading State -->
+                <div class="properties-loading" 
+                     id="eigenschaften-loading"
+                     role="status"
+                     aria-label="Detaillierte Eigenschaften werden geladen...">
+                    
+                    <div class="loading-spinner" aria-hidden="true"></div>
+                    <span class="loading-text">Eigenschaften werden geladen...</span>
+                </div>
+                
+                <!-- Dynamic Content (JavaScript) -->
+                <div class="properties-content" 
+                     id="eigenschaften-dynamic-content"
+                     style="display: none;">
                     <!-- Eigenschaften-Inhalt wird hier eingefügt -->
                 </div>
+                
+                <!-- Empty State -->
+                <div class="properties-empty" 
+                     id="eigenschaften-empty"
+                     style="display: none;"
+                     role="status">
+                    
+                    <div class="empty-icon" aria-hidden="true">⚙️</div>
+                    <h3>Keine detaillierten Eigenschaften verfügbar</h3>
+                    <p>Für diese Tierart sind aktuell keine detaillierten Eigenschaften hinterlegt.</p>
+                </div>
             </div>
-        </div>
+        </main>
+        
     </div>
+    <!-- Ende: Eigenschaften Modal Content -->
+    
+</div>
+<!-- Ende: Eigenschaften Modal -->
+
+<!-- ========================================
+     ACCESSIBILITY HELPER STYLES
+     ======================================== -->
+<!-- Screen Reader Only und Modal-spezifische Utility Classes -->
+<style>
+.sr-only {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+}
+
+/* Modal Visibility States */
+.modal.hidden {
+    display: none;
+}
+
+.modal[aria-hidden="true"] {
+    display: none;
+}
+
+.modal[aria-hidden="false"] {
+    display: flex;
+}
+
+/* Modal Base Styling */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 1rem;
+}
+
+.modal-content {
+    background: var(--color-background);
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    max-width: 90vw;
+    max-height: 90vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Species Modal Specific */
+#species-modal .modal-content {
+    max-width: 1200px;
+    height: 80vh;
+}
+
+/* Eigenschaften Modal Specific */
+#eigenschaften-modal .modal-content {
+    max-width: 800px;
+    max-height: 70vh;
+}
+
+/* Modal Header */
+.modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.5rem 2rem;
+    border-bottom: 1px solid var(--color-border);
+    background: var(--color-surface);
+    flex-shrink: 0;
+}
+
+.modal-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-text);
+    margin: 0;
+    flex: 1;
+}
+
+/* Modal Actions */
+.modal-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-right: 1rem;
+}
+
+.modal-action-btn {
+    background: none;
+    border: 1px solid var(--color-border);
+    padding: 0.5rem;
+    border-radius: 6px;
+    cursor: pointer;
+    color: var(--color-text-secondary);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-action-btn:hover,
+.modal-action-btn:focus {
+    background: var(--color-primary);
+    color: white;
+    border-color: var(--color-primary);
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+.modal-action-btn[aria-pressed="true"] {
+    background: var(--color-primary);
+    color: white;
+    border-color: var(--color-primary);
+}
+
+/* Modal Close Button */
+.modal-close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--color-text-secondary);
+    padding: 0.5rem;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-close:hover,
+.modal-close:focus {
+    background: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+    outline: 2px solid #ef4444;
+    outline-offset: 2px;
+}
+
+/* Modal Body Container */
+.modal-body-container {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+}
+
+/* Modal Gallery */
+.modal-gallery {
+    width: 300px;
+    border-right: 1px solid var(--color-border);
+    background: var(--color-surface);
+    flex-shrink: 0;
+    overflow-y: auto;
+    position: relative;
+}
+
+/* Gallery States */
+.gallery-loading,
+.gallery-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 200px;
+    text-align: center;
+    color: var(--color-text-secondary);
+}
+
+.gallery-loading .loading-spinner,
+.tab-loading .loading-spinner,
+.properties-loading .loading-spinner {
+    width: 30px;
+    height: 30px;
+    border: 3px solid var(--color-border);
+    border-top: 3px solid var(--color-primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 1rem;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.loading-text {
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+}
+
+.gallery-empty .empty-icon,
+.tab-empty .empty-icon,
+.properties-empty .empty-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+}
+
+.empty-text {
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+}
+
+/* Modal Body */
+.modal-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* Modal Tabs */
+.modal-tabs {
+    display: flex;
+    border-bottom: 1px solid var(--color-border);
+    background: var(--color-surface);
+    flex-shrink: 0;
+}
+
+.modal-tab {
+    background: none;
+    border: none;
+    padding: 1rem 1.5rem;
+    cursor: pointer;
+    color: var(--color-text-secondary);
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    border-bottom: 3px solid transparent;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    position: relative;
+}
+
+.modal-tab:hover,
+.modal-tab:focus {
+    color: var(--color-primary);
+    background: var(--color-primary-light);
+    outline: 2px solid var(--color-primary);
+    outline-offset: -2px;
+}
+
+.modal-tab.active,
+.modal-tab[aria-selected="true"] {
+    color: var(--color-primary);
+    border-bottom-color: var(--color-primary);
+    background: var(--color-background);
+}
+
+.tab-icon {
+    font-size: 1rem;
+}
+
+.tab-text {
+    white-space: nowrap;
+}
+
+/* Tab Content */
+.modal-tab-content {
+    flex: 1;
+    padding: 2rem;
+    overflow-y: auto;
+    display: none;
+}
+
+.modal-tab-content.active,
+.modal-tab-content[aria-hidden="false"] {
+    display: block;
+}
+
+.modal-tab-content[aria-hidden="true"] {
+    display: none;
+}
+
+/* Tab Loading States */
+.tab-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 200px;
+    text-align: center;
+}
+
+/* Tab Empty States */
+.tab-empty {
+    text-align: center;
+    padding: 3rem 2rem;
+}
+
+.tab-empty .empty-text {
+    font-size: 1rem;
+    margin-top: 1rem;
+}
+
+/* Tab Content Dynamic */
+.tab-content-dynamic {
+    line-height: 1.6;
+    color: var(--color-text);
+}
+
+.tab-content-dynamic h4 {
+    color: var(--color-primary);
+    margin: 2rem 0 1rem 0;
+    font-size: 1.1rem;
+}
+
+.tab-content-dynamic p {
+    margin-bottom: 1.5rem;
+}
+
+.tab-content-dynamic ul,
+.tab-content-dynamic ol {
+    margin: 1.5rem 0;
+    padding-left: 2rem;
+}
+
+.tab-content-dynamic li {
+    margin-bottom: 0.5rem;
+}
+
+/* Properties Modal Specific */
+.properties-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 300px;
+    text-align: center;
+}
+
+.properties-empty {
+    text-align: center;
+    padding: 4rem 2rem;
+}
+
+.properties-empty h3 {
+    margin: 1rem 0;
+    color: var(--color-text);
+    font-size: 1.2rem;
+}
+
+.properties-empty p {
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+    margin: 0;
+}
+
+.properties-content {
+    padding: 1rem;
+    line-height: 1.6;
+}
+
+/* Modal Footer */
+.modal-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 2rem;
+    border-top: 1px solid var(--color-border);
+    background: var(--color-surface);
+    flex-shrink: 0;
+}
+
+.modal-footer-actions {
+    display: flex;
+    gap: 1rem;
+}
+
+.btn--small {
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .modal {
+        padding: 0.5rem;
+        align-items: flex-start;
+    }
+    
+    #species-modal .modal-content {
+        height: 95vh;
+        margin-top: 1rem;
+    }
+    
+    .modal-body-container {
+        flex-direction: column;
+    }
+    
+    .modal-gallery {
+        width: 100%;
+        height: 200px;
+        border-right: none;
+        border-bottom: 1px solid var(--color-border);
+    }
+    
+    .modal-header {
+        padding: 1rem 1.5rem;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+    
+    .modal-title {
+        font-size: 1.3rem;
+    }
+    
+    .modal-tabs {
+        overflow-x: auto;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+    
+    .modal-tabs::-webkit-scrollbar {
+        display: none;
+    }
+    
+    .modal-tab {
+        padding: 0.75rem 1rem;
+        font-size: 0.8rem;
+        flex-shrink: 0;
+    }
+    
+    .modal-tab-content {
+        padding: 1.5rem;
+    }
+    
+    .modal-footer {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: stretch;
+    }
+    
+    .modal-footer-actions {
+        justify-content: center;
+    }
+    
+    .modal-actions {
+        order: -1;
+        width: 100%;
+        justify-content: center;
+        margin-right: 0;
+        margin-bottom: 0.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .modal-header {
+        padding: 1rem;
+    }
+    
+    .modal-title {
+        font-size: 1.2rem;
+    }
+    
+    .modal-tab {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.75rem;
+    }
+    
+    .tab-icon {
+        font-size: 0.9rem;
+    }
+    
+    .modal-tab-content {
+        padding: 1rem;
+    }
+    
+    .modal-actions {
+        gap: 0.25rem;
+    }
+    
+    .modal-action-btn {
+        padding: 0.4rem;
+    }
+}
+
+/* Theme-spezifische Anpassungen */
+[data-theme="dark"] .modal {
+    background: rgba(0, 0, 0, 0.8);
+}
+
+[data-theme="dark"] .modal-content {
+    background: var(--color-background);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="luxury"] .modal-content {
+    box-shadow: 0 10px 40px rgba(251, 191, 36, 0.2);
+}
+
+[data-theme="luxury"] .modal-tab.active {
+    border-bottom-color: #fbbf24;
+}
+
+/* Accessibility Enhancements */
+@media (prefers-reduced-motion: reduce) {
+    .loading-spinner,
+    .modal-tab,
+    .modal-action-btn,
+    .modal-close {
+        animation: none;
+        transition: none;
+    }
+}
+
+@media (prefers-contrast: high) {
+    .modal-content {
+        border: 3px solid var(--color-text);
+    }
+    
+    .modal-tab.active {
+        border-bottom-width: 4px;
+        font-weight: 700;
+    }
+    
+    .modal-action-btn,
+    .modal-close {
+        border-width: 2px;
+    }
+}
+
+/* Focus Management */
+.modal-content:focus {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+.modal-tab:focus,
+.modal-action-btn:focus,
+.modal-close:focus {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+/* Print Styles */
+@media print {
+    .modal {
+        position: static !important;
+        background: transparent !important;
+        padding: 0 !important;
+    }
+    
+    .modal-content {
+        box-shadow: none !important;
+        border: 1px solid #ccc !important;
+        border-radius: 0 !important;
+        max-width: none !important;
+        max-height: none !important;
+        height: auto !important;
+    }
+    
+    .modal-header,
+    .modal-footer,
+    .modal-actions,
+    .modal-tabs {
+        display: none !important;
+    }
+    
+    .modal-tab-content {
+        display: block !important;
+        padding: 0 !important;
+        overflow: visible !important;
+    }
+    
+    .modal-gallery {
+        display: none !important;
+    }
+    
+    .modal-body-container {
+        flex-direction: column !important;
+    }
+}
+
+/* Keyboard Navigation Helpers */
+.modal-tabs .modal-tab[tabindex="0"] {
+    position: relative;
+}
+
+.modal-tabs .modal-tab[tabindex="-1"] {
+    position: relative;
+}
+
+/* Tab Panel Focus */
+.modal-tab-content:focus {
+    outline: 2px solid var(--color-primary);
+    outline-offset: -2px;
+}
+
+/* Gallery Content */
+.gallery-content {
+    padding: 1rem;
+}
+
+.gallery-content img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+}
+
+/* Error States */
+.tab-error,
+.gallery-error,
+.properties-error {
+    text-align: center;
+    padding: 2rem;
+    color: #ef4444;
+}
+
+.tab-error .error-icon,
+.gallery-error .error-icon,
+.properties-error .error-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    display: block;
+}
+
+/* Focus Trap for Modals */
+.modal[aria-hidden="false"] {
+    isolation: isolate;
+}
+
+.modal[aria-hidden="false"] * {
+    outline-color: var(--color-primary);
+}
+</style>
+
+<!-- ========================================
+     STRUCTURED DATA - JSON-LD TEMPLATE
+     ======================================== -->
+<!-- Schema.org Template für dynamische Tierart-Daten -->
+<script type="application/ld+json" id="species-modal-structured-data">
+{
+    "@context": "https://schema.org",
+    "@type": "Animal",
+    "name": "",
+    "species": "",
+    "description": "",
+    "image": "",
+    "url": "",
+    "additionalProperty": [
+        {
+            "@type": "PropertyValue",
+            "name": "Pflegeaufwand",
+            "value": ""
+        },
+        {
+            "@type": "PropertyValue",
+            "name": "Größe",
+            "value": ""
+        },
+        {
+            "@type": "PropertyValue",
+            "name": "Lebenserwartung",
+            "value": ""
+        }
+    ],
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": ""
+    },
+    "publisher": {
+        "@type": "Organization",
+        "name": "tailr.wiki",
+        "url": "https://tailr.netlify.app"
+    },
+    "audience": {
+        "@type": "Audience",
+        "audienceType": "Haustierinteressierte und Tierhalter"
+    },
+    "isAccessibleForFree": true,
+    "inLanguage": "de-DE"
+}
+</script>
 
     <!-- JUMP TO TOP BUTTON -->
     <a href="#" id="jumpToTopBtn" class="jump-to-top">↑</a>
