@@ -103,142 +103,527 @@
 </head>
 <body>
     <!-- HEADER -->
-<header class="header">
+<!-- ========================================
+     MAIN HEADER - PRIMARY SITE NAVIGATION
+     ======================================== -->
+<!-- Semantic header with proper ARIA roles for accessibility -->
+<header class="header" role="banner">
     <div class="container">
         <div class="header__content">
-            <!-- LOGO -->
-            <a href="#" class="header__logo" data-category="home">
-                <span class="header__logo-text">tailr.wiki</span>
-            </a>
             
-            <!-- NAVIGATION -->
-            <nav class="header__nav">
-                <ul class="header__nav-list">
-
-                    <div id="auth-links">
-    <li><a href="#" class="header__nav-link" data-category="register">Registrieren</a></li>
-    <li><a href="#" class="header__nav-link" data-category="login">Anmelden</a></li>
-    <li><button id="logout-btn" class="btn btn--secondary logged-in" style="display: none;">Logout</button></li>
-    <li><a href="#" class="header__nav-link admin-link" data-category="admin-login" style="display: none;">Admin</a></li>
-</div>
-
-<!-- User Session (nur sichtbar wenn eingeloggt) -->
-        <div id="user-session" style="display: none;">
-            <li class="dropdown">
-                <span class="header__nav-link" id="username-display">Benutzer</span>
-                <ul class="dropdown-menu">
-                    <li><a href="#" class="dropdown-link" data-category="my-pets">❤️ Meine Haustiere</a></li>
-                    <li><a href="#" class="dropdown-link" data-category="pet-profile">🐾 Neues Profil</a></li>
-                    <li><a href="#" class="dropdown-link" id="logout-btn">🚪 Logout</a></li>
-                </ul>
-            </li>
-        </div>
-
-<a href="#" id="admin-panel-link" data-category="admin-log" class="header__nav-link admin-only" style="display: none;">Audit Log</a>
-
-                    <!-- Favoriten -->
-                    <li>
-                        <a href="#" class="header__nav-link" id="favorites-link">
+            <!-- ========================================
+                 BRAND LOGO & SITE IDENTITY
+                 ======================================== -->
+            <!-- Logo als H1 für SEO-Boost auf Homepage -->
+            <h1 class="header__logo-wrapper">
+                <a href="/" 
+                   class="header__logo" 
+                   data-category="home"
+                   aria-label="tailr.wiki - Zur Startseite"
+                   title="tailr.wiki - Digitale Haustierpflege Homepage">
+                    <span class="header__logo-text">tailr.wiki</span>
+                </a>
+            </h1>
+            
+            <!-- ========================================
+                 PRIMARY NAVIGATION STRUCTURE
+                 ======================================== -->
+            <!-- Main navigation with semantic markup -->
+            <nav class="header__nav" 
+                 role="navigation" 
+                 aria-label="Hauptnavigation tailr.wiki">
+                
+                <!-- Primary navigation list -->
+                <ul class="header__nav-list" role="menubar">
+                    
+                    <!-- ========================================
+                         USER AUTHENTICATION SECTION
+                         ======================================== -->
+                    <!-- Authentication links container -->
+                    <div id="auth-links" 
+                         role="group" 
+                         aria-label="Benutzer-Authentifizierung">
+                        
+                        <!-- User Registration Link -->
+                        <li role="none">
+                            <a href="/register" 
+                               class="header__nav-link" 
+                               data-category="register"
+                               role="menuitem"
+                               aria-label="Kostenloses tailr.wiki Konto erstellen"
+                               title="Registrieren - Kostenlose Haustierpflege-Tools nutzen">
+                                Registrieren
+                            </a>
+                        </li>
+                        
+                        <!-- User Login Link -->
+                        <li role="none">
+                            <a href="/login" 
+                               class="header__nav-link" 
+                               data-category="login"
+                               role="menuitem"
+                               aria-label="In tailr.wiki Account einloggen"
+                               title="Anmelden - Haustierdaten verwalten und synchronisieren">
+                                Anmelden
+                            </a>
+                        </li>
+                        
+                        <!-- Logout Button - Hidden by default -->
+                        <li role="none">
+                            <button id="logout-btn" 
+                                    class="btn btn--secondary logged-in" 
+                                    style="display: none;"
+                                    type="button"
+                                    role="menuitem"
+                                    aria-label="Sicher von tailr.wiki abmelden"
+                                    title="Logout - Session beenden">
+                                Logout
+                            </button>
+                        </li>
+                        
+                        <!-- Admin Access Link - Restricted -->
+                        <li role="none">
+                            <a href="/admin" 
+                               class="header__nav-link admin-link" 
+                               data-category="admin-login" 
+                               style="display: none;"
+                               role="menuitem"
+                               aria-label="Administrator-Dashboard öffnen"
+                               title="Admin-Bereich - tailr.wiki Verwaltung"
+                               rel="nofollow noindex">
+                                Admin
+                            </a>
+                        </li>
+                    </div>
+                    <!-- Ende: Authentication Section -->
+                    
+                    <!-- ========================================
+                         USER SESSION MANAGEMENT
+                         ======================================== -->
+                    <!-- User session dropdown - Visible when logged in -->
+                    <div id="user-session" 
+                         style="display: none;"
+                         role="group"
+                         aria-label="Benutzer-Profil und Haustiere">
+                        
+                        <li class="dropdown" role="none">
+                            <span class="header__nav-link" 
+                                  id="username-display"
+                                  role="button"
+                                  aria-haspopup="true"
+                                  aria-expanded="false"
+                                  aria-label="Benutzerprofil-Menü öffnen"
+                                  title="Mein Profil und Haustiere verwalten">
+                                Benutzer
+                            </span>
+                            
+                            <!-- User dropdown menu -->
+                            <ul class="dropdown-menu" 
+                                role="menu"
+                                aria-label="Benutzer-Aktionen">
+                                
+                                <!-- My Pets Link -->
+                                <li role="none">
+                                    <a href="/my-pets" 
+                                       class="dropdown-link" 
+                                       data-category="my-pets"
+                                       role="menuitem"
+                                       aria-label="Meine registrierten Haustiere anzeigen"
+                                       title="Alle meine Haustiere - Profile und Gesundheitsdaten">
+                                        ❤️ Meine Haustiere
+                                    </a>
+                                </li>
+                                
+                                <!-- New Pet Profile Link -->
+                                <li role="none">
+                                    <a href="/pet-profile/new" 
+                                       class="dropdown-link" 
+                                       data-category="pet-profile"
+                                       role="menuitem"
+                                       aria-label="Neues Haustierprofil erstellen"
+                                       title="Haustierprofil hinzufügen - Gesundheitsdaten erfassen">
+                                        🐾 Neues Profil
+                                    </a>
+                                </li>
+                                
+                                <!-- Logout from dropdown -->
+                                <li role="none">
+                                    <a href="/logout" 
+                                       class="dropdown-link" 
+                                       id="logout-btn-dropdown"
+                                       role="menuitem"
+                                       aria-label="Sicher ausloggen"
+                                       title="Session beenden und abmelden">
+                                        🚪 Logout
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </div>
+                    <!-- Ende: User Session -->
+                    
+                    <!-- ========================================
+                         ADMIN AUDIT LOG ACCESS
+                         ======================================== -->
+                    <!-- Admin panel link - Restricted access -->
+                    <a href="/admin/audit" 
+                       id="admin-panel-link" 
+                       data-category="admin-log" 
+                       class="header__nav-link admin-only" 
+                       style="display: none;"
+                       role="menuitem"
+                       aria-label="System-Audit-Log einsehen"
+                       title="Admin Audit Log - Systemaktivitäten"
+                       rel="nofollow noindex">
+                        Audit Log
+                    </a>
+                    
+                    <!-- ========================================
+                         MAIN NAVIGATION ITEMS
+                         ======================================== -->
+                    
+                    <!-- Favorites Section -->
+                    <li role="none">
+                        <a href="/favorites" 
+                           class="header__nav-link" 
+                           id="favorites-link"
+                           role="menuitem"
+                           aria-label="Gespeicherte Favoriten anzeigen"
+                           title="Meine Favoriten - Gespeicherte Haustierpflege-Tipps">
                             ❤️ Favoriten 
-                            <span class="favorites-counter" style="display: none;">0</span>
+                            <span class="favorites-counter" 
+                                  style="display: none;"
+                                  aria-label="Anzahl Favoriten">0</span>
                         </a>
                     </li>
                     
-                    <!-- Home -->
-                    <li>
-                        <a href="#" class="header__nav-link" data-category="home">🏠 Home</a>
+                    <!-- Home Navigation -->
+                    <li role="none">
+                        <a href="/" 
+                           class="header__nav-link" 
+                           data-category="home"
+                           role="menuitem"
+                           aria-label="Zur tailr.wiki Startseite"
+                           title="Home - tailr.wiki Haustierpflege-Portal">
+                            🏠 Home
+                        </a>
                     </li>
                     
-                    <!-- Kategorien Dropdown -->
-                    <li class="dropdown">
-                        <span class="header__nav-link">
-                            📚 Kategorien <span class="dropdown-arrow">▼</span>
+                    <!-- ========================================
+                         CATEGORIES DROPDOWN MENU
+                         ======================================== -->
+                    <!-- Pet categories navigation -->
+                    <li class="dropdown" role="none">
+                        <span class="header__nav-link"
+                              role="button"
+                              aria-haspopup="true"
+                              aria-expanded="false"
+                              aria-label="Haustierkategorien-Menü öffnen"
+                              title="Alle Haustierkategorien - Pflege und Gesundheitstipps">
+                            📚 Kategorien <span class="dropdown-arrow" aria-hidden="true">▼</span>
                         </span>
-                        <ul class="dropdown-menu">
-                            <li><a href="#" class="dropdown-link" data-category="dogs">🐕 Hunde</a></li>
-                            <li><a href="#" class="dropdown-link" data-category="cats">🐱 Katzen</a></li>
-                            <li><a href="#" class="dropdown-link" data-category="rodents">🐹 Nager & Kleintiere</a></li>
-                            <li><a href="#" class="dropdown-link" data-category="birds">🦜 Ziervögel</a></li>
-                            <li><a href="#" class="dropdown-link" data-category="fish">🐠 Aquarienfische</a></li>
-                            <li><a href="#" class="dropdown-link" data-category="reptiles">🦎 Reptilien</a></li>
+                        
+                        <!-- Categories dropdown menu -->
+                        <ul class="dropdown-menu" 
+                            role="menu"
+                            aria-label="Haustierkategorien">
+                            
+                            <!-- Dogs Category -->
+                            <li role="none">
+                                <a href="/kategorien/hunde" 
+                                   class="dropdown-link" 
+                                   data-category="dogs"
+                                   role="menuitem"
+                                   aria-label="Hundepflege und Gesundheitstipps"
+                                   title="Hunde - Pflege, Gesundheit, Erziehung und Ernährung">
+                                    🐕 Hunde
+                                </a>
+                            </li>
+                            
+                            <!-- Cats Category -->
+                            <li role="none">
+                                <a href="/kategorien/katzen" 
+                                   class="dropdown-link" 
+                                   data-category="cats"
+                                   role="menuitem"
+                                   aria-label="Katzenpflege und Gesundheitstipps"
+                                   title="Katzen - Pflege, Gesundheit, Verhalten und Ernährung">
+                                    🐱 Katzen
+                                </a>
+                            </li>
+                            
+                            <!-- Small Animals Category -->
+                            <li role="none">
+                                <a href="/kategorien/nager" 
+                                   class="dropdown-link" 
+                                   data-category="rodents"
+                                   role="menuitem"
+                                   aria-label="Nager und Kleintiere Pflege"
+                                   title="Nager & Kleintiere - Hamster, Kaninchen, Meerschweinchen">
+                                    🐹 Nager & Kleintiere
+                                </a>
+                            </li>
+                            
+                            <!-- Birds Category -->
+                            <li role="none">
+                                <a href="/kategorien/voegel" 
+                                   class="dropdown-link" 
+                                   data-category="birds"
+                                   role="menuitem"
+                                   aria-label="Ziervögel Pflege und Haltung"
+                                   title="Ziervögel - Wellensittiche, Kanarienvögel, Papageien">
+                                    🦜 Ziervögel
+                                </a>
+                            </li>
+                            
+                            <!-- Fish Category -->
+                            <li role="none">
+                                <a href="/kategorien/fische" 
+                                   class="dropdown-link" 
+                                   data-category="fish"
+                                   role="menuitem"
+                                   aria-label="Aquarienfische Pflege und Haltung"
+                                   title="Aquarienfische - Süßwasser, Salzwasser, Aquarienpflege">
+                                    🐠 Aquarienfische
+                                </a>
+                            </li>
+                            
+                            <!-- Reptiles Category -->
+                            <li role="none">
+                                <a href="/kategorien/reptilien" 
+                                   class="dropdown-link" 
+                                   data-category="reptiles"
+                                   role="menuitem"
+                                   aria-label="Reptilien Pflege und Terrarienhaltung"
+                                   title="Reptilien - Echsen, Schlangen, Schildkröten">
+                                    🦎 Reptilien
+                                </a>
+                            </li>
                         </ul>
                     </li>
+                    <!-- Ende: Categories Dropdown -->
                     
-                    <!-- Tools Dropdown -->
-                    <li class="dropdown">
-                        <span class="header__nav-link">
-                            🛠️ Tools <span class="dropdown-arrow">▼</span>
+                    <!-- ========================================
+                         TOOLS DROPDOWN MENU
+                         ======================================== -->
+                    <!-- Pet care tools navigation -->
+                    <li class="dropdown" role="none">
+                        <span class="header__nav-link"
+                              role="button"
+                              aria-haspopup="true"
+                              aria-expanded="false"
+                              aria-label="Haustierpflege-Tools öffnen"
+                              title="Nützliche Tools - Rechner und Entscheidungshilfen">
+                            🛠️ Tools <span class="dropdown-arrow" aria-hidden="true">▼</span>
                         </span>
-                        <ul class="dropdown-menu">
-                            <li><a href="tools/hunde/index.html" class="dropdown-link">🐕 Welcher Hund passt zu mir?</a></li>
-                            <li><a href="tools/fische/aquacalc.html" class="dropdown-link">🧮 Aquacalc-Tool</a></li>
+                        
+                        <!-- Tools dropdown menu -->
+                        <ul class="dropdown-menu" 
+                            role="menu"
+                            aria-label="Haustierpflege-Tools">
+                            
+                            <!-- Dog Breed Selector Tool -->
+                            <li role="none">
+                                <a href="/tools/hunde/welcher-hund" 
+                                   class="dropdown-link"
+                                   role="menuitem"
+                                   aria-label="Hundetyp-Empfehlungstool verwenden"
+                                   title="Welcher Hund passt zu mir? - Interaktiver Breed-Selector">
+                                    🐕 Welcher Hund passt zu mir?
+                                </a>
+                            </li>
+                            
+                            <!-- Aquarium Calculator Tool -->
+                            <li role="none">
+                                <a href="/tools/fische/aquacalc" 
+                                   class="dropdown-link"
+                                   role="menuitem"
+                                   aria-label="Aquarium-Rechner verwenden"
+                                   title="Aquacalc-Tool - Wasserwerte, Besatz und Technik berechnen">
+                                    🧮 Aquacalc-Tool
+                                </a>
+                            </li>
                         </ul>
                     </li>
+                    <!-- Ende: Tools Dropdown -->
                     
-                    <!-- Blog -->
-                    <li>
-                        <a href="#" class="header__nav-link" data-category="blog">📝 Blog</a>
+                    <!-- ========================================
+                         CONTENT SECTIONS
+                         ======================================== -->
+                    
+                    <!-- Blog Section -->
+                    <li role="none">
+                        <a href="/blog" 
+                           class="header__nav-link" 
+                           data-category="blog"
+                           role="menuitem"
+                           aria-label="tailr.wiki Blog lesen"
+                           title="Blog - Aktuelle Haustierpflege-Artikel und Expertentipps">
+                            📝 Blog
+                        </a>
                     </li>
-
-                    <li>
-    <a href="#" class="header__nav-link" data-category="comparison">🔍 Vergleichen</a>
-</li>
+                    
+                    <!-- Comparison Section -->
+                    <li role="none">
+                        <a href="/vergleich" 
+                           class="header__nav-link" 
+                           data-category="comparison"
+                           role="menuitem"
+                           aria-label="Haustierpflege-Produkte vergleichen"
+                           title="Vergleichen - Futter, Zubehör und Pflegeprodukte">
+                            🔍 Vergleichen
+                        </a>
+                    </li>
+                    
                 </ul>
+                <!-- Ende: Primary Navigation List -->
             </nav>
-
-            <!-- HEADER CONTROLS -->
-<div class="header__controls">
-    <!-- Theme Dropdown -->
-    <div class="header__theme-dropdown">
-        <button class="header__theme-toggle" id="theme-toggle">
-            <span id="theme-icon">🌙</span>
-            <span class="dropdown-arrow">▼</span>
-        </button>
-        <div class="theme-dropdown-menu" id="theme-dropdown">
-            <button class="theme-option" data-theme="light">
-                <span class="theme-option-icon">☀️</span>
-                <span class="theme-option-text">Hell</span>
-            </button>
-            <button class="theme-option" data-theme="dark">
-                <span class="theme-option-icon">🌙</span>
-                <span class="theme-option-text">Dunkel</span>
-            </button>
-            <button class="theme-option" data-theme="luxury">
-                <span class="theme-option-icon">✨</span>
-                <span class="theme-option-text">Luxury</span>
-            </button>
-            <button class="theme-option" data-theme="eco">
-                <span class="theme-option-icon">🌿</span>
-                <span class="theme-option-text">Eco</span>
-            </button>
+            <!-- Ende: Primary Navigation -->
             
-            <!-- Neue erweiterte Themes -->
-            <button class="theme-option" data-theme="playful">
-                <span class="theme-option-icon">🎾</span>
-                <span class="theme-option-text">Playful</span>
-            </button>
+            <!-- ========================================
+                 HEADER CONTROLS & THEME SELECTOR
+                 ======================================== -->
+            <!-- Header utility controls -->
+            <div class="header__controls" 
+                 role="group" 
+                 aria-label="Seiten-Einstellungen">
+                
+                <!-- Theme Selection Dropdown -->
+                <div class="header__theme-dropdown">
+                    
+                    <!-- Theme Toggle Button -->
+                    <button class="header__theme-toggle" 
+                            id="theme-toggle"
+                            type="button"
+                            aria-haspopup="true"
+                            aria-expanded="false"
+                            aria-label="Theme-Auswahl öffnen"
+                            title="Seitendesign wählen - Hell, Dunkel oder Saisonal">
+                        <span id="theme-icon" aria-hidden="true">🌙</span>
+                        <span class="dropdown-arrow" aria-hidden="true">▼</span>
+                    </button>
+                    
+                    <!-- Theme Selection Menu -->
+                    <div class="theme-dropdown-menu" 
+                         id="theme-dropdown"
+                         role="menu"
+                         aria-label="Theme-Optionen">
+                        
+                        <!-- Light Theme -->
+                        <button class="theme-option" 
+                                data-theme="light"
+                                type="button"
+                                role="menuitem"
+                                aria-label="Helles Design aktivieren"
+                                title="Hell - Klassisches helles Design">
+                            <span class="theme-option-icon" aria-hidden="true">☀️</span>
+                            <span class="theme-option-text">Hell</span>
+                        </button>
+                        
+                        <!-- Dark Theme -->
+                        <button class="theme-option" 
+                                data-theme="dark"
+                                type="button"
+                                role="menuitem"
+                                aria-label="Dunkles Design aktivieren"
+                                title="Dunkel - Augenschonendes dunkles Design">
+                            <span class="theme-option-icon" aria-hidden="true">🌙</span>
+                            <span class="theme-option-text">Dunkel</span>
+                        </button>
+                        
+                        <!-- Luxury Theme -->
+                        <button class="theme-option" 
+                                data-theme="luxury"
+                                type="button"
+                                role="menuitem"
+                                aria-label="Luxury Design aktivieren"
+                                title="Luxury - Elegantes Premium-Design">
+                            <span class="theme-option-icon" aria-hidden="true">✨</span>
+                            <span class="theme-option-text">Luxury</span>
+                        </button>
+                        
+                        <!-- Eco Theme -->
+                        <button class="theme-option" 
+                                data-theme="eco"
+                                type="button"
+                                role="menuitem"
+                                aria-label="Eco Design aktivieren"
+                                title="Eco - Naturverbundenes grünes Design">
+                            <span class="theme-option-icon" aria-hidden="true">🌿</span>
+                            <span class="theme-option-text">Eco</span>
+                        </button>
+                        
+                        <!-- Playful Theme -->
+                        <button class="theme-option" 
+                                data-theme="playful"
+                                type="button"
+                                role="menuitem"
+                                aria-label="Playful Design aktivieren"
+                                title="Playful - Verspieltes Design für Tierfreunde">
+                            <span class="theme-option-icon" aria-hidden="true">🎾</span>
+                            <span class="theme-option-text">Playful</span>
+                        </button>
+                        
+                        <!-- ========================================
+                             SEASONAL THEMES SECTION
+                             ======================================== -->
+                        
+                        <!-- Spring Theme -->
+                        <button class="theme-option" 
+                                data-theme="seasonal-spring"
+                                type="button"
+                                role="menuitem"
+                                aria-label="Frühling Design aktivieren"
+                                title="Frühling - Frisches saisonales Design">
+                            <span class="theme-option-icon" aria-hidden="true">🌸</span>
+                            <span class="theme-option-text">Frühling</span>
+                        </button>
+                        
+                        <!-- Summer Theme -->
+                        <button class="theme-option" 
+                                data-theme="seasonal-summer"
+                                type="button"
+                                role="menuitem"
+                                aria-label="Sommer Design aktivieren"
+                                title="Sommer - Sonniges warmes Design">
+                            <span class="theme-option-icon" aria-hidden="true">☀️</span>
+                            <span class="theme-option-text">Sommer</span>
+                        </button>
+                        
+                        <!-- Autumn Theme -->
+                        <button class="theme-option" 
+                                data-theme="seasonal-autumn"
+                                type="button"
+                                role="menuitem"
+                                aria-label="Herbst Design aktivieren"
+                                title="Herbst - Warmes herbstliches Design">
+                            <span class="theme-option-icon" aria-hidden="true">🍂</span>
+                            <span class="theme-option-text">Herbst</span>
+                        </button>
+                        
+                        <!-- Winter Theme -->
+                        <button class="theme-option" 
+                                data-theme="seasonal-winter"
+                                type="button"
+                                role="menuitem"
+                                aria-label="Winter Design aktivieren"
+                                title="Winter - Kühles winterliches Design">
+                            <span class="theme-option-icon" aria-hidden="true">❄️</span>
+                            <span class="theme-option-text">Winter</span>
+                        </button>
+                    </div>
+                    <!-- Ende: Theme Dropdown Menu -->
+                </div>
+                <!-- Ende: Theme Dropdown -->
+            </div>
+            <!-- Ende: Header Controls -->
             
-            <!-- Saisonale Themes -->
-            <button class="theme-option" data-theme="seasonal-spring">
-                <span class="theme-option-icon">🌸</span>
-                <span class="theme-option-text">Frühling</span>
-            </button>
-            <button class="theme-option" data-theme="seasonal-summer">
-                <span class="theme-option-icon">☀️</span>
-                <span class="theme-option-text">Sommer</span>
-            </button>
-            <button class="theme-option" data-theme="seasonal-autumn">
-                <span class="theme-option-icon">🍂</span>
-                <span class="theme-option-text">Herbst</span>
-            </button>
-            <button class="theme-option" data-theme="seasonal-winter">
-                <span class="theme-option-icon">❄️</span>
-                <span class="theme-option-text">Winter</span>
-            </button>
         </div>
+        <!-- Ende: Header Content -->
     </div>
-</div>
+    <!-- Ende: Container -->
 </header>
+<!-- Ende: Main Header -->
 
     <main>
         <!-- HERO SECTION -->
@@ -879,7 +1264,7 @@
     </div>
 </section>
 
-<!-- NEU: HAUSTIER-PROFIL DETAILANSICHT -->
+<!-- HAUSTIER-PROFIL DETAILANSICHT -->
 <section class="pet-profile-detail-section" id="pet-profile-detail-section" style="display: none;">
     <div class="container">
         <div id="profile-detail-content">
