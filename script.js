@@ -483,12 +483,21 @@ showAuth() {
      */
     showAuthModal() {
     console.log('🔐 Auth-Modal wird geöffnet');
+    console.log('🔍 AuthManager Status:', this.authManager?.getStatus());
     
     // Flag setzen, um automatische Schließungen zu verhindern
     this.isModalBeingOpened = true;
     
     if (!this.authModalOverlay) {
         console.error('❌ Auth-Modal nicht gefunden');
+        this.isModalBeingOpened = false;
+        return;
+    }
+
+    // Prüfen ob Modal bereits sichtbar ist
+    if (this.authModalOverlay.classList.contains('show')) {
+        console.log('ℹ️ Auth-Modal ist bereits geöffnet');
+        this.isModalBeingOpened = false;
         return;
     }
 
@@ -501,43 +510,67 @@ showAuth() {
     
     // Animation mit Delay
     setTimeout(() => {
-        this.authModalOverlay.classList.add('show');
+        if (this.authModalOverlay) {
+            this.authModalOverlay.classList.add('show');
+            console.log('✨ Auth-Modal Animation gestartet');
+        }
+        
         // Flag nach Animation zurücksetzen
         setTimeout(() => {
             this.isModalBeingOpened = false;
+            console.log('🔓 Modal-Öffnung abgeschlossen - Flag zurückgesetzt');
         }, 500);
     }, 10);
+
+    // Fokus auf erstes Input-Element setzen
+    setTimeout(() => {
+        const firstInput = this.authModalOverlay.querySelector('input[type="email"], input[type="text"]');
+        if (firstInput) {
+            firstInput.focus();
+        }
+    }, 100);
 }
+
     /**
      * AUTH-MODAL SCHLIEßEN
      */
     closeAuthModal() {
-        if (this.isModalBeingOpened) {
+    // Nicht schließen, wenn gerade geöffnet wird
+    if (this.isModalBeingOpened) {
         console.log('⏸️ Modal-Schließung verhindert - Modal wird gerade geöffnet');
         return;
     }
-        console.log('🚪 Auth-Modal wird geschlossen');
-        
-        if (!this.authModalOverlay) return;
-        
-        // Animation starten
-        this.authModalOverlay.classList.remove('show');
-        
-        // Nach Animation verstecken
-        setTimeout(() => {
+    
+    console.log('🚪 Auth-Modal wird geschlossen');
+    console.trace('📍 Aufrufer des Modal-Schließens'); // Debug-Info
+    
+    if (!this.authModalOverlay) {
+        console.warn('⚠️ Auth-Modal bereits nicht verfügbar');
+        return;
+    }
+
+    // Prüfen ob Modal bereits geschlossen ist
+    if (!this.authModalOverlay.classList.contains('show')) {
+        console.log('ℹ️ Auth-Modal ist bereits geschlossen');
+        return;
+    }
+
+    // Animation starten
+    this.authModalOverlay.classList.remove('show');
+    
+    // Nach Animation ausblenden
+    setTimeout(() => {
+        if (this.authModalOverlay) {
             this.authModalOverlay.style.display = 'none';
             this.authModalOverlay.setAttribute('aria-hidden', 'true');
             
             // Body Scroll wieder aktivieren
             document.body.style.overflow = '';
-        }, 300);
-        
-        // URL zurücksetzen
-        this.updateURL('home');
-        
-        // Document title zurücksetzen
-        document.title = 'tailr.wiki - Haustierpflege & Ratgeber';
-    }
+            
+            console.log('✅ Auth-Modal vollständig geschlossen');
+        }
+    }, 300);
+}
 
 /**
  * Navigation nach erfolgreichem Login
@@ -6882,6 +6915,18 @@ addParallaxEffect() {
 // Methode zum Prüfen und Bereinigen von "Ghost-Modals"
 cleanupAllModals() {
     console.log('=== CLEANUP ALL MODALS ===');
+
+    // Alle anderen Modals schließen
+    this.closeContactModal();
+    this.closeImprintModal();
+    this.closePrivacyModal();
+    
+    // Auth-Modal nur schließen, wenn nicht ausgenommen
+    if (!exceptAuthModal) {
+        this.closeAuthModal();
+    } else {
+        console.log('⏸️ Auth-Modal bei Auth-Navigation geschont');
+    }
     
     // Eigenschaften-Modal sicher schließen
     if (this.eigenschaftenModal) {
