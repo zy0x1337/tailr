@@ -399,48 +399,45 @@ class AuthManager {
      * UI State setzen
      */
     setState(state) {
-        console.log(`🎨 State-Wechsel zu: ${state}`);
-        
-        // Alle States verstecken
-        this.hideAllStates();
-        
-        // Gewünschten State anzeigen
-        switch (state) {
-            case 'loading':
-                const loadingEl = document.getElementById('auth-loading');
-                if (loadingEl) {
-                    loadingEl.style.display = 'block';
-                    console.log('✅ Loading-State angezeigt');
-                }
-                break;
-            case 'logged-out':
-                const loggedOutEl = document.getElementById('auth-logged-out');
-                if (loggedOutEl) {
-                    loggedOutEl.style.display = 'block';
-                    console.log('✅ Logged-out-State angezeigt');
-                }
-                break;
-            case 'logged-in':
-                const loggedInEl = document.getElementById('auth-logged-in');
-                if (loggedInEl) {
-                    loggedInEl.style.display = 'block';
-                    console.log('✅ Logged-in-State angezeigt');
-                }
-                break;
-            case 'error':
-                const errorEl = document.getElementById('auth-error');
-                if (errorEl) {
-                    errorEl.style.display = 'block';
-                    console.log('✅ Error-State angezeigt');
-                }
-                break;
-            default:
-                console.warn(`⚠️ Unbekannter State: ${state}`);
-        }
-        
-        // Callback auslösen
-        this.triggerCallback('onStateChange', state);
+    console.log(`🎨 Modal State-Wechsel zu: ${state}`);
+    
+    // Alle States verstecken
+    this.hideAllStates();
+    
+    // Gewünschten State anzeigen
+    switch (state) {
+        case 'loading':
+            const loadingEl = document.getElementById('auth-loading');
+            if (loadingEl) {
+                loadingEl.style.display = 'block';
+                console.log('✅ Modal Loading-State angezeigt');
+            }
+            break;
+        case 'logged-out':
+            const loggedOutEl = document.getElementById('auth-logged-out');
+            if (loggedOutEl) {
+                loggedOutEl.style.display = 'block';
+                console.log('✅ Modal Logged-out-State angezeigt');
+            }
+            break;
+        case 'logged-in':
+            const loggedInEl = document.getElementById('auth-logged-in');
+            if (loggedInEl) {
+                loggedInEl.style.display = 'block';
+                console.log('✅ Modal Logged-in-State angezeigt');
+            }
+            break;
+        case 'error':
+            const errorEl = document.getElementById('auth-error');
+            if (errorEl) {
+                errorEl.style.display = 'block';
+                console.log('✅ Modal Error-State angezeigt');
+            }
+            break;
     }
+    
+    this.triggerCallback('onStateChange', state);
+}
 
     /**
      * Alle UI States verstecken

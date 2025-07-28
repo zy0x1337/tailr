@@ -3230,30 +3230,42 @@
 </style>
 
 <!-- ========================================
-     AUTH SECTION - AUTH0 INTEGRATION - SEO & ACCESSIBILITY OPTIMIERT
+                    AUTH MODAL
      ======================================== -->
-<!-- Moderne Authentifizierung mit Auth0 und vollständiger Accessibility -->
-<section class="auth-section" 
-         id="auth-section" 
-         role="region" 
-         aria-labelledby="auth-title"
-         itemscope 
-         itemtype="https://schema.org/WebPage">
+<!-- Modal Overlay -->
+<div id="auth-modal-overlay" 
+     class="auth-modal-overlay"
+     style="display: none;"
+     role="dialog"
+     aria-labelledby="auth-modal-title"
+     aria-modal="true"
+     aria-hidden="true">
     
-    <div class="container">
+    <!-- Modal Container -->
+    <div class="auth-modal-container">
         
-        <!-- ========================================
-             AUTH CONTAINER - MODERN AUTH0 WRAPPER
-             ======================================== -->
-        <!-- Hauptcontainer für Auth0 Authentifizierung -->
-        <div class="auth-container" 
-             role="main"
-             aria-labelledby="auth-title">
+        <!-- Modal Header -->
+        <div class="auth-modal-header">
+            <h2 id="auth-modal-title" class="auth-modal-title">
+                tailr.wiki - Anmelden
+            </h2>
+            
+            <!-- Close Button -->
+            <button class="auth-modal-close" 
+                    id="auth-modal-close"
+                    type="button"
+                    aria-label="Anmelde-Modal schließen"
+                    title="Modal schließen">
+                ✕
+            </button>
+        </div>
+        
+        <!-- Modal Content -->
+        <div class="auth-modal-content" id="auth-modal-content">
             
             <!-- ========================================
                  AUTH LOADING STATE
                  ======================================== -->
-            <!-- Loading-Anzeige während Auth0 initialisiert -->
             <div class="auth-loading" 
                  id="auth-loading"
                  role="status"
@@ -3262,7 +3274,7 @@
                 
                 <div class="loading-content">
                     <div class="loading-spinner-large"></div>
-                    <h2 class="loading-title">tailr.wiki wird geladen...</h2>
+                    <h3 class="loading-title">tailr.wiki wird geladen...</h3>
                     <p class="loading-text">
                         Ihre Authentifizierung wird vorbereitet
                     </p>
@@ -3272,44 +3284,31 @@
             <!-- ========================================
                  LOGGED OUT STATE - LOGIN INTERFACE
                  ======================================== -->
-            <!-- Anzeige für nicht-authentifizierte Benutzer -->
             <div class="auth-logged-out" 
                  id="auth-logged-out"
-                 style="display: none;"
-                 role="region"
-                 aria-labelledby="login-title">
+                 style="display: none;">
                 
-                <!-- Login Title -->
-                <h1 id="login-title" 
-                    class="auth-title"
-                    itemprop="name">
-                    Willkommen bei tailr.wiki
-                </h1>
-                
-                <!-- Login Description -->
-                <p class="auth-description" 
-                   itemprop="description"
-                   aria-describedby="login-title">
-                    Melden Sie sich an, um Ihre Haustierdaten zu synchronisieren, 
-                    personalisierte Empfehlungen zu erhalten und alle tailr.wiki Tools zu nutzen.
-                </p>
+                <!-- Welcome Message -->
+                <div class="auth-welcome">
+                    <h3 class="auth-subtitle">Willkommen bei tailr.wiki</h3>
+                    <p class="auth-description">
+                        Melden Sie sich an, um Ihre Haustierdaten zu synchronisieren und 
+                        personalisierte Empfehlungen zu erhalten.
+                    </p>
+                </div>
                 
                 <!-- Login Actions -->
-                <div class="auth-actions" role="group">
+                <div class="auth-actions">
                     
                     <!-- Primary Login Button -->
                     <button class="btn btn--primary btn--large auth-login-btn"
                             id="auth-login-btn"
                             type="button"
-                            aria-describedby="login-help"
-                            itemprop="potentialAction"
-                            itemscope
-                            itemtype="https://schema.org/LoginAction">
+                            aria-describedby="login-help">
                         
                         <span class="btn-icon" aria-hidden="true">🔐</span>
-                        <span class="btn-text" itemprop="name">Anmelden</span>
+                        <span class="btn-text">Anmelden</span>
                         
-                        <!-- Loading State -->
                         <span class="btn-loading" 
                               style="display: none;"
                               aria-hidden="true">
@@ -3321,7 +3320,6 @@
                     <button class="btn btn--secondary auth-login-popup-btn"
                             id="auth-login-popup-btn"
                             type="button"
-                            style="display: none;"
                             aria-label="Anmeldung in Popup-Fenster öffnen">
                         
                         <span class="btn-icon" aria-hidden="true">🪟</span>
@@ -3330,20 +3328,14 @@
                     
                     <!-- Login Help Text -->
                     <div class="auth-help-text" 
-                         id="login-help"
-                         role="note">
+                         id="login-help">
                         Sicherer Login über Auth0. Ihre Daten sind verschlüsselt geschützt.
                     </div>
                 </div>
                 
                 <!-- Login Benefits -->
-                <div class="auth-benefits" 
-                     role="complementary"
-                     aria-labelledby="benefits-title">
-                    
-                    <h3 class="benefits-title" id="benefits-title">
-                        Ihre Vorteile mit einem tailr.wiki Konto:
-                    </h3>
+                <div class="auth-benefits">
+                    <h4 class="benefits-title">Ihre Vorteile mit einem tailr.wiki Konto:</h4>
                     
                     <div class="benefits-list">
                         <div class="benefit-item">
@@ -3358,10 +3350,6 @@
                             <span class="benefit-icon" aria-hidden="true">⭐</span>
                             <span class="benefit-text">Favoriten und Tools nutzen</span>
                         </div>
-                        <div class="benefit-item">
-                            <span class="benefit-icon" aria-hidden="true">🔒</span>
-                            <span class="benefit-text">100% kostenlos und sicher</span>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -3369,34 +3357,29 @@
             <!-- ========================================
                  LOGGED IN STATE - USER INTERFACE
                  ======================================== -->
-            <!-- Anzeige für authentifizierte Benutzer -->
             <div class="auth-logged-in" 
                  id="auth-logged-in"
-                 style="display: none;"
-                 role="region"
-                 aria-labelledby="welcome-title">
+                 style="display: none;">
                 
-                <!-- Welcome Title -->
-                <h1 id="welcome-title" 
-                    class="auth-title">
-                    Willkommen zurück!
-                </h1>
+                <!-- Success Message -->
+                <div class="auth-success">
+                    <div class="success-icon">✅</div>
+                    <h3 class="auth-subtitle">Erfolgreich angemeldet!</h3>
+                    <p class="auth-description">
+                        Willkommen zurück bei tailr.wiki.
+                    </p>
+                </div>
                 
                 <!-- User Profile Card -->
-                <div class="user-profile-card" 
-                     role="region"
-                     aria-labelledby="profile-title"
-                     itemscope
-                     itemtype="https://schema.org/Person">
+                <div class="user-profile-card">
                     
                     <div class="user-avatar-container">
                         <img class="user-avatar" 
                              id="user-avatar"
                              src="" 
                              alt=""
-                             width="80" 
-                             height="80"
-                             itemprop="image"
+                             width="60" 
+                             height="60"
                              style="display: none;">
                         
                         <div class="user-avatar-placeholder" 
@@ -3407,90 +3390,45 @@
                     </div>
                     
                     <div class="user-info">
-                        <h2 class="user-name" 
-                            id="user-name"
-                            itemprop="name">
+                        <h4 class="user-name" 
+                            id="user-name">
                             <!-- Name wird von JavaScript eingefügt -->
-                        </h2>
+                        </h4>
                         
                         <div class="user-email" 
-                             id="user-email"
-                             itemprop="email">
+                             id="user-email">
                             <!-- E-Mail wird von JavaScript eingefügt -->
-                        </div>
-                        
-                        <div class="user-status" 
-                             id="user-status"
-                             role="status">
-                            <span class="status-indicator"></span>
-                            <span class="status-text">Angemeldet</span>
                         </div>
                     </div>
                 </div>
                 
-                <!-- User Actions -->
-                <div class="user-actions" role="group">
-                    
-                    <!-- Dashboard/Profile Button -->
-                    <button class="btn btn--primary user-dashboard-btn"
-                            id="user-dashboard-btn"
-                            type="button"
-                            data-category="profile"
-                            aria-label="Zu Ihrem Dashboard wechseln">
-                        
-                        <span class="btn-icon" aria-hidden="true">📊</span>
-                        <span class="btn-text">Mein Dashboard</span>
+                <!-- Quick Actions -->
+                <div class="user-actions">
+                    <button class="btn btn--primary" 
+                            data-category="my-pets"
+                            type="button">
+                        🐾 Meine Haustiere
                     </button>
                     
-                    <!-- Settings Button -->
-                    <button class="btn btn--secondary user-settings-btn"
-                            id="user-settings-btn"
-                            type="button"
-                            aria-label="Kontoeinstellungen öffnen">
-                        
-                        <span class="btn-icon" aria-hidden="true">⚙️</span>
-                        <span class="btn-text">Einstellungen</span>
-                    </button>
-                    
-                    <!-- Logout Button -->
                     <button class="btn btn--outline auth-logout-btn"
                             id="auth-logout-btn"
-                            type="button"
-                            aria-describedby="logout-help">
-                        
-                        <span class="btn-icon" aria-hidden="true">🚪</span>
-                        <span class="btn-text">Abmelden</span>
-                        
-                        <!-- Loading State -->
-                        <span class="btn-loading" 
-                              style="display: none;"
-                              aria-hidden="true">
-                            <span class="loading-spinner"></span>
-                        </span>
+                            type="button">
+                        🚪 Abmelden
                     </button>
-                    
-                    <!-- Logout Help Text -->
-                    <div class="auth-help-text" 
-                         id="logout-help"
-                         role="note">
-                        Sicher abmelden und alle lokalen Daten löschen.
-                    </div>
                 </div>
             </div>
             
             <!-- ========================================
                  AUTH ERROR STATE
                  ======================================== -->
-            <!-- Anzeige für Authentifizierungsfehler -->
             <div class="auth-error" 
                  id="auth-error"
                  style="display: none;"
-                 role="alert"
-                 aria-live="assertive">
+                 role="alert">
                 
                 <div class="error-content">
                     <div class="error-icon" aria-hidden="true">⚠️</div>
-                    <h2 class="error-title">Authentifizierungsfehler</h2>
+                    <h3 class="error-title">Authentifizierungsfehler</h3>
                     <p class="error-message" id="error-message">
                         <!-- Fehlermeldung wird von JavaScript eingefügt -->
                     </p>
@@ -3501,118 +3439,25 @@
                                 type="button">
                             🔄 Erneut versuchen
                         </button>
-                        
-                        <button class="btn btn--secondary back-to-home-btn"
-                                data-category="home"
-                                type="button">
-                            🏠 Zur Startseite
-                        </button>
                     </div>
                 </div>
             </div>
             
-            <!-- ========================================
-                 NAVIGATION ACTIONS
-                 ======================================== -->
-            <!-- Navigation zurück zur Startseite -->
-            <div class="auth-navigation" 
-                 role="navigation"
-                 aria-label="Seiten-Navigation">
-                
-                <button class="btn btn--ghost back-to-app-btn" 
-                        data-category="home"
-                        type="button"
-                        aria-label="Zurück zur tailr.wiki Startseite"
-                        title="Zur Hauptseite zurückkehren">
-                    🏠 Zurück zur Startseite
-                </button>
-                
-                <!-- Help & Support Links -->
-                <div class="auth-help-links">
-                    <a href="/hilfe/anmeldung" 
-                       class="help-link"
-                       target="_blank"
-                       rel="noopener noreferrer"
-                       aria-label="Hilfe zur Anmeldung in neuem Tab öffnen">
-                        ❓ Anmelde-Hilfe
-                    </a>
-                    
-                    <a href="/kontakt" 
-                       class="help-link"
-                       aria-label="Support kontaktieren">
-                        📧 Support
-                    </a>
-                </div>
-            </div>
-            
         </div>
-        <!-- Ende: Auth Container -->
         
-    </div>
-    <!-- Ende: Container -->
-    
-    <!-- ========================================
-         SECURITY & PRIVACY INFORMATION
-         ======================================== -->
-    <!-- Sicherheits- und Datenschutz-Hinweise -->
-    <div class="auth-security-info" 
-         role="contentinfo">
-        
-        <div class="container">
-            <div class="security-notice">
-                <p class="security-text">
-                    🔒 Sichere Authentifizierung über Auth0. Ihre Daten werden verschlüsselt übertragen. 
-                    Weitere Informationen in unserer 
-                    <a href="/datenschutz" 
-                       target="_blank"
-                       rel="noopener noreferrer"
-                       aria-label="Datenschutzerklärung in neuem Tab öffnen">
-                        Datenschutzerklärung
-                    </a>.
-                </p>
-            </div>
+        <!-- Modal Footer -->
+        <div class="auth-modal-footer">
+            <p class="security-text">
+                🔒 Sichere Authentifizierung über Auth0. 
+                <a href="/datenschutz" 
+                   target="_blank"
+                   rel="noopener noreferrer">
+                    Datenschutzerklärung
+                </a>
+            </p>
         </div>
     </div>
-    
-    <!-- ========================================
-         STRUCTURED DATA - JSON-LD
-         ======================================== -->
-    <!-- Schema.org für Auth-Seite -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "WebPage",
-        "name": "Anmelden - tailr.wiki",
-        "description": "Sichere Anmeldung bei tailr.wiki über Auth0 für personalisierte Haustierpflege und Datenverwaltung",
-        "url": "https://tailr.netlify.app/auth",
-        "isPartOf": {
-            "@type": "WebSite",
-            "name": "tailr.wiki",
-            "url": "https://tailr.netlify.app"
-        },
-        "potentialAction": {
-            "@type": "LoginAction",
-            "target": {
-                "@type": "EntryPoint",
-                "urlTemplate": "https://tailr.netlify.app/auth",
-                "actionPlatform": ["http://schema.org/DesktopWebPlatform", "http://schema.org/MobileWebPlatform"]
-            },
-            "instrument": {
-                "@type": "SoftwareApplication",
-                "name": "Auth0",
-                "applicationCategory": "AuthenticationService"
-            }
-        },
-        "provider": {
-            "@type": "Organization",
-            "name": "tailr.wiki",
-            "url": "https://tailr.netlify.app"
-        }
-    }
-    </script>
-    
-</section>
-<!-- Ende: Auth Section - Auth0 Integration -->
+</div>
 
 <!-- BLOG SECTION -->
 <section class="blog-section" id="blog-section" style="display: none;">

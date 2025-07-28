@@ -15,6 +15,11 @@ class HaustierWissen {
     this.scrollPosition = 0;
     this.isModalOpen = false;
 
+    // AUTH MODAL-REFERENZEN HINZUFÜGEN
+        this.authModal = null;
+        this.authModalOverlay = null;
+        this.authModalClose = null;
+
     // ===== SORT & FILTER EIGENSCHAFTEN =====
     this.currentSort = { field: null, order: 'asc' };
     this.displayedCount = 12;
@@ -83,6 +88,11 @@ initializeDOM() {
     this.authLoginPopupBtn = document.getElementById('auth-login-popup-btn');
     this.authLogoutBtn = document.getElementById('auth-logout-btn');
     this.authRetryBtn = document.getElementById('retry-auth-btn');
+
+    // AUTH-MODAL REFERENZEN
+    this.authModal = document.getElementById('auth-modal-content');
+    this.authModalOverlay = document.getElementById('auth-modal-overlay');
+    this.authModalClose = document.getElementById('auth-modal-close');
 
     // User-Interface-Referenzen
     this.userDashboardBtn = document.getElementById('user-dashboard-btn');
@@ -423,17 +433,19 @@ cleanup() {
         this.authManager.updateNavigationAuthStatus();
     });
     
-    this.authManager.on('onLogin', (user) => {
-        console.log('✅ Benutzer angemeldet:', user.email);
-        this.showNotification(`Willkommen zurück, ${this.authManager.getUserDisplayName()}!`, 'success');
-        this.handlePostLoginRedirection();
-    });
-    
-    this.authManager.on('onLogout', () => {
-        console.log('📤 Benutzer abgemeldet');
-        this.showNotification('Sie wurden erfolgreich abgemeldet', 'info');
-        this.handleNavigation('home');
-    });
+    // Auth-Callbacks mit Modal-Integration
+        this.authManager.on('onLogin', (user) => {
+            console.log('✅ Benutzer angemeldet:', user.email);
+            this.showNotification(`Willkommen zurück, ${this.authManager.getUserDisplayName()}!`, 'success');
+            this.handlePostLoginRedirection();
+        });
+        
+        this.authManager.on('onLogout', () => {
+            console.log('📤 Benutzer abgemeldet');
+            this.closeAuthModal();
+            this.showNotification('Sie wurden erfolgreich abgemeldet', 'info');
+            this.handleNavigation('home');
+        });
     
     // ⭐ INITIALE NAVIGATION-STATUS-PRÜFUNG
     setTimeout(() => {
@@ -467,25 +479,92 @@ showAuth() {
 }
 
 /**
+     * ⭐ AUTH-MODAL ÖFFNEN
+     */
+    showAuthModal() {
+        console.log('🔐 Auth-Modal wird geöffnet');
+        
+        if (!this.authModalOverlay) {
+            console.error('❌ Auth-Modal nicht gefunden');
+            return;
+        }
+        
+        // Body Scroll verhindern
+        document.body.style.overflow = 'hidden';
+        
+        // Modal anzeigen
+        this.authModalOverlay.style.display = 'flex';
+        this.authModalOverlay.setAttribute('aria-hidden', 'false');
+        
+        // Animation mit Delay
+        setTimeout(() => {
+            this.authModalOverlay.classList.add('show');
+        }, 10);
+        
+        // Focus auf Modal setzen
+        setTimeout(() => {
+            const firstButton = this.authModalOverlay.querySelector('button:not([disabled])');
+            if (firstButton) {
+                firstButton.focus();
+            }
+        }, 300);
+        
+        // URL aktualisieren (optional)
+        this.updateURL('auth');
+        
+        // Document title aktualisieren
+        document.title = 'Anmelden - tailr.wiki';
+    }
+
+    /**
+     * ⭐ AUTH-MODAL SCHLIEßEN
+     */
+    closeAuthModal() {
+        console.log('🚪 Auth-Modal wird geschlossen');
+        
+        if (!this.authModalOverlay) return;
+        
+        // Animation starten
+        this.authModalOverlay.classList.remove('show');
+        
+        // Nach Animation verstecken
+        setTimeout(() => {
+            this.authModalOverlay.style.display = 'none';
+            this.authModalOverlay.setAttribute('aria-hidden', 'true');
+            
+            // Body Scroll wieder aktivieren
+            document.body.style.overflow = '';
+        }, 300);
+        
+        // URL zurücksetzen
+        this.updateURL('home');
+        
+        // Document title zurücksetzen
+        document.title = 'tailr.wiki - Haustierpflege & Ratgeber';
+    }
+
+/**
  * Navigation nach erfolgreichem Login
  */
 handlePostLoginRedirection() {
-    const redirectTo = sessionStorage.getItem('redirectAfterLogin');
-    if (redirectTo) {
-        sessionStorage.removeItem('redirectAfterLogin');
-        console.log(`🔄 Weiterleitung nach Login zu: ${redirectTo}`);
-        
-        // Kurze Verzögerung für bessere UX
-        setTimeout(() => {
-            this.handleNavigation(redirectTo);
-        }, 1000);
-    } else {
-        // Standard: Zur Startseite
-        setTimeout(() => {
-            this.showHome();
-        }, 1000);
+        const redirectTo = sessionStorage.getItem('redirectAfterLogin');
+        if (redirectTo) {
+            sessionStorage.removeItem('redirectAfterLogin');
+            console.log(`🔄 Weiterleitung nach Login zu: ${redirectTo}`);
+            
+            // Modal schließen und dann navigieren
+            this.closeAuthModal();
+            
+            setTimeout(() => {
+                this.handleNavigation(redirectTo);
+            }, 500);
+        } else {
+            // Modal schließen und zur Startseite
+            setTimeout(() => {
+                this.closeAuthModal();
+            }, 2000); // 2 Sekunden Success-Message zeigen
+        }
     }
-}
 
 /**
  * Auth-Navigation basierend auf Status aktualisieren
@@ -1804,6 +1883,45 @@ setupEventListeners() {
             this.authManager?.closeUserDropdown();
         }
     });
+
+    /**
+     * ⭐ AUTH-MODAL EVENT LISTENERS
+     */
+    
+    // Modal schließen per Close-Button
+    if (this.authModalClose) {
+        this.authModalClose.addEventListener('click', (e) => {
+            e.preventDefault();
+            this.closeAuthModal();
+        });
+    }
+    
+    // Modal schließen per Overlay-Click
+    if (this.authModalOverlay) {
+        this.authModalOverlay.addEventListener('click', (e) => {
+            // Nur schließen wenn auf Overlay geklickt (nicht auf Modal selbst)
+            if (e.target === this.authModalOverlay) {
+                this.closeAuthModal();
+            }
+        });
+    }
+    
+    // Modal schließen per ESC-Taste
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && this.authModalOverlay?.classList.contains('show')) {
+            this.closeAuthModal();
+        }
+    });
+    
+    // Auth-Navigation zu Modal umleiten
+    document.addEventListener('click', (e) => {
+        if (e.target.matches('#login-nav-link, #register-nav-link')) {
+            e.preventDefault();
+            this.showAuthModal();
+        }
+    });
+    
+    console.log('✅ Auth-Modal Event-Listeners eingerichtet');
     
     console.log('✅ User-Navigation Event-Listeners eingerichtet');
 
@@ -1941,9 +2059,9 @@ handleNavigation(catId, linkEl) {
         case 'auth':
         case 'login':
         case 'register':
-            console.log('🔐 Auth-Bereich wird angezeigt');
-            this.showAuth();
-            break;
+            console.log('🔐 Auth-Modal wird geöffnet');
+            this.showAuthModal();
+            return;
 
         case 'admin-login':
             console.log('👑 Admin-Login wird angezeigt');
@@ -6760,6 +6878,9 @@ cleanupAllModals() {
     
     // Modal-Status zurücksetzen
     this.isModalOpen = false;
+
+    // Auth-Modal schließen
+    this.closeAuthModal();
     
     console.log('Alle Modals bereinigt');
 }
