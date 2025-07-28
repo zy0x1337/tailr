@@ -613,4 +613,9 @@ getEnvironmentVariable(key) {
 // Global verfügbar machen
 window.AuthManager = AuthManager;
 
+// Globale Instanz-Referenz (falls bereits erstellt)
+if (window.haustierWissenInstance?.authManager) {
+    window.authManager = window.haustierWissenInstance.authManager;
+}
+
 console.log('📦 AuthManager geladen - Version 2.2 (No Modules)');
