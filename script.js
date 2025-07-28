@@ -479,47 +479,43 @@ showAuth() {
 }
 
 /**
-     * ⭐ AUTH-MODAL ÖFFNEN
+     * AUTH-MODAL ÖFFNEN
      */
     showAuthModal() {
-        console.log('🔐 Auth-Modal wird geöffnet');
-        
-        if (!this.authModalOverlay) {
-            console.error('❌ Auth-Modal nicht gefunden');
-            return;
-        }
-        
-        // Body Scroll verhindern
-        document.body.style.overflow = 'hidden';
-        
-        // Modal anzeigen
-        this.authModalOverlay.style.display = 'flex';
-        this.authModalOverlay.setAttribute('aria-hidden', 'false');
-        
-        // Animation mit Delay
-        setTimeout(() => {
-            this.authModalOverlay.classList.add('show');
-        }, 10);
-        
-        // Focus auf Modal setzen
-        setTimeout(() => {
-            const firstButton = this.authModalOverlay.querySelector('button:not([disabled])');
-            if (firstButton) {
-                firstButton.focus();
-            }
-        }, 300);
-        
-        // URL aktualisieren (optional)
-        this.updateURL('auth');
-        
-        // Document title aktualisieren
-        document.title = 'Anmelden - tailr.wiki';
+    console.log('🔐 Auth-Modal wird geöffnet');
+    
+    // Flag setzen, um automatische Schließungen zu verhindern
+    this.isModalBeingOpened = true;
+    
+    if (!this.authModalOverlay) {
+        console.error('❌ Auth-Modal nicht gefunden');
+        return;
     }
 
+    // Body Scroll verhindern
+    document.body.style.overflow = 'hidden';
+    
+    // Modal anzeigen
+    this.authModalOverlay.style.display = 'flex';
+    this.authModalOverlay.setAttribute('aria-hidden', 'false');
+    
+    // Animation mit Delay
+    setTimeout(() => {
+        this.authModalOverlay.classList.add('show');
+        // Flag nach Animation zurücksetzen
+        setTimeout(() => {
+            this.isModalBeingOpened = false;
+        }, 500);
+    }, 10);
+}
     /**
-     * ⭐ AUTH-MODAL SCHLIEßEN
+     * AUTH-MODAL SCHLIEßEN
      */
     closeAuthModal() {
+        if (this.isModalBeingOpened) {
+        console.log('⏸️ Modal-Schließung verhindert - Modal wird gerade geöffnet');
+        return;
+    }
         console.log('🚪 Auth-Modal wird geschlossen');
         
         if (!this.authModalOverlay) return;
