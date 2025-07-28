@@ -11221,3 +11221,329 @@ body.theme-playful {
 .categories-error ~ .categories-footer .last-updated::before {
     content: "⚠️";
 }
+
+/* ========================================
+   TOOLS INFO & DISCLAIMER SECTION
+   ======================================== */
+
+.tools-info {
+    margin: 2rem auto;
+    padding: 1.5rem;
+    max-width: 600px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+.tools-info:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    transform: translateY(-1px);
+}
+
+/* ========================================
+   TOOLS DISCLAIMER STYLING
+   ======================================== */
+
+.tools-disclaimer {
+    margin: 0;
+    font-size: clamp(0.9rem, 2vw, 1rem);
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+    text-align: center;
+    font-weight: 400;
+    position: relative;
+}
+
+.tools-disclaimer::before {
+    content: "";
+    display: block;
+    width: 40px;
+    height: 2px;
+    background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+    margin: 0 auto 1rem;
+    border-radius: 1px;
+}
+
+/* Emoji Styling */
+.tools-disclaimer::first-line {
+    font-size: 1.1em;
+    font-weight: 500;
+    color: var(--color-text);
+}
+
+/* ========================================
+   RESPONSIVE DESIGN
+   ======================================== */
+
+@media (max-width: 768px) {
+    .tools-info {
+        margin: 1.5rem auto;
+        padding: 1.25rem;
+        border-radius: 8px;
+    }
+    
+    .tools-disclaimer {
+        font-size: 0.9rem;
+        line-height: 1.5;
+    }
+    
+    .tools-disclaimer::before {
+        width: 30px;
+        margin-bottom: 0.75rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .tools-info {
+        margin: 1rem;
+        padding: 1rem;
+    }
+    
+    .tools-disclaimer {
+        font-size: 0.85rem;
+    }
+}
+
+/* ========================================
+   THEME-SPEZIFISCHE ANPASSUNGEN
+   ======================================== */
+
+/* Dark Theme */
+[data-theme="dark"] .tools-info {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="dark"] .tools-info:hover {
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+/* Luxury Theme */
+[data-theme="luxury"] .tools-info {
+    background: linear-gradient(135deg, rgba(251, 191, 36, 0.1), rgba(245, 158, 11, 0.05));
+    border: 1px solid rgba(251, 191, 36, 0.2);
+    box-shadow: 0 2px 12px rgba(251, 191, 36, 0.1);
+}
+
+[data-theme="luxury"] .tools-disclaimer::before {
+    background: linear-gradient(90deg, #fbbf24, #f59e0b);
+}
+
+[data-theme="luxury"] .tools-info:hover {
+    background: linear-gradient(135deg, rgba(251, 191, 36, 0.15), rgba(245, 158, 11, 0.08));
+    box-shadow: 0 4px 20px rgba(251, 191, 36, 0.15);
+}
+
+/* Eco Theme */
+[data-theme="eco"] .tools-info {
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(5, 150, 105, 0.05));
+    border-color: rgba(16, 185, 129, 0.2);
+}
+
+[data-theme="eco"] .tools-disclaimer::before {
+    background: linear-gradient(90deg, #10b981, #059669);
+}
+
+/* Playful Theme */
+[data-theme="playful"] .tools-info {
+    position: relative;
+    overflow: hidden;
+}
+
+[data-theme="playful"] .tools-info::after {
+    content: "🐾";
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-size: 1.5rem;
+    opacity: 0.1;
+    animation: playfulBounce 3s infinite;
+}
+
+@keyframes playfulBounce {
+    0%, 100% { transform: rotate(0deg) scale(1); }
+    25% { transform: rotate(-5deg) scale(1.1); }
+    75% { transform: rotate(5deg) scale(0.9); }
+}
+
+/* Seasonal Spring */
+[data-theme="seasonal-spring"] .tools-info {
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(52, 211, 153, 0.05));
+    border-color: rgba(52, 211, 153, 0.2);
+}
+
+[data-theme="seasonal-spring"] .tools-disclaimer::before {
+    background: linear-gradient(90deg, #10b981, #34d399);
+}
+
+/* Seasonal Summer */
+[data-theme="seasonal-summer"] .tools-info {
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.08), rgba(239, 68, 68, 0.05));
+    border-color: rgba(245, 158, 11, 0.2);
+}
+
+[data-theme="seasonal-summer"] .tools-disclaimer::before {
+    background: linear-gradient(90deg, #f59e0b, #ef4444);
+}
+
+/* Seasonal Autumn */
+[data-theme="seasonal-autumn"] .tools-info {
+    background: linear-gradient(135deg, rgba(234, 88, 12, 0.08), rgba(220, 38, 38, 0.05));
+    border-color: rgba(234, 88, 12, 0.2);
+}
+
+[data-theme="seasonal-autumn"] .tools-disclaimer::before {
+    background: linear-gradient(90deg, #ea580c, #dc2626);
+}
+
+/* Seasonal Winter */
+[data-theme="seasonal-winter"] .tools-info {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.08), rgba(99, 102, 241, 0.05));
+    border-color: rgba(59, 130, 246, 0.2);
+}
+
+[data-theme="seasonal-winter"] .tools-disclaimer::before {
+    background: linear-gradient(90deg, #3b82f6, #6366f1);
+}
+
+/* ========================================
+   ACCESSIBILITY ENHANCEMENTS
+   ======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+    .tools-info,
+    .tools-info:hover {
+        transition: none;
+        transform: none;
+    }
+    
+    [data-theme="playful"] .tools-info::after {
+        animation: none;
+    }
+}
+
+@media (prefers-contrast: high) {
+    .tools-info {
+        border-width: 2px;
+        box-shadow: none;
+    }
+    
+    .tools-disclaimer::before {
+        height: 3px;
+        background: var(--color-text);
+    }
+    
+    .tools-disclaimer {
+        color: var(--color-text);
+        font-weight: 500;
+    }
+}
+
+/* ========================================
+   PRINT STYLES
+   ======================================== */
+
+@media print {
+    .tools-info {
+        background: transparent !important;
+        border: 1px solid #ccc !important;
+        box-shadow: none !important;
+        break-inside: avoid;
+    }
+    
+    .tools-disclaimer::before {
+        display: none;
+    }
+    
+    .tools-disclaimer {
+        color: #000 !important;
+        font-size: 10pt !important;
+    }
+    
+    [data-theme="playful"] .tools-info::after {
+        display: none;
+    }
+}
+
+/* ========================================
+   FOCUS STATES FOR ACCESSIBILITY
+   ======================================== */
+
+.tools-info:focus-within {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+/* ========================================
+   LOADING STATE (Falls dynamisch geladen)
+   ======================================== */
+
+.tools-info.loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.tools-info.loading .tools-disclaimer {
+    position: relative;
+}
+
+.tools-info.loading .tools-disclaimer::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--color-border);
+    border-top: 2px solid var(--color-primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    transform: translate(-50%, -50%);
+}
+
+@keyframes spin {
+    0% { transform: translate(-50%, -50%) rotate(0deg); }
+    100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* ========================================
+   ALTERNATIVE LAYOUTS
+   ======================================== */
+
+/* Kompakte Version */
+.tools-info.compact {
+    padding: 1rem;
+    margin: 1rem auto;
+}
+
+.tools-info.compact .tools-disclaimer {
+    font-size: 0.85rem;
+}
+
+.tools-info.compact .tools-disclaimer::before {
+    width: 25px;
+    margin-bottom: 0.5rem;
+}
+
+/* Erweiterte Version mit Icon */
+.tools-info.with-icon {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    text-align: left;
+}
+
+.tools-info.with-icon::before {
+    content: "💡";
+    font-size: 1.5rem;
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+}
+
+.tools-info.with-icon .tools-disclaimer::before {
+    display: none;
+}
