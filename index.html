@@ -4646,25 +4646,25 @@
 <section class="blog-section" id="blog-section" role="main" aria-labelledby="blog-title" style="display: none;">
     <div class="container">
         <!-- Blog Hero -->
-        <header class="blog-hero">
+        <div class="blog-hero">
             <div class="blog-hero__content">
                 <h1 class="blog-hero__title" id="blog-title">Wissen & Tipps</h1>
                 <p class="blog-hero__subtitle">Entdecken Sie wertvolle Ratgeber und Expertentipps für die optimale Pflege Ihrer Lieblinge</p>
             </div>
             <div class="blog-hero__stats" role="group" aria-label="Blog-Statistiken">
                 <div class="blog-stat">
-                    <span class="blog-stat__number" id="blog-count" aria-label="Anzahl Artikel">17</span>
+                    <span class="blog-stat__number" id="blog-count" aria-label="17 Artikel">17</span>
                     <span class="blog-stat__label">Artikel</span>
                 </div>
                 <div class="blog-stat">
-                    <span class="blog-stat__number" aria-label="Anzahl Kategorien">6</span>
+                    <span class="blog-stat__number" aria-label="6 Kategorien">6</span>
                     <span class="blog-stat__label">Kategorien</span>
                 </div>
             </div>
-        </header>
+        </div>
 
         <!-- Blog Filters -->
-        <nav class="blog-filters" role="navigation" aria-label="Blog-Filter und Suche">
+        <div class="blog-filters" role="navigation" aria-label="Blog-Filter und Suche">
             <div class="blog-filters__main" role="group" aria-label="Kategorie-Filter">
                 <button class="blog-filter-btn blog-filter-btn--active" 
                         data-filter="all" 
@@ -4748,28 +4748,26 @@
                         </svg>
                     </button>
                 </div>
-                <div class="blog-sort-container">
-                    <label for="blog-sort" class="sr-only">Artikel sortieren nach</label>
-                    <select class="blog-sort-select" id="blog-sort" aria-describedby="sort-help">
-                        <option value="newest">Neueste zuerst</option>
-                        <option value="oldest">Älteste zuerst</option>
-                        <option value="reading-time">Nach Lesezeit</option>
-                        <option value="alphabetical">Alphabetisch</option>
-                    </select>
-                    <span id="sort-help" class="sr-only">Wählen Sie eine Sortierreihenfolge für die Artikel</span>
-                </div>
+                <select class="blog-sort-select" 
+                        id="blog-sort" 
+                        aria-label="Artikel sortieren nach">
+                    <option value="newest">Neueste zuerst</option>
+                    <option value="oldest">Älteste zuerst</option>
+                    <option value="reading-time">Nach Lesezeit</option>
+                    <option value="alphabetical">Alphabetisch</option>
+                </select>
             </div>
-        </nav>
+        </div>
 
         <!-- Blog Grid -->
-        <main class="blog-grid" 
-              id="blog-grid" 
-              role="feed" 
-              aria-label="Blog-Artikel"
-              aria-live="polite"
-              aria-busy="false">
+        <div class="blog-grid" 
+             id="blog-grid" 
+             role="feed" 
+             aria-label="Blog-Artikel"
+             aria-live="polite"
+             aria-busy="false">
             <!-- Blog-Karten werden hier dynamisch eingefügt -->
-        </main>
+        </div>
 
         <!-- Load More Button -->
         <div class="blog-load-container">
@@ -4805,7 +4803,7 @@
      aria-hidden="true">
     <div class="blog-modal__overlay" aria-hidden="true"></div>
     <div class="blog-modal__container">
-        <header class="blog-modal__header">
+        <div class="blog-modal__header">
             <button class="blog-modal__close" 
                     id="blog-modal-close" 
                     type="button"
@@ -4814,14 +4812,14 @@
                     <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
                 </svg>
             </button>
-        </header>
+        </div>
         <div class="blog-modal__content" 
              id="blog-modal-content"
              role="document"
              tabindex="0">
             <!-- Blog-Artikel-Inhalt wird hier eingefügt -->
         </div>
-        <footer class="blog-modal__footer">
+        <div class="blog-modal__footer">
             <button class="btn btn--secondary" 
                     id="blog-back-btn" 
                     type="button">
@@ -4830,7 +4828,7 @@
                 </svg>
                 <span>Zurück zur Übersicht</span>
             </button>
-        </footer>
+        </div>
     </div>
 </div>
 
