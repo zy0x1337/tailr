@@ -4642,84 +4642,46 @@
 }
 </style>
 
-<!-- Schema.org Structured Data -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Blog",
-  "name": "Blog & Ratgeber",
-  "description": "Entdecken Sie wertvolle Tipps und Expertenwissen rund um Haustiere",
-  "url": "https://example.com/blog",
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": "https://example.com/blog"
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": "Ihr Unternehmensname",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "https://example.com/logo.png"
-    }
-  },
-  "inLanguage": "de-DE"
-}
-</script>
-
-<!-- Skip Navigation -->
-<a href="#blog-grid" class="skip-link">Zum Hauptinhalt springen</a>
-
 <!-- BLOG SECTION -->
-<section class="blog-section hidden" id="blog-section" role="main" aria-labelledby="blog-header-title">
+<section class="blog-section" id="blog-section" style="display: none;">
     <div class="container">
         <!-- Blog Header -->
-        <header class="blog-header">
+        <div class="blog-header">
             <div class="blog-header__content">
-                <h1 class="blog-header__title" id="blog-header-title">Blog & Ratgeber</h1>
+                <h2 class="blog-header__title">Blog & Ratgeber</h2>
                 <p class="blog-header__subtitle">
                     Entdecken Sie wertvolle Tipps und Expertenwissen rund um Haustiere
                 </p>
             </div>
-            <div class="blog-header__stats" role="status" aria-live="polite">
+            <div class="blog-header__stats">
                 <div class="blog-stat">
-                    <span class="blog-stat__number" id="blog-total-count" aria-label="Gesamtanzahl Artikel">0</span>
+                    <span class="blog-stat__number" id="blog-total-count">0</span>
                     <span class="blog-stat__label">Artikel</span>
                 </div>
                 <div class="blog-stat">
-                    <span class="blog-stat__number" id="blog-filtered-count" aria-label="Gefilterte Artikel">0</span>
+                    <span class="blog-stat__number" id="blog-filtered-count">0</span>
                     <span class="blog-stat__label">Gefiltert</span>
                 </div>
             </div>
-        </header>
+        </div>
 
         <!-- Blog Controls -->
-        <section class="blog-controls" role="search" aria-labelledby="blog-controls-heading">
-            <h2 class="visually-hidden" id="blog-controls-heading">Blog-Filter und Suchoptionen</h2>
-            
+        <div class="blog-controls">
             <div class="blog-controls__main">
                 <!-- Search -->
-                <div class="blog-search" role="search">
-                    <label for="blog-search" class="visually-hidden">Artikel durchsuchen</label>
+                <div class="blog-search">
                     <div class="blog-search__input-wrapper">
-                        <svg class="blog-search__icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                        <svg class="blog-search__icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <circle cx="11" cy="11" r="8"/>
                             <path d="M21 21l-4.35-4.35"/>
                         </svg>
-                        <input type="search" 
+                        <input type="text" 
                                id="blog-search" 
                                class="blog-search__input" 
                                placeholder="Artikel durchsuchen..."
-                               autocomplete="off"
-                               aria-describedby="search-help"
-                               role="searchbox">
-                        <div id="search-help" class="visually-hidden">
-                            Geben Sie Suchbegriffe ein, um Artikel zu finden
-                        </div>
-                        <button class="blog-search__clear hidden" 
-                                id="blog-search-clear"
-                                type="button"
-                                aria-label="Suche löschen">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                               autocomplete="off">
+                        <button class="blog-search__clear" id="blog-search-clear">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <line x1="18" y1="6" x2="6" y2="18"/>
                                 <line x1="6" y1="6" x2="18" y2="18"/>
                             </svg>
@@ -4728,77 +4690,42 @@
                 </div>
 
                 <!-- Filters -->
-                <div class="blog-filters" role="tablist" aria-label="Artikel-Kategorien">
+                <div class="blog-filters">
                     <div class="blog-filters__group">
-                        <button class="blog-filter-btn active" 
-                                data-filter="all" 
-                                role="tab" 
-                                aria-selected="true" 
-                                aria-controls="blog-grid"
-                                id="filter-all">
-                            <span class="blog-filter-btn__icon" aria-hidden="true">📚</span>
+                        <button class="blog-filter-btn active" data-filter="all">
+                            <span class="blog-filter-btn__icon">📚</span>
                             <span class="blog-filter-btn__text">Alle</span>
-                            <span class="blog-filter-btn__count" id="blog-count-all" aria-label="Anzahl Artikel">0</span>
+                            <span class="blog-filter-btn__count" id="blog-count-all">0</span>
                         </button>
-                        <button class="blog-filter-btn" 
-                                data-filter="hunde" 
-                                role="tab" 
-                                aria-selected="false" 
-                                aria-controls="blog-grid"
-                                id="filter-hunde">
-                            <span class="blog-filter-btn__icon" aria-hidden="true">🐕</span>
+                        <button class="blog-filter-btn" data-filter="hunde">
+                            <span class="blog-filter-btn__icon">🐕</span>
                             <span class="blog-filter-btn__text">Hunde</span>
-                            <span class="blog-filter-btn__count" id="blog-count-hunde" aria-label="Anzahl Hunde-Artikel">0</span>
+                            <span class="blog-filter-btn__count" id="blog-count-hunde">0</span>
                         </button>
-                        <button class="blog-filter-btn" 
-                                data-filter="katzen" 
-                                role="tab" 
-                                aria-selected="false" 
-                                aria-controls="blog-grid"
-                                id="filter-katzen">
-                            <span class="blog-filter-btn__icon" aria-hidden="true">🐱</span>
+                        <button class="blog-filter-btn" data-filter="katzen">
+                            <span class="blog-filter-btn__icon">🐱</span>
                             <span class="blog-filter-btn__text">Katzen</span>
-                            <span class="blog-filter-btn__count" id="blog-count-katzen" aria-label="Anzahl Katzen-Artikel">0</span>
+                            <span class="blog-filter-btn__count" id="blog-count-katzen">0</span>
                         </button>
-                        <button class="blog-filter-btn" 
-                                data-filter="nagetiere" 
-                                role="tab" 
-                                aria-selected="false" 
-                                aria-controls="blog-grid"
-                                id="filter-nagetiere">
-                            <span class="blog-filter-btn__icon" aria-hidden="true">🐰</span>
+                        <button class="blog-filter-btn" data-filter="nagetiere">
+                            <span class="blog-filter-btn__icon">🐰</span>
                             <span class="blog-filter-btn__text">Nagetiere</span>
-                            <span class="blog-filter-btn__count" id="blog-count-nagetiere" aria-label="Anzahl Nagetiere-Artikel">0</span>
+                            <span class="blog-filter-btn__count" id="blog-count-nagetiere">0</span>
                         </button>
-                        <button class="blog-filter-btn" 
-                                data-filter="reptilien" 
-                                role="tab" 
-                                aria-selected="false" 
-                                aria-controls="blog-grid"
-                                id="filter-reptilien">
-                            <span class="blog-filter-btn__icon" aria-hidden="true">🦎</span>
+                        <button class="blog-filter-btn" data-filter="reptilien">
+                            <span class="blog-filter-btn__icon">🦎</span>
                             <span class="blog-filter-btn__text">Reptilien</span>
-                            <span class="blog-filter-btn__count" id="blog-count-reptilien" aria-label="Anzahl Reptilien-Artikel">0</span>
+                            <span class="blog-filter-btn__count" id="blog-count-reptilien">0</span>
                         </button>
-                        <button class="blog-filter-btn" 
-                                data-filter="voegel" 
-                                role="tab" 
-                                aria-selected="false" 
-                                aria-controls="blog-grid"
-                                id="filter-voegel">
-                            <span class="blog-filter-btn__icon" aria-hidden="true">🦜</span>
+                        <button class="blog-filter-btn" data-filter="voegel">
+                            <span class="blog-filter-btn__icon">🦜</span>
                             <span class="blog-filter-btn__text">Vögel</span>
-                            <span class="blog-filter-btn__count" id="blog-count-voegel" aria-label="Anzahl Vogel-Artikel">0</span>
+                            <span class="blog-filter-btn__count" id="blog-count-voegel">0</span>
                         </button>
-                        <button class="blog-filter-btn" 
-                                data-filter="fische" 
-                                role="tab" 
-                                aria-selected="false" 
-                                aria-controls="blog-grid"
-                                id="filter-fische">
-                            <span class="blog-filter-btn__icon" aria-hidden="true">🐠</span>
+                        <button class="blog-filter-btn" data-filter="fische">
+                            <span class="blog-filter-btn__icon">🐠</span>
                             <span class="blog-filter-btn__text">Fische</span>
-                            <span class="blog-filter-btn__count" id="blog-count-fische" aria-label="Anzahl Fisch-Artikel">0</span>
+                            <span class="blog-filter-btn__count" id="blog-count-fische">0</span>
                         </button>
                     </div>
                 </div>
@@ -4807,42 +4734,28 @@
             <div class="blog-controls__secondary">
                 <!-- Sort -->
                 <div class="blog-sort">
-                    <label for="blog-sort" class="blog-sort__label">Sortieren:</label>
-                    <select id="blog-sort" class="blog-sort__select" aria-describedby="sort-help">
+                    <label class="blog-sort__label">Sortieren:</label>
+                    <select id="blog-sort" class="blog-sort__select">
                         <option value="newest">Neueste zuerst</option>
                         <option value="oldest">Älteste zuerst</option>
                         <option value="alphabetical">Alphabetisch</option>
                         <option value="reading-time">Lesezeit</option>
                         <option value="popular">Beliebt</option>
                     </select>
-                    <div id="sort-help" class="visually-hidden">
-                        Wählen Sie die gewünschte Sortierreihenfolge der Artikel
-                    </div>
                 </div>
 
                 <!-- View Mode -->
-                <div class="blog-view-mode" role="radiogroup" aria-labelledby="view-mode-label">
-                    <span id="view-mode-label" class="visually-hidden">Ansichtsmodus wählen</span>
-                    <button class="view-mode-btn active" 
-                            data-mode="grid" 
-                            role="radio"
-                            aria-checked="true"
-                            aria-label="Raster-Ansicht"
-                            title="Raster-Ansicht">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <div class="blog-view-mode">
+                    <button class="view-mode-btn active" data-mode="grid" title="Raster-Ansicht">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <rect x="3" y="3" width="7" height="7"/>
                             <rect x="14" y="3" width="7" height="7"/>
                             <rect x="14" y="14" width="7" height="7"/>
                             <rect x="3" y="14" width="7" height="7"/>
                         </svg>
                     </button>
-                    <button class="view-mode-btn" 
-                            data-mode="list" 
-                            role="radio"
-                            aria-checked="false"
-                            aria-label="Listen-Ansicht"
-                            title="Listen-Ansicht">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <button class="view-mode-btn" data-mode="list" title="Listen-Ansicht">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <line x1="8" y1="6" x2="21" y2="6"/>
                             <line x1="8" y1="12" x2="21" y2="12"/>
                             <line x1="8" y1="18" x2="21" y2="18"/>
@@ -4853,68 +4766,44 @@
                     </button>
                 </div>
             </div>
-        </section>
+        </div>
 
         <!-- Blog Grid -->
-        <section class="blog-grid blog-grid--grid" 
-                 id="blog-grid" 
-                 role="tabpanel" 
-                 aria-labelledby="blog-header-title"
-                 aria-live="polite"
-                 aria-busy="false">
-            <h2 class="visually-hidden">Blog-Artikel</h2>
+        <div class="blog-grid blog-grid--grid" id="blog-grid">
             <!-- Blog cards will be inserted here -->
-        </section>
+        </div>
 
         <!-- Blog Pagination -->
-        <nav class="blog-pagination" 
-             id="blog-pagination" 
-             role="navigation" 
-             aria-label="Blog-Seitennummerierung">
+        <div class="blog-pagination" id="blog-pagination">
             <!-- Pagination buttons will be inserted here -->
-        </nav>
+        </div>
 
         <!-- Load More Button (Alternative to pagination) -->
-        <div class="blog-load-more hidden" id="blog-load-more-container">
-            <button class="blog-load-more__btn" 
-                    id="blog-load-more"
-                    type="button"
-                    aria-describedby="load-more-help">
+        <div class="blog-load-more" id="blog-load-more-container" style="display: none;">
+            <button class="blog-load-more__btn" id="blog-load-more">
                 <span>Weitere Artikel laden</span>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M5 12h14M12 5l7 7-7 7"/>
                 </svg>
             </button>
-            <div id="load-more-help" class="visually-hidden">
-                Lädt weitere Artikel in die aktuelle Ansicht
-            </div>
         </div>
     </div>
 </section>
 
 <!-- BLOG MODAL -->
-<div id="blog-modal" 
-     class="blog-modal hidden" 
-     role="dialog" 
-     aria-modal="true" 
-     aria-labelledby="blog-modal-title"
-     aria-describedby="blog-modal-content">
-    <div class="blog-modal__overlay" aria-hidden="true"></div>
+<div id="blog-modal" class="blog-modal">
+    <div class="blog-modal__overlay"></div>
     <div class="blog-modal__container">
-        <header class="blog-modal__header">
-            <h2 id="blog-modal-title" class="visually-hidden">Artikel-Details</h2>
-            <button class="blog-modal__close" 
-                    id="blog-modal-close"
-                    type="button"
-                    aria-label="Modal schließen">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <div class="blog-modal__header">
+            <button class="blog-modal__close" id="blog-modal-close">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <line x1="18" y1="6" x2="6" y2="18"/>
                     <line x1="6" y1="6" x2="18" y2="18"/>
                 </svg>
             </button>
-        </header>
+        </div>
         
-        <div class="blog-modal__content" id="blog-modal-content" tabindex="-1">
+        <div class="blog-modal__content" id="blog-modal-content">
             <!-- Article content will be inserted here -->
         </div>
     </div>
