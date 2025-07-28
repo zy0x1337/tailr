@@ -786,9 +786,10 @@ class AuthManager {
     }
 
 /**
- * Event-Callbacks für UI-Integration
+ * Erweiterte triggerCallback-Methode mit Navigation-Updates
  */
 triggerCallback(event, data) {
+    // Original Callback-Logik
     if (this.callbacks[event]) {
         this.callbacks[event].forEach(callback => {
             try {
@@ -799,14 +800,21 @@ triggerCallback(event, data) {
         });
     }
     
-    // SPEZIELLE UI-BEHANDLUNG
+    // ⭐ NAVIGATION-UPDATES BEI AUTH-ÄNDERUNGEN
+    if (event === 'onUserChange') {
+        this.updateNavigationAuthStatus();
+    }
+    
     if (event === 'onLogin' && data) {
-        // Nach erfolgreichem Login zur Startseite
+        console.log('✅ Login erfolgreich - Navigation wird aktualisiert');
         setTimeout(() => {
-            if (this.app && typeof this.app.showHome === 'function') {
-                this.app.showHome();
-            }
-        }, 1000);
+            this.updateNavigationAuthStatus();
+        }, 500);
+    }
+    
+    if (event === 'onLogout') {
+        console.log('🚪 Logout erfolgreich - Navigation wird zurückgesetzt');
+        this.updateNavigationAuthStatus();
     }
 }
 
@@ -814,15 +822,186 @@ triggerCallback(event, data) {
  * Navigation-Link-Status basierend auf Auth-Status aktualisieren
  */
 updateNavigationAuthStatus() {
-    const authNavLink = document.getElementById('auth-nav-link');
-    if (!authNavLink) return;
+    const guestSession = document.getElementById('guest-session');
+    const userSession = document.getElementById('user-session');
+    const usernameDisplay = document.getElementById('username-display');
     
-    if (this.isAuthenticated()) {
-        authNavLink.innerHTML = '👤 Profil';
-        authNavLink.dataset.category = 'my-pets';
+    if (this.isAuthenticated() && this.user) {
+        console.log('👤 Benutzer eingeloggt - Navigation wird aktualisiert');
+        
+        // Guest-Links verstecken
+        if (guestSession) {
+            guestSession.style.display = 'none';
+        }
+        
+        // User-Session anzeigen
+        if (userSession) {
+            userSession.style.display = 'block';
+        }
+        
+        // Benutzername und Avatar aktualisieren
+        this.updateUsernameDisplay();
+        
     } else {
-        authNavLink.innerHTML = '🔐 Anmelden';
-        authNavLink.dataset.category = 'auth';
+        console.log('🚪 Benutzer nicht eingeloggt - Navigation wird zurückgesetzt');
+        
+        // User-Session verstecken
+        if (userSession) {
+            userSession.style.display = 'none';
+        }
+        
+        // Guest-Links anzeigen
+        if (guestSession) {
+            guestSession.style.display = 'flex';
+        }
+    }
+}
+
+/**
+ * Benutzername und Avatar in Navigation aktualisieren
+ */
+updateUsernameDisplay() {
+    const usernameDisplay = document.getElementById('username-display');
+    if (!usernameDisplay || !this.user) return;
+    
+    const displayName = this.getUserDisplayName();
+    const avatarUrl = this.getUserAvatar();
+    
+    // Avatar-Element erstellen oder aktualisieren
+    let avatarElement = usernameDisplay.querySelector('#user-nav-avatar');
+    if (avatarUrl) {
+        if (!avatarElement) {
+            avatarElement = document.createElement('img');
+            avatarElement.id = 'user-nav-avatar';
+            avatarElement.alt = `${displayName} Avatar`;
+            usernameDisplay.insertBefore(avatarElement, usernameDisplay.firstChild);
+        }
+        avatarElement.src = avatarUrl;
+        avatarElement.style.display = 'block';
+    } else {
+        if (avatarElement) {
+            avatarElement.style.display = 'none';
+        }
+    }
+    
+    // Benutzername aktualisieren
+    const textContent = usernameDisplay.childNodes;
+    let textNode = null;
+    for (let node of textContent) {
+        if (node.nodeType === Node.TEXT_NODE) {
+            textNode = node;
+            break;
+        }
+    }
+    
+    if (textNode) {
+        textNode.textContent = `👤 ${displayName}`;
+    } else {
+        // Falls kein Text-Node vorhanden, erstelle einen
+        const span = document.createElement('span');
+        span.textContent = `👤 ${displayName}`;
+        usernameDisplay.appendChild(span);
+    }
+    
+    // Accessibility-Attribute aktualisieren
+    usernameDisplay.setAttribute('aria-label', `${displayName} - Profil-Menü öffnen`);
+    usernameDisplay.setAttribute('title', `Angemeldet als ${displayName}`);
+}
+
+/**
+ * User-Dropdown Event-Handler einrichten
+ */
+setupUserDropdownEvents() {
+    const usernameDisplay = document.getElementById('username-display');
+    const userSession = document.getElementById('user-session');
+    const logoutBtn = document.getElementById('logout-btn-dropdown');
+    
+    if (usernameDisplay) {
+        // Dropdown Toggle per Klick
+        usernameDisplay.addEventListener('click', (e) => {
+            e.preventDefault();
+            this.toggleUserDropdown();
+        });
+        
+        // Dropdown Toggle per Tastatur
+        usernameDisplay.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                this.toggleUserDropdown();
+            }
+        });
+    }
+    
+    // Logout-Button Handler
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', async (e) => {
+            e.preventDefault();
+            await this.handleLogout();
+        });
+    }
+    
+    // Dropdown schließen bei Klick außerhalb
+    document.addEventListener('click', (e) => {
+        if (userSession && !userSession.contains(e.target)) {
+            this.closeUserDropdown();
+        }
+    });
+    
+    // ESC-Taste zum Schließen
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            this.closeUserDropdown();
+        }
+    });
+}
+
+/**
+ * User-Dropdown öffnen/schließen
+ */
+toggleUserDropdown() {
+    const usernameDisplay = document.getElementById('username-display');
+    const dropdown = document.querySelector('#user-session .dropdown');
+    
+    if (!usernameDisplay || !dropdown) return;
+    
+    const isExpanded = usernameDisplay.getAttribute('aria-expanded') === 'true';
+    
+    if (isExpanded) {
+        this.closeUserDropdown();
+    } else {
+        this.openUserDropdown();
+    }
+}
+
+/**
+ * User-Dropdown öffnen
+ */
+openUserDropdown() {
+    const usernameDisplay = document.getElementById('username-display');
+    const dropdown = document.querySelector('#user-session .dropdown');
+    
+    if (usernameDisplay && dropdown) {
+        usernameDisplay.setAttribute('aria-expanded', 'true');
+        dropdown.classList.add('open');
+        
+        // Focus auf erstes Menü-Item
+        const firstMenuItem = dropdown.querySelector('.dropdown-link');
+        if (firstMenuItem) {
+            setTimeout(() => firstMenuItem.focus(), 100);
+        }
+    }
+}
+
+/**
+ * User-Dropdown schließen
+ */
+closeUserDropdown() {
+    const usernameDisplay = document.getElementById('username-display');
+    const dropdown = document.querySelector('#user-session .dropdown');
+    
+    if (usernameDisplay && dropdown) {
+        usernameDisplay.setAttribute('aria-expanded', 'false');
+        dropdown.classList.remove('open');
     }
 }
 

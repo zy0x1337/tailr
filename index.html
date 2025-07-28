@@ -140,46 +140,33 @@
                          USER AUTHENTICATION SECTION
                          ======================================== -->
                     <!-- Authentication links container -->
-                    <div id="auth-links" 
-                         role="group" 
-                         aria-label="Benutzer-Authentifizierung">
-                        
-                        <!-- User Registration Link -->
-                        <li role="none">
-                            <a href="/register" 
-                               class="header__nav-link" 
-                               data-category="register"
-                               role="menuitem"
-                               aria-label="Kostenloses tailr.wiki Konto erstellen"
-                               title="Registrieren - Kostenlose Haustierpflege-Tools nutzen">
-                                Registrieren
-                            </a>
-                        </li>
-                        
-                        <!-- User Login Link -->
-                        <li role="none">
-                            <a href="/login" 
-                               class="header__nav-link" 
-                               data-category="login"
-                               role="menuitem"
-                               aria-label="In tailr.wiki Account einloggen"
-                               title="Anmelden - Haustierdaten verwalten und synchronisieren">
-                                Anmelden
-                            </a>
-                        </li>
-                        
-                        <!-- Logout Button - Hidden by default -->
-                        <li role="none">
-                            <button id="logout-btn" 
-                                    class="btn btn--secondary logged-in" 
-                                    style="display: none;"
-                                    type="button"
-                                    role="menuitem"
-                                    aria-label="Sicher von tailr.wiki abmelden"
-                                    title="Logout - Session beenden">
-                                Logout
-                            </button>
-                        </li>
+                    <div id="guest-session" 
+             role="group"
+             aria-label="Anmeldung und Registrierung">
+            
+            <li role="none">
+                <a href="#" 
+                   class="header__nav-link" 
+                   data-category="auth"
+                   id="login-nav-link"
+                   role="button"
+                   aria-label="Bei tailr.wiki anmelden"
+                   title="Anmelden für personalisierte Funktionen">
+                    🔐 Anmelden
+                </a>
+            </li>
+            
+            <li role="none">
+                <a href="#" 
+                   class="header__nav-link" 
+                   data-category="auth"
+                   id="register-nav-link"
+                   role="button"
+                   aria-label="Kostenloses Konto erstellen"
+                   title="Registrieren für alle tailr.wiki Features">
+                    📝 Registrieren
+                </a>
+            </li>
                         
                         <!-- Admin Access Link - Restricted -->
                         <li role="none">
@@ -202,20 +189,21 @@
                          ======================================== -->
                     <!-- User session dropdown - Visible when logged in -->
                     <div id="user-session" 
-                         style="display: none;"
-                         role="group"
-                         aria-label="Benutzer-Profil und Haustiere">
-                        
-                        <li class="dropdown" role="none">
-                            <span class="header__nav-link" 
-                                  id="username-display"
-                                  role="button"
-                                  aria-haspopup="true"
-                                  aria-expanded="false"
-                                  aria-label="Benutzerprofil-Menü öffnen"
-                                  title="Mein Profil und Haustiere verwalten">
-                                Benutzer
-                            </span>
+             style="display: none;"
+             role="group"
+             aria-label="Benutzer-Profil und Haustiere">
+            
+            <li class="dropdown" role="none">
+                <span class="header__nav-link" 
+                      id="username-display"
+                      role="button"
+                      tabindex="0"
+                      aria-haspopup="true"
+                      aria-expanded="false"
+                      aria-label="Benutzerprofil-Menü öffnen"
+                      title="Mein Profil und Haustiere verwalten">
+                    👤 Benutzer
+                </span>
                             
                             <!-- User dropdown menu -->
                             <ul class="dropdown-menu" 
@@ -224,39 +212,42 @@
                                 
                                 <!-- My Pets Link -->
                                 <li role="none">
-                                    <a href="/my-pets" 
-                                       class="dropdown-link" 
-                                       data-category="my-pets"
-                                       role="menuitem"
-                                       aria-label="Meine registrierten Haustiere anzeigen"
-                                       title="Alle meine Haustiere - Profile und Gesundheitsdaten">
-                                        ❤️ Meine Haustiere
-                                    </a>
-                                </li>
+                        <a href="#" 
+                           class="dropdown-link" 
+                           data-category="my-pets"
+                           role="menuitem"
+                           aria-label="Meine registriierte Haustiere anzeigen"
+                           title="Alle meine Haustiere - Profile und Gesundheitsdaten">
+                            ❤️ Meine Haustiere
+                        </a>
+                    </li>
                                 
                                 <!-- New Pet Profile Link -->
                                 <li role="none">
-                                    <a href="/pet-profile/new" 
-                                       class="dropdown-link" 
-                                       data-category="pet-profile"
-                                       role="menuitem"
-                                       aria-label="Neues Haustierprofil erstellen"
-                                       title="Haustierprofil hinzufügen - Gesundheitsdaten erfassen">
-                                        🐾 Neues Profil
-                                    </a>
-                                </li>
+                        <a href="#" 
+                           class="dropdown-link" 
+                           data-category="pet-profile"
+                           role="menuitem"
+                           aria-label="Neues Haustierprofil erstellen"
+                           title="Haustierprofil hinzufügen - Gesundheitsdaten erfassen">
+                            🐾 Neues Profil
+                        </a>
+                    </li>
+
+                                <!-- Divider -->
+                    <li role="separator" class="dropdown-divider"></li>
                                 
                                 <!-- Logout from dropdown -->
                                 <li role="none">
-                                    <a href="/logout" 
-                                       class="dropdown-link" 
-                                       id="logout-btn-dropdown"
-                                       role="menuitem"
-                                       aria-label="Sicher ausloggen"
-                                       title="Session beenden und abmelden">
-                                        🚪 Logout
-                                    </a>
-                                </li>
+                        <button class="dropdown-link" 
+                                id="logout-btn-dropdown"
+                                type="button"
+                                role="menuitem"
+                                aria-label="Sicher ausloggen"
+                                title="Session beenden und abmelden">
+                            🚪 Logout
+                        </button>
+                    </li>
                             </ul>
                         </li>
                     </div>

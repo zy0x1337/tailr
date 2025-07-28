@@ -414,14 +414,17 @@ cleanup() {
     this.updateFavoriteButtons();
     this.petProfileCreator = new PetProfileCreator('pet-profile-form', this);
     this.authManager = new AuthManager(this);
-    // AUTH-CALLBACKS REGISTRIEREN
+    // ⭐ AUTH-MANAGER MIT NAVIGATION-INTEGRATION
+    this.authManager = new AuthManager(this);
+    
+    // ⭐ AUTH-STATUS-CALLBACKS MIT NAVIGATION-UPDATES
     this.authManager.on('onUserChange', (user) => {
-        this.updateAuthNavigation(user);
-        this.updateUIBasedOnAuthState(user);
+        console.log('🔄 User-Status geändert:', user ? 'eingeloggt' : 'ausgeloggt');
+        this.authManager.updateNavigationAuthStatus();
     });
     
     this.authManager.on('onLogin', (user) => {
-        console.log('✅ Benutzer angemeldet');
+        console.log('✅ Benutzer angemeldet:', user.email);
         this.showNotification(`Willkommen zurück, ${this.authManager.getUserDisplayName()}!`, 'success');
         this.handlePostLoginRedirection();
     });
@@ -432,10 +435,12 @@ cleanup() {
         this.handleNavigation('home');
     });
     
-    this.authManager.on('onError', (error) => {
-        console.error('🚨 Auth-Fehler:', error);
-        this.showNotification('Authentifizierungsfehler aufgetreten', 'error');
-    });
+    // ⭐ INITIALE NAVIGATION-STATUS-PRÜFUNG
+    setTimeout(() => {
+        if (this.authManager?.isInitialized) {
+            this.authManager.updateNavigationAuthStatus();
+        }
+    }, 1000);
 }
 
 /**
@@ -1760,6 +1765,46 @@ setupEventListeners() {
             authObserver.observe(authSection);
         }
     }
+
+    /**
+     * ⭐ USER-DROPDOWN EVENT LISTENERS
+     */
+    // User-Dropdown Events einrichten
+    if (this.authManager) {
+        this.authManager.setupUserDropdownEvents();
+    }
+    
+    /**
+     * ⭐ NAVIGATION LINK EVENT HANDLERS
+     */
+    // Guest Session Links
+    document.addEventListener('click', (e) => {
+        if (e.target.matches('#login-nav-link, #register-nav-link')) {
+            e.preventDefault();
+            this.handleNavigation('auth', e.target);
+        }
+    });
+    
+    /**
+     * ⭐ USER SESSION DROPDOWN LINKS
+     */
+    document.addEventListener('click', (e) => {
+        // My Pets Link
+        if (e.target.matches('[data-category="my-pets"]')) {
+            e.preventDefault();
+            this.handleNavigation('my-pets', e.target);
+            this.authManager?.closeUserDropdown();
+        }
+        
+        // Pet Profile Link
+        if (e.target.matches('[data-category="pet-profile"]')) {
+            e.preventDefault();
+            this.handleNavigation('pet-profile', e.target);
+            this.authManager?.closeUserDropdown();
+        }
+    });
+    
+    console.log('✅ User-Navigation Event-Listeners eingerichtet');
 
     console.log('✅ Auth0-Event-Listeners eingerichtet');
 
