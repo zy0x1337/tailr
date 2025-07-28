@@ -2586,123 +2586,671 @@
 }
 </style>
 
-        <!-- Species-Section -->
-<section class="species-section" id="species-section" style="display: none;">
-    <div class="container">
-        <h2 class="section__title" id="species-title">Tierarten</h2>
-        
-        <!-- List.js Container -->
-        <div id="species-list">
-            <!-- Suchfeld -->
-            <div class="species__search-container">
-                <input class="search" placeholder="Tierart suchen..." />
-                <span class="search-results">Gefunden: <span class="result-count">0</span> Tiere</span>
-            </div>
-            
-            <!-- Filter-Dropdowns -->
-            <div class="advanced-filters-container">
-    <div class="filter-header">
-        <h3>🔍 Erweiterte Filter</h3>
-        <button class="filter-toggle-btn">
-            <span>Filter anzeigen</span>
-            <span class="filter-arrow">▼</span>
-        </button>
-    </div>
+        <!-- ========================================
+     TIERARTEN SECTION - SEO & ACCESSIBILITY OPTIMIERT
+     ======================================== -->
+<!-- Umfassende Tierarten-Übersicht mit interaktiven Filtern und SEO -->
+<section class="species-section" 
+         id="species-section" 
+         style="display: none;"
+         role="region" 
+         aria-labelledby="species-title"
+         itemscope 
+         itemtype="https://schema.org/ItemList">
     
-    <div class="filter-panel">
-        <div class="filter-grid">
-            <!-- Temperament Filter -->
-            <div class="filter-group">
-                <label>Temperament</label>
-                <div class="checkbox-group">
-                    <label class="checkbox-label">
-                        <input type="checkbox" class="temperament-filter" value="freundlich">
-                        <span>Freundlich</span>
-                    </label>
-                    <label class="checkbox-label">
-                        <input type="checkbox" class="temperament-filter" value="energisch">
-                        <span>Energisch</span>
-                    </label>
-                    <label class="checkbox-label">
-                        <input type="checkbox" class="temperament-filter" value="ruhig">
-                        <span>Ruhig</span>
-                    </label>
-                    <label class="checkbox-label">
-                        <input type="checkbox" class="temperament-filter" value="verspielt">
-                        <span>Verspielt</span>
-                    </label>
-                </div>
+    <div class="container">
+        
+        <!-- ========================================
+             SECTION TITLE - SEO OPTIMIERT
+             ======================================== -->
+        <!-- H2 für hierarchische SEO-Struktur -->
+        <h2 class="section__title" 
+            id="species-title"
+            itemprop="name">
+            Tierarten - Umfassende Übersicht aller Haustierarten
+        </h2>
+        
+        <!-- ========================================
+             SECTION DESCRIPTION (SEO-ERGÄNZUNG)
+             ======================================== -->
+        <!-- SEO-Description für bessere Kategorisierung -->
+        <p class="section__description" 
+           itemprop="description"
+           aria-describedby="species-title">
+            Entdecken Sie alle verfügbaren Haustierarten mit detaillierten Informationen zu 
+            Pflegeaufwand, Größe, Temperament und Lebenserwartung. Interaktive Filter helfen 
+            bei der perfekten Auswahl für Ihren Lebensstil.
+        </p>
+        
+        <!-- ========================================
+             LIST.JS CONTAINER - INTERACTIVE SPECIES LIST
+             ======================================== -->
+        <!-- Hauptcontainer für filterbare Tierarten-Liste -->
+        <div id="species-list" 
+             role="main"
+             aria-labelledby="species-title"
+             aria-describedby="species-instructions">
+            
+            <!-- Instructions für Screen Reader -->
+            <div class="sr-only" id="species-instructions">
+                Durchsuchen und filtern Sie Haustierarten nach verschiedenen Kriterien. 
+                Nutzen Sie die Suchfunktion oder erweiterte Filter für präzise Ergebnisse.
             </div>
             
-            <!-- Größe Filter -->
-            <div class="filter-group">
-                <label>Größe</label>
-                <div class="toggle-group">
-                    <button class="toggle-btn size-filter" data-value="klein">Klein</button>
-                    <button class="toggle-btn size-filter" data-value="mittel">Mittel</button>
-                    <button class="toggle-btn size-filter" data-value="groß">Groß</button>
-                </div>
+            <!-- ========================================
+                 SEARCH CONTAINER
+                 ======================================== -->
+            <!-- Suchfunktion für Tierarten -->
+            <div class="species__search-container" 
+                 role="search"
+                 aria-labelledby="search-label">
+                
+                <!-- Search Label (Screen Reader Only) -->
+                <label class="sr-only" 
+                       id="search-label" 
+                       for="species-search-input">
+                    Tierart durchsuchen
+                </label>
+                
+                <!-- Search Input -->
+                <input class="search" 
+                       id="species-search-input"
+                       type="search"
+                       placeholder="Tierart suchen... (z.B. Golden Retriever, Perserkatze)"
+                       aria-label="Tierarten durchsuchen - Geben Sie Namen oder Eigenschaften ein"
+                       aria-describedby="search-results-info"
+                       autocomplete="off"
+                       spellcheck="false"
+                       maxlength="100" />
+                
+                <!-- Search Results Counter -->
+                <span class="search-results" 
+                      id="search-results-info"
+                      aria-live="polite"
+                      aria-atomic="true">
+                    Gefunden: <span class="result-count">0</span> Tiere
+                </span>
             </div>
             
-            <!-- Pflegeaufwand Filter -->
-            <div class="filter-group">
-                <label>Pflegeaufwand</label>
-                <div class="range-slider-container">
-                    <input type="range" class="care-range-filter" min="1" max="5" value="3">
-                    <div class="range-labels">
-                        <span>Niedrig</span>
-                        <span>Hoch</span>
+            <!-- ========================================
+                 ADVANCED FILTERS CONTAINER
+                 ======================================== -->
+            <!-- Erweiterte Filteroptionen für präzise Suche -->
+            <div class="advanced-filters-container" 
+                 role="region"
+                 aria-labelledby="filters-title"
+                 aria-expanded="false">
+                
+                <!-- Filter Header -->
+                <div class="filter-header" 
+                     role="banner">
+                    
+                    <h3 id="filters-title">🔍 Erweiterte Filter - Tierarten nach Eigenschaften filtern</h3>
+                    
+                    <button class="filter-toggle-btn"
+                            type="button"
+                            aria-expanded="false"
+                            aria-controls="filter-panel"
+                            aria-label="Erweiterte Filter ein- oder ausblenden"
+                            title="Filter-Optionen anzeigen oder verbergen">
+                        <span class="toggle-text">Filter anzeigen</span>
+                        <span class="filter-arrow" aria-hidden="true">▼</span>
+                    </button>
+                </div>
+                
+                <!-- ========================================
+                     FILTER PANEL
+                     ======================================== -->
+                <!-- Hauptfilter-Bereich mit verschiedenen Filtertypen -->
+                <div class="filter-panel" 
+                     id="filter-panel"
+                     role="group"
+                     aria-labelledby="filters-title"
+                     style="display: none;">
+                    
+                    <!-- Filter Grid Container -->
+                    <div class="filter-grid" 
+                         role="group"
+                         aria-label="Filter-Kategorien">
+                        
+                        <!-- ========================================
+                             TEMPERAMENT FILTER
+                             ======================================== -->
+                        <!-- Checkbox-basierte Temperament-Auswahl -->
+                        <fieldset class="filter-group" 
+                                  role="group"
+                                  aria-labelledby="temperament-label">
+                            
+                            <legend class="filter-label" 
+                                    id="temperament-label">
+                                Temperament - Charaktereigenschaften auswählen
+                            </legend>
+                            
+                            <div class="checkbox-group" 
+                                 role="group"
+                                 aria-labelledby="temperament-label">
+                                
+                                <!-- Freundlich -->
+                                <label class="checkbox-label">
+                                    <input type="checkbox" 
+                                           class="temperament-filter" 
+                                           value="freundlich"
+                                           id="temp-freundlich"
+                                           aria-describedby="temp-freundlich-desc">
+                                    <span>Freundlich</span>
+                                    <span class="sr-only" 
+                                          id="temp-freundlich-desc">
+                                        Soziale und aufgeschlossene Tiere
+                                    </span>
+                                </label>
+                                
+                                <!-- Energisch -->
+                                <label class="checkbox-label">
+                                    <input type="checkbox" 
+                                           class="temperament-filter" 
+                                           value="energisch"
+                                           id="temp-energisch"
+                                           aria-describedby="temp-energisch-desc">
+                                    <span>Energisch</span>
+                                    <span class="sr-only" 
+                                          id="temp-energisch-desc">
+                                        Aktive Tiere mit hohem Bewegungsdrang
+                                    </span>
+                                </label>
+                                
+                                <!-- Ruhig -->
+                                <label class="checkbox-label">
+                                    <input type="checkbox" 
+                                           class="temperament-filter" 
+                                           value="ruhig"
+                                           id="temp-ruhig"
+                                           aria-describedby="temp-ruhig-desc">
+                                    <span>Ruhig</span>
+                                    <span class="sr-only" 
+                                          id="temp-ruhig-desc">
+                                        Gelassene und entspannte Tierarten
+                                    </span>
+                                </label>
+                                
+                                <!-- Verspielt -->
+                                <label class="checkbox-label">
+                                    <input type="checkbox" 
+                                           class="temperament-filter" 
+                                           value="verspielt"
+                                           id="temp-verspielt"
+                                           aria-describedby="temp-verspielt-desc">
+                                    <span>Verspielt</span>
+                                    <span class="sr-only" 
+                                          id="temp-verspielt-desc">
+                                        Spielfreudige und interaktive Tiere
+                                    </span>
+                                </label>
+                            </div>
+                        </fieldset>
+                        
+                        <!-- ========================================
+                             GRÖSSE FILTER
+                             ======================================== -->
+                        <!-- Toggle-basierte Größenauswahl -->
+                        <fieldset class="filter-group" 
+                                  role="group"
+                                  aria-labelledby="size-label">
+                            
+                            <legend class="filter-label" 
+                                    id="size-label">
+                                Größe - Körpergröße der Tierarten
+                            </legend>
+                            
+                            <div class="toggle-group" 
+                                 role="radiogroup"
+                                 aria-labelledby="size-label">
+                                
+                                <button class="toggle-btn size-filter" 
+                                        data-value="klein"
+                                        type="button"
+                                        role="radio"
+                                        aria-checked="false"
+                                        aria-label="Kleine Tierarten auswählen"
+                                        title="Kleine Haustiere - Bis 30cm Körpergröße">
+                                    Klein
+                                </button>
+                                
+                                <button class="toggle-btn size-filter" 
+                                        data-value="mittel"
+                                        type="button"
+                                        role="radio"
+                                        aria-checked="false"
+                                        aria-label="Mittelgroße Tierarten auswählen"
+                                        title="Mittelgroße Haustiere - 30-60cm Körpergröße">
+                                    Mittel
+                                </button>
+                                
+                                <button class="toggle-btn size-filter" 
+                                        data-value="groß"
+                                        type="button"
+                                        role="radio"
+                                        aria-checked="false"
+                                        aria-label="Große Tierarten auswählen"
+                                        title="Große Haustiere - Über 60cm Körpergröße">
+                                    Groß
+                                </button>
+                            </div>
+                        </fieldset>
+                        
+                        <!-- ========================================
+                             PFLEGEAUFWAND FILTER
+                             ======================================== -->
+                        <!-- Range Slider für Pflegeintensität -->
+                        <fieldset class="filter-group" 
+                                  role="group"
+                                  aria-labelledby="care-label">
+                            
+                            <legend class="filter-label" 
+                                    id="care-label">
+                                Pflegeaufwand - Benötigte Pflege und Betreuung
+                            </legend>
+                            
+                            <div class="range-slider-container">
+                                <input type="range" 
+                                       class="care-range-filter" 
+                                       id="care-range"
+                                       min="1" 
+                                       max="5" 
+                                       value="3"
+                                       aria-labelledby="care-label"
+                                       aria-describedby="care-range-desc"
+                                       aria-valuemin="1"
+                                       aria-valuemax="5"
+                                       aria-valuenow="3"
+                                       aria-valuetext="Mittlerer Pflegeaufwand">
+                                
+                                <div class="range-labels" 
+                                     aria-hidden="true">
+                                    <span>Niedrig</span>
+                                    <span>Hoch</span>
+                                </div>
+                                
+                                <div class="sr-only" 
+                                     id="care-range-desc">
+                                    Schieberegler von 1 (niedriger Pflegeaufwand) bis 5 (hoher Pflegeaufwand)
+                                </div>
+                            </div>
+                        </fieldset>
+                        
+                        <!-- ========================================
+                             LEBENSERWARTUNG FILTER
+                             ======================================== -->
+                        <!-- Dual Range für Altersbereich -->
+                        <fieldset class="filter-group" 
+                                  role="group"
+                                  aria-labelledby="age-label">
+                            
+                            <legend class="filter-label" 
+                                    id="age-label">
+                                Lebenserwartung (Jahre) - Durchschnittliche Lebensdauer
+                            </legend>
+                            
+                            <div class="dual-range-container" 
+                                 role="group"
+                                 aria-labelledby="age-label">
+                                
+                                <input type="number" 
+                                       class="min-age" 
+                                       id="min-age-input"
+                                       placeholder="Min" 
+                                       min="1" 
+                                       max="30"
+                                       aria-label="Minimale Lebenserwartung in Jahren"
+                                       title="Mindest-Lebenserwartung eingeben">
+                                
+                                <span class="range-separator" 
+                                      aria-hidden="true">bis</span>
+                                
+                                <input type="number" 
+                                       class="max-age" 
+                                       id="max-age-input"
+                                       placeholder="Max" 
+                                       min="1" 
+                                       max="30"
+                                       aria-label="Maximale Lebenserwartung in Jahren"
+                                       title="Höchst-Lebenserwartung eingeben">
+                            </div>
+                        </fieldset>
+                        
+                    </div>
+                    <!-- Ende: Filter Grid -->
+                    
+                    <!-- ========================================
+                         FILTER PRESETS - QUICK FILTERS
+                         ======================================== -->
+                    <!-- Vordefinierte Filter-Kombinationen -->
+                    <div class="filter-presets" 
+                         role="group"
+                         aria-labelledby="presets-title">
+                        
+                        <h4 id="presets-title">Schnellfilter - Vordefinierte Auswahl</h4>
+                        
+                        <div class="preset-buttons" 
+                             role="group"
+                             aria-labelledby="presets-title">
+                            
+                            <button class="preset-btn" 
+                                    data-preset="anfaenger"
+                                    type="button"
+                                    aria-label="Filter für Anfänger-geeignete Tierarten"
+                                    title="Tierarten mit niedrigem Pflegeaufwand für Einsteiger">
+                                Für Anfänger
+                            </button>
+                            
+                            <button class="preset-btn" 
+                                    data-preset="familie"
+                                    type="button"
+                                    aria-label="Filter für familienfreundliche Tierarten"
+                                    title="Kinderfreundliche und soziale Haustierarten">
+                                Familienfreundlich
+                            </button>
+                            
+                            <button class="preset-btn" 
+                                    data-preset="apartment"
+                                    type="button"
+                                    aria-label="Filter für wohnungsgeeignete Tierarten"
+                                    title="Tierarten für kleinere Wohnräume geeignet">
+                                Wohnung geeignet
+                            </button>
+                            
+                            <button class="preset-btn" 
+                                    data-preset="aktiv"
+                                    type="button"
+                                    aria-label="Filter für aktive und energische Tierarten"
+                                    title="Energische Tiere für aktive Besitzer">
+                                Aktive Tiere
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Ende: Filter Presets -->
+                    
+                    <!-- ========================================
+                         FILTER ACTIONS - CONTROL BUTTONS
+                         ======================================== -->
+                    <!-- Filter-Steuerung und Speicherfunktionen -->
+                    <div class="filter-actions" 
+                         role="group"
+                         aria-label="Filter-Aktionen">
+                        
+                        <button class="btn btn--secondary" 
+                                id="clear-filters"
+                                type="button"
+                                aria-label="Alle Filter zurücksetzen"
+                                title="Alle gesetzten Filter entfernen und Standardansicht wiederherstellen">
+                            🔄 Filter zurücksetzen
+                        </button>
+                        
+                        <button class="btn btn--primary" 
+                                id="save-filters"
+                                type="button"
+                                aria-label="Aktuelle Filter-Einstellungen speichern"
+                                title="Filter-Kombination für zukünftige Nutzung speichern">
+                            💾 Filter speichern
+                        </button>
+                    </div>
+                    <!-- Ende: Filter Actions -->
+                    
+                </div>
+                <!-- Ende: Filter Panel -->
+                
+            </div>
+            <!-- Ende: Advanced Filters Container -->
+            
+            <!-- ========================================
+                 SORTING OPTIONS
+                 ======================================== -->
+            <!-- Sortieroptionen für Ergebnisliste -->
+            <div class="species__sort" 
+                 role="group"
+                 aria-labelledby="sort-title"
+                 aria-describedby="sort-instructions">
+                
+                <!-- Sort Title (Screen Reader Only) -->
+                <h3 class="sr-only" id="sort-title">
+                    Tierarten-Liste sortieren
+                </h3>
+                
+                <!-- Sort Instructions (Screen Reader Only) -->
+                <div class="sr-only" id="sort-instructions">
+                    Wählen Sie eine Sortieroption aus, um die Tierarten-Liste neu zu ordnen
+                </div>
+                
+                <!-- Sort Buttons -->
+                <button class="sort btn btn--mini" 
+                        data-sort="name"
+                        type="button"
+                        aria-label="Nach Tierarten-Namen alphabetisch sortieren"
+                        title="Alphabetische Sortierung von A-Z">
+                    📝 Nach Name
+                </button>
+                
+                <button class="sort btn btn--mini" 
+                        data-sort="size"
+                        type="button"
+                        aria-label="Nach Körpergröße der Tierarten sortieren"
+                        title="Sortierung von klein zu groß">
+                    📏 Nach Größe
+                </button>
+                
+                <button class="sort btn btn--mini" 
+                        data-sort="care-level"
+                        type="button"
+                        aria-label="Nach Pflegeaufwand sortieren"
+                        title="Sortierung von niedrigem zu hohem Pflegeaufwand">
+                    🛠️ Nach Pflege
+                </button>
+            </div>
+            <!-- Ende: Species Sort -->
+            
+            <!-- ========================================
+                 SPECIES GRID - RESULTS DISPLAY
+                 ======================================== -->
+            <!-- Hauptergebnis-Grid (wird von List.js verwaltet) -->
+            <div id="species-grid" 
+                 class="species__grid list"
+                 role="region"
+                 aria-labelledby="results-title"
+                 aria-live="polite"
+                 aria-busy="false"
+                 itemscope
+                 itemtype="https://schema.org/ItemList">
+                
+                <!-- Results Title (Screen Reader Only) -->
+                <h3 class="sr-only" id="results-title">
+                    Suchergebnisse der Tierarten
+                </h3>
+                
+                <!-- Loading State -->
+                <div class="species-loading" 
+                     id="species-loading"
+                     style="display: none;"
+                     role="status"
+                     aria-label="Tierarten werden geladen...">
+                    
+                    <div class="loading-spinner" aria-hidden="true"></div>
+                    <span class="loading-text">Tierarten werden geladen...</span>
+                </div>
+                
+                <!-- Empty State -->
+                <div class="species-empty" 
+                     id="species-empty"
+                     style="display: none;"
+                     role="status">
+                    
+                    <div class="empty-content">
+                        <div class="empty-icon" aria-hidden="true">🔍</div>
+                        <h3>Keine Tierarten gefunden</h3>
+                        <p>Versuchen Sie andere Suchbegriffe oder ändern Sie die Filter.</p>
                     </div>
                 </div>
+                
+                <!-- Dynamic Content wird hier von List.js eingefügt -->
             </div>
+            <!-- Ende: Species Grid -->
             
-            <!-- Lebenserwartung Filter -->
-            <div class="filter-group">
-                <label>Lebenserwartung (Jahre)</label>
-                <div class="dual-range-container">
-                    <input type="number" class="min-age" placeholder="Min" min="1" max="30">
-                    <span>bis</span>
-                    <input type="number" class="max-age" placeholder="Max" min="1" max="30">
-                </div>
+            <!-- ========================================
+                 PAGINATION CONTROLS
+                 ======================================== -->
+            <!-- Seitennavigation für große Ergebnislisten -->
+            <div class="pagination-container" 
+                 role="navigation"
+                 aria-labelledby="pagination-title">
+                
+                <!-- Pagination Title (Screen Reader Only) -->
+                <h3 class="sr-only" id="pagination-title">
+                    Seitennavigation der Tierarten-Ergebnisse
+                </h3>
+                
+                <!-- Pagination List -->
+                <ul class="pagination" 
+                    role="list"
+                    aria-label="Seitenzahlen">
+                    <!-- Pagination wird von List.js generiert -->
+                </ul>
             </div>
+            <!-- Ende: Pagination Container -->
+            
         </div>
+        <!-- Ende: List.js Container -->
         
-        <!-- Filter Presets -->
-        <div class="filter-presets">
-            <h4>Schnellfilter</h4>
-            <div class="preset-buttons">
-                <button class="preset-btn" data-preset="anfaenger">Für Anfänger</button>
-                <button class="preset-btn" data-preset="familie">Familienfreundlich</button>
-                <button class="preset-btn" data-preset="apartment">Wohnung geeignet</button>
-                <button class="preset-btn" data-preset="aktiv">Aktive Tiere</button>
-            </div>
-        </div>
-        
-        <!-- Filter Actions -->
-        <div class="filter-actions">
-            <button class="btn btn--secondary" id="clear-filters">Filter zurücksetzen</button>
-            <button class="btn btn--primary" id="save-filters">Filter speichern</button>
-        </div>
     </div>
-</div>
-            
-            <!-- Sortier-Buttons -->
-            <div class="species__sort">
-                <button class="sort btn btn--mini" data-sort="name">Nach Name</button>
-                <button class="sort btn btn--mini" data-sort="size">Nach Größe</button>
-                <button class="sort btn btn--mini" data-sort="care-level">Nach Pflege</button>
-            </div>
-            
-            <!-- Species Grid (wird von List.js verwaltet) -->
-            <div id="species-grid" class="species__grid list"></div>
-            
-            <!-- Pagination -->
-            <div class="pagination-container">
-                <ul class="pagination"></ul>
-            </div>
-        </div>
-    </div>
+    <!-- Ende: Container -->
+    
+    <!-- ========================================
+         STRUCTURED DATA - JSON-LD
+         ======================================== -->
+    <!-- Schema.org für Species/Animal Collection -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        "name": "Umfassende Tierarten-Übersicht - tailr.wiki",
+        "description": "Vollständige Liste aller Haustierarten mit detaillierten Informationen zu Pflegeaufwand, Größe, Temperament und Lebenserwartung",
+        "url": "https://tailr.netlify.app/#species-section",
+        "publisher": {
+            "@type": "Organization",
+            "name": "tailr.wiki",
+            "url": "https://tailr.netlify.app"
+        },
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://tailr.netlify.app/#species-section"
+        },
+        "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://tailr.netlify.app/tiere/{search_term_string}",
+            "query-input": "required name=search_term_string"
+        },
+        "itemListOrder": "https://schema.org/ItemListOrderAscending",
+        "additionalProperty": [
+            {
+                "@type": "PropertyValue",
+                "name": "Filteroptionen",
+                "value": "Temperament, Größe, Pflegeaufwand, Lebenserwartung"
+            },
+            {
+                "@type": "PropertyValue", 
+                "name": "Sortieroptionen",
+                "value": "Name, Größe, Pflegeaufwand"
+            }
+        ]
+    }
+    </script>
+    
 </section>
+<!-- Ende: Species-Section -->
+
+<!-- ========================================
+     ACCESSIBILITY HELPER STYLES
+     ======================================== -->
+<!-- Screen Reader Only Utility Classes -->
+<style>
+.sr-only {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+}
+
+/* Filter Panel Toggle States */
+.filter-panel[style*="display: none"] {
+    display: none !important;
+}
+
+.filter-toggle-btn[aria-expanded="true"] .filter-arrow {
+    transform: rotate(180deg);
+}
+
+/* Loading States */
+.species-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 3rem 2rem;
+}
+
+.loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid var(--color-border);
+    border-top: 3px solid var(--color-primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 1rem;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Empty State Styling */
+.species-empty {
+    text-align: center;
+    padding: 3rem 2rem;
+}
+
+.empty-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+}
+
+/* Range Slider Accessibility */
+.care-range-filter:focus {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+/* Toggle Button States */
+.toggle-btn[aria-checked="true"] {
+    background: var(--color-primary);
+    color: white;
+}
+
+/* Checkbox Label Styling */
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+}
+
+.checkbox-label input[type="checkbox"]:focus {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
+</style>
 
 <!-- Nach den bestehenden Sektionen einfügen -->
 <section class="auth-section" id="login-section" style="display: none;">
