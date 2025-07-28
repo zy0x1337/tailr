@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kontakt - Tailr</title>
+    <title>Kontakt - tailr</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="legal-styles.css">
 </head>
@@ -12,14 +12,14 @@
         <nav>
             <div class="nav-container">
                 <div class="logo">
-                    <a href="index.html">Tailr</a>
+                    <a href="index.html">tailr</a>
                 </div>
                 <ul class="nav-menu">
                     <li><a href="index.html">Home</a></li>
                     <li><a href="kontakt.html" class="active">Kontakt</a></li>
                     <li><a href="impressum.html">Impressum</a></li>
                     <li><a href="datenschutz.html">Datenschutz</a></li>
-                    <li><a href="agb.html">AGB</a></li>
+                    <li><a href="nutzungsbedingungen.html">Nutzungsbedingungen</a></li>
                 </ul>
             </div>
         </nav>
@@ -32,7 +32,8 @@
             <section class="legal-section">
                 <h2>Nehmen Sie Kontakt mit uns auf</h2>
                 <div class="info-block">
-                    <p>Haben Sie Fragen, Anregungen oder möchten Sie mehr über Tailr erfahren? Wir freuen uns auf Ihre Nachricht und werden Ihnen schnellstmöglich antworten.</p>
+                    <p>Haben Sie Fragen, Anregungen oder möchten Sie mehr über tailr erfahren? Wir freuen uns auf Ihre Nachricht und werden Ihnen schnellstmöglich antworten.</p>
+                    <p>Da es sich um eine nicht-kommerzielle Informationsseite handelt, bieten wir keinen Verkauf oder kostenpflichtige Services an. Gerne helfen wir jedoch bei Fragen zum Projekt oder zu den bereitgestellten Informationen.</p>
                 </div>
             </section>
 
@@ -52,12 +53,19 @@
                         
                         <div class="form-group">
                             <label for="subject">Betreff</label>
-                            <input type="text" id="subject" name="subject">
+                            <select id="subject" name="subject">
+                                <option value="">Bitte wählen Sie ein Thema</option>
+                                <option value="Allgemeine Frage">Allgemeine Frage</option>
+                                <option value="Technische Frage">Technische Frage</option>
+                                <option value="Feedback">Feedback</option>
+                                <option value="Fehler melden">Fehler melden</option>
+                                <option value="Sonstiges">Sonstiges</option>
+                            </select>
                         </div>
                         
                         <div class="form-group">
                             <label for="message">Ihre Nachricht *</label>
-                            <textarea id="message" name="message" rows="6" required></textarea>
+                            <textarea id="message" name="message" rows="6" required placeholder="Beschreiben Sie Ihr Anliegen..."></textarea>
                         </div>
                         
                         <div class="form-group checkbox-group">
@@ -77,31 +85,23 @@
                     <h2>Kontaktinformationen</h2>
                     <div class="info-block">
                         <div class="contact-info">
-                            <h3>Anschrift</h3>
-                            <p><strong>[Ihr Name/Firmenname]</strong></p>
-                            <p>[Straße und Hausnummer]</p>
-                            <p>[PLZ] [Ort]</p>
-                            <p>[Land]</p>
-                        </div>
-                        
-                        <div class="contact-info">
                             <h3>Direkter Kontakt</h3>
-                            <p><strong>Telefon:</strong> <a href="tel:[Telefonnummer]">[Ihre Telefonnummer]</a></p>
                             <p><strong>E-Mail:</strong> <a href="mailto:[E-Mail]">[Ihre E-Mail-Adresse]</a></p>
-                        </div>
-                        
-                        <div class="contact-info">
-                            <h3>Online</h3>
                             <p><strong>Website:</strong> <a href="https://tailr.netlify.app" target="_blank">https://tailr.netlify.app</a></p>
-                            <p><strong>GitHub:</strong> <a href="https://github.com/zy0x1337/tailr" target="_blank">GitHub Repository</a></p>
+                            <p><strong>GitHub:</strong> <a href="https://github.com/zy0x1337/tailr" target="_blank">tailr Repository</a></p>
                         </div>
                         
                         <div class="contact-info">
-                            <h3>Öffnungszeiten</h3>
-                            <p><strong>Montag - Freitag:</strong> 9:00 - 18:00 Uhr</p>
-                            <p><strong>Samstag:</strong> 10:00 - 14:00 Uhr</p>
-                            <p><strong>Sonntag:</strong> Geschlossen</p>
-                            <p class="note">Antworten per E-Mail erfolgen in der Regel binnen 24 Stunden.</p>
+                            <h3>Antwortzeiten</h3>
+                            <p>Da dies eine private, nicht-kommerzielle Website ist, erfolgt die Bearbeitung von Anfragen in der Freizeit.</p>
+                            <p><strong>Typische Antwortzeit:</strong> 1-3 Werktage</p>
+                            <p class="note">Bitte haben Sie Verständnis, dass die Bearbeitung nicht sofort erfolgen kann.</p>
+                        </div>
+                        
+                        <div class="contact-info">
+                            <h3>Worum geht es bei tailr?</h3>
+                            <p>tailr ist ein Projekt zur Demonstration moderner Webentwicklung und dient Bildungs- und Lernzwecken.</p>
+                            <p>Alle Inhalte sind frei verfügbar und für nicht-kommerzielle Zwecke nutzbar.</p>
                         </div>
                     </div>
                 </section>
@@ -110,14 +110,17 @@
             <section class="legal-section">
                 <h2>Häufig gestellte Fragen</h2>
                 <div class="info-block">
-                    <h3>Wie schnell erhalte ich eine Antwort?</h3>
-                    <p>Wir bemühen uns, alle Anfragen innerhalb von 24 Stunden zu beantworten. In dringenden Fällen rufen Sie uns gerne direkt an.</p>
+                    <h3>Ist tailr kostenlos?</h3>
+                    <p>Ja, tailr ist ein Open-Source-Projekt und vollständig kostenlos. Es werden keine Produkte verkauft oder kostenpflichtige Services angeboten.</p>
+                    
+                    <h3>Kann ich tailr kommerziell nutzen?</h3>
+                    <p>Die Nutzung hängt von der jeweiligen Lizenz ab. Details finden Sie im GitHub-Repository oder kontaktieren Sie uns für spezifische Fragen.</p>
+                    
+                    <h3>Wie kann ich zum Projekt beitragen?</h3>
+                    <p>Contributions sind willkommen! Schauen Sie sich das GitHub-Repository an oder kontaktieren Sie uns für weitere Informationen.</p>
                     
                     <h3>Welche Informationen sollte ich in meine Anfrage einbeziehen?</h3>
-                    <p>Je detaillierter Ihre Anfrage ist, desto besser können wir Ihnen helfen. Beschreiben Sie Ihr Anliegen möglichst genau und fügen Sie relevante Details hinzu.</p>
-                    
-                    <h3>Kann ich auch telefonisch Kontakt aufnehmen?</h3>
-                    <p>Selbstverständlich! Sie erreichen uns während unserer Öffnungszeiten telefonisch. Außerhalb dieser Zeiten hinterlassen Sie gerne eine Nachricht auf unserem Anrufbeantworter.</p>
+                    <p>Je detaillierter Ihre Anfrage ist, desto besser können wir Ihnen helfen. Beschreiben Sie Ihr Anliegen genau und fügen Sie relevante Details hinzu.</p>
                 </div>
             </section>
         </div>
@@ -125,12 +128,12 @@
 
     <footer>
         <div class="footer-container">
-            <p>&copy; 2025 Tailr. Alle Rechte vorbehalten.</p>
+            <p>&copy; 2025 tailr. Alle Rechte vorbehalten.</p>
             <p>
                 <a href="kontakt.html">Kontakt</a> | 
                 <a href="impressum.html">Impressum</a> | 
                 <a href="datenschutz.html">Datenschutz</a> | 
-                <a href="agb.html">AGB</a>
+                <a href="nutzungsbedingungen.html">Nutzungsbedingungen</a>
             </p>
         </div>
     </footer>
