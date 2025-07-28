@@ -3239,1053 +3239,119 @@
 </style>
 
 <!-- ========================================
-     AUTH SECTION - LOGIN - SEO & ACCESSIBILITY OPTIMIERT
+     AUTH SECTION - AUTH0 INTEGRATION - SEO & ACCESSIBILITY OPTIMIERT
      ======================================== -->
-<!-- Benutzer-Anmeldung mit vollständiger Accessibility und SEO -->
+<!-- Moderne Authentifizierung mit Auth0 und vollständiger Accessibility -->
 <section class="auth-section" 
-         id="login-section" 
-         style="display: none;"
+         id="auth-section" 
          role="region" 
-         aria-labelledby="login-title"
+         aria-labelledby="auth-title"
          itemscope 
          itemtype="https://schema.org/WebPage">
     
     <div class="container">
         
         <!-- ========================================
-             AUTH CONTAINER - LOGIN FORM WRAPPER
+             AUTH CONTAINER - MODERN AUTH0 WRAPPER
              ======================================== -->
-        <!-- Hauptcontainer für Anmelde-Formular -->
+        <!-- Hauptcontainer für Auth0 Authentifizierung -->
         <div class="auth-container" 
              role="main"
-             aria-labelledby="login-title">
+             aria-labelledby="auth-title">
             
             <!-- ========================================
-                 LOGIN TITLE - SEO OPTIMIERT
+                 AUTH LOADING STATE
                  ======================================== -->
-            <!-- H2 für hierarchische SEO-Struktur -->
-            <h1 id="login-title"
-                itemprop="name">
-                Anmelden - Zugang zu Ihrem tailr.wiki Account
-            </h1>
-            
-            <!-- ========================================
-                 LOGIN DESCRIPTION (SEO-ERGÄNZUNG)
-                 ======================================== -->
-            <!-- SEO-Description für bessere Kategorisierung -->
-            <p class="auth-description" 
-               itemprop="description"
-               aria-describedby="login-title">
-                Melden Sie sich an, um Ihre Haustierdaten zu synchronisieren, 
-                personalisierte Empfehlungen zu erhalten und Ihre Favoriten zu verwalten.
-            </p>
-            
-            <!-- ========================================
-                 LOGIN FORM - INTERACTIVE AUTHENTICATION
-                 ======================================== -->
-            <!-- Semantisches Anmelde-Formular mit Accessibility -->
-            <form id="login-form" 
-                  class="auth-form"
-                  role="form"
-                  aria-labelledby="login-title"
-                  aria-describedby="login-instructions"
-                  novalidate
-                  itemscope
-                  itemtype="https://schema.org/LoginAction">
+            <!-- Loading-Anzeige während Auth0 initialisiert -->
+            <div class="auth-loading" 
+                 id="auth-loading"
+                 role="status"
+                 aria-live="polite"
+                 aria-label="Authentifizierung wird geladen">
                 
-                <!-- Form Instructions (Screen Reader Only) -->
-                <div class="sr-only" id="login-instructions">
-                    Geben Sie Ihre E-Mail-Adresse oder Ihren Benutzernamen und Ihr Passwort ein. 
-                    Alle Felder sind Pflichtfelder. Drücken Sie Tab zum Navigieren zwischen den Feldern.
-                </div>
-                
-                <!-- ========================================
-                     EMAIL/USERNAME FIELD
-                     ======================================== -->
-                <!-- E-Mail oder Benutzername Eingabefeld -->
-                <div class="form-group" 
-                     role="group">
-                    
-                    <label for="login-email" 
-                           class="form-label"
-                           itemprop="name">
-                        E-Mail oder Benutzername
-                        <span class="required-indicator" 
-                              aria-label="Pflichtfeld"
-                              title="Dieses Feld ist erforderlich">*</span>
-                    </label>
-                    
-                    <input type="text" 
-                           id="login-email" 
-                           name="email" 
-                           class="form-input"
-                           required
-                           aria-required="true"
-                           aria-describedby="email-help email-error"
-                           aria-invalid="false"
-                           autocomplete="username"
-                           placeholder="ihre@email.de oder benutzername"
-                           maxlength="100"
-                           itemprop="email">
-                    
-                    <!-- Help Text -->
-                    <div class="form-help" 
-                         id="email-help">
-                        Geben Sie die E-Mail-Adresse oder den Benutzernamen ein, 
-                        mit dem Sie sich registriert haben.
-                    </div>
-                    
-                    <!-- Error Message Container -->
-                    <div class="form-error" 
-                         id="email-error"
-                         role="alert"
-                         aria-live="polite"
-                         style="display: none;">
-                        <!-- Fehlermeldung wird von JavaScript eingefügt -->
-                    </div>
-                </div>
-                
-                <!-- ========================================
-                     PASSWORD FIELD
-                     ======================================== -->
-                <!-- Passwort Eingabefeld mit Show/Hide Toggle -->
-                <div class="form-group" 
-                     role="group">
-                    
-                    <label for="login-password" 
-                           class="form-label">
-                        Passwort
-                        <span class="required-indicator" 
-                              aria-label="Pflichtfeld"
-                              title="Dieses Feld ist erforderlich">*</span>
-                    </label>
-                    
-                    <div class="password-input-container">
-                        <input type="password" 
-                               id="login-password" 
-                               name="password" 
-                               class="form-input"
-                               required
-                               aria-required="true"
-                               aria-describedby="password-help password-error"
-                               aria-invalid="false"
-                               autocomplete="current-password"
-                               placeholder="Ihr Passwort"
-                               minlength="6"
-                               maxlength="128">
-                        
-                        <!-- Password Visibility Toggle -->
-                        <button type="button" 
-                                class="password-toggle"
-                                id="password-toggle"
-                                aria-label="Passwort anzeigen oder verbergen"
-                                title="Passwort sichtbar machen"
-                                tabindex="0">
-                            <span class="password-toggle-icon" 
-                                  aria-hidden="true">👁️</span>
-                            <span class="sr-only">Passwort anzeigen</span>
-                        </button>
-                    </div>
-                    
-                    <!-- Help Text -->
-                    <div class="form-help" 
-                         id="password-help">
-                        Geben Sie Ihr Passwort ein. Mindestens 6 Zeichen erforderlich.
-                    </div>
-                    
-                    <!-- Error Message Container -->
-                    <div class="form-error" 
-                         id="password-error"
-                         role="alert"
-                         aria-live="polite"
-                         style="display: none;">
-                        <!-- Fehlermeldung wird von JavaScript eingefügt -->
-                    </div>
-                </div>
-                
-                <!-- ========================================
-                     FORGOT PASSWORD LINK
-                     ======================================== -->
-                <!-- Passwort vergessen Link -->
-                <div class="form-additional-links">
-                    <a href="/passwort-vergessen" 
-                       class="forgot-password-link"
-                       aria-label="Passwort zurücksetzen"
-                       title="Link zum Zurücksetzen Ihres Passworts">
-                        Passwort vergessen?
-                    </a>
-                </div>
-                
-                <!-- ========================================
-                     SUBMIT BUTTON
-                     ======================================== -->
-                <!-- Anmelde-Button mit Loading State -->
-                <button type="submit" 
-                        class="btn btn--primary auth-submit-btn"
-                        id="login-submit"
-                        aria-describedby="submit-help"
-                        itemprop="potentialAction"
-                        itemscope
-                        itemtype="https://schema.org/LoginAction">
-                    
-                    <!-- Button Text -->
-                    <span class="btn-text" 
-                          itemprop="name">Anmelden</span>
-                    
-                    <!-- Loading Spinner (Hidden by default) -->
-                    <span class="btn-loading" 
-                          style="display: none;"
-                          aria-hidden="true">
-                        <span class="loading-spinner"></span>
-                    </span>
-                    
-                    <!-- Button Help Text (Screen Reader Only) -->
-                    <span class="sr-only" id="submit-help">
-                        Klicken Sie hier oder drücken Sie Enter, um sich anzumelden
-                    </span>
-                </button>
-                
-                <!-- ========================================
-                     FORM STATUS MESSAGES
-                     ======================================== -->
-                <!-- Success/Error Messages Container -->
-                <div class="form-status" 
-                     id="login-status"
-                     role="status"
-                     aria-live="polite"
-                     style="display: none;">
-                    <!-- Status-Nachrichten werden von JavaScript eingefügt -->
-                </div>
-                
-            </form>
-            <!-- Ende: Login Form -->
-            
-            <!-- ========================================
-                 ADDITIONAL AUTH OPTIONS
-                 ======================================== -->
-            <!-- Zusätzliche Authentifizierungs-Optionen -->
-            <div class="auth-additional" 
-                 role="complementary"
-                 aria-label="Zusätzliche Anmelde-Optionen">
-                
-                <!-- Register Link -->
-                <div class="auth-alternative">
-                    <p class="auth-alternative-text">
-                        Noch kein Account? 
-                        <a href="/register" 
-                           class="auth-link"
-                           aria-label="Neuen Account erstellen"
-                           title="Kostenloses tailr.wiki Konto registrieren">
-                            Jetzt registrieren
-                        </a>
+                <div class="loading-content">
+                    <div class="loading-spinner-large"></div>
+                    <h2 class="loading-title">tailr.wiki wird geladen...</h2>
+                    <p class="loading-text">
+                        Ihre Authentifizierung wird vorbereitet
                     </p>
                 </div>
-                
-                <!-- Social Login Options (Optional) -->
-                <div class="social-login" 
-                     role="group"
-                     aria-label="Anmeldung mit sozialen Netzwerken"
-                     style="display: none;">
-                    
-                    <div class="social-login-divider">
-                        <span>oder anmelden mit</span>
-                    </div>
-                    
-                    <!-- Social Login Buttons würden hier eingefügt -->
-                </div>
             </div>
             
             <!-- ========================================
-                 NAVIGATION ACTIONS
+                 LOGGED OUT STATE - LOGIN INTERFACE
                  ======================================== -->
-            <!-- Navigation zurück zur Startseite -->
-            <div class="auth-navigation" 
-                 role="navigation"
-                 aria-label="Seiten-Navigation">
+            <!-- Anzeige für nicht-authentifizierte Benutzer -->
+            <div class="auth-logged-out" 
+                 id="auth-logged-out"
+                 style="display: none;"
+                 role="region"
+                 aria-labelledby="login-title">
                 
-                <button class="btn btn--secondary" 
-                        data-category="home"
-                        type="button"
-                        aria-label="Zurück zur tailr.wiki Startseite"
-                        title="Zur Hauptseite ohne Anmeldung zurückkehren">
-                    🏠 Zurück zur Startseite
-                </button>
+                <!-- Login Title -->
+                <h1 id="login-title" 
+                    class="auth-title"
+                    itemprop="name">
+                    Willkommen bei tailr.wiki
+                </h1>
                 
-                <!-- Help & Support Link -->
-                <div class="auth-help">
-                    <a href="/hilfe/anmeldung" 
-                       class="help-link"
-                       target="_blank"
-                       rel="noopener noreferrer"
-                       aria-label="Hilfe zur Anmeldung in neuem Tab öffnen"
-                       title="Detaillierte Anleitung zur Anmeldung">
-                        ❓ Hilfe zur Anmeldung
-                    </a>
-                </div>
-            </div>
-            
-        </div>
-        <!-- Ende: Auth Container -->
-        
-    </div>
-    <!-- Ende: Container -->
-    
-    <!-- ========================================
-         SECURITY & PRIVACY INFORMATION
-         ======================================== -->
-    <!-- Sicherheits- und Datenschutz-Hinweise -->
-    <div class="auth-security-info" 
-         role="contentinfo">
-        
-        <div class="container">
-            <div class="security-notice">
-                <p class="security-text">
-                    🔒 Ihre Anmeldedaten werden verschlüsselt übertragen und sicher gespeichert. 
-                    Weitere Informationen in unserer 
-                    <a href="/datenschutz" 
-                       target="_blank"
-                       rel="noopener noreferrer"
-                       aria-label="Datenschutzerklärung in neuem Tab öffnen">
-                        Datenschutzerklärung
-                    </a>.
+                <!-- Login Description -->
+                <p class="auth-description" 
+                   itemprop="description"
+                   aria-describedby="login-title">
+                    Melden Sie sich an, um Ihre Haustierdaten zu synchronisieren, 
+                    personalisierte Empfehlungen zu erhalten und alle tailr.wiki Tools zu nutzen.
                 </p>
-            </div>
-        </div>
-    </div>
-    
-    <!-- ========================================
-         STRUCTURED DATA - JSON-LD
-         ======================================== -->
-    <!-- Schema.org für Login-Seite -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "WebPage",
-        "name": "Anmelden - tailr.wiki",
-        "description": "Melden Sie sich bei tailr.wiki an, um Ihre Haustierdaten zu verwalten und personalisierte Pflegetipps zu erhalten",
-        "url": "https://tailr.netlify.app/anmelden",
-        "isPartOf": {
-            "@type": "WebSite",
-            "name": "tailr.wiki",
-            "url": "https://tailr.netlify.app"
-        },
-        "potentialAction": {
-            "@type": "LoginAction",
-            "target": {
-                "@type": "EntryPoint",
-                "urlTemplate": "https://tailr.netlify.app/anmelden",
-                "actionPlatform": ["http://schema.org/DesktopWebPlatform", "http://schema.org/MobileWebPlatform"]
-            },
-            "object": {
-                "@type": "UserAccount",
-                "name": "tailr.wiki Benutzerkonto"
-            }
-        },
-        "provider": {
-            "@type": "Organization",
-            "name": "tailr.wiki",
-            "url": "https://tailr.netlify.app"
-        },
-        "audience": {
-            "@type": "Audience",
-            "audienceType": "Tierhalter und Haustierpflege-Interessierte"
-        }
-    }
-    </script>
-    
-</section>
-<!-- Ende: Auth Section - Login -->
-
-<!-- ========================================
-     ACCESSIBILITY HELPER STYLES
-     ======================================== -->
-<!-- Screen Reader Only und Form-spezifische Utility Classes -->
-<style>
-.sr-only {
-    position: absolute !important;
-    width: 1px !important;
-    height: 1px !important;
-    padding: 0 !important;
-    margin: -1px !important;
-    overflow: hidden !important;
-    clip: rect(0, 0, 0, 0) !important;
-    white-space: nowrap !important;
-    border: 0 !important;
-}
-
-/* Password Input Container */
-.password-input-container {
-    position: relative;
-    display: flex;
-    align-items: center;
-}
-
-.password-toggle {
-    position: absolute;
-    right: 12px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0.5rem;
-    border-radius: 4px;
-    transition: background-color 0.3s ease;
-}
-
-.password-toggle:hover,
-.password-toggle:focus {
-    background: rgba(0, 0, 0, 0.05);
-    outline: 2px solid var(--color-primary);
-    outline-offset: 2px;
-}
-
-/* Required Field Indicator */
-.required-indicator {
-    color: #ef4444;
-    font-weight: bold;
-    margin-left: 0.25rem;
-}
-
-/* Form Help Text */
-.form-help {
-    font-size: 0.85rem;
-    color: var(--color-text-secondary);
-    margin-top: 0.5rem;
-    line-height: 1.4;
-}
-
-/* Form Error Messages */
-.form-error {
-    font-size: 0.85rem;
-    color: #ef4444;
-    margin-top: 0.5rem;
-    padding: 0.5rem;
-    background: rgba(239, 68, 68, 0.1);
-    border-radius: 4px;
-    border-left: 3px solid #ef4444;
-}
-
-/* Form Status Messages */
-.form-status {
-    margin-top: 1rem;
-    padding: 1rem;
-    border-radius: 6px;
-    border-left: 4px solid;
-}
-
-.form-status.success {
-    background: rgba(16, 185, 129, 0.1);
-    border-color: #10b981;
-    color: #065f46;
-}
-
-.form-status.error {
-    background: rgba(239, 68, 68, 0.1);
-    border-color: #ef4444;
-    color: #991b1b;
-}
-
-/* Button Loading State */
-.btn .btn-loading {
-    margin-left: 0.5rem;
-}
-
-.loading-spinner {
-    width: 16px;
-    height: 16px;
-    border: 2px solid transparent;
-    border-top: 2px solid currentColor;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-/* Auth Description */
-.auth-description {
-    font-size: 1rem;
-    line-height: 1.6;
-    color: var(--color-text-secondary);
-    text-align: center;
-    margin-bottom: 2rem;
-    max-width: 500px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-/* Additional Links */
-.form-additional-links {
-    text-align: center;
-    margin: 1rem 0;
-}
-
-.forgot-password-link {
-    color: var(--color-primary);
-    text-decoration: none;
-    font-size: 0.9rem;
-    transition: color 0.3s ease;
-}
-
-.forgot-password-link:hover,
-.forgot-password-link:focus {
-    color: var(--color-primary-dark);
-    text-decoration: underline;
-}
-
-/* Auth Alternative */
-.auth-alternative {
-    text-align: center;
-    margin: 2rem 0;
-    padding-top: 2rem;
-    border-top: 1px solid var(--color-border);
-}
-
-.auth-alternative-text {
-    margin: 0;
-    color: var(--color-text-secondary);
-}
-
-.auth-link {
-    color: var(--color-primary);
-    text-decoration: none;
-    font-weight: 500;
-}
-
-.auth-link:hover,
-.auth-link:focus {
-    color: var(--color-primary-dark);
-    text-decoration: underline;
-}
-
-/* Security Info */
-.auth-security-info {
-    margin-top: 3rem;
-    padding: 2rem 0;
-    background: var(--color-surface);
-    border-top: 1px solid var(--color-border);
-}
-
-.security-notice {
-    text-align: center;
-}
-
-.security-text {
-    margin: 0;
-    font-size: 0.9rem;
-    color: var(--color-text-secondary);
-    line-height: 1.5;
-}
-
-.security-text a {
-    color: var(--color-primary);
-    text-decoration: none;
-}
-
-.security-text a:hover {
-    text-decoration: underline;
-}
-
-/* Auth Help */
-.auth-help {
-    text-align: center;
-    margin-top: 1rem;
-}
-
-.help-link {
-    color: var(--color-text-secondary);
-    text-decoration: none;
-    font-size: 0.9rem;
-    transition: color 0.3s ease;
-}
-
-.help-link:hover,
-.help-link:focus {
-    color: var(--color-primary);
-    text-decoration: underline;
-}
-
-/* Input Focus States */
-.form-input:focus {
-    outline: 2px solid var(--color-primary);
-    outline-offset: 2px;
-    border-color: var(--color-primary);
-}
-
-.form-input[aria-invalid="true"] {
-    border-color: #ef4444;
-    background: rgba(239, 68, 68, 0.05);
-}
-
-/* Auth Navigation */
-.auth-navigation {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
-    margin-top: 2rem;
-    padding-top: 2rem;
-    border-top: 1px solid var(--color-border);
-}
-</style>
-
-<!-- ========================================
-     AUTH SECTION - REGISTER - SEO & ACCESSIBILITY OPTIMIERT
-     ======================================== -->
-<!-- Benutzer-Registrierung mit vollständiger Accessibility und SEO -->
-<section class="auth-section" 
-         id="register-section" 
-         style="display: none;"
-         role="region" 
-         aria-labelledby="register-title"
-         itemscope 
-         itemtype="https://schema.org/WebPage">
-    
-    <div class="container">
-        
-        <!-- ========================================
-             AUTH CONTAINER - REGISTER FORM WRAPPER
-             ======================================== -->
-        <!-- Hauptcontainer für Registrierungs-Formular -->
-        <div class="auth-container" 
-             role="main"
-             aria-labelledby="register-title">
-            
-            <!-- ========================================
-                 REGISTER TITLE - SEO OPTIMIERT
-                 ======================================== -->
-            <!-- H2 für hierarchische SEO-Struktur -->
-            <h1 id="register-title"
-                itemprop="name">
-                Registrieren - Kostenloses tailr.wiki Konto erstellen
-            </h1>
-            
-            <!-- ========================================
-                 REGISTER DESCRIPTION (SEO-ERGÄNZUNG)
-                 ======================================== -->
-            <!-- SEO-Description für bessere Kategorisierung -->
-            <p class="auth-description" 
-               itemprop="description"
-               aria-describedby="register-title">
-                Erstellen Sie Ihr kostenloses tailr.wiki Konto und verwalten Sie Ihre Haustierdaten, 
-                erhalten Sie personalisierte Pflegetipps und nutzen Sie alle Tools der Plattform.
-            </p>
-            
-            <!-- ========================================
-                 REGISTER FORM - INTERACTIVE REGISTRATION
-                 ======================================== -->
-            <!-- Semantisches Registrierungs-Formular mit Accessibility -->
-            <form id="register-form" 
-                  class="auth-form"
-                  role="form"
-                  aria-labelledby="register-title"
-                  aria-describedby="register-instructions"
-                  novalidate
-                  itemscope
-                  itemtype="https://schema.org/RegisterAction">
                 
-                <!-- Form Instructions (Screen Reader Only) -->
-                <div class="sr-only" id="register-instructions">
-                    Füllen Sie alle Felder aus, um Ihr kostenloses tailr.wiki Konto zu erstellen. 
-                    Alle Felder sind Pflichtfelder. Ihr Passwort muss mindestens 8 Zeichen lang sein.
-                </div>
-                
-                <!-- ========================================
-                     USERNAME FIELD
-                     ======================================== -->
-                <!-- Benutzername Eingabefeld -->
-                <div class="form-group" 
-                     role="group">
+                <!-- Login Actions -->
+                <div class="auth-actions" role="group">
                     
-                    <label for="register-username" 
-                           class="form-label"
-                           itemprop="name">
-                        Benutzername
-                        <span class="required-indicator" 
-                              aria-label="Pflichtfeld"
-                              title="Dieses Feld ist erforderlich">*</span>
-                    </label>
-                    
-                    <input type="text" 
-                           id="register-username" 
-                           name="username" 
-                           class="form-input"
-                           required
-                           aria-required="true"
-                           aria-describedby="username-help username-error"
-                           aria-invalid="false"
-                           autocomplete="username"
-                           placeholder="Ihr gewünschter Benutzername"
-                           minlength="3"
-                           maxlength="30"
-                           pattern="^[a-zA-Z0-9_-]+$"
-                           itemprop="alternateName">
-                    
-                    <!-- Help Text -->
-                    <div class="form-help" 
-                         id="username-help">
-                        3-30 Zeichen. Nur Buchstaben, Zahlen, Bindestrich und Unterstrich erlaubt. 
-                        Dieser Name wird öffentlich angezeigt.
-                    </div>
-                    
-                    <!-- Error Message Container -->
-                    <div class="form-error" 
-                         id="username-error"
-                         role="alert"
-                         aria-live="polite"
-                         style="display: none;">
-                        <!-- Fehlermeldung wird von JavaScript eingefügt -->
-                    </div>
-                    
-                    <!-- Username Availability Status -->
-                    <div class="username-status" 
-                         id="username-status"
-                         role="status"
-                         aria-live="polite"
-                         style="display: none;">
-                        <!-- Verfügbarkeitsstatus wird von JavaScript eingefügt -->
-                    </div>
-                </div>
-                
-                <!-- ========================================
-                     EMAIL FIELD (Ergänzung für vollständige Registrierung)
-                     ======================================== -->
-                <!-- E-Mail Eingabefeld für Account-Verifizierung -->
-                <div class="form-group" 
-                     role="group">
-                    
-                    <label for="register-email" 
-                           class="form-label">
-                        E-Mail-Adresse
-                        <span class="required-indicator" 
-                              aria-label="Pflichtfeld"
-                              title="Dieses Feld ist erforderlich">*</span>
-                    </label>
-                    
-                    <input type="email" 
-                           id="register-email" 
-                           name="email" 
-                           class="form-input"
-                           required
-                           aria-required="true"
-                           aria-describedby="email-help email-error"
-                           aria-invalid="false"
-                           autocomplete="email"
-                           placeholder="ihre@email.de"
-                           maxlength="100"
-                           itemprop="email">
-                    
-                    <!-- Help Text -->
-                    <div class="form-help" 
-                         id="email-help">
-                        Wird für die Konto-Bestätigung und wichtige Benachrichtigungen verwendet. 
-                        Ihre E-Mail wird nicht öffentlich angezeigt.
-                    </div>
-                    
-                    <!-- Error Message Container -->
-                    <div class="form-error" 
-                         id="email-error"
-                         role="alert"
-                         aria-live="polite"
-                         style="display: none;">
-                        <!-- Fehlermeldung wird von JavaScript eingefügt -->
-                    </div>
-                </div>
-                
-                <!-- ========================================
-                     PASSWORD FIELD
-                     ======================================== -->
-                <!-- Passwort Eingabefeld mit Stärke-Anzeige -->
-                <div class="form-group" 
-                     role="group">
-                    
-                    <label for="register-password" 
-                           class="form-label">
-                        Passwort
-                        <span class="required-indicator" 
-                              aria-label="Pflichtfeld"
-                              title="Dieses Feld ist erforderlich">*</span>
-                    </label>
-                    
-                    <div class="password-input-container">
-                        <input type="password" 
-                               id="register-password" 
-                               name="password" 
-                               class="form-input"
-                               required
-                               aria-required="true"
-                               aria-describedby="password-help password-error password-strength"
-                               aria-invalid="false"
-                               autocomplete="new-password"
-                               placeholder="Sicheres Passwort erstellen"
-                               minlength="8"
-                               maxlength="128">
+                    <!-- Primary Login Button -->
+                    <button class="btn btn--primary btn--large auth-login-btn"
+                            id="auth-login-btn"
+                            type="button"
+                            aria-describedby="login-help"
+                            itemprop="potentialAction"
+                            itemscope
+                            itemtype="https://schema.org/LoginAction">
                         
-                        <!-- Password Visibility Toggle -->
-                        <button type="button" 
-                                class="password-toggle"
-                                id="password-toggle"
-                                aria-label="Passwort anzeigen oder verbergen"
-                                title="Passwort sichtbar machen"
-                                tabindex="0">
-                            <span class="password-toggle-icon" 
-                                  aria-hidden="true">👁️</span>
-                            <span class="sr-only">Passwort anzeigen</span>
-                        </button>
-                    </div>
-                    
-                    <!-- Password Strength Indicator -->
-                    <div class="password-strength" 
-                         id="password-strength"
-                         role="status"
-                         aria-live="polite"
-                         style="display: none;">
-                        <div class="strength-bar">
-                            <div class="strength-fill" data-strength="0"></div>
-                        </div>
-                        <span class="strength-text">Passwort-Stärke: <span class="strength-level">-</span></span>
-                    </div>
-                    
-                    <!-- Help Text -->
-                    <div class="form-help" 
-                         id="password-help">
-                        Mindestens 8 Zeichen. Empfohlen: Groß- und Kleinbuchstaben, Zahlen und Sonderzeichen 
-                        für maximale Sicherheit.
-                    </div>
-                    
-                    <!-- Error Message Container -->
-                    <div class="form-error" 
-                         id="password-error"
-                         role="alert"
-                         aria-live="polite"
-                         style="display: none;">
-                        <!-- Fehlermeldung wird von JavaScript eingefügt -->
-                    </div>
-                </div>
-                
-                <!-- ========================================
-                     PASSWORD CONFIRMATION FIELD
-                     ======================================== -->
-                <!-- Passwort-Bestätigung Eingabefeld -->
-                <div class="form-group" 
-                     role="group">
-                    
-                    <label for="register-password-confirm" 
-                           class="form-label">
-                        Passwort bestätigen
-                        <span class="required-indicator" 
-                              aria-label="Pflichtfeld"
-                              title="Dieses Feld ist erforderlich">*</span>
-                    </label>
-                    
-                    <div class="password-input-container">
-                        <input type="password" 
-                               id="register-password-confirm" 
-                               name="passwordConfirm" 
-                               class="form-input"
-                               required
-                               aria-required="true"
-                               aria-describedby="password-confirm-help password-confirm-error"
-                               aria-invalid="false"
-                               autocomplete="new-password"
-                               placeholder="Passwort wiederholen"
-                               minlength="8"
-                               maxlength="128">
+                        <span class="btn-icon" aria-hidden="true">🔐</span>
+                        <span class="btn-text" itemprop="name">Anmelden</span>
                         
-                        <!-- Password Visibility Toggle -->
-                        <button type="button" 
-                                class="password-toggle"
-                                id="password-confirm-toggle"
-                                aria-label="Passwort-Bestätigung anzeigen oder verbergen"
-                                title="Passwort-Bestätigung sichtbar machen"
-                                tabindex="0">
-                            <span class="password-toggle-icon" 
-                                  aria-hidden="true">👁️</span>
-                            <span class="sr-only">Passwort-Bestätigung anzeigen</span>
-                        </button>
-                    </div>
+                        <!-- Loading State -->
+                        <span class="btn-loading" 
+                              style="display: none;"
+                              aria-hidden="true">
+                            <span class="loading-spinner"></span>
+                        </span>
+                    </button>
                     
-                    <!-- Password Match Status -->
-                    <div class="password-match-status" 
-                         id="password-match-status"
-                         role="status"
-                         aria-live="polite"
-                         style="display: none;">
-                        <!-- Match-Status wird von JavaScript eingefügt -->
-                    </div>
-                    
-                    <!-- Help Text -->
-                    <div class="form-help" 
-                         id="password-confirm-help">
-                        Geben Sie Ihr Passwort erneut ein, um sicherzustellen, 
-                        dass es korrekt eingegeben wurde.
-                    </div>
-                    
-                    <!-- Error Message Container -->
-                    <div class="form-error" 
-                         id="password-confirm-error"
-                         role="alert"
-                         aria-live="polite"
-                         style="display: none;">
-                        <!-- Fehlermeldung wird von JavaScript eingefügt -->
-                    </div>
-                </div>
-                
-                <!-- ========================================
-                     TERMS & PRIVACY ACCEPTANCE
-                     ======================================== -->
-                <!-- Datenschutz und Nutzungsbedingungen Zustimmung -->
-                <div class="form-group" 
-                     role="group">
-                    
-                    <div class="checkbox-container">
-                        <label class="checkbox-label" 
-                               for="accept-terms">
-                            
-                            <input type="checkbox" 
-                                   id="accept-terms" 
-                                   name="acceptTerms" 
-                                   class="form-checkbox"
-                                   required
-                                   aria-required="true"
-                                   aria-describedby="terms-error"
-                                   aria-invalid="false">
-                            
-                            <span class="checkbox-text">
-                                Ich akzeptiere die 
-                                <a href="/nutzungsbedingungen" 
-                                   target="_blank"
-                                   rel="noopener noreferrer"
-                                   aria-label="Nutzungsbedingungen in neuem Tab öffnen">
-                                    Nutzungsbedingungen
-                                </a> und 
-                                <a href="/datenschutz" 
-                                   target="_blank"
-                                   rel="noopener noreferrer"
-                                   aria-label="Datenschutzerklärung in neuem Tab öffnen">
-                                    Datenschutzerklärung
-                                </a>
-                                <span class="required-indicator" 
-                                      aria-label="Pflichtfeld"
-                                      title="Zustimmung ist erforderlich">*</span>
-                            </span>
-                        </label>
+                    <!-- Alternative: Popup Login -->
+                    <button class="btn btn--secondary auth-login-popup-btn"
+                            id="auth-login-popup-btn"
+                            type="button"
+                            style="display: none;"
+                            aria-label="Anmeldung in Popup-Fenster öffnen">
                         
-                        <!-- Error Message Container -->
-                        <div class="form-error" 
-                             id="terms-error"
-                             role="alert"
-                             aria-live="polite"
-                             style="display: none;">
-                            <!-- Fehler wird von JavaScript eingefügt -->
-                        </div>
+                        <span class="btn-icon" aria-hidden="true">🪟</span>
+                        <span class="btn-text">Popup-Anmeldung</span>
+                    </button>
+                    
+                    <!-- Login Help Text -->
+                    <div class="auth-help-text" 
+                         id="login-help"
+                         role="note">
+                        Sicherer Login über Auth0. Ihre Daten sind verschlüsselt geschützt.
                     </div>
                 </div>
                 
-                <!-- ========================================
-                     NEWSLETTER SUBSCRIPTION (Optional)
-                     ======================================== -->
-                <!-- Optionale Newsletter-Anmeldung -->
-                <div class="form-group" 
-                     role="group">
-                    
-                    <div class="checkbox-container">
-                        <label class="checkbox-label" 
-                               for="newsletter-subscribe">
-                            
-                            <input type="checkbox" 
-                                   id="newsletter-subscribe" 
-                                   name="newsletter" 
-                                   class="form-checkbox"
-                                   aria-describedby="newsletter-help">
-                            
-                            <span class="checkbox-text">
-                                Newsletter abonnieren (optional)
-                            </span>
-                        </label>
-                        
-                        <!-- Help Text -->
-                        <div class="form-help" 
-                             id="newsletter-help">
-                            Erhalten Sie wöchentliche Haustierpflege-Tipps und Updates zu neuen Features. 
-                            Jederzeit kündbar.
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- ========================================
-                     SUBMIT BUTTON
-                     ======================================== -->
-                <!-- Registrierungs-Button mit Loading State -->
-                <button type="submit" 
-                        class="btn btn--primary auth-submit-btn"
-                        id="register-submit"
-                        aria-describedby="submit-help"
-                        itemprop="potentialAction"
-                        itemscope
-                        itemtype="https://schema.org/RegisterAction">
-                    
-                    <!-- Button Text -->
-                    <span class="btn-text" 
-                          itemprop="name">Kostenloses Konto erstellen</span>
-                    
-                    <!-- Loading Spinner (Hidden by default) -->
-                    <span class="btn-loading" 
-                          style="display: none;"
-                          aria-hidden="true">
-                        <span class="loading-spinner"></span>
-                    </span>
-                    
-                    <!-- Button Help Text (Screen Reader Only) -->
-                    <span class="sr-only" id="submit-help">
-                        Klicken Sie hier oder drücken Sie Enter, um Ihr kostenloses Konto zu erstellen
-                    </span>
-                </button>
-                
-                <!-- ========================================
-                     FORM STATUS MESSAGES
-                     ======================================== -->
-                <!-- Success/Error Messages Container -->
-                <div class="form-status" 
-                     id="register-status"
-                     role="status"
-                     aria-live="polite"
-                     style="display: none;">
-                    <!-- Status-Nachrichten werden von JavaScript eingefügt -->
-                </div>
-                
-            </form>
-            <!-- Ende: Register Form -->
-            
-            <!-- ========================================
-                 ADDITIONAL AUTH OPTIONS
-                 ======================================== -->
-            <!-- Zusätzliche Authentifizierungs-Optionen -->
-            <div class="auth-additional" 
-                 role="complementary"
-                 aria-label="Zusätzliche Registrierungs-Optionen">
-                
-                <!-- Login Link -->
-                <div class="auth-alternative">
-                    <p class="auth-alternative-text">
-                        Bereits ein Account? 
-                        <a href="/login" 
-                           class="auth-link"
-                           aria-label="Mit bestehendem Account anmelden"
-                           title="Zur Anmelde-Seite wechseln">
-                            Jetzt anmelden
-                        </a>
-                    </p>
-                </div>
-                
-                <!-- Registration Benefits -->
-                <div class="registration-benefits" 
+                <!-- Login Benefits -->
+                <div class="auth-benefits" 
                      role="complementary"
                      aria-labelledby="benefits-title">
                     
-                    <h3 class="sr-only" id="benefits-title">
-                        Vorteile eines tailr.wiki Kontos
+                    <h3 class="benefits-title" id="benefits-title">
+                        Ihre Vorteile mit einem tailr.wiki Konto:
                     </h3>
                     
                     <div class="benefits-list">
@@ -4310,6 +3376,151 @@
             </div>
             
             <!-- ========================================
+                 LOGGED IN STATE - USER INTERFACE
+                 ======================================== -->
+            <!-- Anzeige für authentifizierte Benutzer -->
+            <div class="auth-logged-in" 
+                 id="auth-logged-in"
+                 style="display: none;"
+                 role="region"
+                 aria-labelledby="welcome-title">
+                
+                <!-- Welcome Title -->
+                <h1 id="welcome-title" 
+                    class="auth-title">
+                    Willkommen zurück!
+                </h1>
+                
+                <!-- User Profile Card -->
+                <div class="user-profile-card" 
+                     role="region"
+                     aria-labelledby="profile-title"
+                     itemscope
+                     itemtype="https://schema.org/Person">
+                    
+                    <div class="user-avatar-container">
+                        <img class="user-avatar" 
+                             id="user-avatar"
+                             src="" 
+                             alt=""
+                             width="80" 
+                             height="80"
+                             itemprop="image"
+                             style="display: none;">
+                        
+                        <div class="user-avatar-placeholder" 
+                             id="user-avatar-placeholder"
+                             aria-hidden="true">
+                            <span class="avatar-icon">👤</span>
+                        </div>
+                    </div>
+                    
+                    <div class="user-info">
+                        <h2 class="user-name" 
+                            id="user-name"
+                            itemprop="name">
+                            <!-- Name wird von JavaScript eingefügt -->
+                        </h2>
+                        
+                        <div class="user-email" 
+                             id="user-email"
+                             itemprop="email">
+                            <!-- E-Mail wird von JavaScript eingefügt -->
+                        </div>
+                        
+                        <div class="user-status" 
+                             id="user-status"
+                             role="status">
+                            <span class="status-indicator"></span>
+                            <span class="status-text">Angemeldet</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- User Actions -->
+                <div class="user-actions" role="group">
+                    
+                    <!-- Dashboard/Profile Button -->
+                    <button class="btn btn--primary user-dashboard-btn"
+                            id="user-dashboard-btn"
+                            type="button"
+                            data-category="profile"
+                            aria-label="Zu Ihrem Dashboard wechseln">
+                        
+                        <span class="btn-icon" aria-hidden="true">📊</span>
+                        <span class="btn-text">Mein Dashboard</span>
+                    </button>
+                    
+                    <!-- Settings Button -->
+                    <button class="btn btn--secondary user-settings-btn"
+                            id="user-settings-btn"
+                            type="button"
+                            aria-label="Kontoeinstellungen öffnen">
+                        
+                        <span class="btn-icon" aria-hidden="true">⚙️</span>
+                        <span class="btn-text">Einstellungen</span>
+                    </button>
+                    
+                    <!-- Logout Button -->
+                    <button class="btn btn--outline auth-logout-btn"
+                            id="auth-logout-btn"
+                            type="button"
+                            aria-describedby="logout-help">
+                        
+                        <span class="btn-icon" aria-hidden="true">🚪</span>
+                        <span class="btn-text">Abmelden</span>
+                        
+                        <!-- Loading State -->
+                        <span class="btn-loading" 
+                              style="display: none;"
+                              aria-hidden="true">
+                            <span class="loading-spinner"></span>
+                        </span>
+                    </button>
+                    
+                    <!-- Logout Help Text -->
+                    <div class="auth-help-text" 
+                         id="logout-help"
+                         role="note">
+                        Sicher abmelden und alle lokalen Daten löschen.
+                    </div>
+                </div>
+            </div>
+            
+            <!-- ========================================
+                 AUTH ERROR STATE
+                 ======================================== -->
+            <!-- Anzeige für Authentifizierungsfehler -->
+            <div class="auth-error" 
+                 id="auth-error"
+                 style="display: none;"
+                 role="alert"
+                 aria-live="assertive">
+                
+                <div class="error-content">
+                    <div class="error-icon" aria-hidden="true">⚠️</div>
+                    <h2 class="error-title">Authentifizierungsfehler</h2>
+                    <p class="error-message" id="error-message">
+                        <!-- Fehlermeldung wird von JavaScript eingefügt -->
+                    </p>
+                    
+                    <div class="error-actions">
+                        <button class="btn btn--primary retry-auth-btn"
+                                id="retry-auth-btn"
+                                type="button">
+                            🔄 Erneut versuchen
+                        </button>
+                        
+                        <button class="btn btn--secondary back-to-home-btn"
+                                data-category="home"
+                                type="button">
+                            🏠 Zur Startseite
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- ========================================
                  NAVIGATION ACTIONS
                  ======================================== -->
             <!-- Navigation zurück zur Startseite -->
@@ -4317,23 +3528,28 @@
                  role="navigation"
                  aria-label="Seiten-Navigation">
                 
-                <button class="btn btn--secondary" 
+                <button class="btn btn--ghost back-to-app-btn" 
                         data-category="home"
                         type="button"
                         aria-label="Zurück zur tailr.wiki Startseite"
-                        title="Zur Hauptseite ohne Registrierung zurückkehren">
+                        title="Zur Hauptseite zurückkehren">
                     🏠 Zurück zur Startseite
                 </button>
                 
-                <!-- Help & Support Link -->
-                <div class="auth-help">
-                    <a href="/hilfe/registrierung" 
+                <!-- Help & Support Links -->
+                <div class="auth-help-links">
+                    <a href="/hilfe/anmeldung" 
                        class="help-link"
                        target="_blank"
                        rel="noopener noreferrer"
-                       aria-label="Hilfe zur Registrierung in neuem Tab öffnen"
-                       title="Detaillierte Anleitung zur Konto-Erstellung">
-                        ❓ Hilfe zur Registrierung
+                       aria-label="Hilfe zur Anmeldung in neuem Tab öffnen">
+                        ❓ Anmelde-Hilfe
+                    </a>
+                    
+                    <a href="/kontakt" 
+                       class="help-link"
+                       aria-label="Support kontaktieren">
+                        📧 Support
                     </a>
                 </div>
             </div>
@@ -4354,8 +3570,7 @@
         <div class="container">
             <div class="security-notice">
                 <p class="security-text">
-                    🔒 Ihre Daten werden verschlüsselt übertragen und sicher gespeichert. 
-                    Wir verkaufen keine Daten und respektieren Ihre Privatsphäre. 
+                    🔒 Sichere Authentifizierung über Auth0. Ihre Daten werden verschlüsselt übertragen. 
                     Weitere Informationen in unserer 
                     <a href="/datenschutz" 
                        target="_blank"
@@ -4371,286 +3586,42 @@
     <!-- ========================================
          STRUCTURED DATA - JSON-LD
          ======================================== -->
-    <!-- Schema.org für Register-Seite -->
+    <!-- Schema.org für Auth-Seite -->
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
         "@type": "WebPage",
-        "name": "Registrieren - tailr.wiki",
-        "description": "Erstellen Sie Ihr kostenloses tailr.wiki Konto für personalisierte Haustierpflege, sichere Datenverwaltung und Zugang zu allen Tools",
-        "url": "https://tailr.netlify.app/registrieren",
+        "name": "Anmelden - tailr.wiki",
+        "description": "Sichere Anmeldung bei tailr.wiki über Auth0 für personalisierte Haustierpflege und Datenverwaltung",
+        "url": "https://tailr.netlify.app/auth",
         "isPartOf": {
             "@type": "WebSite",
             "name": "tailr.wiki",
             "url": "https://tailr.netlify.app"
         },
         "potentialAction": {
-            "@type": "RegisterAction",
+            "@type": "LoginAction",
             "target": {
                 "@type": "EntryPoint",
-                "urlTemplate": "https://tailr.netlify.app/registrieren",
+                "urlTemplate": "https://tailr.netlify.app/auth",
                 "actionPlatform": ["http://schema.org/DesktopWebPlatform", "http://schema.org/MobileWebPlatform"]
             },
-            "object": {
-                "@type": "UserAccount",
-                "name": "tailr.wiki Benutzerkonto"
-            },
-            "result": {
-                "@type": "UserAccount",
-                "description": "Kostenloses Benutzerkonto mit Zugang zu personalisierten Haustierpflege-Tools"
+            "instrument": {
+                "@type": "SoftwareApplication",
+                "name": "Auth0",
+                "applicationCategory": "AuthenticationService"
             }
         },
         "provider": {
             "@type": "Organization",
             "name": "tailr.wiki",
             "url": "https://tailr.netlify.app"
-        },
-        "audience": {
-            "@type": "Audience",
-            "audienceType": "Neue Tierhalter und Haustierpflege-Interessierte"
-        },
-        "offers": {
-            "@type": "Offer",
-            "price": "0",
-            "priceCurrency": "EUR",
-            "description": "Kostenlose Registrierung für tailr.wiki Haustierpflege-Platform"
         }
     }
     </script>
     
 </section>
-<!-- Ende: Auth Section - Register -->
-
-<!-- ========================================
-     ADDITIONAL STYLES FÜR REGISTER-SPEZIFISCHE ELEMENTE
-     ======================================== -->
-<!-- Zusätzliche Styles für Registrierungs-spezifische UI-Elemente -->
-<style>
-/* Password Strength Indicator */
-.password-strength {
-    margin-top: 0.75rem;
-}
-
-.strength-bar {
-    width: 100%;
-    height: 4px;
-    background: var(--color-border);
-    border-radius: 2px;
-    overflow: hidden;
-    margin-bottom: 0.5rem;
-}
-
-.strength-fill {
-    height: 100%;
-    border-radius: 2px;
-    transition: all 0.3s ease;
-    width: 0%;
-}
-
-.strength-fill[data-strength="1"] {
-    width: 20%;
-    background: #ef4444;
-}
-
-.strength-fill[data-strength="2"] {
-    width: 40%;
-    background: #f97316;
-}
-
-.strength-fill[data-strength="3"] {
-    width: 60%;
-    background: #eab308;
-}
-
-.strength-fill[data-strength="4"] {
-    width: 80%;
-    background: #22c55e;
-}
-
-.strength-fill[data-strength="5"] {
-    width: 100%;
-    background: #16a34a;
-}
-
-.strength-text {
-    font-size: 0.8rem;
-    color: var(--color-text-secondary);
-}
-
-.strength-level {
-    font-weight: 600;
-}
-
-/* Password Match Status */
-.password-match-status {
-    margin-top: 0.5rem;
-    padding: 0.5rem;
-    border-radius: 4px;
-    font-size: 0.85rem;
-}
-
-.password-match-status.match {
-    background: rgba(34, 197, 94, 0.1);
-    color: #166534;
-    border-left: 3px solid #22c55e;
-}
-
-.password-match-status.no-match {
-    background: rgba(239, 68, 68, 0.1);
-    color: #991b1b;
-    border-left: 3px solid #ef4444;
-}
-
-/* Username Status */
-.username-status {
-    margin-top: 0.5rem;
-    padding: 0.5rem;
-    border-radius: 4px;
-    font-size: 0.85rem;
-}
-
-.username-status.available {
-    background: rgba(34, 197, 94, 0.1);
-    color: #166534;
-    border-left: 3px solid #22c55e;
-}
-
-.username-status.taken {
-    background: rgba(239, 68, 68, 0.1);
-    color: #991b1b;
-    border-left: 3px solid #ef4444;
-}
-
-.username-status.checking {
-    background: rgba(59, 130, 246, 0.1);
-    color: #1e40af;
-    border-left: 3px solid #3b82f6;
-}
-
-/* Checkbox Styling */
-.checkbox-container {
-    margin: 1rem 0;
-}
-
-.checkbox-label {
-    display: flex;
-    align-items: flex-start;
-    gap: 0.75rem;
-    cursor: pointer;
-    line-height: 1.5;
-}
-
-.form-checkbox {
-    width: 18px;
-    height: 18px;
-    border: 2px solid var(--color-border);
-    border-radius: 4px;
-    appearance: none;
-    background: var(--color-surface);
-    cursor: pointer;
-    position: relative;
-    transition: all 0.3s ease;
-    flex-shrink: 0;
-    margin-top: 0.1rem;
-}
-
-.form-checkbox:checked {
-    background: var(--color-primary);
-    border-color: var(--color-primary);
-}
-
-.form-checkbox:checked::after {
-    content: "✓";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: white;
-    font-size: 12px;
-    font-weight: bold;
-}
-
-.form-checkbox:focus {
-    outline: 2px solid var(--color-primary);
-    outline-offset: 2px;
-}
-
-.checkbox-text {
-    font-size: 0.9rem;
-    color: var(--color-text);
-}
-
-.checkbox-text a {
-    color: var(--color-primary);
-    text-decoration: none;
-    font-weight: 500;
-}
-
-.checkbox-text a:hover,
-.checkbox-text a:focus {
-    text-decoration: underline;
-}
-
-/* Registration Benefits */
-.registration-benefits {
-    margin: 2rem 0;
-    padding: 1.5rem;
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: 8px;
-}
-
-.benefits-list {
-    display: grid;
-    gap: 1rem;
-}
-
-.benefit-item {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    font-size: 0.9rem;
-}
-
-.benefit-icon {
-    font-size: 1.2rem;
-    flex-shrink: 0;
-}
-
-.benefit-text {
-    color: var(--color-text-secondary);
-}
-
-/* Responsive Design für Register-Elemente */
-@media (max-width: 768px) {
-    .benefits-list {
-        gap: 0.75rem;
-    }
-    
-    .benefit-item {
-        font-size: 0.85rem;
-    }
-    
-    .checkbox-label {
-        gap: 0.5rem;
-    }
-    
-    .checkbox-text {
-        font-size: 0.85rem;
-    }
-}
-
-/* Theme-spezifische Anpassungen für Register */
-[data-theme="dark"] .registration-benefits {
-    background: rgba(255, 255, 255, 0.05);
-    border-color: rgba(255, 255, 255, 0.1);
-}
-
-[data-theme="luxury"] .registration-benefits {
-    background: linear-gradient(135deg, rgba(251, 191, 36, 0.1), rgba(245, 158, 11, 0.05));
-    border-color: rgba(251, 191, 36, 0.2);
-}
-</style>
+<!-- Ende: Auth Section - Auth0 Integration -->
 
 <!-- BLOG SECTION -->
 <section class="blog-section" id="blog-section" style="display: none;">
