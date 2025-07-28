@@ -6916,13 +6916,6 @@ addParallaxEffect() {
 cleanupAllModals() {
     console.log('=== CLEANUP ALL MODALS ===');
     
-    // Auth-Modal nur schließen, wenn nicht ausgenommen
-    if (!exceptAuthModal) {
-        this.closeAuthModal();
-    } else {
-        console.log('⏸️ Auth-Modal bei Auth-Navigation geschont');
-    }
-    
     // Eigenschaften-Modal sicher schließen
     if (this.eigenschaftenModal) {
         this.eigenschaftenModal.style.display = 'none';
