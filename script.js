@@ -1360,6 +1360,11 @@ setupEventListeners() {
   this.handleURLRouting();
 });
 
+window.addEventListener('popstate', () => {
+    const path = window.location.pathname.replace(/^\//, '') || 'home';
+    this.handleNavigation(path);
+});
+
     // ===== MODAL EVENT-LISTENER MIT HIERARCHIE-BEWUSSTSEIN =====
     
     // Haupt-Modal Event-Listener
