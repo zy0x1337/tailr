@@ -2114,9 +2114,26 @@ handleNavigation(catId, linkEl) {
             document.title = 'Admin Login - tailr.wiki';
             break;
 
-            case 'dashboard':
-            if (this.dashboardManager) {
-                this.dashboardManager.showDashboard();
+        // DASHBOARD mit Authentifizierungsprüfung
+        case 'dashboard':
+            console.log('📊 Dashboard wird angezeigt');
+            if (this.authManager?.isAuthenticated()) {
+                if (this.dashboardManager) {
+                    this.dashboardManager.showDashboard();
+                } else {
+                    // Dashboard Manager initialisieren falls noch nicht vorhanden
+                    this.initializeDashboard();
+                    if (this.dashboardManager) {
+                        this.dashboardManager.showDashboard();
+                    }
+                }
+                this.updateURL('dashboard');
+                document.title = 'Dashboard - tailr.wiki';
+            } else {
+                console.log('⚠️ Nicht authentifiziert - Auth-Modal wird geöffnet');
+                this.showAuthModal();
+                sessionStorage.setItem('redirectAfterLogin', 'dashboard');
+                return;
             }
             break;
 
@@ -7158,6 +7175,198 @@ showModalTab(species, tabId) {
     contentContainer.innerHTML = tabContent;
 }
 
+/**
+     * Dashboard-spezifische Navigation einrichten
+     */
+    setupDashboardNavigation() {
+        // Dashboard Link im User-Dropdown
+        const dashboardLink = document.getElementById('nav-dashboard-link');
+        if (dashboardLink) {
+            dashboardLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.closeAllDropdowns();
+                
+                // Prüfen ob Benutzer angemeldet ist
+                if (!this.authManager?.isAuthenticated()) {
+                    sessionStorage.setItem('redirectAfterLogin', 'dashboard');
+                    this.showAuthModal();
+                    return;
+                }
+                
+                // Dashboard anzeigen
+                this.handleNavigation('dashboard');
+            });
+        }
+    }
+
+    /**
+     * Dashboard anzeigen
+     */
+    showDashboard() {
+        console.log('📊 Dashboard wird angezeigt');
+        
+        // Authentifizierung prüfen
+        if (!this.authManager?.isAuthenticated()) {
+            console.warn('⚠️ Nicht angemeldet - Weiterleitung zur Auth');
+            sessionStorage.setItem('redirectAfterLogin', 'dashboard');
+            this.showAuthModal();
+            return;
+        }
+        
+        // Alle anderen Sektionen ausblenden
+        this.hideAllSections();
+        
+        // Dashboard-Sektion anzeigen
+        const dashboardSection = document.getElementById('user-dashboard-section');
+        if (dashboardSection) {
+            dashboardSection.style.display = 'block';
+            dashboardSection.classList.add('active');
+        }
+        
+        // URL und Titel aktualisieren
+        this.updateURL('dashboard');
+        document.title = 'Dashboard - tailr.wiki';
+        
+        // Navigation aktualisieren
+        this.updateActiveNavigation('dashboard');
+        
+        // Dashboard-Daten laden
+        if (this.dashboardManager) {
+            this.dashboardManager.loadDashboardData();
+        } else {
+            this.initializeDashboard();
+        }
+    }
+
+    /**
+     * Dashboard Manager initialisieren (falls noch nicht geschehen)
+     */
+    initializeDashboard() {
+        if (!this.dashboardManager && this.authManager?.isAuthenticated()) {
+            this.dashboardManager = new DashboardManager(this);
+            console.log('✅ Dashboard Manager initialisiert');
+            
+            // Dashboard-Daten nach Initialisierung laden
+            setTimeout(() => {
+                if (this.dashboardManager) {
+                    this.dashboardManager.loadDashboardData();
+                }
+            }, 100);
+        }
+    }
+
+    /**
+     * User-Navigation Status basierend auf Auth-Status aktualisieren
+     */
+    updateUserNavigation(user) {
+        const userSession = document.getElementById('user-session');
+        const guestSession = document.getElementById('guest-session');
+        const userDisplayName = document.getElementById('username-display');
+
+        if (user) {
+            // Benutzer ist angemeldet
+            if (userSession) userSession.style.display = 'block';
+            if (guestSession) guestSession.style.display = 'none';
+            
+            // Benutzername anzeigen
+            if (userDisplayName) {
+                userDisplayName.innerHTML = `👤 ${this.authManager.getUserDisplayName()}`;
+            }
+
+            // Dashboard verfügbar machen
+            this.initializeDashboard();
+            
+        } else {
+            // Benutzer ist abgemeldet
+            if (userSession) userSession.style.display = 'none';
+            if (guestSession) guestSession.style.display = 'block';
+            
+            // Dashboard Manager entfernen
+            this.dashboardManager = null;
+        }
+    }
+
+    /**
+     * Alle Dropdowns schließen
+     */
+    closeAllDropdowns() {
+        const dropdowns = document.querySelectorAll('.dropdown');
+        dropdowns.forEach(dropdown => {
+            dropdown.classList.remove('open');
+            const toggle = dropdown.querySelector('[aria-expanded]');
+            if (toggle) {
+                toggle.setAttribute('aria-expanded', 'false');
+            }
+        });
+    }
+
+    /**
+     * User-Dropdown Events einrichten
+     */
+    setupUserDropdownEvents() {
+        const userDropdown = document.querySelector('#user-session .dropdown');
+        const userToggle = document.getElementById('username-display');
+        
+        if (userToggle && userDropdown) {
+            userToggle.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                this.toggleUserDropdown(userDropdown);
+            });
+
+            // Außerhalb klicken schließt Dropdown
+            document.addEventListener('click', (e) => {
+                if (!userDropdown.contains(e.target)) {
+                    this.closeUserDropdown(userDropdown);
+                }
+            });
+        }
+
+        // Dropdown-Links Event-Listener
+        document.addEventListener('click', (e) => {
+            if (e.target.matches('.dropdown-link[data-category]')) {
+                e.preventDefault();
+                const category = e.target.dataset.category;
+                
+                // Dropdown schließen
+                this.closeAllDropdowns();
+                
+                // Navigation ausführen
+                this.handleNavigation(category);
+            }
+        });
+    }
+
+    /**
+     * User-Dropdown togglen
+     */
+    toggleUserDropdown(dropdown) {
+        const isOpen = dropdown.classList.contains('open');
+        
+        // Alle anderen Dropdowns schließen
+        this.closeAllDropdowns();
+        
+        // Aktuelles Dropdown togglen
+        if (!isOpen) {
+            dropdown.classList.add('open');
+            const toggle = dropdown.querySelector('[aria-expanded]');
+            if (toggle) {
+                toggle.setAttribute('aria-expanded', 'true');
+            }
+        }
+    }
+
+    /**
+     * User-Dropdown schließen
+     */
+    closeUserDropdown(dropdown) {
+        dropdown.classList.remove('open');
+        const toggle = dropdown.querySelector('[aria-expanded]');
+        if (toggle) {
+            toggle.setAttribute('aria-expanded', 'false');
+        }
+    }
+
 saveScrollPosition() {
     this.scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
 }
@@ -9966,7 +10175,9 @@ function adjustGridLayout() {
 window.addEventListener('resize', adjustGridLayout);
 window.addEventListener('load', adjustGridLayout);
 
-// Dashboard Manager Class hinzufügen
+/**
+ * Dashboard Manager - Verwaltet das Benutzer-Dashboard
+ */
 class DashboardManager {
     constructor(haustierWissenInstance) {
         this.app = haustierWissenInstance;
@@ -9978,24 +10189,30 @@ class DashboardManager {
         };
         this.activities = [];
         this.recommendations = [];
+        this.isInitialized = false;
         
         this.initializeDashboard();
     }
 
+    /**
+     * Dashboard initialisieren
+     */
     initializeDashboard() {
+        if (this.isInitialized) return;
+        
+        console.log('🔧 Dashboard Manager wird initialisiert...');
+        
         this.setupEventListeners();
-        this.loadUserData();
+        this.updateLoginStreak();
+        this.isInitialized = true;
+        
+        console.log('✅ Dashboard Manager initialisiert');
     }
 
+    /**
+     * Event Listeners für Dashboard-Elemente einrichten
+     */
     setupEventListeners() {
-        // Dashboard Button in Navigation
-        const dashboardBtn = document.getElementById('user-dashboard-btn');
-        if (dashboardBtn) {
-            dashboardBtn.addEventListener('click', () => {
-                this.showDashboard();
-            });
-        }
-
         // Settings Button
         const settingsBtn = document.getElementById('dashboard-settings-btn');
         if (settingsBtn) {
@@ -10004,11 +10221,13 @@ class DashboardManager {
             });
         }
 
-        // Add Pet Button
-        const addPetBtn = document.getElementById('dashboard-add-pet-btn');
-        const addFirstPetBtn = document.getElementById('add-first-pet-btn');
+        // Add Pet Buttons
+        const addPetBtns = [
+            document.getElementById('dashboard-add-pet-btn'),
+            document.getElementById('add-first-pet-btn')
+        ];
         
-        [addPetBtn, addFirstPetBtn].forEach(btn => {
+        addPetBtns.forEach(btn => {
             if (btn) {
                 btn.addEventListener('click', () => {
                     this.app.handleNavigation('pet-profile');
@@ -10050,52 +10269,82 @@ class DashboardManager {
         }
     }
 
+    /**
+     * Dashboard anzeigen - Hauptmethode
+     */
     async showDashboard() {
-        // Alle anderen Sektionen ausblenden
-        this.app.hideAllSections();
+        console.log('📊 Dashboard wird angezeigt...');
         
-        // Dashboard anzeigen
-        const dashboardSection = document.getElementById('user-dashboard-section');
-        if (dashboardSection) {
-            dashboardSection.style.display = 'block';
-            dashboardSection.classList.add('active');
+        try {
+            // Authentifizierung prüfen
+            if (!this.app.authManager?.isAuthenticated()) {
+                console.warn('⚠️ Nicht angemeldet - Weiterleitung zur Auth');
+                sessionStorage.setItem('redirectAfterLogin', 'dashboard');
+                this.app.showAuthModal();
+                return;
+            }
+            
+            // Alle anderen Sektionen ausblenden
+            this.app.hideAllSections();
+            
+            // Dashboard-Sektion anzeigen
+            const dashboardSection = document.getElementById('user-dashboard-section');
+            if (dashboardSection) {
+                dashboardSection.style.display = 'block';
+                dashboardSection.classList.add('active');
+            }
+            
+            // Dashboard-Daten laden
+            await this.loadDashboardData();
+            
+            // Animationen starten
+            this.animateStats();
+            
+            console.log('✅ Dashboard erfolgreich angezeigt');
+            
+        } catch (error) {
+            console.error('❌ Fehler beim Anzeigen des Dashboards:', error);
+            this.app.showNotification('Fehler beim Laden des Dashboards', 'error');
         }
-
-        // URL und Titel aktualisieren
-        this.app.updateURL('dashboard');
-        document.title = 'Dashboard - tailr.wiki';
-
-        // Navigation aktualisieren
-        this.app.updateActiveNavigation('dashboard');
-
-        // Dashboard-Daten laden
-        await this.loadDashboardData();
-        
-        // Animationen starten
-        this.animateStats();
     }
 
+    /**
+     * Dashboard-Daten laden
+     */
     async loadDashboardData() {
-        // Benutzername anzeigen
-        const userNameEl = document.getElementById('dashboard-user-name');
-        if (userNameEl && this.app.authManager) {
-            const user = this.app.authManager.getCurrentUser();
-            userNameEl.textContent = user ? this.app.authManager.getUserDisplayName() : 'Benutzer';
-        }
+        console.log('📊 Dashboard-Daten werden geladen...');
+        
+        try {
+            // Benutzername anzeigen
+            const userNameEl = document.getElementById('dashboard-user-name');
+            if (userNameEl && this.app.authManager) {
+                const user = this.app.authManager.getCurrentUser();
+                userNameEl.textContent = user ? this.app.authManager.getUserDisplayName() : 'Benutzer';
+            }
 
-        // Statistiken laden
-        await this.loadUserStats();
-        
-        // Haustiere laden
-        await this.loadUserPets();
-        
-        // Aktivitäten laden
-        this.loadUserActivity();
-        
-        // Empfehlungen laden
-        await this.loadRecommendations();
+            // Statistiken laden
+            await this.loadUserStats();
+            
+            // Haustiere laden
+            await this.loadUserPets();
+            
+            // Aktivitäten laden
+            this.loadUserActivity();
+            
+            // Empfehlungen laden
+            await this.loadRecommendations();
+            
+            console.log('✅ Dashboard-Daten erfolgreich geladen');
+            
+        } catch (error) {
+            console.error('❌ Fehler beim Laden der Dashboard-Daten:', error);
+            this.app.showNotification('Fehler beim Laden der Dashboard-Daten', 'error');
+        }
     }
 
+    /**
+     * Benutzerstatistiken laden
+     */
     async loadUserStats() {
         try {
             // Haustiere zählen
@@ -10103,7 +10352,7 @@ class DashboardManager {
             this.userStats.petsCount = pets.length;
 
             // Favoriten zählen
-            this.userStats.favoritesCount = this.app.favorites.size;
+            this.userStats.favoritesCount = this.app.favorites ? this.app.favorites.size : 0;
 
             // Aktivitätsscore berechnen
             this.userStats.activityScore = this.calculateActivityScore();
@@ -10119,8 +10368,10 @@ class DashboardManager {
         }
     }
 
+    /**
+     * Aktivitätsscore berechnen
+     */
     calculateActivityScore() {
-        // Einfacher Aktivitätsscore basierend auf verschiedenen Faktoren
         let score = 0;
         
         score += this.userStats.petsCount * 20; // 20 Punkte pro Haustier
@@ -10131,23 +10382,39 @@ class DashboardManager {
         return Math.min(score, 999); // Maximal 999
     }
 
+    /**
+     * Login-Streak abrufen
+     */
     getLoginStreak() {
-        // Login-Streak aus localStorage laden
         const streak = localStorage.getItem('loginStreak');
         return streak ? parseInt(streak) : 0;
     }
 
+    /**
+     * Statistiken in der UI anzeigen
+     */
     updateStatsDisplay() {
-        // Statistiken in der UI anzeigen
-        document.getElementById('stats-pets-count').textContent = this.userStats.petsCount;
-        document.getElementById('stats-favorites-count').textContent = this.userStats.favoritesCount;
-        document.getElementById('stats-activity-score').textContent = this.userStats.activityScore;
-        document.getElementById('stats-login-streak').textContent = this.userStats.loginStreak;
+        const statsElements = {
+            'stats-pets-count': this.userStats.petsCount,
+            'stats-favorites-count': this.userStats.favoritesCount,
+            'stats-activity-score': this.userStats.activityScore,
+            'stats-login-streak': this.userStats.loginStreak
+        };
 
-        // Trends anzeigen (vereinfacht)
+        Object.entries(statsElements).forEach(([id, value]) => {
+            const element = document.getElementById(id);
+            if (element) {
+                element.textContent = value;
+            }
+        });
+
+        // Trends anzeigen
         this.updateTrends();
     }
 
+    /**
+     * Trends für Statistiken anzeigen
+     */
     updateTrends() {
         const trends = {
             pets: this.getTrend('pets'),
@@ -10165,8 +10432,10 @@ class DashboardManager {
         });
     }
 
+    /**
+     * Trend berechnen (vereinfacht)
+     */
     getTrend(type) {
-        // Vereinfachte Trend-Berechnung
         const random = Math.random();
         if (random > 0.6) {
             return { text: '+12%', type: 'up' };
@@ -10177,6 +10446,9 @@ class DashboardManager {
         }
     }
 
+    /**
+     * Benutzer-Haustiere laden
+     */
     async loadUserPets() {
         try {
             const pets = await this.getUserPets();
@@ -10196,7 +10468,7 @@ class DashboardManager {
                     </div>
                 `;
                 
-                // Event Listener für den Button
+                // Event Listener für den Button erneut hinzufügen
                 const addFirstPetBtn = document.getElementById('add-first-pet-btn');
                 if (addFirstPetBtn) {
                     addFirstPetBtn.addEventListener('click', () => {
@@ -10210,7 +10482,8 @@ class DashboardManager {
                     <div class="dashboard-pet-card" data-pet-id="${pet.id}">
                         <img src="${pet.image || 'images/placeholder-animal.jpg'}" 
                              alt="${pet.name}" 
-                             class="dashboard-pet-image">
+                             class="dashboard-pet-image"
+                             onerror="this.src='images/placeholder-animal.jpg'">
                         <div class="dashboard-pet-name">${pet.name}</div>
                         <div class="dashboard-pet-species">${pet.species || pet.breed}</div>
                     </div>
@@ -10220,7 +10493,7 @@ class DashboardManager {
                 petsGrid.querySelectorAll('.dashboard-pet-card').forEach(card => {
                     card.addEventListener('click', () => {
                         const petId = card.dataset.petId;
-                        this.app.showPetProfileDetail(petId);
+                        this.showPetDetail(petId);
                     });
                 });
             }
@@ -10229,11 +10502,12 @@ class DashboardManager {
         }
     }
 
+    /**
+     * Haustiere des Benutzers abrufen
+     */
     async getUserPets() {
-        // Simulation - in der echten Anwendung würde hier eine API-Anfrage erfolgen
         try {
             if (this.app.authManager && this.app.authManager.isAuthenticated()) {
-                // Haustiere aus localStorage oder API laden
                 const savedPets = localStorage.getItem('userPets');
                 return savedPets ? JSON.parse(savedPets) : [];
             }
@@ -10244,8 +10518,10 @@ class DashboardManager {
         }
     }
 
+    /**
+     * Benutzeraktivitäten laden
+     */
     loadUserActivity() {
-        // Aktivitäten aus localStorage laden
         try {
             const savedActivities = localStorage.getItem('userActivities');
             this.activities = savedActivities ? JSON.parse(savedActivities) : [];
@@ -10258,6 +10534,9 @@ class DashboardManager {
         }
     }
 
+    /**
+     * Aktivitäten in der UI anzeigen
+     */
     displayActivities() {
         const activityList = document.getElementById('dashboard-activity-list');
         if (!activityList) return;
@@ -10283,49 +10562,61 @@ class DashboardManager {
         }
     }
 
+    /**
+     * Empfehlungen laden
+     */
     async loadRecommendations() {
-        // Empfehlungen generieren
         this.recommendations = await this.generateRecommendations();
         this.displayRecommendations();
     }
 
+    /**
+     * Empfehlungen generieren
+     */
     async generateRecommendations() {
         const recommendations = [];
         
-        // Zufällige Tierarten für Empfehlungen
-        if (this.app.petsData && this.app.petsData.species) {
-            const allSpecies = Object.values(this.app.petsData.species).flat();
-            const randomSpecies = this.getRandomItems(allSpecies, 3);
-            
-            randomSpecies.forEach(species => {
-                recommendations.push({
-                    type: 'species',
-                    title: `Entdecke: ${species.name}`,
-                    description: 'Könnte dir gefallen',
-                    image: species.image,
-                    action: () => this.app.showSpeciesDetail(species.id)
+        try {
+            // Zufällige Tierarten für Empfehlungen
+            if (this.app.petsData && this.app.petsData.species) {
+                const allSpecies = Object.values(this.app.petsData.species).flat();
+                const randomSpecies = this.getRandomItems(allSpecies, 3);
+                
+                randomSpecies.forEach(species => {
+                    recommendations.push({
+                        type: 'species',
+                        title: `Entdecke: ${species.name}`,
+                        description: 'Könnte dir gefallen',
+                        image: species.image,
+                        action: () => this.app.showSpeciesDetail(species.id)
+                    });
                 });
-            });
-        }
+            }
 
-        // Blog-Empfehlungen
-        if (this.app.blogData && this.app.blogData.length > 0) {
-            const randomBlog = this.getRandomItems(this.app.blogData, 2);
-            
-            randomBlog.forEach(blog => {
-                recommendations.push({
-                    type: 'blog',
-                    title: blog.title,
-                    description: 'Lesenswert',
-                    image: blog.image,
-                    action: () => this.app.showBlogDetail(blog.id)
+            // Blog-Empfehlungen
+            if (this.app.blogData && this.app.blogData.length > 0) {
+                const randomBlog = this.getRandomItems(this.app.blogData, 2);
+                
+                randomBlog.forEach(blog => {
+                    recommendations.push({
+                        type: 'blog',
+                        title: blog.title,
+                        description: 'Lesenswert',
+                        image: blog.image,
+                        action: () => this.app.showBlogDetail(blog.id)
+                    });
                 });
-            });
+            }
+        } catch (error) {
+            console.error('Fehler beim Generieren der Empfehlungen:', error);
         }
 
         return recommendations;
     }
 
+    /**
+     * Empfehlungen in der UI anzeigen
+     */
     displayRecommendations() {
         const recommendationsList = document.getElementById('dashboard-recommendations');
         if (!recommendationsList) return;
@@ -10342,7 +10633,8 @@ class DashboardManager {
                 <div class="recommendation-item" data-type="${rec.type}">
                     <img src="${rec.image || 'images/placeholder.jpg'}" 
                          alt="${rec.title}" 
-                         class="recommendation-image">
+                         class="recommendation-image"
+                         onerror="this.src='images/placeholder.jpg'">
                     <div class="recommendation-content">
                         <div class="recommendation-title">${rec.title}</div>
                         <div class="recommendation-description">${rec.description}</div>
@@ -10362,6 +10654,9 @@ class DashboardManager {
         }
     }
 
+    /**
+     * Quick Actions verarbeiten
+     */
     handleQuickAction(action) {
         switch (action) {
             case 'add-pet':
@@ -10396,6 +10691,9 @@ class DashboardManager {
         });
     }
 
+    /**
+     * Titel für Aktionen abrufen
+     */
     getActionTitle(action) {
         const titles = {
             'add-pet': 'Haustier hinzufügen geöffnet',
@@ -10408,6 +10706,9 @@ class DashboardManager {
         return titles[action] || 'Aktion ausgeführt';
     }
 
+    /**
+     * Icons für Aktionen abrufen
+     */
     getActionIcon(action) {
         const icons = {
             'add-pet': '🐕',
@@ -10420,6 +10721,9 @@ class DashboardManager {
         return icons[action] || '📌';
     }
 
+    /**
+     * Aktivität hinzufügen
+     */
     addActivity(activity) {
         this.activities.unshift(activity);
         
@@ -10435,35 +10739,62 @@ class DashboardManager {
         this.displayActivities();
     }
 
+    /**
+     * Aktivitäten löschen
+     */
     clearActivity() {
         this.activities = [];
         localStorage.removeItem('userActivities');
         this.displayActivities();
         
-        // Erfolgsbenachrichtigung
         if (this.app.showNotification) {
             this.app.showNotification('Aktivitäten wurden geleert', 'info');
         }
     }
 
+    /**
+     * Einstellungen anzeigen
+     */
     showSettings() {
-        // Hier könnte ein Einstellungs-Modal geöffnet werden
-        console.log('Einstellungen öffnen...');
+        console.log('⚙️ Einstellungen öffnen...');
         if (this.app.showNotification) {
             this.app.showNotification('Einstellungen sind in Entwicklung', 'info');
         }
     }
 
+    /**
+     * Haustier-Detail anzeigen
+     */
+    showPetDetail(petId) {
+        console.log(`🐾 Haustier-Detail wird angezeigt: ${petId}`);
+        // Hier könnte eine spezielle Pet-Detail-Seite geöffnet werden
+        if (this.app.showNotification) {
+            this.app.showNotification('Haustier-Details sind in Entwicklung', 'info');
+        }
+    }
+
+    /**
+     * Statistiken animieren
+     */
     animateStats() {
-        // Stats mit Animation einblenden
         const statCards = document.querySelectorAll('.stat-card');
         statCards.forEach((card, index) => {
             setTimeout(() => {
-                card.style.animation = 'slideInUp 0.6s ease-out forwards';
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'all 0.6s ease-out';
+                
+                setTimeout(() => {
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, 50);
             }, index * 100);
         });
     }
 
+    /**
+     * Zeit formatieren
+     */
     formatTime(timestamp) {
         const now = Date.now();
         const diff = now - timestamp;
@@ -10478,12 +10809,17 @@ class DashboardManager {
         return `vor ${days} Tag${days > 1 ? 'en' : ''}`;
     }
 
+    /**
+     * Zufällige Elemente aus Array auswählen
+     */
     getRandomItems(array, count) {
         const shuffled = [...array].sort(() => 0.5 - Math.random());
         return shuffled.slice(0, count);
     }
 
-    // Methode für Login-Streak aktualisieren
+    /**
+     * Login-Streak aktualisieren
+     */
     updateLoginStreak() {
         const today = new Date().toDateString();
         const lastLogin = localStorage.getItem('lastLogin');
@@ -10506,5 +10842,21 @@ class DashboardManager {
         }
 
         this.userStats.loginStreak = currentStreak;
+    }
+
+    /**
+     * Dashboard-Manager zurücksetzen (bei Logout)
+     */
+    reset() {
+        this.userStats = {
+            petsCount: 0,
+            favoritesCount: 0,
+            activityScore: 0,
+            loginStreak: 0
+        };
+        this.activities = [];
+        this.recommendations = [];
+        
+        console.log('🔄 Dashboard Manager zurückgesetzt');
     }
 }
