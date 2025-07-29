@@ -2514,62 +2514,17 @@ closeSpeciesModal() {
         }
     }
 
+console.log('Species Objekt in populateModal:', species);
+console.log('species.categoryId:', species.categoryId);
+console.log('species.species:', species.species);
+
+
     // ---- Sichtbarkeit nur für Hunde steuern ----
     const isDog = species.categoryId === 'dogs' || species.species === 'dogs';
     eigenschaftenBtn.style.display = isDog ? 'inline-flex' : 'none';
 
     // Event-Listener für andere dynamische Elemente im Modal (z.B. Favoriten-Button)
     this.setupModalEventListeners(species);
-}
-
-
-
-populateModalGallery(species) {
-    if (!this.modalGallery) return;
-    this.modalGallery.innerHTML = '';
-
-    const galleryContainer = document.createElement('div');
-    galleryContainer.className = 'species-gallery';
-
-    // Haupt-Bild
-    const mainImageContainer = document.createElement('div');
-    mainImageContainer.className = 'species-main-image';
-    const mainImage = document.createElement('img');
-    mainImage.src = species.image || 'images/placeholder.jpg';
-    mainImage.alt = `Hauptbild von ${species.name}`;
-    mainImage.className = 'main-image';
-    mainImage.onerror = () => { mainImage.src = 'images/placeholder.jpg'; };
-    mainImageContainer.appendChild(mainImage);
-    galleryContainer.appendChild(mainImageContainer);
-
-    // Thumbnail-Galerie (nur wenn mehr als ein Bild vorhanden ist)
-    const allImages = [species.image, ...(species.gallery || [])].filter(Boolean);
-    const uniqueImages = [...new Set(allImages)];
-
-    if (uniqueImages.length > 1) {
-        const thumbnailContainer = document.createElement('div');
-        thumbnailContainer.className = 'species-thumbnails';
-
-        uniqueImages.forEach(src => {
-            const thumb = document.createElement('img');
-            thumb.src = src;
-            thumb.alt = `Thumbnail von ${species.name}`;
-            thumb.className = 'thumbnail';
-            thumb.classList.toggle('active', src === mainImage.src);
-            thumb.onerror = () => { thumb.style.display = 'none'; };
-
-            thumb.addEventListener('click', () => {
-                mainImage.src = src;
-                // Aktiven Zustand bei allen Thumbnails aktualisieren
-                thumbnailContainer.querySelectorAll('.thumbnail').forEach(t => t.classList.remove('active'));
-                thumb.classList.add('active');
-            });
-            thumbnailContainer.appendChild(thumb);
-        });
-        galleryContainer.appendChild(thumbnailContainer);
-    }
-
-    this.modalGallery.appendChild(galleryContainer);
 }
 
 populateAllTabs(species) {
@@ -4504,7 +4459,7 @@ debugCategoryDisplay(species) {
     console.log('=== DEBUG END ===');
 }
 
-// KORRIGIERTE Galerie-Methode
+// Galerie-Methode
 populateModalGallery(species) {
     // Galerie-Inhalt leeren, aber Struktur beibehalten
     this.modalGallery.innerHTML = '';
@@ -4561,7 +4516,7 @@ populateModalGallery(species) {
     }
 }
 
-// KORRIGIERTE Tab-Inhalte ohne buildModalStructure
+// Tab-Inhalte ohne buildModalStructure
 populateModalTabs(species) {
     // Übersicht Tab
     const overviewTab = this.speciesModal.querySelector('#tab-overview');
