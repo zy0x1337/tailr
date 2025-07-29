@@ -1303,42 +1303,6 @@ body.theme-playful {
     margin-top: var(--space-12);
 }
 
-/* BENACHRICHTIGUNGEN */
-.notification {
-    position: fixed;
-    top: 100px;
-    right: var(--space-24);
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
-    padding: var(--space-16);
-    box-shadow: var(--shadow-lg);
-    display: flex;
-    align-items: center;
-    gap: var(--space-12);
-    transform: translateX(100%);
-    transition: transform var(--transition);
-    z-index: 1001;
-    max-width: 300px;
-}
-
-.notification.show {
-    transform: translateX(0);
-}
-
-.notification--success {
-    border-left: 4px solid var(--color-success);
-}
-
-.notification--info {
-    border-left: 4px solid var(--color-info);
-}
-
-.notification__message {
-    font-size: var(--font-size-sm);
-    color: var(--color-text);
-}
-
 /* RESPONSIVE DESIGN */
 @media (max-width: 768px) {
     
@@ -3326,28 +3290,6 @@ body.theme-playful {
 .info-item__value {
     font-weight: var(--font-weight-semibold);
     color: var(--color-text);
-}
-
-/* Stile für die Favoriten-Benachrichtigung (Toast) */
-.toast-notification {
-    position: fixed;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%) translateY(100px);
-    background-color: var(--color-surface);
-    color: var(--color-text);
-    padding: var(--space-12) var(--space-24);
-    border-radius: var(--radius-full);
-    box-shadow: var(--shadow-lg);
-    z-index: 2000;
-    opacity: 0;
-    transition: opacity 0.5s ease, transform 0.5s var(--ease-standard);
-    font-weight: var(--font-weight-medium);
-}
-
-.toast-notification.show {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
 }
 
 /* =================================================================== */
