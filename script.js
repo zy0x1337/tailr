@@ -424,7 +424,10 @@ cleanup() {
     this.updateFavoriteButtons();
     this.petProfileCreator = new PetProfileCreator('pet-profile-form', this);
     this.authManager = new AuthManager(this);
-    this.dashboardManager = new DashboardManager(this);
+    this.authManager.on('onLogin', (user) => {
+            console.log('✅ Benutzer angemeldet:', user.email);
+            this.showNotification(`Willkommen zurück, ${this.authManager.getUserDisplayName()}!`, 'success');
+            });
     
     // AUTH-STATUS-CALLBACKS MIT NAVIGATION-UPDATES
     this.authManager.on('onUserChange', (user) => {
