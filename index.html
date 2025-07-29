@@ -9007,27 +9007,6 @@ console.log('✅ haustierWissen initialized');
 <script src="auth-manager.js"></script>
 <script src="script.js"></script>
 <script>console.log('✅ Main script loaded');</script>
-<script>// Annahme: Home ist index.html oder "/"
-document.addEventListener("DOMContentLoaded", function () {
-    const isHome = (
-        window.location.pathname === "/" ||
-        window.location.pathname === "/home" ||
-        window.location.pathname.endsWith("index.html")
-    );
-
-    // Hero-Bereich ausblenden, wenn nicht Home
-    const heroSection = document.getElementById("hero");
-    if (heroSection) {
-        heroSection.style.display = isHome ? "" : "none";
-    }
-
-    // Animal of the Day Bereich ausblenden, wenn nicht Home
-    const animalOfDay = document.getElementById("animal-of-day-section");
-    if (animalOfDay) {
-        animalOfDay.style.display = isHome ? "" : "none";
-    }
-});
-</script>
 <script src="https://threejs.org/build/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.158.0/examples/js/loaders/GLTFLoader.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.158.0/examples/js/controls/OrbitControls.js"></script>

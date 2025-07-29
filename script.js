@@ -707,10 +707,14 @@ showNotification(message, type = 'info') {
  * URL-basierte Navigation erweitern
  */
 handleURLRouting() {
-    // Den aktuellen Pfad auslesen und führenden Slash entfernen
+    // Pfad ohne führenden Slash
     const path = window.location.pathname.replace(/^\//, '');
 
     switch (path) {
+        case '':
+        case 'home':
+            this.showHome();
+            break;
         case 'auth':
         case 'login':
         case 'register':
@@ -723,8 +727,10 @@ handleURLRouting() {
                 this.showAuth();
             }
             break;
+            
         default:
             this.showHome();
+            break;
     }
 }
 
