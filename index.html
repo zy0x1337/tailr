@@ -9010,7 +9010,7 @@ console.log('✅ haustierWissen initialized');
 <script>// Annahme: Home ist index.html oder "/"
 document.addEventListener("DOMContentLoaded", function () {
     const isHome = (
-        window.location.pathname.endsWith("index.html")
+        window.location.pathname === "/"
     );
 
     // Hero-Bereich ausblenden, wenn nicht Home
