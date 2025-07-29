@@ -8337,12 +8337,15 @@ class AnimalComparison {
     }
 
     setupEventListeners() {
-        // Slot-Auswahl Buttons
-        document.querySelectorAll('.slot-select-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                this.currentSlot = e.target.dataset.slot;
-                this.openAnimalSelectionModal();
-            });
+    // Slot-Auswahl Buttons
+    const comparisonSection = document.getElementById('comparison-section');
+    comparisonSection.addEventListener('click', (e) => {
+    const selectBtn = e.target.closest('.slot-select-btn');
+    if (!selectBtn) return; // nicht relevant, zurück
+
+    e.preventDefault();
+    this.currentSlot = selectBtn.dataset.slot;
+    this.openAnimalSelectionModal();
         });
 
         // Modal schließen
