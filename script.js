@@ -2488,14 +2488,35 @@ closeSpeciesModal() {
     this.populateAllTabs(species);
 
     // ---- KORREKTUR: Standard-Tab beim Öffnen aktivieren ----
-    // Setzt den ersten Tab und den ersten Inhaltsbereich visuell als Standard aktiv.
-    // Dies geschieht nun ohne einen problematischen .click()-Aufruf.
     this.modalTabsContainer.querySelectorAll('.modal-tab').forEach((btn, index) => {
         btn.classList.toggle('active', index === 0);
     });
     this.speciesModal.querySelectorAll('.modal-tab-content').forEach((content, index) => {
         content.classList.toggle('active', index === 0);
     });
+
+    // ---- Eigenschaften-Button existiert oder wird erstellt ----
+    let eigenschaftenBtn = this.speciesModal.querySelector('.eigenschaften-button');
+    if (!eigenschaftenBtn) {
+        // Falls Button noch nicht existiert, Button erstellen und einfügen
+        eigenschaftenBtn = document.createElement('button');
+        eigenschaftenBtn.classList.add('eigenschaften-button');
+        eigenschaftenBtn.type = 'button';
+        eigenschaftenBtn.textContent = 'Eigenschaften';
+        // Event-Listener zum Öffnen des Eigenschaften-Modals
+        eigenschaftenBtn.addEventListener('click', () => {
+            this.openEigenschaftenModal(species); // Deine Methode für Eigenschaften-Modal öffnen
+        });
+        // Button in den Modal-Header einfügen
+        const modalHeader = this.speciesModal.querySelector('.modal-header');
+        if (modalHeader) {
+            modalHeader.appendChild(eigenschaftenBtn);
+        }
+    }
+
+    // ---- Sichtbarkeit nur für Hunde steuern ----
+    const isDog = species.categoryId === 'dogs' || species.species === 'dogs';
+    eigenschaftenBtn.style.display = isDog ? 'inline-flex' : 'none';
 
     // Event-Listener für andere dynamische Elemente im Modal (z.B. Favoriten-Button)
     this.setupModalEventListeners(species);
