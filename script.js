@@ -5261,12 +5261,18 @@ showComparison() {
 showBlog() {
     console.log('Showing blog section...');
     this.hideAllSections();
-    
+
+    // Hero und Animal-of-the-Day ausblenden
+    const hero = document.querySelector('.hero');
+    const animalOfDay = document.querySelector('.animal-of-day-section');
+    if (hero) hero.style.display = 'none';
+    if (animalOfDay) animalOfDay.style.display = 'none';
+
     // Blog-Sektion anzeigen
     const blogSection = document.getElementById('blog-section');
     if (blogSection) {
         this.showSection(blogSection);
-        
+
         // BlogManager initialisieren falls noch nicht geschehen
         if (!this.blogManager && this.blogData.length > 0) {
             this.blogManager = new EnhancedBlogManager(this);
