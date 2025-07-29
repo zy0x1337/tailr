@@ -7889,6 +7889,170 @@
     display: block;
 }
 </style>
+
+<!-- User Dashboard Section -->
+<section id="user-dashboard-section" class="section user-dashboard-section" style="display: none;">
+    <div class="container">
+        <div class="dashboard-header">
+            <div class="dashboard-welcome">
+                <h1 class="dashboard-title">
+                    <span class="welcome-icon">👋</span>
+                    Willkommen zurück, <span id="dashboard-user-name">Benutzer</span>!
+                </h1>
+                <p class="dashboard-subtitle">Hier ist deine persönliche Übersicht</p>
+            </div>
+            <div class="dashboard-actions">
+                <button class="btn btn--secondary" id="dashboard-settings-btn">
+                    ⚙️ Einstellungen
+                </button>
+                <button class="btn btn--primary" id="dashboard-add-pet-btn">
+                    ➕ Neues Haustier
+                </button>
+            </div>
+        </div>
+
+        <!-- Dashboard Stats Cards -->
+        <div class="dashboard-stats">
+            <div class="stat-card stat-card--pets">
+                <div class="stat-card__icon">🐾</div>
+                <div class="stat-card__content">
+                    <div class="stat-card__number" id="stats-pets-count">0</div>
+                    <div class="stat-card__label">Deine Haustiere</div>
+                </div>
+                <div class="stat-card__trend" id="stats-pets-trend"></div>
+            </div>
+
+            <div class="stat-card stat-card--favorites">
+                <div class="stat-card__icon">❤️</div>
+                <div class="stat-card__content">
+                    <div class="stat-card__number" id="stats-favorites-count">0</div>
+                    <div class="stat-card__label">Favoriten</div>
+                </div>
+                <div class="stat-card__trend" id="stats-favorites-trend"></div>
+            </div>
+
+            <div class="stat-card stat-card--activity">
+                <div class="stat-card__icon">📊</div>
+                <div class="stat-card__content">
+                    <div class="stat-card__number" id="stats-activity-score">0</div>
+                    <div class="stat-card__label">Aktivität</div>
+                </div>
+                <div class="stat-card__trend" id="stats-activity-trend"></div>
+            </div>
+
+            <div class="stat-card stat-card--streak">
+                <div class="stat-card__icon">🔥</div>
+                <div class="stat-card__content">
+                    <div class="stat-card__number" id="stats-login-streak">0</div>
+                    <div class="stat-card__label">Tage-Streak</div>
+                </div>
+                <div class="stat-card__trend" id="stats-streak-trend"></div>
+            </div>
+        </div>
+
+        <!-- Dashboard Main Content -->
+        <div class="dashboard-main">
+            <!-- Quick Actions -->
+            <div class="dashboard-widget quick-actions-widget">
+                <div class="widget-header">
+                    <h3 class="widget-title">
+                        ⚡ Schnellaktionen
+                    </h3>
+                </div>
+                <div class="widget-content">
+                    <div class="quick-actions-grid">
+                        <button class="quick-action-btn" data-action="add-pet">
+                            <div class="quick-action-icon">🐕</div>
+                            <div class="quick-action-text">Haustier hinzufügen</div>
+                        </button>
+                        <button class="quick-action-btn" data-action="view-favorites">
+                            <div class="quick-action-icon">⭐</div>
+                            <div class="quick-action-text">Favoriten ansehen</div>
+                        </button>
+                        <button class="quick-action-btn" data-action="compare-species">
+                            <div class="quick-action-icon">⚖️</div>
+                            <div class="quick-action-text">Arten vergleichen</div>
+                        </button>
+                        <button class="quick-action-btn" data-action="browse-tools">
+                            <div class="quick-action-icon">🛠️</div>
+                            <div class="quick-action-text">Tools nutzen</div>
+                        </button>
+                        <button class="quick-action-btn" data-action="read-blog">
+                            <div class="quick-action-icon">📖</div>
+                            <div class="quick-action-text">Blog lesen</div>
+                        </button>
+                        <button class="quick-action-btn" data-action="account-settings">
+                            <div class="quick-action-icon">👤</div>
+                            <div class="quick-action-text">Profil bearbeiten</div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Pets -->
+            <div class="dashboard-widget recent-pets-widget">
+                <div class="widget-header">
+                    <h3 class="widget-title">
+                        🐾 Deine Haustiere
+                    </h3>
+                    <button class="widget-action-btn" id="view-all-pets-btn">
+                        Alle anzeigen →
+                    </button>
+                </div>
+                <div class="widget-content">
+                    <div id="dashboard-pets-grid" class="dashboard-pets-grid">
+                        <!-- Wird dynamisch befüllt -->
+                        <div class="dashboard-pet-placeholder">
+                            <div class="placeholder-icon">🐾</div>
+                            <p>Noch keine Haustiere hinzugefügt</p>
+                            <button class="btn btn--primary btn--mini" id="add-first-pet-btn">
+                                Erstes Haustier hinzufügen
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Activity -->
+            <div class="dashboard-widget activity-widget">
+                <div class="widget-header">
+                    <h3 class="widget-title">
+                        📈 Letzte Aktivitäten
+                    </h3>
+                    <button class="widget-action-btn" id="clear-activity-btn">
+                        Leeren
+                    </button>
+                </div>
+                <div class="widget-content">
+                    <div id="dashboard-activity-list" class="activity-list">
+                        <!-- Wird dynamisch befüllt -->
+                        <div class="activity-placeholder">
+                            <div class="placeholder-icon">📊</div>
+                            <p>Noch keine Aktivitäten vorhanden</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recommendations -->
+            <div class="dashboard-widget recommendations-widget">
+                <div class="widget-header">
+                    <h3 class="widget-title">
+                        💡 Empfehlungen für dich
+                    </h3>
+                    <button class="widget-action-btn" id="refresh-recommendations-btn">
+                        🔄
+                    </button>
+                </div>
+                <div class="widget-content">
+                    <div id="dashboard-recommendations" class="recommendations-list">
+                        <!-- Wird dynamisch befüllt -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
         
     </main>
 
