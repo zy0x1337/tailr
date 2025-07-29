@@ -8629,7 +8629,7 @@ class AnimalComparison {
                     max: 5,
                     ticks: {
                         stepSize: 1,
-                        display: true,
+                        display: false,
                         callback: function(value) {
                             return value === 0 ? '' : value + '/5';
                         },
