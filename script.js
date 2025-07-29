@@ -2864,6 +2864,7 @@ handleNavigation(catId, linkEl) {
         // MY-PETS mit Authentifizierungsprüfung (Modal-Integration)
         case 'my-pets':
             console.log('🐾 Meine Tiere wird angezeigt');
+            this.setHeroVisible(false);
             if (this.authManager?.isAuthenticated()) {
                 this.showMyPets();
                 this.updateURL('my-pets');
@@ -2879,6 +2880,7 @@ handleNavigation(catId, linkEl) {
 
         case 'pet-profile':
             console.log('🐕 Tierprofil wird angezeigt');
+            this.setHeroVisible(false);
             if (this.authManager?.isAuthenticated()) {
                 this.showSection(this.petProfileSection);
                 this.updateURL('pet-profile');
@@ -2900,6 +2902,7 @@ handleNavigation(catId, linkEl) {
 
         case 'comparison':
             console.log('⚖️ Vergleich wird angezeigt');
+            this.setHeroVisible(false);
             this.showSection(this.comparisonSection);
             this.updateURL('comparison');
             document.title = 'Vergleich - tailr.wiki';
