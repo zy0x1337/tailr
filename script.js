@@ -8334,6 +8334,7 @@ class AnimalComparison {
     init() {
         this.setupEventListeners();
         this.loadChartLibrary();
+        this.addTableStyles();
     }
 
     setupEventListeners() {
@@ -8816,49 +8817,369 @@ createFallbackChart() {
     console.log('✅ Fallback Chart erstellt');
 }
 
-    showComparisonTable() {
-        const container = document.getElementById('comparison-table-container');
-        const table = document.getElementById('comparison-table');
-        const header = document.getElementById('comparison-header');
-        const body = document.getElementById('comparison-body');
+showComparisonTable() {
+    const container = document.getElementById('comparison-table-container');
+    const table = document.getElementById('comparison-table');
+    const header = document.getElementById('comparison-header');
+    const body = document.getElementById('comparison-body');
+    
+    // **PRÜFUNG OB ELEMENTE EXISTIEREN**
+    if (!container || !table || !header || !body) {
+        console.warn('Comparison table Elemente nicht gefunden');
+        return;
+    }
+    
+    const animalCount = Object.keys(this.selectedAnimals).length;
+    
+    // **MINDESTENS 2 TIERE ERFORDERLICH**
+    if (animalCount < 2) {
+        container.style.display = 'none';
+        return;
+    }
+    
+    container.style.display = 'block';
+    
+    // **ERWEITERTE HEADER MIT BILDERN**
+    const animals = Object.values(this.selectedAnimals);
+    header.innerHTML = '<th class="property-header">Eigenschaft</th>';
+    
+    animals.forEach(animal => {
+        header.innerHTML += `
+            <th class="animal-header">
+                <div class="animal-header-content">
+                    <img src="${animal.image}" alt="${animal.name}" 
+                         class="table-animal-image" 
+                         onerror="this.src='images/placeholder.jpg'">
+                    <span class="animal-name">${animal.name}</span>
+                    <span class="animal-subcategory">${animal.subcategoryName || ''}</span>
+                </div>
+            </th>
+        `;
+    });
+    
+    // **TABELLE GENERIEREN**
+    this.generateTableContent(body, animals);
+}
+
+/**
+ * Erweiterte Tabellen-Inhalte für neue Datenstruktur generieren
+ */
+generateTableContent(body, animals) {
+    // **SICHERE DATENEXTRAKTION**
+    const getValue = (animal, path, fallback = 'Nicht verfügbar') => {
+        const keys = path.split('.');
+        let value = animal;
         
-        container.style.display = 'block';
+        for (const key of keys) {
+            value = value?.[key];
+            if (value === undefined || value === null) {
+                return fallback;
+            }
+        }
         
-        // Header erstellen
-        header.innerHTML = '<th>Eigenschaft</th>';
-        Object.values(this.selectedAnimals).forEach(animal => {
-            header.innerHTML += `<th>${animal.name}</th>`;
-        });
+        return value;
+    };
+    
+    // **BEWERTUNG ZU STERNEN KONVERTIEREN**
+    const formatRating = (rating) => {
+        if (typeof rating !== 'number' || rating < 1 || rating > 5) {
+            return '<span class="rating-na">N/A</span>';
+        }
         
-        // Body erstellen
-        const properties = [
-            { key: 'origin', label: 'Herkunft' },
-            { key: 'size', label: 'Größe' },
-            { key: 'weight', label: 'Gewicht' },
-            { key: 'lifeExpectancy', label: 'Lebenserwartung' },
-            { key: 'careLevel', label: 'Pflegeaufwand' },
-            { key: 'temperament', label: 'Temperament' }
-        ];
+        const stars = '★'.repeat(rating) + '☆'.repeat(5 - rating);
+        return `<span class="rating-display">${stars} <span class="rating-number">(${rating}/5)</span></span>`;
+    };
+    
+    // **ERWEITERTE VERGLEICHSDATEN**
+    const comparisonSections = [
+        {
+            title: 'Grundinformationen',
+            icon: '📋',
+            properties: [
+                { label: 'Herkunft', key: 'origin', type: 'text' },
+                { label: 'Größe', key: 'size', type: 'text' },
+                { label: 'Gewicht', key: 'weight', type: 'text' },
+                { label: 'Lebenserwartung', key: 'lifeExpectancy', type: 'text' },
+                { label: 'Pflegeaufwand', key: 'careLevel', type: 'text' },
+                { label: 'Unterkategorie', key: 'subcategoryName', type: 'text' }
+            ]
+        },
+        {
+            title: 'Hauptbewertungen (1-5 Sterne)',
+            icon: '⭐',
+            properties: [
+                { label: 'Energielevel', key: 'ratings.energielevel', type: 'rating' },
+                { label: 'Bewegungsbedarf', key: 'ratings.bewegungsbedarf.overall', type: 'rating' },
+                { label: 'Familienfreundlichkeit', key: 'ratings.familienfreundlichkeit.overall', type: 'rating' },
+                { label: 'Trainierbarkeit', key: 'ratings.trainierbarkeit.overall', type: 'rating' },
+                { label: 'Anfängertauglichkeit', key: 'ratings.anfängertauglichkeit', type: 'rating' },
+                { label: 'Wachtrieb', key: 'ratings.wachtrieb.overall', type: 'rating' },
+                { label: 'Gesundheitsrobustheit', key: 'ratings.gesundheitsrobustheit.overall', type: 'rating' },
+                { label: 'Fellpflegeaufwand', key: 'ratings.fellpflegeaufwand.overall', type: 'rating' },
+                { label: 'Wohnungstauglichkeit', key: 'ratings.apartmentTauglichkeit.overall', type: 'rating' }
+            ]
+        },
+        {
+            title: 'Detaillierte Bewertungen',
+            icon: '📊',
+            properties: [
+                { label: 'Körperliche Aktivität', key: 'ratings.bewegungsbedarf.physicalActivity', type: 'rating' },
+                { label: 'Geistige Stimulation', key: 'ratings.bewegungsbedarf.mentalStimulation', type: 'rating' },
+                { label: 'Spielfreude', key: 'ratings.bewegungsbedarf.playfulness', type: 'rating' },
+                { label: 'Kinderfreundlichkeit', key: 'ratings.familienfreundlichkeit.children', type: 'rating' },
+                { label: 'Fremdenfreundlichkeit', key: 'ratings.familienfreundlichkeit.freundlichkeitFremde', type: 'rating' },
+                { label: 'Gehorsam', key: 'ratings.trainierbarkeit.obedience', type: 'rating' },
+                { label: 'Lernfähigkeit', key: 'ratings.trainierbarkeit.intelligence', type: 'rating' },
+                { label: 'Beutetrieb', key: 'ratings.beutetrieb.overall', type: 'rating' },
+                { label: 'Bellneigung', key: 'ratings.belltendenz', type: 'rating' },
+                { label: 'Unabhängigkeit', key: 'ratings.unabhängigkeit', type: 'rating' }
+            ]
+        },
+        {
+            title: 'Temperament & Charakter',
+            icon: '🎭',
+            properties: [
+                { label: 'Temperament', key: 'temperament', type: 'array' },
+                { label: 'Charakterbeschreibung', key: 'details.character', type: 'text' }
+            ]
+        },
+        {
+            title: 'Pflege & Gesundheit',
+            icon: '🏥',
+            properties: [
+                { label: 'Tägliche Pflege', key: 'ratings.fellpflegeaufwand.daily', type: 'rating' },
+                { label: 'Wöchentliche Pflege', key: 'ratings.fellpflegeaufwand.weekly', type: 'rating' },
+                { label: 'Gesundheitsprobleme', key: 'ratings.gesundheitsrobustheit.commonIssues', type: 'rating' },
+                { label: 'Tierarztbesuche', key: 'ratings.gesundheitsrobustheit.vetVisits', type: 'rating' }
+            ]
+        }
+    ];
+    
+    // **TABELLEN-BODY LEEREN**
+    body.innerHTML = '';
+    
+    // **JEDE SEKTION DURCHGEHEN**
+    comparisonSections.forEach(section => {
+        // **SEKTIONS-HEADER**
+        const sectionRow = document.createElement('tr');
+        sectionRow.className = 'section-header';
+        sectionRow.innerHTML = `
+            <td colspan="${animals.length + 1}" class="section-title">
+                <span class="section-icon">${section.icon}</span>
+                <span class="section-text">${section.title}</span>
+            </td>
+        `;
+        body.appendChild(sectionRow);
         
-        body.innerHTML = '';
-        
-        properties.forEach(prop => {
+        // **EIGENSCHAFTEN DER SEKTION**
+        section.properties.forEach(property => {
             const row = document.createElement('tr');
-            row.innerHTML = `<td><strong>${prop.label}</strong></td>`;
+            row.className = 'property-row';
             
-            Object.values(this.selectedAnimals).forEach(animal => {
-                let value = animal[prop.key] || 'Nicht verfügbar';
+            // **EIGENSCHAFTS-LABEL**
+            const labelCell = `<td class="property-label"><strong>${property.label}</strong></td>`;
+            
+            // **WERTE FÜR JEDES TIER**
+            const valueCells = animals.map(animal => {
+                let value = getValue(animal, property.key);
+                let formattedValue;
                 
-                if (prop.key === 'temperament' && Array.isArray(value)) {
-                    value = value.join(', ');
+                switch (property.type) {
+                    case 'rating':
+                        formattedValue = formatRating(value);
+                        break;
+                        
+                    case 'array':
+                        if (Array.isArray(value)) {
+                            formattedValue = `<span class="array-value">${value.join(', ')}</span>`;
+                        } else {
+                            formattedValue = '<span class="value-na">Nicht verfügbar</span>';
+                        }
+                        break;
+                        
+                    case 'text':
+                    default:
+                        if (value && value !== 'Nicht verfügbar') {
+                            formattedValue = `<span class="text-value">${value}</span>`;
+                        } else {
+                            formattedValue = '<span class="value-na">Nicht verfügbar</span>';
+                        }
+                        break;
                 }
                 
-                row.innerHTML += `<td>${value}</td>`;
-            });
+                return `<td class="property-value">${formattedValue}</td>`;
+            }).join('');
             
+            row.innerHTML = labelCell + valueCells;
             body.appendChild(row);
         });
-    }
+    });
+    
+    console.log('✅ Comparison table generiert mit', animals.length, 'Tieren');
+}
+
+/**
+ * CSS-Styles für die Tabelle dynamisch hinzufügen
+ */
+addTableStyles() {
+    if (document.getElementById('comparison-table-styles')) return;
+    
+    const styles = `
+        <style id="comparison-table-styles">
+            .comparison-table-container {
+                margin-top: 30px;
+                overflow-x: auto;
+                border-radius: 12px;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            }
+            
+            .comparison-table {
+                width: 100%;
+                border-collapse: collapse;
+                background: white;
+                font-size: 14px;
+            }
+            
+            .property-header {
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                color: white;
+                font-weight: bold;
+                padding: 15px 12px;
+                text-align: center;
+                border: none;
+            }
+            
+            .animal-header {
+                background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+                color: white;
+                padding: 10px;
+                text-align: center;
+                border: none;
+                min-width: 150px;
+            }
+            
+            .animal-header-content {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 8px;
+            }
+            
+            .table-animal-image {
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+                object-fit: cover;
+                border: 2px solid white;
+            }
+            
+            .animal-name {
+                font-weight: bold;
+                font-size: 14px;
+            }
+            
+            .animal-subcategory {
+                font-size: 11px;
+                opacity: 0.9;
+                font-style: italic;
+            }
+            
+            .section-header {
+                background: #f8fafc;
+            }
+            
+            .section-title {
+                padding: 12px 15px;
+                font-weight: bold;
+                color: #1f2937;
+                border-top: 2px solid #e5e7eb;
+                border-bottom: 1px solid #e5e7eb;
+            }
+            
+            .section-icon {
+                margin-right: 8px;
+                font-size: 16px;
+            }
+            
+            .property-row {
+                transition: background-color 0.2s;
+            }
+            
+            .property-row:hover {
+                background-color: #f9fafb;
+            }
+            
+            .property-label {
+                background: #f8fafc;
+                padding: 12px 15px;
+                font-weight: 500;
+                color: #374151;
+                border-right: 1px solid #e5e7eb;
+                border-bottom: 1px solid #e5e7eb;
+                min-width: 200px;
+            }
+            
+            .property-value {
+                padding: 12px 15px;
+                text-align: center;
+                border-right: 1px solid #e5e7eb;
+                border-bottom: 1px solid #e5e7eb;
+                vertical-align: middle;
+            }
+            
+            .rating-display {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 4px;
+            }
+            
+            .rating-display .rating-number {
+                font-size: 11px;
+                color: #6b7280;
+                font-weight: normal;
+            }
+            
+            .rating-na, .value-na {
+                color: #9ca3af;
+                font-style: italic;
+                font-size: 12px;
+            }
+            
+            .array-value {
+                font-size: 12px;
+                line-height: 1.4;
+                color: #374151;
+            }
+            
+            .text-value {
+                color: #374151;
+                line-height: 1.4;
+            }
+            
+            @media (max-width: 768px) {
+                .comparison-table-container {
+                    font-size: 12px;
+                }
+                
+                .animal-header {
+                    min-width: 120px;
+                }
+                
+                .table-animal-image {
+                    width: 40px;
+                    height: 40px;
+                }
+                
+                .property-label {
+                    min-width: 150px;
+                }
+            }
+        </style>
+    `;
+    
+    document.head.insertAdjacentHTML('beforeend', styles);
+}
 
     hideComparison() {
         document.getElementById('radar-chart-container').style.display = 'none';
