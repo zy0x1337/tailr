@@ -8487,80 +8487,334 @@ class AnimalComparison {
     }
 
     showRadarChart() {
-        const container = document.getElementById('radar-chart-container');
-        container.style.display = 'block';
-        
-        if (window.Chart) {
-            this.createRadarChart();
-        } else {
-            // Chart.js noch nicht geladen, warten
-            setTimeout(() => this.showRadarChart(), 100);
-        }
+    const container = document.getElementById('radar-chart-container');
+    container.style.display = 'block';
+    
+    // **PRÜFUNG OB MINDESTENS 2 TIERE AUSGEWÄHLT**
+    const animalCount = Object.keys(this.selectedAnimals).length;
+    if (animalCount < 2) {
+        container.style.display = 'none';
+        return;
     }
+    
+    // **CHART.JS MIT RETRY-MECHANISMUS**
+    if (window.Chart) {
+        this.createRadarChart();
+    } else {
+        // Chart.js nachladen falls nicht verfügbar
+        this.loadChartLibrary();
+        
+        // Retry-Mechanismus mit Timeout
+        let retryCount = 0;
+        const maxRetries = 20; // 2 Sekunden max warten
+        
+        const checkChart = () => {
+            if (window.Chart) {
+                this.createRadarChart();
+            } else if (retryCount < maxRetries) {
+                retryCount++;
+                setTimeout(checkChart, 100);
+            } else {
+                console.warn('Chart.js konnte nicht geladen werden - verwende Fallback');
+                this.createFallbackChart();
+            }
+        };
+        
+        setTimeout(checkChart, 100);
+    }
+}
 
     createRadarChart() {
-        const ctx = document.getElementById('radar-chart').getContext('2d');
+    const ctx = document.getElementById('radar-chart').getContext('2d');
+    
+    // **ALTE CHART-INSTANZ ZERSTÖREN**
+    if (this.chart) {
+        this.chart.destroy();
+        this.chart = null;
+    }
+
+    const animals = Object.values(this.selectedAnimals);
+    if (animals.length < 2) return;
+    
+    // **ERWEITERTE LABELS FÜR NEUE DATENSTRUKTUR**
+    const labels = [
+        'Energielevel',
+        'Bewegungsbedarf', 
+        'Familienfreundlichkeit',
+        'Trainierbarkeit',
+        'Anfängertauglichkeit',
+        'Wachtrieb',
+        'Gesundheit',
+        'Fellpflege (inv.)',
+        'Wohnungstauglichkeit'
+    ];
+    
+    // **SICHERE DATENEXTRAKTION FUNKTION**
+    const getRating = (animal, path, fallback = 3) => {
+        const keys = path.split('.');
+        let value = animal;
         
-        if (this.chart) {
-            this.chart.destroy();
+        for (const key of keys) {
+            value = value?.[key];
+            if (value === undefined || value === null) {
+                return fallback;
+            }
         }
-
-        const animals = Object.values(this.selectedAnimals);
-        const labels = ['Energie', 'Trainierbarkeit', 'Freundlichkeit', 'Pflege', 'Anfängerfreundlich'];
         
-        const datasets = animals.map((animal, index) => {
-            const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1'];
-            const color = colors[index % colors.length];
-            
-            return {
-                label: animal.name,
-                data: [
-                    animal.ratings?.energy || 3,
-                    animal.ratings?.trainability || 3,
-                    animal.ratings?.friendliness || 3,
-                    animal.ratings?.grooming || 3,
-                    animal.ratings?.beginnerFriendly || 3
-                ],
-                borderColor: color,
-                backgroundColor: color + '33',
-                pointBackgroundColor: color,
-                pointBorderColor: '#fff',
-                pointHoverBackgroundColor: '#fff',
-                pointHoverBorderColor: color
-            };
-        });
+        // Wert auf 1-5 begrenzen
+        if (typeof value === 'number') {
+            return Math.max(1, Math.min(5, value));
+        }
+        
+        return fallback;
+    };
+    
+    // **DATASETS MIT NEUER DATENSTRUKTUR ERSTELLEN**
+    const datasets = animals.map((animal, index) => {
+        const colors = [
+            '#3b82f6', // Blau
+            '#ef4444', // Rot  
+            '#10b981', // Grün
+            '#f59e0b', // Gelb/Orange
+            '#8b5cf6', // Violett
+            '#ec4899'  // Pink
+        ];
+        const color = colors[index % colors.length];
+        
+        return {
+            label: animal.name,
+            data: [
+                getRating(animal, 'ratings.energielevel'),
+                getRating(animal, 'ratings.bewegungsbedarf.overall'),
+                getRating(animal, 'ratings.familienfreundlichkeit.overall'),
+                getRating(animal, 'ratings.trainierbarkeit.overall'),
+                getRating(animal, 'ratings.anfängertauglichkeit'),
+                getRating(animal, 'ratings.wachtrieb.overall'),
+                getRating(animal, 'ratings.gesundheitsrobustheit.overall'),
+                5 - getRating(animal, 'ratings.fellpflegeaufwand.overall', 1), // Invertiert
+                getRating(animal, 'ratings.apartmentTauglichkeit.overall')
+            ],
+            borderColor: color,
+            backgroundColor: color + '33', // 20% Transparenz
+            pointBackgroundColor: color,
+            pointBorderColor: '#ffffff',
+            pointBorderWidth: 2,
+            pointRadius: 5,
+            pointHoverRadius: 7,
+            pointHoverBackgroundColor: color,
+            pointHoverBorderColor: '#ffffff',
+            borderWidth: 3,
+            tension: 0.1
+        };
+    });
 
-        this.chart = new Chart(ctx, {
-            type: 'radar',
-            data: {
-                labels: labels,
-                datasets: datasets
+    // **ERWEITERTE CHART-KONFIGURATION**
+    this.chart = new Chart(ctx, {
+        type: 'radar',
+        data: {
+            labels: labels,
+            datasets: datasets
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            interaction: {
+                intersect: false,
+                mode: 'point'
             },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    r: {
-                        beginAtZero: true,
-                        max: 5,
-                        ticks: {
-                            stepSize: 1,
-                            display: false
+            scales: {
+                r: {
+                    beginAtZero: true,
+                    min: 0,
+                    max: 5,
+                    ticks: {
+                        stepSize: 1,
+                        display: true,
+                        callback: function(value) {
+                            return value === 0 ? '' : value + '/5';
+                        },
+                        font: {
+                            size: 11
+                        },
+                        color: '#6b7280'
+                    },
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.1)',
+                        lineWidth: 1
+                    },
+                    angleLines: {
+                        color: 'rgba(0, 0, 0, 0.1)',
+                        lineWidth: 1
+                    },
+                    pointLabels: {
+                        font: {
+                            size: 12,
+                            weight: 'bold'
+                        },
+                        color: '#374151',
+                        padding: 20,
+                        callback: function(label) {
+                            // Lange Labels umbrechen
+                            if (label.length > 12) {
+                                const words = label.split(' ');
+                                if (words.length > 1) {
+                                    return words;
+                                }
+                            }
+                            return label;
                         }
                     }
+                }
+            },
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        padding: 20,
+                        usePointStyle: true,
+                        pointStyle: 'circle',
+                        font: {
+                            size: 13,
+                            weight: 'bold'
+                        },
+                        color: '#374151'
+                    }
                 },
-                plugins: {
-                    legend: {
-                        position: 'bottom'
+                title: {
+                    display: true,
+                    text: 'Hunderassen-Vergleich: Eigenschaften im Überblick',
+                    font: {
+                        size: 16,
+                        weight: 'bold'
                     },
-                    title: {
-                        display: true,
-                        text: 'Eigenschafts-Vergleich'
+                    color: '#1f2937',
+                    padding: {
+                        top: 10,
+                        bottom: 20
+                    }
+                },
+                tooltip: {
+                    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                    titleColor: '#ffffff',
+                    bodyColor: '#ffffff',
+                    borderColor: '#374151',
+                    borderWidth: 1,
+                    cornerRadius: 8,
+                    callbacks: {
+                        title: function(context) {
+                            return context[0].label;
+                        },
+                        label: function(context) {
+                            const stars = '★'.repeat(context.parsed.r) + '☆'.repeat(5 - context.parsed.r);
+                            return `${context.dataset.label}: ${stars} (${context.parsed.r}/5)`;
+                        }
                     }
                 }
+            },
+            elements: {
+                line: {
+                    borderWidth: 3,
+                    tension: 0
+                },
+                point: {
+                    radius: 5,
+                    hoverRadius: 8,
+                    borderWidth: 2
+                }
+            },
+            animation: {
+                duration: 1000,
+                easing: 'easeInOutQuart'
+            }
+        }
+    });
+    
+    console.log('✅ Radar Chart erstellt mit', animals.length, 'Tieren');
+}
+
+/**
+ * Fallback Chart falls Chart.js nicht verfügbar
+ */
+createFallbackChart() {
+    const canvas = document.getElementById('radar-chart');
+    const ctx = canvas.getContext('2d');
+    const centerX = canvas.width / 2;
+    const centerY = canvas.height / 2;
+    const radius = Math.min(centerX, centerY) - 60;
+    
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+    const animals = Object.values(this.selectedAnimals);
+    const labels = ['Energie', 'Bewegung', 'Familie', 'Training', 'Anfänger', 'Wache', 'Gesundheit', 'Pflege', 'Wohnung'];
+    
+    // **GITTERNETZ ZEICHNEN**
+    ctx.strokeStyle = '#e5e7eb';
+    ctx.lineWidth = 1;
+    
+    for (let i = 1; i <= 5; i++) {
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, (radius / 5) * i, 0, 2 * Math.PI);
+        ctx.stroke();
+    }
+    
+    // **ACHSEN UND LABELS**
+    labels.forEach((label, index) => {
+        const angle = (2 * Math.PI / labels.length) * index - Math.PI / 2;
+        const x = centerX + Math.cos(angle) * radius;
+        const y = centerY + Math.sin(angle) * radius;
+        
+        ctx.beginPath();
+        ctx.moveTo(centerX, centerY);
+        ctx.lineTo(x, y);
+        ctx.stroke();
+        
+        ctx.fillStyle = '#374151';
+        ctx.font = 'bold 11px Arial';
+        ctx.textAlign = 'center';
+        ctx.fillText(label, x + Math.cos(angle) * 20, y + Math.sin(angle) * 20);
+    });
+    
+    // **DATEN ZEICHNEN**
+    const colors = ['#3b82f6', '#ef4444', '#10b981'];
+    
+    animals.forEach((animal, animalIndex) => {
+        const color = colors[animalIndex % colors.length];
+        const data = [
+            animal.ratings?.energielevel || 3,
+            animal.ratings?.bewegungsbedarf?.overall || 3,
+            animal.ratings?.familienfreundlichkeit?.overall || 3,
+            animal.ratings?.trainierbarkeit?.overall || 3,
+            animal.ratings?.anfängertauglichkeit || 3,
+            animal.ratings?.wachtrieb?.overall || 3,
+            animal.ratings?.gesundheitsrobustheit?.overall || 3,
+            5 - (animal.ratings?.fellpflegeaufwand?.overall || 1),
+            animal.ratings?.apartmentTauglichkeit?.overall || 3
+        ];
+        
+        ctx.strokeStyle = color;
+        ctx.fillStyle = color + '33';
+        ctx.lineWidth = 2;
+        
+        ctx.beginPath();
+        data.forEach((value, index) => {
+            const angle = (2 * Math.PI / labels.length) * index - Math.PI / 2;
+            const distance = (radius / 5) * value;
+            const x = centerX + Math.cos(angle) * distance;
+            const y = centerY + Math.sin(angle) * distance;
+            
+            if (index === 0) {
+                ctx.moveTo(x, y);
+            } else {
+                ctx.lineTo(x, y);
             }
         });
-    }
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke();
+    });
+    
+    console.log('✅ Fallback Chart erstellt');
+}
 
     showComparisonTable() {
         const container = document.getElementById('comparison-table-container');
