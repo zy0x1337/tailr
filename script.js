@@ -7931,6 +7931,8 @@ showModalTab(species, tabId) {
         
         // Alle anderen Sektionen ausblenden
         this.hideAllSections();
+
+        this.setHeroVisible(false);
         
         // Dashboard-Sektion anzeigen
         const dashboardSection = document.getElementById('user-dashboard-section');
