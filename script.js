@@ -5137,6 +5137,13 @@ hideAllSections() {
 
 // Zeigt eine spezifische Sektion an
 showSection(section) {
+    // Bereiche ausblenden
+const hero = document.getElementById('hero');
+if (hero) hero.style.display = 'none';
+
+const animalOfDaySection = document.getElementById('animal-of-day-section');
+if (animalOfDaySection) animalOfDaySection.style.display = 'none';
+
     if (!section) {
         console.warn('❌ Sektion ist null oder undefiniert');
         return;
@@ -5188,6 +5195,13 @@ showComparison() {
 }
 
 showBlog() {
+    // Bereiche ausblenden
+const hero = document.getElementById('hero');
+if (hero) hero.style.display = 'none';
+
+const animalOfDaySection = document.getElementById('animal-of-day-section');
+if (animalOfDaySection) animalOfDaySection.style.display = 'none';
+
     console.log('Showing blog section...');
     this.hideAllSections();
     
