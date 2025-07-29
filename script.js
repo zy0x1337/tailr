@@ -9258,23 +9258,134 @@ addTableStyles() {
     }
 
     async exportToImage() {
+    // Prüfung ob mindestens 2 Tiere ausgewählt sind
+    if (Object.keys(this.selectedAnimals).length < 2) {
+        alert('Mindestens 2 Rassen für den Export erforderlich.');
+        return;
+    }
+
+    try {
         // html2canvas laden falls nicht vorhanden
         if (!window.html2canvas) {
             await this.loadScript('https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js');
         }
         
+        // **CANVAS-ELEMENTE VOR EXPORT OPTIMIEREN**
+        this.optimizeCanvasForExport();
+        
         const comparisonSection = document.getElementById('comparison-section');
         
-        html2canvas(comparisonSection, {
+        if (!comparisonSection) {
+            throw new Error('Comparison section nicht gefunden');
+        }
+        
+        // **OPTIMIERTE HTML2CANVAS KONFIGURATION**
+        const canvas = await html2canvas(comparisonSection, {
             backgroundColor: '#ffffff',
-            scale: 2
-        }).then(canvas => {
-            const link = document.createElement('a');
-            link.download = 'tier-vergleich.png';
-            link.href = canvas.toDataURL();
-            link.click();
+            scale: 2,
+            useCORS: true,
+            allowTaint: false,
+            removeContainer: true,
+            async: true,
+            logging: false,
+            // **CANVAS-OPTIMIERUNG FÜR READBACK-OPERATIONEN**
+            onclone: (clonedDoc) => {
+                // Alle Canvas-Elemente im geklonten Dokument optimieren
+                const canvases = clonedDoc.querySelectorAll('canvas');
+                canvases.forEach(canvas => {
+                    try {
+                        const ctx = canvas.getContext('2d', { 
+                            willReadFrequently: true,  // ✅ BEHEBT DIE WARNUNG
+                            alpha: true,
+                            desynchronized: false
+                        });
+                        console.log('✅ Canvas für Export optimiert');
+                    } catch (error) {
+                        console.warn('Canvas-Optimierung fehlgeschlagen:', error);
+                    }
+                });
+            }
         });
+        
+        // **DOWNLOAD MIT BESSERER FEHLERBEHANDLUNG**
+        const link = document.createElement('a');
+        link.download = `Hunderassen-Vergleich-${new Date().toISOString().split('T')[0]}.png`;
+        link.href = canvas.toDataURL('image/png');
+        
+        // Click-Event simulieren
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        
+        console.log('✅ Bild erfolgreich exportiert');
+        
+    } catch (error) {
+        console.error('Bild-Export-Fehler:', error);
+        alert('Fehler beim Bild-Export. Bitte versuchen Sie es erneut.');
+    } finally {
+        // **CANVAS-ELEMENTE NACH EXPORT ZURÜCKSETZEN**
+        this.resetCanvasAfterExport();
     }
+}
+
+/**
+ * Canvas-Elemente für Export optimieren
+ */
+optimizeCanvasForExport() {
+    const canvases = document.querySelectorAll('canvas');
+    this.originalCanvasData = new Map();
+    
+    canvases.forEach(canvas => {
+        try {
+            const currentContext = canvas.getContext('2d');
+            if (currentContext) {
+                // **AKTUELLES CANVAS-BILD SPEICHERN**
+                const imageData = currentContext.getImageData(0, 0, canvas.width, canvas.height);
+                this.originalCanvasData.set(canvas, imageData);
+                
+                // **NEUEN OPTIMIERTEN CONTEXT ERSTELLEN**
+                const optimizedContext = canvas.getContext('2d', {
+                    willReadFrequently: true,  // ✅ OPTIMIERT FÜR READBACK
+                    alpha: true,
+                    desynchronized: false
+                });
+                
+                // Bild zurück schreiben
+                if (optimizedContext && imageData) {
+                    optimizedContext.putImageData(imageData, 0, 0);
+                }
+                
+                console.log('✅ Canvas für Readback optimiert');
+            }
+        } catch (error) {
+            console.warn('Canvas-Optimierung fehlgeschlagen:', error);
+        }
+    });
+}
+
+/**
+ * Canvas-Elemente nach Export zurücksetzen
+ */
+resetCanvasAfterExport() {
+    if (this.originalCanvasData) {
+        // **RADAR CHART NEU ZEICHNEN FALLS NÖTIG**
+        const animalCount = Object.keys(this.selectedAnimals).length;
+        if (this.chart && animalCount >= 2) {
+            // Kurze Verzögerung für bessere Performance
+            setTimeout(() => {
+                try {
+                    this.createRadarChart();
+                    console.log('✅ Radar Chart nach Export neu gezeichnet');
+                } catch (error) {
+                    console.warn('Chart-Neuzeichnung fehlgeschlagen:', error);
+                }
+            }, 100);
+        }
+        
+        this.originalCanvasData.clear();
+        console.log('✅ Canvas-Elemente zurückgesetzt');
+    }
+}
 
     loadScript(src) {
         return new Promise((resolve, reject) => {
