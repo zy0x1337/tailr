@@ -30,6 +30,7 @@
     --color-secondary: #eef2ff;             /* Sehr helles, subtiles Blau für Akzente */
     --color-secondary-hover: #e0e7ff;      /* Etwas dunklerer Akzent für Hover */
     --color-secondary-active: #c7d2fe;     /* Stärkerer Akzent für Klick */
+    --color-accent: #2563eb;
 
     /* RAHMEN & STATUS - Dezent und klar */
     --color-border: #e5e7eb;               /* Heller, unaufdringlicher Rahmen */
