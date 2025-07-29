@@ -453,6 +453,33 @@ cleanup() {
         }
     }, 1000);
 
+    // Auth-Callbacks mit Dashboard-Integration
+    this.authManager.on('onLogin', (user) => {
+        console.log('✅ Benutzer angemeldet:', user.email);
+        this.showNotification(`Willkommen zurück, ${this.authManager.getUserDisplayName()}!`, 'success');
+        
+        // Dashboard Manager initialisieren
+        this.initializeDashboard();
+        
+        // User-Navigation aktualisieren
+        this.updateUserNavigation(user);
+        
+        // Post-Login Navigation
+        this.handlePostLoginRedirection();
+    });
+
+    this.authManager.on('onLogout', () => {
+        console.log('📤 Benutzer abgemeldet');
+        this.dashboardManager = null; // Dashboard Manager entfernen
+        this.updateUserNavigation(null);
+        this.showNotification('Sie wurden erfolgreich abgemeldet', 'info');
+        this.handleNavigation('home');
+    });
+
+    this.authManager.on('onUserChange', (user) => {
+        this.updateUserNavigation(user);
+    });
+
     // Login-Streak beim Start aktualisieren
     if (this.authManager && this.authManager.isAuthenticated()) {
         this.dashboardManager.updateLoginStreak();
