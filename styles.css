@@ -2964,7 +2964,7 @@ body.theme-playful {
 .step.completed .step-number { border-color: var(--color-success); background-color: var(--color-success); color: var(--color-btn-primary-text); }
 .step.active .step-label { color: var(--color-text); font-weight: var(--font-weight-semibold); }
 
-/* KORREKTUR: Diese Regeln steuern die Sichtbarkeit der Schritte */
+/* Diese Regeln steuern die Sichtbarkeit der Schritte */
 .form-step {
     display: none;
     animation: stepFadeIn 0.8s var(--ease-standard);
