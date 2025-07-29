@@ -2431,18 +2431,6 @@ generateTemperamentSection(temperaments) {
     `;
 }
 
-    // MODAL
-    showSpeciesDetail(speciesId) {
-    const species = this.findSpeciesById(speciesId);
-    if (!species) {
-        console.error('Tierart nicht gefunden:', speciesId);
-        return;
-    }
-
-    // NEUE: showSpeciesModal aufrufen statt populateModal
-    this.showSpeciesModal(species);
-}
-
 closeSpeciesModal() {
     console.log('=== CLOSE SPECIES MODAL ===');
     
@@ -5830,7 +5818,7 @@ cleanupModalEventListeners() {
     });
 }
 
-// Modal öffnen (korrigiert)
+// Modal öffnen
 showSpeciesDetail(speciesId) {
     const species = this.findSpeciesById(speciesId);
     if (!species || !this.speciesModal) {
