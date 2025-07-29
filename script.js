@@ -5173,6 +5173,7 @@ showComparison() {
 }
 
     showHome() {
+    this.currentView = 'home';
     console.log('Showing home - resetting all states');
     
     // Alle Sektionen ausblenden
