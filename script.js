@@ -2474,17 +2474,20 @@ closeSpeciesModal() {
     return null;
 }
 
-    populateModal(species, categoryId) {
+    populateModal(species) {
     if (!this.modalTitle || !this.modalGallery || !species) {
         console.error('Modal-Elemente oder Tierart nicht gefunden');
         return;
     }
 
+    // Modal-Titel setzen
     this.modalTitle.textContent = species.name || 'Unbekannte Tierart';
 
+    // Galerie und Tabs befüllen
     this.populateModalGallery(species);
     this.populateAllTabs(species);
 
+    // Standard-Tab aktivieren
     this.modalTabsContainer.querySelectorAll('.modal-tab').forEach((btn, index) => {
         btn.classList.toggle('active', index === 0);
     });
@@ -2492,6 +2495,7 @@ closeSpeciesModal() {
         content.classList.toggle('active', index === 0);
     });
 
+    // Eigenschaften-Button referenzieren oder erstellen
     let eigenschaftenBtn = this.speciesModal.querySelector('.eigenschaften-button');
     if (!eigenschaftenBtn) {
         eigenschaftenBtn = document.createElement('button');
@@ -2507,13 +2511,11 @@ closeSpeciesModal() {
         }
     }
 
-    // Debug Ausgaben
-    console.log('populateModal: categoryId:', categoryId, 'species:', species);
+    // Sichtbarkeit: nur bei species.id <= 156 anzeigen
+    const isAllowed = typeof species.id === 'number' && species.id <= 156;
+    eigenschaftenBtn.style.display = isAllowed ? 'inline-flex' : 'none';
 
-    const isDog = categoryId === 'dogs' || species.categoryId === 'dogs' || species.species === 'dogs';
-
-    eigenschaftenBtn.style.display = isDog ? 'inline-flex' : 'none';
-
+    // Event-Listener für andere dynamische Elemente im Modal
     this.setupModalEventListeners(species);
 }
 
