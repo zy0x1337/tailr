@@ -1884,7 +1884,7 @@ window.addEventListener('popstate', () => {
     }
 
     /**
-     * ⭐ USER-DROPDOWN EVENT LISTENERS
+     * USER-DROPDOWN EVENT LISTENERS
      */
     // User-Dropdown Events einrichten
     if (this.authManager) {
@@ -1892,7 +1892,7 @@ window.addEventListener('popstate', () => {
     }
     
     /**
-     * ⭐ NAVIGATION LINK EVENT HANDLERS
+     *  NAVIGATION LINK EVENT HANDLERS
      */
     // Guest Session Links
     document.addEventListener('click', (e) => {
@@ -1903,7 +1903,7 @@ window.addEventListener('popstate', () => {
     });
     
     /**
-     * ⭐ USER SESSION DROPDOWN LINKS
+     * USER SESSION DROPDOWN LINKS
      */
     document.addEventListener('click', (e) => {
         // My Pets Link
@@ -1922,7 +1922,7 @@ window.addEventListener('popstate', () => {
     });
 
     /**
-     * ⭐ AUTH-MODAL EVENT LISTENERS
+     * AUTH-MODAL EVENT LISTENERS
      */
     
     // Modal schließen per Close-Button
@@ -4974,30 +4974,29 @@ showNotification(message, type = 'info') {
 // Favoriten Modal Methoden
 initFavoritesModal() {
     const modalHTML = `
-        <div id="favorites-modal" class="modal hidden">
+        <div id="favorites-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="favorites-modal-title" aria-hidden="true" tabindex="-1">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h2 class="modal-title">Meine Favoriten</h2>
+                <header class="modal-header">
+                    <h2 id="favorites-modal-title" class="modal-title">Meine Favoriten</h2>
                     <button class="modal-close" aria-label="Modal schließen">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <line x1="18" y1="6" x2="6" y2="18"></line>
                             <line x1="6" y1="6" x2="18" y2="18"></line>
                         </svg>
                     </button>
-                </div>
-                <div class="modal-body">
-                    <div class="favorites-grid" id="favorites-grid"></div>
-                    <div class="favorites-empty" id="favorites-empty" style="display: none;">
-                        <div class="favorites-empty__icon">💔</div>
+                </header>
+                <section class="modal-body">
+                    <div id="favorites-grid" class="favorites-grid" aria-live="polite" aria-relevant="additions removals"></div>
+                    <div id="favorites-empty" class="favorites-empty" hidden>
+                        <div class="favorites-empty__icon" aria-hidden="true">💔</div>
                         <h3>Keine Favoriten</h3>
                         <p>Sie haben noch keine Tierarten zu Ihren Favoriten hinzugefügt.</p>
                     </div>
-                </div>
+                </section>
             </div>
         </div>
     `;
     document.body.insertAdjacentHTML('beforeend', modalHTML);
-    
     this.favoritesModal = document.getElementById('favorites-modal');
     this.setupFavoritesModalEvents();
 }
