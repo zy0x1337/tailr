@@ -2833,6 +2833,7 @@ handleNavigation(catId, linkEl) {
         // DASHBOARD mit Authentifizierungsprüfung
         case 'dashboard':
             console.log('📊 Dashboard wird angezeigt');
+            this.setHeroVisible(false);
             if (this.authManager?.isAuthenticated()) {
                 if (this.dashboardManager) {
                     this.dashboardManager.showDashboard();
@@ -5895,7 +5896,6 @@ showSection(section) {
     } else {
         console.warn('❌ Sektion konnte nicht angezeigt werden:', section);
     }
-    this.setHeroVisible(false);
 }
 
 showComparison() {
