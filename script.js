@@ -1052,6 +1052,44 @@ class AchievementSystem {
     }
 
     /**
+     * Notification Queue laden (fehlende Methode)
+     */
+    loadNotificationQueue() {
+        try {
+            // Gespeicherte Notifications aus localStorage laden
+            const savedQueue = localStorage.getItem('achievementNotificationQueue');
+            if (savedQueue) {
+                this.notificationQueue = JSON.parse(savedQueue);
+                
+                // Alte Notifications (älter als 24h) entfernen
+                const dayAgo = Date.now() - (24 * 60 * 60 * 1000);
+                this.notificationQueue = this.notificationQueue.filter(
+                    notification => notification.timestamp > dayAgo
+                );
+                
+                // Queue speichern falls bereinigt
+                this.saveNotificationQueue();
+            }
+            
+            console.log(`📬 ${this.notificationQueue.length} Notifications in Queue geladen`);
+        } catch (error) {
+            console.error('Fehler beim Laden der Notification Queue:', error);
+            this.notificationQueue = [];
+        }
+    }
+
+    /**
+     * Notification Queue speichern
+     */
+    saveNotificationQueue() {
+        try {
+            localStorage.setItem('achievementNotificationQueue', JSON.stringify(this.notificationQueue));
+        } catch (error) {
+            console.error('Fehler beim Speichern der Notification Queue:', error);
+        }
+    }
+
+    /**
      * Event Listeners einrichten
      */
     setupEventListeners() {
@@ -1196,18 +1234,50 @@ class AchievementSystem {
      * Benachrichtigung zur Queue hinzufügen
      */
     addNotification(achievement) {
-        this.notificationQueue.push({
+        const notification = {
             id: achievement.id,
             achievement: achievement,
-            timestamp: Date.now()
-        });
+            timestamp: Date.now(),
+            shown: false
+        };
+
+        this.notificationQueue.push(notification);
+        
+        // Queue speichern
+        this.saveNotificationQueue();
 
         // Sofort anzeigen wenn Queue nicht zu lang
         if (this.notificationQueue.length <= 3) {
             setTimeout(() => {
                 this.showNotification(achievement);
+                this.markNotificationAsShown(achievement.id);
             }, 500);
         }
+    }
+
+    /**
+     * Notification als angezeigt markieren
+     */
+    markNotificationAsShown(achievementId) {
+        const notification = this.notificationQueue.find(n => n.id === achievementId);
+        if (notification) {
+            notification.shown = true;
+            this.saveNotificationQueue();
+        }
+    }
+
+    /**
+     * Ausstehende Notifications anzeigen
+     */
+    showPendingNotifications() {
+        const pending = this.notificationQueue.filter(n => !n.shown);
+        
+        pending.forEach((notification, index) => {
+            setTimeout(() => {
+                this.showNotification(notification.achievement);
+                this.markNotificationAsShown(notification.id);
+            }, index * 1000); // 1 Sekunde Abstand zwischen Notifications
+        });
     }
 
     /**
