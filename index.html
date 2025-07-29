@@ -3504,42 +3504,43 @@
             </div>
             <div class="step-indicator" data-step="5">
                 <span class="step-number">5</span>
-                <span class="step-title">Zusammenfassung</span>
+                <span class="step-title">Besitzer</span>
+            </div>
+            <div class="step-indicator" data-step="6">
+                <span class="step-number">6</span>
+                <span class="step-title">Überprüfung</span>
             </div>
         </div>
     </div>
 
     <!-- Form Container -->
-    <form class="pet-profile-form" id="petProfileForm" novalidate>
+    <form class="pet-profile-form" id="petProfileForm">
         
         <!-- Step 1: Grunddaten -->
-        <div class="form-step active" id="step-1" role="tabpanel" aria-hidden="false">
-            <div class="step-header">
-                <h2>Grunddaten Ihres Haustiers</h2>
-                <p>Bitte geben Sie die grundlegenden Informationen zu Ihrem Haustier ein.</p>
-            </div>
+        <div class="form-step active" id="step-1">
+            <h3 class="step-title">Grundinformationen</h3>
             
             <div class="form-grid">
                 <div class="form-group">
-                    <label for="petName" class="required">Name des Haustiers</label>
+                    <label for="petName">Name des Haustiers *</label>
                     <input type="text" id="petName" name="petName" required 
                            placeholder="z.B. Bella, Max, Luna">
                     <span class="error-message" id="petName-error"></span>
                 </div>
                 
                 <div class="form-group">
-                    <label for="petType" class="required">Tierart</label>
-                    <select id="petType" name="petType" required>
+                    <label for="petSpecies">Tierart *</label>
+                    <select id="petSpecies" name="petSpecies" required>
                         <option value="">Bitte wählen...</option>
                         <option value="dog">Hund</option>
                         <option value="cat">Katze</option>
                         <option value="bird">Vogel</option>
-                        <option value="rabbit">Kaninchen</option>
-                        <option value="hamster">Hamster</option>
                         <option value="fish">Fisch</option>
+                        <option value="reptile">Reptil</option>
+                        <option value="rodent">Nagetier</option>
                         <option value="other">Sonstiges</option>
                     </select>
-                    <span class="error-message" id="petType-error"></span>
+                    <span class="error-message" id="petSpecies-error"></span>
                 </div>
                 
                 <div class="form-group">
@@ -3549,294 +3550,261 @@
                 </div>
                 
                 <div class="form-group">
+                    <label for="petGender">Geschlecht</label>
+                    <select id="petGender" name="petGender">
+                        <option value="">Bitte wählen...</option>
+                        <option value="male">Männlich</option>
+                        <option value="female">Weiblich</option>
+                        <option value="neutered-male">Kastriert (männlich)</option>
+                        <option value="spayed-female">Sterilisiert (weiblich)</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
                     <label for="petBirthdate">Geburtsdatum</label>
                     <input type="date" id="petBirthdate" name="petBirthdate">
                 </div>
                 
                 <div class="form-group">
-                    <label for="petGender" class="required">Geschlecht</label>
-                    <div class="radio-group">
-                        <label class="radio-label">
-                            <input type="radio" name="petGender" value="male" required>
-                            <span class="radio-custom"></span>
-                            Männlich
-                        </label>
-                        <label class="radio-label">
-                            <input type="radio" name="petGender" value="female" required>
-                            <span class="radio-custom"></span>
-                            Weiblich
-                        </label>
-                    </div>
-                    <span class="error-message" id="petGender-error"></span>
-                </div>
-                
-                <div class="form-group">
-                    <label for="petWeight">Gewicht (kg)</label>
-                    <input type="number" id="petWeight" name="petWeight" 
-                           min="0" step="0.1" placeholder="z.B. 25.5">
+                    <label for="petMicrochip">Mikrochip-Nummer</label>
+                    <input type="text" id="petMicrochip" name="petMicrochip" 
+                           placeholder="15-stellige Nummer">
                 </div>
             </div>
         </div>
 
         <!-- Step 2: Aussehen -->
-        <div class="form-step" id="step-2" role="tabpanel" aria-hidden="true">
-            <div class="step-header">
-                <h2>Aussehen Ihres Haustiers</h2>
-                <p>Beschreiben Sie das Aussehen Ihres Haustiers.</p>
-            </div>
+        <div class="form-step" id="step-2">
+            <h3 class="step-title">Körperliche Merkmale</h3>
             
             <div class="form-grid">
-                <div class="form-group">
-                    <label for="petColor">Hauptfarbe</label>
-                    <input type="text" id="petColor" name="petColor" 
-                           placeholder="z.B. Braun, Schwarz, Weiß">
+                <div class="form-group full-width">
+                    <label for="petPhoto">Profilbild</label>
+                    <div class="file-upload">
+                        <input type="file" id="petPhoto" name="petPhoto" accept="image/*">
+                        <label for="petPhoto" class="file-label">
+                            <span>Foto auswählen</span>
+                        </label>
+                        <div class="file-preview" id="photoPreview"></div>
+                    </div>
                 </div>
                 
                 <div class="form-group">
                     <label for="petSize">Größe</label>
                     <select id="petSize" name="petSize">
                         <option value="">Bitte wählen...</option>
-                        <option value="very-small">Sehr klein (unter 5kg)</option>
-                        <option value="small">Klein (5-15kg)</option>
-                        <option value="medium">Mittel (15-30kg)</option>
-                        <option value="large">Groß (30-50kg)</option>
-                        <option value="very-large">Sehr groß (über 50kg)</option>
+                        <option value="very-small">Sehr klein (unter 25cm)</option>
+                        <option value="small">Klein (25-40cm)</option>
+                        <option value="medium">Mittel (40-60cm)</option>
+                        <option value="large">Groß (60-80cm)</option>
+                        <option value="very-large">Sehr groß (über 80cm)</option>
                     </select>
                 </div>
                 
                 <div class="form-group">
-                    <label for="petFurType">Felltyp</label>
-                    <select id="petFurType" name="petFurType">
-                        <option value="">Bitte wählen...</option>
-                        <option value="short">Kurzhaar</option>
-                        <option value="medium">Mittellang</option>
-                        <option value="long">Langhaar</option>
-                        <option value="curly">Lockig</option>
-                        <option value="hairless">Haarlos</option>
-                    </select>
+                    <label for="petWeight">Gewicht (kg)</label>
+                    <input type="number" id="petWeight" name="petWeight" 
+                           min="0" step="0.1" placeholder="z.B. 15.5">
+                </div>
+                
+                <div class="form-group">
+                    <label for="petColor">Fell-/Feder-/Hautfarbe</label>
+                    <input type="text" id="petColor" name="petColor" 
+                           placeholder="z.B. goldbraun, schwarz-weiß gefleckt">
                 </div>
                 
                 <div class="form-group full-width">
                     <label for="petMarkings">Besondere Merkmale</label>
                     <textarea id="petMarkings" name="petMarkings" rows="3"
-                              placeholder="z.B. weißer Fleck auf der Brust, schwarze Ohren, blaue Augen..."></textarea>
-                </div>
-                
-                <div class="form-group full-width">
-                    <label for="petPhoto">Foto Ihres Haustiers</label>
-                    <div class="file-upload">
-                        <input type="file" id="petPhoto" name="petPhoto" 
-                               accept="image/*" class="file-input">
-                        <label for="petPhoto" class="file-label">
-                            <span class="file-text">Foto auswählen oder hier ablegen</span>
-                        </label>
-                        <div class="file-preview" id="photoPreview"></div>
-                    </div>
+                              placeholder="z.B. weißer Fleck auf der Brust, blaue Augen..."></textarea>
                 </div>
             </div>
         </div>
 
         <!-- Step 3: Charakter -->
-        <div class="form-step" id="step-3" role="tabpanel" aria-hidden="true">
-            <div class="step-header">
-                <h2>Charakter & Verhalten</h2>
-                <p>Erzählen Sie uns mehr über die Persönlichkeit Ihres Haustiers.</p>
-            </div>
+        <div class="form-step" id="step-3">
+            <h3 class="step-title">Charakter & Verhalten</h3>
             
             <div class="form-grid">
-                <div class="form-group">
-                    <label for="petEnergy">Aktivitätslevel</label>
-                    <select id="petEnergy" name="petEnergy">
-                        <option value="">Bitte wählen...</option>
-                        <option value="very-low">Sehr ruhig</option>
-                        <option value="low">Ruhig</option>
-                        <option value="medium">Mittel</option>
-                        <option value="high">Aktiv</option>
-                        <option value="very-high">Sehr aktiv</option>
-                    </select>
-                </div>
-                
-                <div class="form-group">
-                    <label for="petSocial">Sozialverhalten</label>
-                    <select id="petSocial" name="petSocial">
-                        <option value="">Bitte wählen...</option>
-                        <option value="shy">Schüchtern</option>
-                        <option value="reserved">Zurückhaltend</option>
-                        <option value="friendly">Freundlich</option>
-                        <option value="very-social">Sehr sozial</option>
-                    </select>
-                </div>
-                
                 <div class="form-group full-width">
-                    <label>Charaktereigenschaften (mehrere auswählbar)</label>
+                    <label>Temperament (Mehrfachauswahl möglich)</label>
                     <div class="checkbox-grid">
                         <label class="checkbox-label">
-                            <input type="checkbox" name="petTraits" value="playful">
-                            <span class="checkbox-custom"></span>
-                            Verspielt
+                            <input type="checkbox" name="temperament" value="freundlich">
+                            <span>Freundlich</span>
                         </label>
                         <label class="checkbox-label">
-                            <input type="checkbox" name="petTraits" value="calm">
-                            <span class="checkbox-custom"></span>
-                            Ruhig
+                            <input type="checkbox" name="temperament" value="verspielt">
+                            <span>Verspielt</span>
                         </label>
                         <label class="checkbox-label">
-                            <input type="checkbox" name="petTraits" value="intelligent">
-                            <span class="checkbox-custom"></span>
-                            Intelligent
+                            <input type="checkbox" name="temperament" value="ruhig">
+                            <span>Ruhig</span>
                         </label>
                         <label class="checkbox-label">
-                            <input type="checkbox" name="petTraits" value="loyal">
-                            <span class="checkbox-custom"></span>
-                            Treu
+                            <input type="checkbox" name="temperament" value="energetisch">
+                            <span>Energisch</span>
                         </label>
                         <label class="checkbox-label">
-                            <input type="checkbox" name="petTraits" value="independent">
-                            <span class="checkbox-custom"></span>
-                            Unabhängig
+                            <input type="checkbox" name="temperament" value="treu">
+                            <span>Treu</span>
                         </label>
                         <label class="checkbox-label">
-                            <input type="checkbox" name="petTraits" value="affectionate">
-                            <span class="checkbox-custom"></span>
-                            Verschmust
+                            <input type="checkbox" name="temperament" value="unabhängig">
+                            <span>Unabhängig</span>
                         </label>
                     </div>
                 </div>
                 
+                <div class="form-group">
+                    <label for="activityLevel">Aktivitätslevel</label>
+                    <input type="range" id="activityLevel" name="activityLevel" 
+                           min="1" max="5" value="3">
+                    <div class="slider-labels">
+                        <span>Niedrig</span>
+                        <span>Hoch</span>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="socialBehavior">Sozialverhalten</label>
+                    <select id="socialBehavior" name="socialBehavior">
+                        <option value="">Bitte wählen...</option>
+                        <option value="sehr-sozial">Sehr sozial</option>
+                        <option value="sozial">Sozial</option>
+                        <option value="wählerisch">Wählerisch</option>
+                        <option value="zurückhaltend">Zurückhaltend</option>
+                        <option value="einzelgänger">Einzelgänger</option>
+                    </select>
+                </div>
+                
                 <div class="form-group full-width">
-                    <label for="petHabits">Gewohnheiten & Vorlieben</label>
-                    <textarea id="petHabits" name="petHabits" rows="4"
-                              placeholder="z.B. spielt gerne mit Bällen, schläft gerne in der Sonne, mag keine lauten Geräusche..."></textarea>
+                    <label for="specialTraits">Besondere Eigenschaften & Vorlieben</label>
+                    <textarea id="specialTraits" name="specialTraits" rows="3"
+                              placeholder="z.B. liebt Wasserspiele, hat Angst vor Gewitter..."></textarea>
                 </div>
             </div>
         </div>
 
         <!-- Step 4: Gesundheit -->
-        <div class="form-step" id="step-4" role="tabpanel" aria-hidden="true">
-            <div class="step-header">
-                <h2>Gesundheit & Pflege</h2>
-                <p>Informationen zur Gesundheit und Pflege Ihres Haustiers.</p>
-            </div>
+        <div class="form-step" id="step-4">
+            <h3 class="step-title">Gesundheit & Pflege</h3>
             
             <div class="form-grid">
                 <div class="form-group">
-                    <label for="petVet">Tierarzt</label>
-                    <input type="text" id="petVet" name="petVet" 
-                           placeholder="Name der Tierarztpraxis">
+                    <label for="healthStatus">Gesundheitszustand</label>
+                    <select id="healthStatus" name="healthStatus">
+                        <option value="">Bitte wählen...</option>
+                        <option value="ausgezeichnet">Ausgezeichnet</option>
+                        <option value="gut">Gut</option>
+                        <option value="befriedigend">Befriedigend</option>
+                        <option value="behandlungsbedürftig">Behandlungsbedürftig</option>
+                    </select>
                 </div>
                 
                 <div class="form-group">
-                    <label for="petVaccinated">Geimpft</label>
-                    <div class="radio-group">
-                        <label class="radio-label">
-                            <input type="radio" name="petVaccinated" value="yes">
-                            <span class="radio-custom"></span>
-                            Ja
-                        </label>
-                        <label class="radio-label">
-                            <input type="radio" name="petVaccinated" value="no">
-                            <span class="radio-custom"></span>
-                            Nein
-                        </label>
-                        <label class="radio-label">
-                            <input type="radio" name="petVaccinated" value="partial">
-                            <span class="radio-custom"></span>
-                            Teilweise
-                        </label>
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label for="petNeutered">Kastriert/Sterilisiert</label>
-                    <div class="radio-group">
-                        <label class="radio-label">
-                            <input type="radio" name="petNeutered" value="yes">
-                            <span class="radio-custom"></span>
-                            Ja
-                        </label>
-                        <label class="radio-label">
-                            <input type="radio" name="petNeutered" value="no">
-                            <span class="radio-custom"></span>
-                            Nein
-                        </label>
-                    </div>
+                    <label for="vaccinated">Geimpft</label>
+                    <select id="vaccinated" name="vaccinated">
+                        <option value="">Bitte wählen...</option>
+                        <option value="yes">Ja</option>
+                        <option value="no">Nein</option>
+                        <option value="partial">Teilweise</option>
+                    </select>
                 </div>
                 
                 <div class="form-group full-width">
-                    <label for="petAllergies">Allergien</label>
-                    <textarea id="petAllergies" name="petAllergies" rows="2"
-                              placeholder="Bekannte Allergien oder Unverträglichkeiten..."></textarea>
+                    <label for="allergies">Allergien/Unverträglichkeiten</label>
+                    <textarea id="allergies" name="allergies" rows="2"
+                              placeholder="z.B. Reaktion auf bestimmte Futtersorten..."></textarea>
                 </div>
                 
                 <div class="form-group full-width">
-                    <label for="petMedications">Medikamente</label>
-                    <textarea id="petMedications" name="petMedications" rows="2"
+                    <label for="medications">Medikamente</label>
+                    <textarea id="medications" name="medications" rows="2"
                               placeholder="Regelmäßige Medikamente oder Nahrungsergänzungsmittel..."></textarea>
                 </div>
                 
                 <div class="form-group full-width">
-                    <label for="petHealthNotes">Gesundheitsnotizen</label>
-                    <textarea id="petHealthNotes" name="petHealthNotes" rows="3"
-                              placeholder="Weitere wichtige Gesundheitsinformationen..."></textarea>
+                    <label for="careNotes">Allgemeine Pflegehinweise</label>
+                    <textarea id="careNotes" name="careNotes" rows="3"
+                              placeholder="z.B. tägliches Bürsten erforderlich, besondere Diät..."></textarea>
                 </div>
             </div>
         </div>
 
-        <!-- Step 5: Zusammenfassung -->
-        <div class="form-step" id="step-5" role="tabpanel" aria-hidden="true">
-            <div class="step-header">
-                <h2>Zusammenfassung</h2>
-                <p>Überprüfen Sie alle Angaben zu Ihrem Haustier.</p>
+        <!-- Step 5: Besitzer -->
+        <div class="form-step" id="step-5">
+            <h3 class="step-title">Besitzer & Kontaktdaten</h3>
+            
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="ownerName">Besitzer Name *</label>
+                    <input type="text" id="ownerName" name="ownerName" required
+                           placeholder="Ihr vollständiger Name">
+                    <span class="error-message" id="ownerName-error"></span>
+                </div>
+                
+                <div class="form-group">
+                    <label for="ownerEmail">E-Mail *</label>
+                    <input type="email" id="ownerEmail" name="ownerEmail" required
+                           placeholder="ihre@email.de">
+                    <span class="error-message" id="ownerEmail-error"></span>
+                </div>
+                
+                <div class="form-group">
+                    <label for="ownerPhone">Telefon</label>
+                    <input type="tel" id="ownerPhone" name="ownerPhone"
+                           placeholder="+49 123 456789">
+                </div>
+                
+                <div class="form-group full-width">
+                    <label for="ownerAddress">Adresse</label>
+                    <textarea id="ownerAddress" name="ownerAddress" rows="2"
+                              placeholder="Straße, PLZ Ort"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 6: Überprüfung -->
+        <div class="form-step" id="step-6">
+            <h3 class="step-title">Überprüfung & Bestätigung</h3>
+            
+            <div class="review-container">
+                <h4>Zusammenfassung Ihrer Eingaben</h4>
+                <div id="profileSummary" class="profile-summary">
+                    <!-- Summary wird von JavaScript eingefügt -->
+                </div>
             </div>
             
-            <div class="summary-container">
-                <div class="summary-section">
-                    <h3>Grunddaten</h3>
-                    <div class="summary-grid" id="summaryBasics"></div>
+            <div class="privacy-section">
+                <div class="form-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="privacyAccepted" name="privacyAccepted" required>
+                        <span>Ich habe die Datenschutzerklärung gelesen und akzeptiere sie. *</span>
+                    </label>
+                    <span class="error-message" id="privacyAccepted-error"></span>
                 </div>
                 
-                <div class="summary-section">
-                    <h3>Aussehen</h3>
-                    <div class="summary-grid" id="summaryAppearance"></div>
+                <div class="form-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="publicProfile" name="publicProfile">
+                        <span>Mein Profil öffentlich sichtbar machen (optional)</span>
+                    </label>
                 </div>
-                
-                <div class="summary-section">
-                    <h3>Charakter</h3>
-                    <div class="summary-grid" id="summaryCharacter"></div>
-                </div>
-                
-                <div class="summary-section">
-                    <h3>Gesundheit</h3>
-                    <div class="summary-grid" id="summaryHealth"></div>
-                </div>
-            </div>
-            
-            <div class="form-group">
-                <label class="checkbox-label">
-                    <input type="checkbox" id="dataConsent" name="dataConsent" required>
-                    <span class="checkbox-custom"></span>
-                    Ich bestätige, dass alle Angaben korrekt sind und stimme der Speicherung zu.
-                </label>
-                <span class="error-message" id="dataConsent-error"></span>
             </div>
         </div>
 
         <!-- Navigation Buttons -->
         <div class="form-navigation">
             <button type="button" class="btn btn-secondary" id="prev-btn" style="display: none;">
-                <span class="btn-icon">←</span>
-                Zurück
+                ← Zurück
             </button>
             
-            <div class="nav-spacer"></div>
-            
             <button type="button" class="btn btn-primary" id="next-btn">
-                Weiter
-                <span class="btn-icon">→</span>
+                Weiter →
             </button>
             
             <button type="submit" class="btn btn-success" id="submit-btn" style="display: none;">
-                <span class="btn-icon">✓</span>
                 Profil erstellen
             </button>
         </div>
