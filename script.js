@@ -409,7 +409,7 @@ cleanup() {
     await this.loadPetData();
     await this.loadBlogData();
     
-    // GEÄNDERT: EnhancedBlogManager erst nach Blog-Daten laden
+    // EnhancedBlogManager erst nach Blog-Daten laden
     if (this.blogData.length > 0) {
         this.blogManager = new EnhancedBlogManager(this);
     }
@@ -707,11 +707,10 @@ showNotification(message, type = 'info') {
  * URL-basierte Navigation erweitern
  */
 handleURLRouting() {
-    const path = window.location.pathname;
-    const hash = window.location.hash.substring(1);
-    
-    // URL-basierte Navigation
-    switch (hash) {
+    // Den aktuellen Pfad auslesen und führenden Slash entfernen
+    const path = window.location.pathname.replace(/^\//, '');
+
+    switch (path) {
         case 'auth':
         case 'login':
         case 'register':
@@ -733,7 +732,7 @@ handleURLRouting() {
  * URL aktualisieren
  */
 updateURL(section) {
-    const newURL = `${window.location.origin}${window.location.pathname}#${section}`;
+    const newURL = `${window.location.origin}/${section}`;
     window.history.pushState({ section }, '', newURL);
 }
 
@@ -1357,6 +1356,10 @@ createSeasonalParticles(season) {
  * Diese Methode wird nur einmal bei der Initialisierung aufgerufen.
  */
 setupEventListeners() {
+    window.addEventListener('popstate', () => {
+  this.handleURLRouting();
+});
+
     // ===== MODAL EVENT-LISTENER MIT HIERARCHIE-BEWUSSTSEIN =====
     
     // Haupt-Modal Event-Listener
