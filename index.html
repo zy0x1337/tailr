@@ -9010,7 +9010,9 @@ console.log('✅ haustierWissen initialized');
 <script>// Annahme: Home ist index.html oder "/"
 document.addEventListener("DOMContentLoaded", function () {
     const isHome = (
-        window.location.pathname === "/home"
+        window.location.pathname === "/" ||
+        window.location.pathname === "/home" ||
+        window.location.pathname.endsWith("index.html")
     );
 
     // Hero-Bereich ausblenden, wenn nicht Home
@@ -9020,7 +9022,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // Animal of the Day Bereich ausblenden, wenn nicht Home
-    const animalOfDay = document.getElementById("animal-of-day");
+    const animalOfDay = document.getElementById("animal-of-day-section");
     if (animalOfDay) {
         animalOfDay.style.display = isHome ? "" : "none";
     }
