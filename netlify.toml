@@ -18,3 +18,8 @@ compress = true
     "./backups/**",
     "**/*.json"
   ]
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
