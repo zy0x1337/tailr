@@ -2474,7 +2474,7 @@ closeSpeciesModal() {
     return null;
 }
 
-    populateModal(species) {
+    populateModal(species, categoryId) {
     if (!this.modalTitle || !this.modalGallery || !species) {
         console.error('Modal-Elemente oder Tierart nicht gefunden');
         return;
@@ -2514,16 +2514,11 @@ closeSpeciesModal() {
         }
     }
 
-console.log('Species Objekt in populateModal:', species);
-console.log('species.categoryId:', species.categoryId);
-console.log('species.species:', species.species);
-
-
     // ---- Sichtbarkeit nur für Hunde steuern ----
-    const isDog = species.categoryId === 'dogs' || species.species === 'dogs';
+    const isDog = categoryId === 'dogs';
     eigenschaftenBtn.style.display = isDog ? 'inline-flex' : 'none';
 
-    // Event-Listener für andere dynamische Elemente im Modal (z.B. Favoriten-Button)
+    // Event-Listener für andere dynamische Elemente im Modal
     this.setupModalEventListeners(species);
 }
 
