@@ -2480,14 +2480,11 @@ closeSpeciesModal() {
         return;
     }
 
-    // Modal-Titel setzen
     this.modalTitle.textContent = species.name || 'Unbekannte Tierart';
 
-    // Galerie und Tab-Inhalte befüllen
     this.populateModalGallery(species);
     this.populateAllTabs(species);
 
-    // ---- Standard-Tab beim Öffnen aktivieren ----
     this.modalTabsContainer.querySelectorAll('.modal-tab').forEach((btn, index) => {
         btn.classList.toggle('active', index === 0);
     });
@@ -2495,30 +2492,28 @@ closeSpeciesModal() {
         content.classList.toggle('active', index === 0);
     });
 
-    // ---- Eigenschaften-Button existiert oder wird erstellt ----
     let eigenschaftenBtn = this.speciesModal.querySelector('.eigenschaften-button');
     if (!eigenschaftenBtn) {
-        // Falls Button noch nicht existiert, Button erstellen und einfügen
         eigenschaftenBtn = document.createElement('button');
         eigenschaftenBtn.classList.add('eigenschaften-button');
         eigenschaftenBtn.type = 'button';
         eigenschaftenBtn.textContent = 'Eigenschaften';
-        // Event-Listener zum Öffnen des Eigenschaften-Modals
         eigenschaftenBtn.addEventListener('click', () => {
-            this.showSpeciesDetail(speciesId);
+            this.openEigenschaftenModal(species);
         });
-        // Button in den Modal-Header einfügen
         const modalHeader = this.speciesModal.querySelector('.modal-header');
         if (modalHeader) {
             modalHeader.appendChild(eigenschaftenBtn);
         }
     }
 
-    // ---- Sichtbarkeit nur für Hunde steuern ----
-    const isDog = categoryId === 'dogs';
+    // Debug Ausgaben
+    console.log('populateModal: categoryId:', categoryId, 'species:', species);
+
+    const isDog = categoryId === 'dogs' || species.categoryId === 'dogs' || species.species === 'dogs';
+
     eigenschaftenBtn.style.display = isDog ? 'inline-flex' : 'none';
 
-    // Event-Listener für andere dynamische Elemente im Modal
     this.setupModalEventListeners(species);
 }
 
