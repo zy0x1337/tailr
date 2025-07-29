@@ -3479,2026 +3479,375 @@
     </div>
 </div>
 
-<!-- ========================================
-     HAUSTIER-PROFIL SECTION - SEO & ACCESSIBILITY OPTIMIERT
-     ======================================== -->
-<!-- Mehrstufiger Profil-Ersteller für Haustiere mit vollständiger Accessibility -->
-<section class="pet-profile-section" 
-         id="pet-profile-section" 
-         style="display: none;"
-         role="region" 
-         aria-labelledby="profile-title"
-         itemscope 
-         itemtype="https://schema.org/CreativeWork">
-    
-    <div class="container">
+<div class="pet-profile-creator" id="petProfileCreator">
+    <!-- Progress Bar -->
+    <div class="progress-container">
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+        <div class="step-indicators">
+            <div class="step-indicator active" data-step="1">
+                <span class="step-number">1</span>
+                <span class="step-title">Grunddaten</span>
+            </div>
+            <div class="step-indicator" data-step="2">
+                <span class="step-number">2</span>
+                <span class="step-title">Aussehen</span>
+            </div>
+            <div class="step-indicator" data-step="3">
+                <span class="step-number">3</span>
+                <span class="step-title">Charakter</span>
+            </div>
+            <div class="step-indicator" data-step="4">
+                <span class="step-number">4</span>
+                <span class="step-title">Gesundheit</span>
+            </div>
+            <div class="step-indicator" data-step="5">
+                <span class="step-number">5</span>
+                <span class="step-title">Zusammenfassung</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Form Container -->
+    <form class="pet-profile-form" id="petProfileForm" novalidate>
         
-        <!-- ========================================
-             SECTION TITLE - SEO OPTIMIERT
-             ======================================== -->
-        <!-- H2 für hierarchische SEO-Struktur -->
-        <h2 class="section__title" 
-            id="profile-title"
-            itemprop="name">
-            Haustier-Profil erstellen - Digitales Haustier-Portfolio
-        </h2>
-        
-        <!-- ========================================
-             SECTION DESCRIPTION (SEO-ERGÄNZUNG)
-             ======================================== -->
-        <!-- SEO-Description für bessere Kategorisierung -->
-        <p class="section__description" 
-           itemprop="description"
-           aria-describedby="profile-title">
-            Erstellen Sie ein umfassendes digitales Profil für Ihr Haustier mit Grunddaten, 
-            Gesundheitsinformationen und wichtigen Pflegehinweisen. Sicher und kostenlos.
-        </p>
-        
-        <!-- ========================================
-             WIZARD PROGRESS INDICATOR
-             ======================================== -->
-        <!-- Accessible Progress Indicator für mehrstufiges Formular -->
-        <div class="wizard-progress" 
-             role="group"
-             aria-labelledby="progress-title"
-             aria-describedby="progress-description">
-            
-            <!-- Progress Title (Screen Reader Only) -->
-            <h3 class="sr-only" id="progress-title">
-                Formular-Fortschritt
-            </h3>
-            
-            <!-- Progress Description (Screen Reader Only) -->
-            <div class="sr-only" id="progress-description">
-                Mehrstufiges Formular mit 6 Schritten. Aktueller Fortschritt wird visuell und auditiv angezeigt.
+        <!-- Step 1: Grunddaten -->
+        <div class="form-step active" id="step-1" role="tabpanel" aria-hidden="false">
+            <div class="step-header">
+                <h2>Grunddaten Ihres Haustiers</h2>
+                <p>Bitte geben Sie die grundlegenden Informationen zu Ihrem Haustier ein.</p>
             </div>
             
-            <!-- Progress Bar -->
-            <div class="progress-bar" 
-                 role="progressbar"
-                 aria-valuemin="0"
-                 aria-valuemax="100"
-                 aria-valuenow="16"
-                 aria-label="Formular-Fortschritt: Schritt 1 von 6">
-                <div class="progress-fill" 
-                     id="progress-fill"
-                     style="width: 16%"></div>
-            </div>
-            
-            <!-- Progress Steps -->
-            <div class="progress-steps" 
-                 role="tablist"
-                 aria-label="Formular-Schritte">
-                
-                <!-- Step 1: Grunddaten -->
-                <div class="step active" 
-                     data-step="1"
-                     role="tab"
-                     aria-selected="true"
-                     aria-controls="step-1"
-                     tabindex="0"
-                     id="tab-step-1">
-                    <div class="step-number" aria-hidden="true">1</div>
-                    <div class="step-label">Grunddaten</div>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="petName" class="required">Name des Haustiers</label>
+                    <input type="text" id="petName" name="petName" required 
+                           placeholder="z.B. Bella, Max, Luna">
+                    <span class="error-message" id="petName-error"></span>
                 </div>
                 
-                <!-- Step 2: Aussehen -->
-                <div class="step" 
-                     data-step="2"
-                     role="tab"
-                     aria-selected="false"
-                     aria-controls="step-2"
-                     tabindex="-1"
-                     id="tab-step-2">
-                    <div class="step-number" aria-hidden="true">2</div>
-                    <div class="step-label">Aussehen</div>
+                <div class="form-group">
+                    <label for="petType" class="required">Tierart</label>
+                    <select id="petType" name="petType" required>
+                        <option value="">Bitte wählen...</option>
+                        <option value="dog">Hund</option>
+                        <option value="cat">Katze</option>
+                        <option value="bird">Vogel</option>
+                        <option value="rabbit">Kaninchen</option>
+                        <option value="hamster">Hamster</option>
+                        <option value="fish">Fisch</option>
+                        <option value="other">Sonstiges</option>
+                    </select>
+                    <span class="error-message" id="petType-error"></span>
                 </div>
                 
-                <!-- Step 3: Charakter -->
-                <div class="step" 
-                     data-step="3"
-                     role="tab"
-                     aria-selected="false"
-                     aria-controls="step-3"
-                     tabindex="-1"
-                     id="tab-step-3">
-                    <div class="step-number" aria-hidden="true">3</div>
-                    <div class="step-label">Charakter</div>
+                <div class="form-group">
+                    <label for="petBreed">Rasse</label>
+                    <input type="text" id="petBreed" name="petBreed" 
+                           placeholder="z.B. Golden Retriever, Maine Coon">
                 </div>
                 
-                <!-- Step 4: Gesundheit -->
-                <div class="step" 
-                     data-step="4"
-                     role="tab"
-                     aria-selected="false"
-                     aria-controls="step-4"
-                     tabindex="-1"
-                     id="tab-step-4">
-                    <div class="step-number" aria-hidden="true">4</div>
-                    <div class="step-label">Gesundheit</div>
+                <div class="form-group">
+                    <label for="petBirthdate">Geburtsdatum</label>
+                    <input type="date" id="petBirthdate" name="petBirthdate">
                 </div>
                 
-                <!-- Step 5: Besitzer -->
-                <div class="step" 
-                     data-step="5"
-                     role="tab"
-                     aria-selected="false"
-                     aria-controls="step-5"
-                     tabindex="-1"
-                     id="tab-step-5">
-                    <div class="step-number" aria-hidden="true">5</div>
-                    <div class="step-label">Besitzer</div>
+                <div class="form-group">
+                    <label for="petGender" class="required">Geschlecht</label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="petGender" value="male" required>
+                            <span class="radio-custom"></span>
+                            Männlich
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="petGender" value="female" required>
+                            <span class="radio-custom"></span>
+                            Weiblich
+                        </label>
+                    </div>
+                    <span class="error-message" id="petGender-error"></span>
                 </div>
                 
-                <!-- Step 6: Überprüfung -->
-                <div class="step" 
-                     data-step="6"
-                     role="tab"
-                     aria-selected="false"
-                     aria-controls="step-6"
-                     tabindex="-1"
-                     id="tab-step-6">
-                    <div class="step-number" aria-hidden="true">6</div>
-                    <div class="step-label">Überprüfung</div>
+                <div class="form-group">
+                    <label for="petWeight">Gewicht (kg)</label>
+                    <input type="number" id="petWeight" name="petWeight" 
+                           min="0" step="0.1" placeholder="z.B. 25.5">
                 </div>
             </div>
         </div>
-        <!-- Ende: Wizard Progress -->
-        
-        <!-- ========================================
-             MEHRSTUFIGES HAUSTIER-PROFIL FORMULAR
-             ======================================== -->
-        <!-- Semantisches Wizard-Formular mit vollständiger Accessibility -->
-        <form id="pet-profile-form" 
-              class="wizard-form"
-              role="form"
-              aria-labelledby="profile-title"
-              aria-describedby="form-instructions"
-              novalidate
-              itemscope
-              itemtype="https://schema.org/Pet">
-            
-            <!-- Form Instructions (Screen Reader Only) -->
-            <div class="sr-only" id="form-instructions">
-                Mehrstufiges Formular zum Erstellen eines Haustier-Profils. 
-                Navigieren Sie mit Tab durch die Felder, nutzen Sie die Weiter/Zurück-Buttons 
-                oder die Schritt-Navigation oben. Pflichtfelder sind mit * markiert.
+
+        <!-- Step 2: Aussehen -->
+        <div class="form-step" id="step-2" role="tabpanel" aria-hidden="true">
+            <div class="step-header">
+                <h2>Aussehen Ihres Haustiers</h2>
+                <p>Beschreiben Sie das Aussehen Ihres Haustiers.</p>
             </div>
             
-            <!-- ========================================
-                 SCHRITT 1: GRUNDINFORMATIONEN
-                 ======================================== -->
-            <!-- Grundlegende Haustier-Informationen -->
-            <div class="form-step active" 
-                 id="step-1"
-                 role="tabpanel"
-                 aria-labelledby="tab-step-1"
-                 aria-hidden="false">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="petColor">Hauptfarbe</label>
+                    <input type="text" id="petColor" name="petColor" 
+                           placeholder="z.B. Braun, Schwarz, Weiß">
+                </div>
                 
-                <!-- Step Title -->
-                <h3 class="step-title" itemprop="name">
-                    Grundinformationen - Basis-Daten Ihres Haustiers
-                </h3>
+                <div class="form-group">
+                    <label for="petSize">Größe</label>
+                    <select id="petSize" name="petSize">
+                        <option value="">Bitte wählen...</option>
+                        <option value="very-small">Sehr klein (unter 5kg)</option>
+                        <option value="small">Klein (5-15kg)</option>
+                        <option value="medium">Mittel (15-30kg)</option>
+                        <option value="large">Groß (30-50kg)</option>
+                        <option value="very-large">Sehr groß (über 50kg)</option>
+                    </select>
+                </div>
                 
-                <!-- Form Grid Container -->
-                <div class="form-grid" 
-                     role="group"
-                     aria-labelledby="basic-info-title">
-                    
-                    <!-- Grid Title (Screen Reader Only) -->
-                    <h4 class="sr-only" id="basic-info-title">
-                        Grundlegende Haustier-Informationen
-                    </h4>
-                    
-                    <!-- Pet Name Field -->
-                    <div class="form-group">
-                        <label for="pet-name" class="form-label">
-                            Tiername
-                            <span class="required-indicator" 
-                                  aria-label="Pflichtfeld"
-                                  title="Dieses Feld ist erforderlich">*</span>
+                <div class="form-group">
+                    <label for="petFurType">Felltyp</label>
+                    <select id="petFurType" name="petFurType">
+                        <option value="">Bitte wählen...</option>
+                        <option value="short">Kurzhaar</option>
+                        <option value="medium">Mittellang</option>
+                        <option value="long">Langhaar</option>
+                        <option value="curly">Lockig</option>
+                        <option value="hairless">Haarlos</option>
+                    </select>
+                </div>
+                
+                <div class="form-group full-width">
+                    <label for="petMarkings">Besondere Merkmale</label>
+                    <textarea id="petMarkings" name="petMarkings" rows="3"
+                              placeholder="z.B. weißer Fleck auf der Brust, schwarze Ohren, blaue Augen..."></textarea>
+                </div>
+                
+                <div class="form-group full-width">
+                    <label for="petPhoto">Foto Ihres Haustiers</label>
+                    <div class="file-upload">
+                        <input type="file" id="petPhoto" name="petPhoto" 
+                               accept="image/*" class="file-input">
+                        <label for="petPhoto" class="file-label">
+                            <span class="file-text">Foto auswählen oder hier ablegen</span>
                         </label>
-                        <input type="text" 
-                               id="pet-name" 
-                               name="petName" 
-                               class="form-input"
-                               required
-                               aria-required="true"
-                               aria-describedby="pet-name-help pet-name-error"
-                               aria-invalid="false"
-                               placeholder="z.B. Bello, Minka, Charlie"
-                               maxlength="50"
-                               itemprop="name">
-                        
-                        <!-- Help Text -->
-                        <div class="form-help" id="pet-name-help">
-                            Der Name, mit dem Sie Ihr Haustier rufen
-                        </div>
-                        
-                        <!-- Error Container -->
-                        <div class="form-error" 
-                             id="pet-name-error"
-                             role="alert"
-                             aria-live="polite"
-                             style="display: none;">
-                        </div>
-                    </div>
-                    
-                    <!-- Pet Species Field -->
-                    <div class="form-group">
-                        <label for="pet-species" class="form-label">
-                            Tierart
-                            <span class="required-indicator" 
-                                  aria-label="Pflichtfeld"
-                                  title="Dieses Feld ist erforderlich">*</span>
-                        </label>
-                        <select id="pet-species" 
-                                name="species" 
-                                class="form-select"
-                                required
-                                aria-required="true"
-                                aria-describedby="pet-species-help pet-species-error"
-                                aria-invalid="false"
-                                itemprop="species">
-                            
-                            <option value="">Bitte wählen Sie eine Tierart</option>
-                            <option value="dog">🐕 Hund</option>
-                            <option value="cat">🐱 Katze</option>
-                            <option value="bird">🦜 Vogel</option>
-                            <option value="fish">🐠 Fisch</option>
-                            <option value="reptile">🦎 Reptil</option>
-                            <option value="rodent">🐹 Nagetier</option>
-                        </select>
-                        
-                        <!-- Help Text -->
-                        <div class="form-help" id="pet-species-help">
-                            Wählen Sie die Hauptkategorie Ihres Haustiers
-                        </div>
-                        
-                        <!-- Error Container -->
-                        <div class="form-error" 
-                             id="pet-species-error"
-                             role="alert"
-                             aria-live="polite"
-                             style="display: none;">
-                        </div>
-                    </div>
-                    
-                    <!-- Pet Breed Field -->
-                    <div class="form-group">
-                        <label for="pet-breed" class="form-label">
-                            Rasse
-                        </label>
-                        <input type="text" 
-                               id="pet-breed" 
-                               name="breed"
-                               class="form-input"
-                               aria-describedby="pet-breed-help"
-                               placeholder="z.B. Golden Retriever, Perserkatze"
-                               maxlength="100"
-                               itemprop="breed">
-                        
-                        <!-- Help Text -->
-                        <div class="form-help" id="pet-breed-help">
-                            Spezifische Rasse oder Mischling (optional)
-                        </div>
-                    </div>
-                    
-                    <!-- Pet Gender Field -->
-                    <div class="form-group">
-                        <label for="pet-gender" class="form-label">
-                            Geschlecht
-                        </label>
-                        <select id="pet-gender" 
-                                name="gender" 
-                                class="form-select"
-                                aria-describedby="pet-gender-help"
-                                itemprop="gender">
-                            
-                            <option value="">Bitte wählen</option>
-                            <option value="male">Männlich</option>
-                            <option value="female">Weiblich</option>
-                            <option value="neutered-male">Kastriert (männlich)</option>
-                            <option value="spayed-female">Sterilisiert (weiblich)</option>
-                        </select>
-                        
-                        <!-- Help Text -->
-                        <div class="form-help" id="pet-gender-help">
-                            Geschlecht und Kastrations-/Sterilisationsstatus
-                        </div>
-                    </div>
-                    
-                    <!-- Pet Birth Date Field -->
-                    <div class="form-group">
-                        <label for="pet-birthdate" class="form-label">
-                            Geburtsdatum
-                        </label>
-                        <input type="date" 
-                               id="pet-birthdate" 
-                               name="birthDate"
-                               class="form-input"
-                               aria-describedby="pet-birthdate-help"
-                               max=""
-                               itemprop="birthDate">
-                        
-                        <!-- Help Text -->
-                        <div class="form-help" id="pet-birthdate-help">
-                            Ungefähres Geburtsdatum oder Adoption-Datum
-                        </div>
-                    </div>
-                    
-                    <!-- Microchip Field -->
-                    <div class="form-group">
-                        <label for="pet-microchip" class="form-label">
-                            Mikrochip-Nummer
-                        </label>
-                        <input type="text" 
-                               id="pet-microchip" 
-                               name="microchip"
-                               class="form-input"
-                               aria-describedby="pet-microchip-help"
-                               placeholder="15-stellige Nummer"
-                               pattern="[0-9]{15}"
-                               maxlength="15"
-                               itemprop="identifier">
-                        
-                        <!-- Help Text -->
-                        <div class="form-help" id="pet-microchip-help">
-                            15-stellige Mikrochip-Identifikationsnummer (falls vorhanden)
-                        </div>
+                        <div class="file-preview" id="photoPreview"></div>
                     </div>
                 </div>
             </div>
-            <!-- Ende: Schritt 1 -->
-            
-            <!-- ========================================
-                 SCHRITT 2: KÖRPERLICHE MERKMALE
-                 ======================================== -->
-            <!-- Aussehen und physische Eigenschaften -->
-            <div class="form-step" 
-                 id="step-2"
-                 role="tabpanel"
-                 aria-labelledby="tab-step-2"
-                 aria-hidden="true">
-                
-                <!-- Step Title -->
-                <h3 class="step-title">
-                    Körperliche Merkmale - Aussehen und Größe
-                </h3>
-                
-                <!-- Form Grid Container -->
-                <div class="form-grid" 
-                     role="group"
-                     aria-labelledby="appearance-title">
-                    
-                    <!-- Appearance Title (Screen Reader Only) -->
-                    <h4 class="sr-only" id="appearance-title">
-                        Aussehen und körperliche Eigenschaften
-                    </h4>
-                    
-                    <!-- Profile Image Upload -->
-                    <div class="form-group full-width">
-                        <label class="form-label" id="image-upload-label">
-                            Profilbild
-                        </label>
-                        
-                        <!-- Image Upload Container -->
-                        <div class="image-upload-container" 
-                             role="group"
-                             aria-labelledby="image-upload-label">
-                            
-                            <!-- Drop Zone -->
-                            <div class="drop-zone" 
-                                 id="image-drop-zone"
-                                 role="button"
-                                 tabindex="0"
-                                 aria-describedby="drop-zone-instructions"
-                                 aria-label="Profilbild hochladen - Klicken oder Datei hierher ziehen">
-                                
-                                <div class="drop-zone-content">
-                                    <div class="upload-icon" aria-hidden="true">📷</div>
-                                    <p>Bild hierher ziehen oder klicken zum Auswählen</p>
-                                    <p class="upload-hint">JPG, PNG oder GIF (max. 5MB)</p>
-                                </div>
-                                
-                                <!-- Hidden File Input -->
-                                <input type="file" 
-                                       id="profile-image" 
-                                       name="profileImage" 
-                                       accept="image/jpeg,image/png,image/gif" 
-                                       hidden
-                                       aria-describedby="image-upload-help">
-                            </div>
-                            
-                            <!-- Drop Zone Instructions (Screen Reader Only) -->
-                            <div class="sr-only" id="drop-zone-instructions">
-                                Klicken Sie hier oder ziehen Sie eine Bilddatei in diesen Bereich. 
-                                Unterstützte Formate: JPEG, PNG, GIF. Maximale Dateigröße: 5MB.
-                            </div>
-                            
-                            <!-- Image Preview Container -->
-                            <div class="image-preview-container" 
-                                 id="image-preview-container" 
-                                 style="display: none;"
-                                 role="img"
-                                 aria-labelledby="image-preview-title">
-                                
-                                <h5 class="sr-only" id="image-preview-title">
-                                    Hochgeladenes Profilbild-Vorschau
-                                </h5>
-                                
-                                <img id="image-preview" 
-                                     src="#" 
-                                     alt="Profilbild Vorschau"
-                                     class="preview-image"
-                                     width="200" 
-                                     height="200"
-                                     loading="lazy">
-                                
-                                <button type="button" 
-                                        class="btn btn--secondary btn--mini" 
-                                        id="image-remove-btn"
-                                        aria-label="Hochgeladenes Bild entfernen">
-                                    🗑️ Bild entfernen
-                                </button>
-                            </div>
-                            
-                            <!-- Upload Help Text -->
-                            <div class="form-help" id="image-upload-help">
-                                Ein schönes Foto hilft bei der Wiedererkennung Ihres Haustiers
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Pet Size Field -->
-                    <div class="form-group">
-                        <label for="pet-size" class="form-label">
-                            Größe
-                        </label>
-                        <select id="pet-size" 
-                                name="size" 
-                                class="form-select"
-                                aria-describedby="pet-size-help">
-                            
-                            <option value="">Bitte wählen Sie eine Größe</option>
-                            <option value="very-small">Sehr klein (unter 25cm)</option>
-                            <option value="small">Klein (25-40cm)</option>
-                            <option value="medium">Mittel (40-60cm)</option>
-                            <option value="large">Groß (60-80cm)</option>
-                            <option value="very-large">Sehr groß (über 80cm)</option>
-                        </select>
-                        
-                        <!-- Help Text -->
-                        <div class="form-help" id="pet-size-help">
-                            Schulterhöhe bei stehender Position
-                        </div>
-                    </div>
-                    
-                    <!-- Pet Weight Field -->
-                    <div class="form-group">
-                        <label for="pet-weight" class="form-label">
-                            Gewicht (kg)
-                        </label>
-                        <input type="number" 
-                               id="pet-weight" 
-                               name="weight" 
-                               class="form-input"
-                               min="0" 
-                               step="0.1"
-                               max="200"
-                               aria-describedby="pet-weight-help"
-                               placeholder="z.B. 15.5"
-                               itemprop="weight">
-                        
-                        <!-- Help Text -->
-                        <div class="form-help" id="pet-weight-help">
-                            Aktuelles Gewicht in Kilogramm
-                        </div>
-                    </div>
-                    
-                    <!-- Fur/Feather/Skin Color Field -->
-                    <div class="form-group">
-                        <label for="fur-color" 
-                               id="color-label" 
-                               class="form-label">
-                            Fell-/Feder-/Hautfarbe
-                        </label>
-                        <input type="text" 
-                               id="fur-color" 
-                               name="furColor"
-                               class="form-input"
-                               aria-describedby="fur-color-help"
-                               placeholder="z.B. goldbraun, schwarz-weiß gefleckt"
-                               maxlength="100">
-                        
-                        <!-- Help Text -->
-                        <div class="form-help" id="fur-color-help">
-                            Hauptfarbe und Muster des Fells, Gefieders oder der Haut
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- ========================================
-                     SPECIES-SPECIFIC APPEARANCE FIELDS
-                     ======================================== -->
-                
-                <!-- Bird-Specific Fields -->
-                <div class="species-specific-fields" 
-                     id="bird-fields-appearance" 
-                     style="display: none;"
-                     role="group"
-                     aria-labelledby="bird-appearance-title">
-                    
-                    <h4 class="subsection-title" id="bird-appearance-title">
-                        🦜 Vogel-spezifische Merkmale
-                    </h4>
-                    
-                    <div class="form-grid">
-                        <!-- Bird Plumage -->
-                        <div class="form-group">
-                            <label for="bird-plumage" class="form-label">
-                                Gefiederart
-                            </label>
-                            <input type="text" 
-                                   id="bird-plumage" 
-                                   name="birdPlumage"
-                                   class="form-input"
-                                   aria-describedby="bird-plumage-help"
-                                   placeholder="z.B. glänzend, matt, lockig"
-                                   maxlength="100">
-                            
-                            <div class="form-help" id="bird-plumage-help">
-                                Beschaffenheit und Art des Gefieders
-                            </div>
-                        </div>
-                        
-                        <!-- Bird Beak Type -->
-                        <div class="form-group">
-                            <label for="bird-beak-type" class="form-label">
-                                Schnabeltyp
-                            </label>
-                            <input type="text" 
-                                   id="bird-beak-type" 
-                                   name="birdBeakType"
-                                   class="form-input"
-                                   aria-describedby="bird-beak-help"
-                                   placeholder="z.B. kurz und kräftig, lang und dünn"
-                                   maxlength="100">
-                            
-                            <div class="form-help" id="bird-beak-help">
-                                Form und Größe des Schnabels
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Fish-Specific Fields -->
-                <div class="species-specific-fields" 
-                     id="fish-fields-appearance" 
-                     style="display: none;"
-                     role="group"
-                     aria-labelledby="fish-appearance-title">
-                    
-                    <h4 class="subsection-title" id="fish-appearance-title">
-                        🐠 Fisch-spezifische Merkmale
-                    </h4>
-                    
-                    <div class="form-grid">
-                        <!-- Fish Scale Color -->
-                        <div class="form-group">
-                            <label for="fish-scale-color" class="form-label">
-                                Schuppenfarbe
-                            </label>
-                            <input type="text" 
-                                   id="fish-scale-color" 
-                                   name="fishScaleColor"
-                                   class="form-input"
-                                   aria-describedby="fish-scale-help"
-                                   placeholder="z.B. silber mit blauen Reflexen"
-                                   maxlength="100">
-                            
-                            <div class="form-help" id="fish-scale-help">
-                                Farbe und Glanz der Schuppen
-                            </div>
-                        </div>
-                        
-                        <!-- Fish Fin Type -->
-                        <div class="form-group">
-                            <label for="fish-fin-type" class="form-label">
-                                Flossentyp
-                            </label>
-                            <input type="text" 
-                                   id="fish-fin-type" 
-                                   name="fishFinType"
-                                   class="form-input"
-                                   aria-describedby="fish-fin-help"
-                                   placeholder="z.B. große Schwanzflosse, lange Brustflossen"
-                                   maxlength="100">
-                            
-                            <div class="form-help" id="fish-fin-help">
-                                Besonderheiten der Flossen
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Reptile-Specific Fields -->
-                <div class="species-specific-fields" 
-                     id="reptile-fields-appearance" 
-                     style="display: none;"
-                     role="group"
-                     aria-labelledby="reptile-appearance-title">
-                    
-                    <h4 class="subsection-title" id="reptile-appearance-title">
-                        🦎 Reptil-spezifische Merkmale
-                    </h4>
-                    
-                    <div class="form-grid">
-                        <!-- Reptile Skin Pattern -->
-                        <div class="form-group">
-                            <label for="reptile-skin-pattern" class="form-label">
-                                Hautmuster/Farbe
-                            </label>
-                            <input type="text" 
-                                   id="reptile-skin-pattern" 
-                                   name="reptileSkinPattern"
-                                   class="form-input"
-                                   aria-describedby="reptile-skin-help"
-                                   placeholder="z.B. gestreift, gepunktet, einfarbig grün"
-                                   maxlength="100">
-                            
-                            <div class="form-help" id="reptile-skin-help">
-                                Muster und Farbverteilung der Haut
-                            </div>
-                        </div>
-                        
-                        <!-- Reptile Species Type -->
-                        <div class="form-group">
-                            <label for="reptile-species-type" class="form-label">
-                                Art des Reptils
-                            </label>
-                            <input type="text" 
-                                   id="reptile-species-type" 
-                                   name="reptileSpeciesType"
-                                   class="form-input"
-                                   aria-describedby="reptile-type-help"
-                                   placeholder="z.B. Gecko, Leguan, Schildkröte"
-                                   maxlength="100">
-                            
-                            <div class="form-help" id="reptile-type-help">
-                                Spezifische Reptilien-Unterart
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Ende: Schritt 2 -->
-            
-            <!-- ========================================
-                 SCHRITT 3: CHARAKTER & VERHALTEN
-                 ======================================== -->
-            <!-- Temperament und Verhaltensmuster -->
-            <div class="form-step" 
-                 id="step-3"
-                 role="tabpanel"
-                 aria-labelledby="tab-step-3"
-                 aria-hidden="true">
-                
-                <!-- Step Title -->
-                <h3 class="step-title">
-                    Charakter & Verhalten - Persönlichkeit Ihres Haustiers
-                </h3>
-                
-                <!-- Form Grid Container -->
-                <div class="form-grid" 
-                     role="group"
-                     aria-labelledby="character-title">
-                    
-                    <!-- Character Title (Screen Reader Only) -->
-                    <h4 class="sr-only" id="character-title">
-                        Charakter und Verhaltensmuster
-                    </h4>
-                    
-                    <!-- Temperament Checkboxes -->
-                    <fieldset class="form-group full-width">
-                        <legend class="form-label">
-                            Temperament (Mehrfachauswahl möglich)
-                        </legend>
-                        
-                        <div class="checkbox-grid" 
-                             role="group"
-                             aria-describedby="temperament-help">
-                            
-                            <!-- Temperament Options -->
-                            <label class="checkbox-label">
-                                <input type="checkbox" 
-                                       name="temperament" 
-                                       value="freundlich"
-                                       class="form-checkbox"
-                                       aria-describedby="temp-freundlich-desc">
-                                <span>Freundlich</span>
-                                <span class="sr-only" id="temp-freundlich-desc">
-                                    Aufgeschlossen und sozial zu Menschen und anderen Tieren
-                                </span>
-                            </label>
-                            
-                            <label class="checkbox-label">
-                                <input type="checkbox" 
-                                       name="temperament" 
-                                       value="verspielt"
-                                       class="form-checkbox">
-                                <span>Verspielt</span>
-                            </label>
-                            
-                            <label class="checkbox-label">
-                                <input type="checkbox" 
-                                       name="temperament" 
-                                       value="ruhig"
-                                       class="form-checkbox">
-                                <span>Ruhig</span>
-                            </label>
-                            
-                            <label class="checkbox-label">
-                                <input type="checkbox" 
-                                       name="temperament" 
-                                       value="energetisch"
-                                       class="form-checkbox">
-                                <span>Energisch</span>
-                            </label>
-                            
-                            <label class="checkbox-label">
-                                <input type="checkbox" 
-                                       name="temperament" 
-                                       value="treu"
-                                       class="form-checkbox">
-                                <span>Treu</span>
-                            </label>
-                            
-                            <label class="checkbox-label">
-                                <input type="checkbox" 
-                                       name="temperament" 
-                                       value="unabhängig"
-                                       class="form-checkbox">
-                                <span>Unabhängig</span>
-                            </label>
-                            
-                            <label class="checkbox-label">
-                                <input type="checkbox" 
-                                       name="temperament" 
-                                       value="beschützend"
-                                       class="form-checkbox">
-                                <span>Beschützend</span>
-                            </label>
-                            
-                            <label class="checkbox-label">
-                                <input type="checkbox" 
-                                       name="temperament" 
-                                       value="schüchtern"
-                                       class="form-checkbox">
-                                <span>Schüchtern</span>
-                            </label>
-                        </div>
-                        
-                        <!-- Temperament Help Text -->
-                        <div class="form-help" id="temperament-help">
-                            Wählen Sie alle zutreffenden Charaktereigenschaften aus
-                        </div>
-                    </fieldset>
-                    
-                    <!-- Activity Level Slider -->
-                    <div class="form-group">
-                        <label for="activity-level" class="form-label">
-                            Aktivitätslevel
-                        </label>
-                        
-                        <div class="slider-container">
-                            <input type="range" 
-                                   id="activity-level" 
-                                   name="activityLevel" 
-                                   class="form-range"
-                                   min="1" 
-                                   max="5" 
-                                   value="3"
-                                   aria-describedby="activity-help"
-                                   aria-valuemin="1"
-                                   aria-valuemax="5"
-                                   aria-valuenow="3"
-                                   aria-valuetext="Mittleres Aktivitätslevel">
-                            
-                            <div class="slider-labels" aria-hidden="true">
-                                <span>Niedrig</span>
-                                <span>Hoch</span>
-                            </div>
-                        </div>
-                        
-                        <!-- Activity Help Text -->
-                        <div class="form-help" id="activity-help">
-                            Wie aktiv ist Ihr Haustier? 1 = sehr ruhig, 5 = sehr aktiv
-                        </div>
-                    </div>
-                    
-                    <!-- Social Behavior -->
-                    <div class="form-group">
-                        <label for="social-behavior" class="form-label">
-                            Sozialverhalten
-                        </label>
-                        <select id="social-behavior" 
-                                name="socialBehavior" 
-                                class="form-select"
-                                aria-describedby="social-behavior-help">
-                            
-                            <option value="">Bitte wählen Sie das Sozialverhalten</option>
-                            <option value="sehr-sozial">Sehr sozial</option>
-                            <option value="sozial">Sozial</option>
-                            <option value="wählerisch">Wählerisch</option>
-                            <option value="zurückhaltend">Zurückhaltend</option>
-                            <option value="einzelgänger">Einzelgänger</option>
-                        </select>
-                        
-                        <!-- Social Behavior Help Text -->
-                        <div class="form-help" id="social-behavior-help">
-                            Verhalten gegenüber anderen Tieren und Menschen
-                        </div>
-                    </div>
-                    
-                    <!-- Special Traits -->
-                    <div class="form-group full-width">
-                        <label for="special-traits" class="form-label">
-                            Besondere Eigenschaften & Vorlieben
-                        </label>
-                        <textarea id="special-traits" 
-                                  name="specialTraits" 
-                                  class="form-textarea"
-                                  rows="3" 
-                                  aria-describedby="special-traits-help"
-                                  placeholder="z.B. liebt Wasserspiele, hat Angst vor Gewitter, schläft gerne in der Sonne..."
-                                  maxlength="500"></textarea>
-                        
-                        <!-- Special Traits Help Text -->
-                        <div class="form-help" id="special-traits-help">
-                            Besonderheiten, Vorlieben, Abneigungen oder Eigenarten (optional)
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Ende: Schritt 3 -->
-            
-            <!-- ========================================
-                 SCHRITT 4: GESUNDHEIT & PFLEGE
-                 ======================================== -->
-            <!-- Gesundheitsinformationen und Pflegehinweise -->
-            <div class="form-step" 
-                 id="step-4"
-                 role="tabpanel"
-                 aria-labelledby="tab-step-4"
-                 aria-hidden="true">
-                
-                <!-- Step Title -->
-                <h3 class="step-title">
-                    Gesundheit & Pflege - Medizinische Informationen
-                </h3>
-                
-                <!-- Form Grid Container -->
-                <div class="form-grid" 
-                     role="group"
-                     aria-labelledby="health-title">
-                    
-                    <!-- Health Title (Screen Reader Only) -->
-                    <h4 class="sr-only" id="health-title">
-                        Gesundheitszustand und Pflegehinweise
-                    </h4>
-                    
-                    <!-- Health Status -->
-                    <div class="form-group">
-                        <label for="health-status" class="form-label">
-                            Gesundheitszustand
-                        </label>
-                        <select id="health-status" 
-                                name="healthStatus" 
-                                class="form-select"
-                                aria-describedby="health-status-help">
-                            
-                            <option value="">Bitte wählen Sie den Gesundheitszustand</option>
-                            <option value="ausgezeichnet">Ausgezeichnet</option>
-                            <option value="gut">Gut</option>
-                            <option value="befriedigend">Befriedigend</option>
-                            <option value="behandlungsbedürftig">Behandlungsbedürftig</option>
-                        </select>
-                        
-                        <!-- Health Status Help Text -->
-                        <div class="form-help" id="health-status-help">
-                            Aktueller allgemeiner Gesundheitszustand
-                        </div>
-                    </div>
-                    
-                    <!-- Allergies -->
-                    <div class="form-group full-width">
-                        <label for="allergies" class="form-label">
-                            Allergien/Unverträglichkeiten
-                        </label>
-                        <textarea id="allergies" 
-                                  name="allergies" 
-                                  class="form-textarea"
-                                  rows="2"
-                                  aria-describedby="allergies-help"
-                                  placeholder="z.B. Reaktion auf bestimmte Futtersorten, Umweltallergien..."
-                                  maxlength="300"></textarea>
-                        
-                        <!-- Allergies Help Text -->
-                        <div class="form-help" id="allergies-help">
-                            Bekannte Allergien, Unverträglichkeiten oder Empfindlichkeiten
-                        </div>
-                    </div>
-                    
-                    <!-- Care Notes -->
-                    <div class="form-group full-width">
-                        <label for="care-notes" class="form-label">
-                            Allgemeine Pflegehinweise
-                        </label>
-                        <textarea id="care-notes" 
-                                  name="careNotes" 
-                                  class="form-textarea"
-                                  rows="4"
-                                  aria-describedby="care-notes-help"
-                                  placeholder="z.B. tägliches Bürsten erforderlich, besondere Diät, Medikamente..."
-                                  maxlength="500"></textarea>
-                        
-                        <!-- Care Notes Help Text -->
-                        <div class="form-help" id="care-notes-help">
-                            Wichtige Informationen zur täglichen Pflege und Betreuung
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- ========================================
-                     SPECIES-SPECIFIC CARE FIELDS
-                     ======================================== -->
-                
-                <!-- Dog-Specific Care -->
-                <div class="species-specific-fields" 
-                     id="dog-fields-care" 
-                     style="display: none;"
-                     role="group"
-                     aria-labelledby="dog-care-title">
-                    
-                    <h4 class="subsection-title" id="dog-care-title">
-                        🐕 Hunde-spezifische Pflege
-                    </h4>
-                    
-                    <div class="form-grid">
-                        <!-- Dog Training Level -->
-                        <div class="form-group">
-                            <label for="dog-training-level" class="form-label">
-                                Trainingslevel
-                            </label>
-                            <select id="dog-training-level" 
-                                    name="dogTrainingLevel" 
-                                    class="form-select"
-                                    aria-describedby="dog-training-help">
-                                
-                                <option value="">Bitte wählen Sie das Trainingslevel</option>
-                                <option value="untrainiert">Untrainiert</option>
-                                <option value="grundkommandos">Grundkommandos</option>
-                                <option value="fortgeschritten">Fortgeschritten</option>
-                                <option value="profi">Profi-Training</option>
-                            </select>
-                            
-                            <div class="form-help" id="dog-training-help">
-                                Aktueller Stand der Hundeerziehung
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Cat-Specific Care -->
-                <div class="species-specific-fields" 
-                     id="cat-fields-care" 
-                     style="display: none;"
-                     role="group"
-                     aria-labelledby="cat-care-title">
-                    
-                    <h4 class="subsection-title" id="cat-care-title">
-                        🐱 Katzen-spezifische Pflege
-                    </h4>
-                    
-                    <div class="form-grid">
-                        <!-- Cat Outdoor Access -->
-                        <div class="form-group">
-                            <label for="cat-outdoor" class="form-label">
-                                Freigang
-                            </label>
-                            <select id="cat-outdoor" 
-                                    name="catOutdoor" 
-                                    class="form-select"
-                                    aria-describedby="cat-outdoor-help">
-                                
-                                <option value="">Bitte wählen Sie den Freigang-Status</option>
-                                <option value="nein">Nein, reine Wohnungskatze</option>
-                                <option value="ja">Ja, Freigänger</option>
-                                <option value="gesichert">Gesicherter Balkon/Garten</option>
-                            </select>
-                            
-                            <div class="form-help" id="cat-outdoor-help">
-                                Hat Ihre Katze Zugang ins Freie?
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Fish-Specific Care -->
-                <div class="species-specific-fields" 
-                     id="fish-fields-care" 
-                     style="display: none;"
-                     role="group"
-                     aria-labelledby="fish-care-title">
-                    
-                    <h4 class="subsection-title" id="fish-care-title">
-                        🐠 Fisch-spezifische Pflege
-                    </h4>
-                    
-                    <div class="form-grid">
-                        <!-- Fish Tank Size -->
-                        <div class="form-group">
-                            <label for="fish-tank-size" class="form-label">
-                                Aquariumgröße (Liter)
-                            </label>
-                            <input type="number" 
-                                   id="fish-tank-size" 
-                                   name="fishTankSize"
-                                   class="form-input"
-                                   min="1"
-                                   max="10000"
-                                   aria-describedby="fish-tank-help"
-                                   placeholder="z.B. 200">
-                            
-                            <div class="form-help" id="fish-tank-help">
-                                Volumen des Aquariums in Litern
-                            </div>
-                        </div>
-                        
-                        <!-- Fish Water Type -->
-                        <div class="form-group">
-                            <label for="fish-water-type" class="form-label">
-                                Wasserart
-                            </label>
-                            <select id="fish-water-type" 
-                                    name="fishWaterType" 
-                                    class="form-select"
-                                    aria-describedby="fish-water-help">
-                                
-                                <option value="">Bitte wählen Sie die Wasserart</option>
-                                <option value="süsswasser">Süßwasser</option>
-                                <option value="salzwasser">Salzwasser</option>
-                                <option value="brackwasser">Brackwasser</option>
-                            </select>
-                            
-                            <div class="form-help" id="fish-water-help">
-                                Art des Wassers im Aquarium
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Ende: Schritt 4 -->
-            
-            <!-- ========================================
-                 SCHRITT 5: BESITZER & KONTAKTDATEN
-                 ======================================== -->
-            <!-- Besitzer-Informationen -->
-            <div class="form-step" 
-                 id="step-5"
-                 role="tabpanel"
-                 aria-labelledby="tab-step-5"
-                 aria-hidden="true">
-                
-                <!-- Step Title -->
-                <h3 class="step-title">
-                    Besitzer & Kontaktdaten - Ihre Informationen
-                </h3>
-                
-                <!-- Form Grid Container -->
-                <div class="form-grid" 
-                     role="group"
-                     aria-labelledby="owner-title">
-                    
-                    <!-- Owner Title (Screen Reader Only) -->
-                    <h4 class="sr-only" id="owner-title">
-                        Besitzer-Informationen und Kontaktdaten
-                    </h4>
-                    
-                    <!-- Owner Name -->
-                    <div class="form-group">
-                        <label for="owner-name" class="form-label">
-                            Besitzer Name
-                            <span class="required-indicator" 
-                                  aria-label="Pflichtfeld"
-                                  title="Dieses Feld ist erforderlich">*</span>
-                        </label>
-                        <input type="text" 
-                               id="owner-name" 
-                               name="ownerName" 
-                               class="form-input"
-                               required
-                               aria-required="true"
-                               aria-describedby="owner-name-help owner-name-error"
-                               aria-invalid="false"
-                               placeholder="Ihr vollständiger Name"
-                               maxlength="100"
-                               itemprop="owner">
-                        
-                        <!-- Owner Name Help Text -->
-                        <div class="form-help" id="owner-name-help">
-                            Ihr Name als Hauptbesitzer des Haustiers
-                        </div>
-                        
-                        <!-- Error Container -->
-                        <div class="form-error" 
-                             id="owner-name-error"
-                             role="alert"
-                             aria-live="polite"
-                             style="display: none;">
-                        </div>
-                    </div>
-                    
-                    <!-- Owner Email -->
-                    <div class="form-group">
-                        <label for="owner-email" class="form-label">
-                            E-Mail
-                            <span class="required-indicator" 
-                                  aria-label="Pflichtfeld"
-                                  title="Dieses Feld ist erforderlich">*</span>
-                        </label>
-                        <input type="email" 
-                               id="owner-email" 
-                               name="ownerEmail" 
-                               class="form-input"
-                               required
-                               aria-required="true"
-                               aria-describedby="owner-email-help owner-email-error"
-                               aria-invalid="false"
-                               placeholder="ihre@email.de"
-                               maxlength="100"
-                               autocomplete="email">
-                        
-                        <!-- Owner Email Help Text -->
-                        <div class="form-help" id="owner-email-help">
-                            Wird für Profil-Bestätigung und wichtige Mitteilungen verwendet
-                        </div>
-                        
-                        <!-- Error Container -->
-                        <div class="form-error" 
-                             id="owner-email-error"
-                             role="alert"
-                             aria-live="polite"
-                             style="display: none;">
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Ende: Schritt 5 -->
-            
-            <!-- ========================================
-                 SCHRITT 6: ÜBERPRÜFUNG & BESTÄTIGUNG
-                 ======================================== -->
-            <!-- Finale Überprüfung und Datenschutz -->
-            <div class="form-step" 
-                 id="step-6"
-                 role="tabpanel"
-                 aria-labelledby="tab-step-6"
-                 aria-hidden="true">
-                
-                <!-- Step Title -->
-                <h3 class="step-title">
-                    Überprüfung & Bestätigung - Finale Kontrolle
-                </h3>
-                
-                <!-- Review Container -->
-                <div class="review-container" 
-                     role="group"
-                     aria-labelledby="review-title">
-                    
-                    <h4 class="subsection-title" id="review-title">
-                        📋 Zusammenfassung Ihrer Eingaben
-                    </h4>
-                    
-                    <!-- Profile Summary -->
-                    <div id="profile-summary" 
-                         class="profile-summary-grid"
-                         role="region"
-                         aria-live="polite"
-                         aria-labelledby="review-title">
-                        
-                        <p class="review-placeholder">
-                            Bitte gehen Sie einen Schritt zurück, um Ihre Eingaben zu machen.
-                        </p>
-                    </div>
-                </div>
-                
-                <!-- Privacy Section -->
-                <div class="privacy-section" 
-                     role="group"
-                     aria-labelledby="privacy-title">
-                    
-                    <h4 class="subsection-title" id="privacy-title">
-                        🔒 Einwilligungen und Datenschutz
-                    </h4>
-                    
-                    <!-- Privacy Acceptance -->
-                    <div class="form-group">
-                        <label class="checkbox-label" 
-                               for="privacy-accepted">
-                            
-                            <input type="checkbox" 
-                                   id="privacy-accepted" 
-                                   name="privacyAccepted" 
-                                   class="form-checkbox"
-                                   required
-                                   aria-required="true"
-                                   aria-describedby="privacy-error"
-                                   aria-invalid="false">
-                            
-                            <span class="checkbox-text">
-                                Ich habe die 
-                                <a href="/datenschutz" 
-                                   target="_blank"
-                                   rel="noopener noreferrer"
-                                   aria-label="Datenschutzerklärung in neuem Tab öffnen">
-                                    Datenschutzerklärung
-                                </a> gelesen und akzeptiere sie.
-                                <span class="required-indicator" 
-                                      aria-label="Pflichtfeld"
-                                      title="Zustimmung ist erforderlich">*</span>
-                            </span>
-                        </label>
-                        
-                        <!-- Error Container -->
-                        <div class="form-error" 
-                             id="privacy-error"
-                             role="alert"
-                             aria-live="polite"
-                             style="display: none;">
-                        </div>
-                    </div>
-                    
-                    <!-- Public Profile Option -->
-                    <div class="form-group">
-                        <label class="checkbox-label" 
-                               for="public-profile">
-                            
-                            <input type="checkbox" 
-                                   id="public-profile" 
-                                   name="publicProfile" 
-                                   class="form-checkbox"
-                                   aria-describedby="public-profile-help">
-                            
-                            <span class="checkbox-text">
-                                Mein Profil öffentlich sichtbar machen (z.B. für die Community).
-                            </span>
-                        </label>
-                        
-                        <!-- Public Profile Help Text -->
-                        <div class="form-help" id="public-profile-help">
-                            Optional: Ihr Haustier-Profil in der öffentlichen Community anzeigen. 
-                            Sie können dies jederzeit in den Einstellungen ändern.
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Ende: Schritt 6 -->
-            
-            <!-- ========================================
-                 FORM NAVIGATION BUTTONS
-                 ======================================== -->
-            <!-- Navigation zwischen Formular-Schritten -->
-            <div class="form-navigation" 
-                 role="group"
-                 aria-label="Formular-Navigation">
-                
-                <!-- Previous Button -->
-                <button type="button" 
-                        class="btn btn--secondary" 
-                        id="prev-btn" 
-                        style="display: none;"
-                        aria-label="Zum vorherigen Schritt zurückkehren">
-                    ← Zurück
-                </button>
-                
-                <!-- Next Button -->
-                <button type="button" 
-                        class="btn btn--primary" 
-                        id="next-btn"
-                        aria-label="Zum nächsten Schritt weitergehen">
-                    Weiter →
-                </button>
-                
-                <!-- Submit Button -->
-                <button type="submit" 
-                        class="btn btn--primary" 
-                        id="submit-btn" 
-                        style="display: none;"
-                        aria-describedby="submit-help">
-                    
-                    <!-- Button Text -->
-                    <span class="btn-text">Profil erstellen</span>
-                    
-                    <!-- Loading Spinner (Hidden by default) -->
-                    <span class="btn-loading" 
-                          style="display: none;"
-                          aria-hidden="true">
-                        <span class="loading-spinner"></span>
-                    </span>
-                    
-                    <!-- Button Help Text (Screen Reader Only) -->
-                    <span class="sr-only" id="submit-help">
-                        Klicken Sie hier, um das Haustier-Profil final zu erstellen
-                    </span>
-                </button>
-            </div>
-            <!-- Ende: Form Navigation -->
-            
-            <!-- ========================================
-                 FORM STATUS MESSAGES
-                 ======================================== -->
-            <!-- Success/Error Messages Container -->
-            <div class="form-status" 
-                 id="profile-form-status"
-                 role="status"
-                 aria-live="polite"
-                 style="display: none;">
-                <!-- Status-Nachrichten werden von JavaScript eingefügt -->
+        </div>
+
+        <!-- Step 3: Charakter -->
+        <div class="form-step" id="step-3" role="tabpanel" aria-hidden="true">
+            <div class="step-header">
+                <h2>Charakter & Verhalten</h2>
+                <p>Erzählen Sie uns mehr über die Persönlichkeit Ihres Haustiers.</p>
             </div>
             
-        </form>
-        <!-- Ende: Pet Profile Form -->
-        
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="petEnergy">Aktivitätslevel</label>
+                    <select id="petEnergy" name="petEnergy">
+                        <option value="">Bitte wählen...</option>
+                        <option value="very-low">Sehr ruhig</option>
+                        <option value="low">Ruhig</option>
+                        <option value="medium">Mittel</option>
+                        <option value="high">Aktiv</option>
+                        <option value="very-high">Sehr aktiv</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="petSocial">Sozialverhalten</label>
+                    <select id="petSocial" name="petSocial">
+                        <option value="">Bitte wählen...</option>
+                        <option value="shy">Schüchtern</option>
+                        <option value="reserved">Zurückhaltend</option>
+                        <option value="friendly">Freundlich</option>
+                        <option value="very-social">Sehr sozial</option>
+                    </select>
+                </div>
+                
+                <div class="form-group full-width">
+                    <label>Charaktereigenschaften (mehrere auswählbar)</label>
+                    <div class="checkbox-grid">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="petTraits" value="playful">
+                            <span class="checkbox-custom"></span>
+                            Verspielt
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="petTraits" value="calm">
+                            <span class="checkbox-custom"></span>
+                            Ruhig
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="petTraits" value="intelligent">
+                            <span class="checkbox-custom"></span>
+                            Intelligent
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="petTraits" value="loyal">
+                            <span class="checkbox-custom"></span>
+                            Treu
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="petTraits" value="independent">
+                            <span class="checkbox-custom"></span>
+                            Unabhängig
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="petTraits" value="affectionate">
+                            <span class="checkbox-custom"></span>
+                            Verschmust
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="form-group full-width">
+                    <label for="petHabits">Gewohnheiten & Vorlieben</label>
+                    <textarea id="petHabits" name="petHabits" rows="4"
+                              placeholder="z.B. spielt gerne mit Bällen, schläft gerne in der Sonne, mag keine lauten Geräusche..."></textarea>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 4: Gesundheit -->
+        <div class="form-step" id="step-4" role="tabpanel" aria-hidden="true">
+            <div class="step-header">
+                <h2>Gesundheit & Pflege</h2>
+                <p>Informationen zur Gesundheit und Pflege Ihres Haustiers.</p>
+            </div>
+            
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="petVet">Tierarzt</label>
+                    <input type="text" id="petVet" name="petVet" 
+                           placeholder="Name der Tierarztpraxis">
+                </div>
+                
+                <div class="form-group">
+                    <label for="petVaccinated">Geimpft</label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="petVaccinated" value="yes">
+                            <span class="radio-custom"></span>
+                            Ja
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="petVaccinated" value="no">
+                            <span class="radio-custom"></span>
+                            Nein
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="petVaccinated" value="partial">
+                            <span class="radio-custom"></span>
+                            Teilweise
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="petNeutered">Kastriert/Sterilisiert</label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="petNeutered" value="yes">
+                            <span class="radio-custom"></span>
+                            Ja
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="petNeutered" value="no">
+                            <span class="radio-custom"></span>
+                            Nein
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="form-group full-width">
+                    <label for="petAllergies">Allergien</label>
+                    <textarea id="petAllergies" name="petAllergies" rows="2"
+                              placeholder="Bekannte Allergien oder Unverträglichkeiten..."></textarea>
+                </div>
+                
+                <div class="form-group full-width">
+                    <label for="petMedications">Medikamente</label>
+                    <textarea id="petMedications" name="petMedications" rows="2"
+                              placeholder="Regelmäßige Medikamente oder Nahrungsergänzungsmittel..."></textarea>
+                </div>
+                
+                <div class="form-group full-width">
+                    <label for="petHealthNotes">Gesundheitsnotizen</label>
+                    <textarea id="petHealthNotes" name="petHealthNotes" rows="3"
+                              placeholder="Weitere wichtige Gesundheitsinformationen..."></textarea>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 5: Zusammenfassung -->
+        <div class="form-step" id="step-5" role="tabpanel" aria-hidden="true">
+            <div class="step-header">
+                <h2>Zusammenfassung</h2>
+                <p>Überprüfen Sie alle Angaben zu Ihrem Haustier.</p>
+            </div>
+            
+            <div class="summary-container">
+                <div class="summary-section">
+                    <h3>Grunddaten</h3>
+                    <div class="summary-grid" id="summaryBasics"></div>
+                </div>
+                
+                <div class="summary-section">
+                    <h3>Aussehen</h3>
+                    <div class="summary-grid" id="summaryAppearance"></div>
+                </div>
+                
+                <div class="summary-section">
+                    <h3>Charakter</h3>
+                    <div class="summary-grid" id="summaryCharacter"></div>
+                </div>
+                
+                <div class="summary-section">
+                    <h3>Gesundheit</h3>
+                    <div class="summary-grid" id="summaryHealth"></div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="checkbox-label">
+                    <input type="checkbox" id="dataConsent" name="dataConsent" required>
+                    <span class="checkbox-custom"></span>
+                    Ich bestätige, dass alle Angaben korrekt sind und stimme der Speicherung zu.
+                </label>
+                <span class="error-message" id="dataConsent-error"></span>
+            </div>
+        </div>
+
+        <!-- Navigation Buttons -->
+        <div class="form-navigation">
+            <button type="button" class="btn btn-secondary" id="prev-btn" style="display: none;">
+                <span class="btn-icon">←</span>
+                Zurück
+            </button>
+            
+            <div class="nav-spacer"></div>
+            
+            <button type="button" class="btn btn-primary" id="next-btn">
+                Weiter
+                <span class="btn-icon">→</span>
+            </button>
+            
+            <button type="submit" class="btn btn-success" id="submit-btn" style="display: none;">
+                <span class="btn-icon">✓</span>
+                Profil erstellen
+            </button>
+        </div>
+    </form>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay" style="display: none;">
+        <div class="loading-spinner"></div>
+        <p>Profil wird erstellt...</p>
     </div>
-    <!-- Ende: Container -->
-    
-    <!-- ========================================
-         STRUCTURED DATA - JSON-LD
-         ======================================== -->
-    <!-- Schema.org für Pet Profile Creator -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "SoftwareApplication",
-        "name": "Haustier-Profil Ersteller - tailr.wiki",
-        "description": "Interaktives Tool zum Erstellen umfassender digitaler Haustier-Profile mit Grunddaten, Gesundheitsinformationen und Pflegehinweisen",
-        "url": "https://tailr.netlify.app/#pet-profile-section",
-        "applicationCategory": "UtilitiesApplication",
-        "operatingSystem": "Web Browser",
-        "publisher": {
-            "@type": "Organization",
-            "name": "tailr.wiki",
-            "url": "https://tailr.netlify.app"
-        },
-        "offers": {
-            "@type": "Offer",
-            "price": "0",
-            "priceCurrency": "EUR"
-        },
-        "featureList": [
-            "Mehrstufiges Formular mit 6 Schritten",
-            "Tierart-spezifische Felder",
-            "Bildupload für Profilfotos",
-            "Gesundheits- und Pflegemanagement",
-            "Datenschutz-konforme Speicherung"
-        ],
-        "softwareHelp": {
-            "@type": "CreativeWork",
-            "name": "Anleitung zum Profil-Ersteller",
-            "description": "Schritt-für-Schritt Anleitung zum Erstellen eines umfassenden Haustier-Profils"
-        },
-        "audience": {
-            "@type": "Audience",
-            "audienceType": "Haustierbesitzer und Tierhalter"
-        }
-    }
-    </script>
-    
-</section>
-<!-- Ende: Pet Profile Section -->
-
-<!-- ========================================
-     ACCESSIBILITY HELPER STYLES
-     ======================================== -->
-<!-- Screen Reader Only und Form-spezifische Utility Classes -->
-<style>
-.sr-only {
-    position: absolute !important;
-    width: 1px !important;
-    height: 1px !important;
-    padding: 0 !important;
-    margin: -1px !important;
-    overflow: hidden !important;
-    clip: rect(0, 0, 0, 0) !important;
-    white-space: nowrap !important;
-    border: 0 !important;
-}
-
-/* Progress Bar Accessibility */
-.progress-bar {
-    background: var(--color-border);
-    height: 8px;
-    border-radius: 4px;
-    overflow: hidden;
-    margin-bottom: 1rem;
-}
-
-.progress-fill {
-    height: 100%;
-    background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
-    border-radius: 4px;
-    transition: width 0.3s ease;
-}
-
-/* Step Navigation */
-.progress-steps {
-    display: flex;
-    justify-content: space-between;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-}
-
-.step {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.75rem;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    border: 2px solid transparent;
-    background: var(--color-surface);
-}
-
-.step:hover,
-.step:focus {
-    background: var(--color-primary-light);
-    outline: 2px solid var(--color-primary);
-    outline-offset: 2px;
-}
-
-.step.active {
-    background: var(--color-primary);
-    color: white;
-}
-
-.step-number {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    background: var(--color-border);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 600;
-    font-size: 0.9rem;
-}
-
-.step.active .step-number {
-    background: white;
-    color: var(--color-primary);
-}
-
-.step-label {
-    font-size: 0.8rem;
-    text-align: center;
-    font-weight: 500;
-}
-
-/* Form Steps */
-.form-step {
-    display: none;
-    animation: slideInRight 0.3s ease-out;
-}
-
-.form-step.active {
-    display: block;
-}
-
-.form-step[aria-hidden="true"] {
-    display: none;
-}
-
-.form-step[aria-hidden="false"] {
-    display: block;
-}
-
-@keyframes slideInRight {
-    from {
-        opacity: 0;
-        transform: translateX(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}
-
-/* Step Titles */
-.step-title {
-    font-size: 1.5rem;
-    margin-bottom: 2rem;
-    color: var(--color-text);
-    text-align: center;
-}
-
-.subsection-title {
-    font-size: 1.2rem;
-    margin: 2rem 0 1rem 0;
-    color: var(--color-primary);
-    border-bottom: 2px solid var(--color-primary-light);
-    padding-bottom: 0.5rem;
-}
-
-/* Form Grid */
-.form-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1.5rem;
-    margin-bottom: 2rem;
-}
-
-.form-group.full-width {
-    grid-column: 1 / -1;
-}
-
-/* Form Elements */
-.form-label {
-    display: block;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-    color: var(--color-text);
-}
-
-.required-indicator {
-    color: #ef4444;
-    font-weight: bold;
-    margin-left: 0.25rem;
-}
-
-.form-input,
-.form-select,
-.form-textarea {
-    width: 100%;
-    padding: 0.75rem;
-    border: 2px solid var(--color-border);
-    border-radius: 6px;
-    background: var(--color-surface);
-    color: var(--color-text);
-    font-size: 1rem;
-    transition: all 0.3s ease;
-}
-
-.form-input:focus,
-.form-select:focus,
-.form-textarea:focus {
-    outline: none;
-    border-color: var(--color-primary);
-    box-shadow: 0 0 0 3px rgba(var(--color-primary-rgb), 0.1);
-}
-
-.form-input[aria-invalid="true"],
-.form-select[aria-invalid="true"],
-.form-textarea[aria-invalid="true"] {
-    border-color: #ef4444;
-    background: rgba(239, 68, 68, 0.05);
-}
-
-/* Form Help Text */
-.form-help {
-    font-size: 0.85rem;
-    color: var(--color-text-secondary);
-    margin-top: 0.5rem;
-    line-height: 1.4;
-}
-
-/* Form Error Messages */
-.form-error {
-    font-size: 0.85rem;
-    color: #ef4444;
-    margin-top: 0.5rem;
-    padding: 0.5rem;
-    background: rgba(239, 68, 68, 0.1);
-    border-radius: 4px;
-    border-left: 3px solid #ef4444;
-}
-
-/* Checkbox Grid */
-.checkbox-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 0.75rem;
-    margin-top: 1rem;
-}
-
-.checkbox-label {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    cursor: pointer;
-    padding: 0.5rem;
-    border-radius: 6px;
-    transition: all 0.3s ease;
-}
-
-.checkbox-label:hover {
-    background: var(--color-primary-light);
-}
-
-.form-checkbox {
-    width: 18px;
-    height: 18px;
-    border: 2px solid var(--color-border);
-    border-radius: 4px;
-    appearance: none;
-    background: var(--color-surface);
-    cursor: pointer;
-    position: relative;
-    transition: all 0.3s ease;
-    flex-shrink: 0;
-}
-
-.form-checkbox:checked {
-    background: var(--color-primary);
-    border-color: var(--color-primary);
-}
-
-.form-checkbox:checked::after {
-    content: "✓";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: white;
-    font-size: 12px;
-    font-weight: bold;
-}
-
-.form-checkbox:focus {
-    outline: 2px solid var(--color-primary);
-    outline-offset: 2px;
-}
-
-/* Range Slider */
-.slider-container {
-    margin: 1rem 0;
-}
-
-.form-range {
-    width: 100%;
-    height: 6px;
-    border-radius: 3px;
-    background: var(--color-border);
-    outline: none;
-    appearance: none;
-    cursor: pointer;
-}
-
-.form-range::-webkit-slider-thumb {
-    appearance: none;
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background: var(--color-primary);
-    cursor: pointer;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-    transition: transform 0.3s ease;
-}
-
-.form-range::-webkit-slider-thumb:hover {
-    transform: scale(1.1);
-}
-
-.form-range::-moz-range-thumb {
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background: var(--color-primary);
-    cursor: pointer;
-    border: none;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-}
-
-.slider-labels {
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.8rem;
-    color: var(--color-text-secondary);
-    margin-top: 0.5rem;
-}
-
-/* Image Upload */
-.image-upload-container {
-    margin-top: 0.5rem;
-}
-
-.drop-zone {
-    border: 2px dashed var(--color-border);
-    border-radius: 8px;
-    padding: 2rem;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    background: var(--color-surface);
-}
-
-.drop-zone:hover,
-.drop-zone:focus {
-    border-color: var(--color-primary);
-    background: var(--color-primary-light);
-    outline: 2px solid var(--color-primary);
-    outline-offset: 2px;
-}
-
-.drop-zone.dragover {
-    border-color: var(--color-primary);
-    background: var(--color-primary-light);
-}
-
-.upload-icon {
-    font-size: 3rem;
-    margin-bottom: 1rem;
-    opacity: 0.7;
-}
-
-.upload-hint {
-    font-size: 0.85rem;
-    color: var(--color-text-secondary);
-    margin-top: 0.5rem;
-}
-
-/* Image Preview */
-.image-preview-container {
-    text-align: center;
-    padding: 1rem;
-    background: var(--color-surface);
-    border-radius: 8px;
-    border: 1px solid var(--color-border);
-}
-
-.preview-image {
-    max-width: 200px;
-    max-height: 200px;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    margin-bottom: 1rem;
-}
-
-/* Species-Specific Fields */
-.species-specific-fields {
-    margin-top: 2rem;
-    padding: 1.5rem;
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: 8px;
-}
-
-/* Review Container */
-.review-container {
-    margin-bottom: 2rem;
-    padding: 1.5rem;
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: 8px;
-}
-
-.profile-summary-grid {
-    display: grid;
-    gap: 1rem;
-    margin-top: 1rem;
-}
-
-.review-placeholder {
-    text-align: center;
-    color: var(--color-text-secondary);
-    font-style: italic;
-}
-
-/* Privacy Section */
-.privacy-section {
-    padding: 1.5rem;
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: 8px;
-    margin-bottom: 2rem;
-}
-
-.checkbox-text {
-    line-height: 1.5;
-}
-
-.checkbox-text a {
-    color: var(--color-primary);
-    text-decoration: none;
-    font-weight: 500;
-}
-
-.checkbox-text a:hover {
-    text-decoration: underline;
-}
-
-/* Form Navigation */
-.form-navigation {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 3rem;
-    padding-top: 2rem;
-    border-top: 1px solid var(--color-border);
-}
-
-.form-navigation .btn {
-    padding: 1rem 2rem;
-    font-size: 1rem;
-    border-radius: 6px;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    transition: all 0.3s ease;
-}
-
-.form-navigation .btn:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
-
-/* Form Status Messages */
-.form-status {
-    margin-top: 2rem;
-    padding: 1rem;
-    border-radius: 6px;
-    border-left: 4px solid;
-}
-
-.form-status.success {
-    background: rgba(16, 185, 129, 0.1);
-    border-color: #10b981;
-    color: #065f46;
-}
-
-.form-status.error {
-    background: rgba(239, 68, 68, 0.1);
-    border-color: #ef4444;
-    color: #991b1b;
-}
-
-/* Button Loading State */
-.btn-loading {
-    margin-left: 0.5rem;
-}
-
-.btn-loading .loading-spinner {
-    width: 16px;
-    height: 16px;
-    border: 2px solid transparent;
-    border-top: 2px solid currentColor;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    .form-grid {
-        grid-template-columns: 1fr;
-        gap: 1rem;
-    }
-    
-    .progress-steps {
-        justify-content: space-around;
-    }
-    
-    .step {
-        flex: 1 1 auto;
-        min-width: 0;
-    }
-    
-    .step-label {
-        font-size: 0.7rem;
-    }
-    
-    .checkbox-grid {
-        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-        gap: 0.5rem;
-    }
-    
-    .form-navigation {
-        flex-direction: column;
-        gap: 1rem;
-    }
-    
-    .form-navigation .btn {
-        width: 100%;
-        justify-content: center;
-    }
-    
-    .drop-zone {
-        padding: 1.5rem 1rem;
-    }
-    
-    .upload-icon {
-        font-size: 2rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .step-title {
-        font-size: 1.3rem;
-    }
-    
-    .subsection-title {
-        font-size: 1.1rem;
-    }
-    
-    .progress-steps {
-        gap: 0.25rem;
-    }
-    
-    .step {
-        padding: 0.5rem 0.25rem;
-    }
-    
-    .step-number {
-        width: 25px;
-        height: 25px;
-        font-size: 0.8rem;
-    }
-    
-    .step-label {
-        font-size: 0.65rem;
-    }
-}
-
-/* High Contrast Mode */
-@media (prefers-contrast: high) {
-    .form-input,
-    .form-select,
-    .form-textarea,
-    .form-checkbox {
-        border-width: 3px;
-    }
-    
-    .step.active {
-        outline: 3px solid var(--color-text);
-    }
-    
-    .progress-fill {
-        outline: 2px solid var(--color-text);
-    }
-}
-
-/* Reduced Motion */
-@media (prefers-reduced-motion: reduce) {
-    .form-step,
-    .progress-fill,
-    .form-input,
-    .form-select,
-    .form-textarea,
-    .btn {
-        transition: none;
-        animation: none;
-    }
-    
-    .btn:hover {
-        transform: none;
-    }
-    
-    .form-range::-webkit-slider-thumb:hover {
-        transform: none;
-    }
-}
-
-/* Print Styles */
-@media print {
-    .form-navigation,
-    .form-status {
-        display: none !important;
-    }
-    
-    .form-step {
-        display: block !important;
-        break-inside: avoid;
-    }
-    
-    .progress-steps {
-        display: none;
-    }
-    
-    .form-input,
-    .form-select,
-    .form-textarea {
-        border: 1px solid #000 !important;
-        background: transparent !important;
-    }
-}
-</style>
+</div>
 
 <!-- ========================================
      MEINE HAUSTIERE SECTION - SEO & ACCESSIBILITY OPTIMIERT
