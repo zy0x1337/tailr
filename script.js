@@ -2487,7 +2487,7 @@ closeSpeciesModal() {
     this.populateModalGallery(species);
     this.populateAllTabs(species);
 
-    // ---- KORREKTUR: Standard-Tab beim Öffnen aktivieren ----
+    // ---- Standard-Tab beim Öffnen aktivieren ----
     this.modalTabsContainer.querySelectorAll('.modal-tab').forEach((btn, index) => {
         btn.classList.toggle('active', index === 0);
     });
@@ -2505,7 +2505,7 @@ closeSpeciesModal() {
         eigenschaftenBtn.textContent = 'Eigenschaften';
         // Event-Listener zum Öffnen des Eigenschaften-Modals
         eigenschaftenBtn.addEventListener('click', () => {
-            this.openEigenschaftenModal(species); // Deine Methode für Eigenschaften-Modal öffnen
+            this.showSpeciesDetail(speciesId);
         });
         // Button in den Modal-Header einfügen
         const modalHeader = this.speciesModal.querySelector('.modal-header');
@@ -4502,34 +4502,6 @@ debugCategoryDisplay(species) {
     });
     
     console.log('=== DEBUG END ===');
-}
-
-    populateModal(species) {
-    if (!this.modalTitle || !this.modalGallery || !species) {
-        console.error('Modal-Elemente oder Tierart nicht gefunden');
-        return;
-    }
-
-    // Modal-Titel setzen
-    this.modalTitle.textContent = species.name || 'Unbekannte Tierart';
-
-    // Galerie befüllen
-    this.populateModalGallery(species);
-
-    // Inhalte für alle Tabs befüllen
-    this.populateAllTabs(species);
-
-    // ---- KORREKTUR: Standard-Tab beim Öffnen aktivieren ----
-    // Setzt den ersten Tab und den ersten Inhaltsbereich als Standard aktiv.
-    this.modalTabsContainer.querySelectorAll('.modal-tab').forEach((btn, index) => {
-        btn.classList.toggle('active', index === 0);
-    });
-    this.speciesModal.querySelectorAll('.modal-tab-content').forEach((content, index) => {
-        content.classList.toggle('active', index === 0);
-    });
-
-    // Event-Listener für andere dynamische Elemente im Modal (z.B. Favoriten-Button)
-    this.setupModalEventListeners(species);
 }
 
 // KORRIGIERTE Galerie-Methode
