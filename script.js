@@ -5183,17 +5183,17 @@ showComparison() {
     this.currentView = 'home';
     console.log('Showing home - resetting all states');
 
-    // Alle Sektionen ausblenden
+    // Alle Sektionen (auch durch showSection/showBlog) ausblenden
     this.hideAllSections();
 
-    // Hero- und Animal-of-Day-Bereich immer einblenden
+    // Hero- und Animal-of-the-Day-Bereich explizit einblenden
     const hero = document.getElementById('hero');
     if (hero) hero.style.display = 'block';
 
     const animalOfDaySection = document.getElementById('animal-of-day-section');
     if (animalOfDaySection) animalOfDaySection.style.display = 'block';
 
-    // Home-Sektionen anzeigen
+    // Startseiten-Sektionen wie gewohnt anzeigen
     document.title = 'tailr.wiki';
     if (this.categoriesSection) this.categoriesSection.style.display = 'block';
     if (this.toolsSection) this.toolsSection.style.display = 'block';
