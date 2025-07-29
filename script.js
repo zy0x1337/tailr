@@ -5138,31 +5138,21 @@ hideAllSections() {
 // Zeigt eine spezifische Sektion an
 showSection(section) {
     if (!section) {
-        console.warn('Keine Sektion angegeben für showSection');
+        console.warn('❌ Sektion ist null oder undefiniert');
         return;
     }
-
-    this.hideAllSections();
-
+    
     if (typeof section === 'string') {
         section = document.querySelector(section);
     }
-
-    if (section) {
+    
+    if (section && section.style) {
         section.style.display = 'block';
-        console.log(`Sektion ${section.id || section.className} angezeigt`);
-        
-        const id = section.id || '';
-        if (id === 'categories' || id === 'categories-section' || id === 'home' || id === 'tools-section') {
-            // Home-artige Sektionen => hero anzeigen
-            this.setHeroVisible(true);
-        } else {
-            // Andere Sektionen => hero ausblenden
-            this.setHeroVisible(false);
-        }
+        console.log('✅ Sektion angezeigt:', section.id || section.className);
     } else {
-        console.warn('Sektion nicht gefunden:', section);
+        console.warn('❌ Sektion konnte nicht angezeigt werden:', section);
     }
+    this.setHeroVisible(false);
 }
 
 showComparison() {
@@ -5193,7 +5183,7 @@ showComparison() {
     // Startelemente zeigen
     if (this.categoriesSection) this.categoriesSection.style.display = 'block';
     if (this.toolsSection) this.toolsSection.style.display = 'block';
-
+    
     this.setHeroVisible(true);
 
     document.title = 'tailr.wiki';
