@@ -633,7 +633,7 @@
      HERO SECTION - PRIMARY LANDING AREA
      ======================================== -->
 <!-- Main hero section with semantic markup and SEO optimization -->
-<section class="hero" 
+<section id="hero" class="hero" 
          role="banner" 
          aria-labelledby="hero-title"
          itemscope 
@@ -822,7 +822,7 @@
      TIER DES TAGES - SEO OPTIMIERTE VERSION
      ======================================== -->
 <!-- Daily featured animal section mit SEO und Accessibility -->
-<section class="animal-of-day-section" 
+<section id="animal-of-day-section" class="animal-of-day-section" 
          role="region" 
          aria-labelledby="animal-section-title"
          itemscope 
@@ -9015,7 +9015,7 @@ document.addEventListener("DOMContentLoaded", function () {
     );
 
     // Hero-Bereich ausblenden, wenn nicht Home
-    const heroSection = document.getElementById("hero__content");
+    const heroSection = document.getElementById("hero");
     if (heroSection) {
         heroSection.style.display = isHome ? "" : "none";
     }
