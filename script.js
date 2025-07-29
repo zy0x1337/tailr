@@ -5137,27 +5137,31 @@ hideAllSections() {
 
 // Zeigt eine spezifische Sektion an
 showSection(section) {
-    // Bereiche ausblenden
-const hero = document.getElementById('hero');
-if (hero) hero.style.display = 'none';
-
-const animalOfDaySection = document.getElementById('animal-of-day-section');
-if (animalOfDaySection) animalOfDaySection.style.display = 'none';
-
     if (!section) {
-        console.warn('❌ Sektion ist null oder undefiniert');
+        console.warn('Keine Sektion angegeben für showSection');
         return;
     }
-    
+
+    this.hideAllSections();
+
     if (typeof section === 'string') {
         section = document.querySelector(section);
     }
-    
-    if (section && section.style) {
+
+    if (section) {
         section.style.display = 'block';
-        console.log('✅ Sektion angezeigt:', section.id || section.className);
+        console.log(`Sektion ${section.id || section.className} angezeigt`);
+        
+        const id = section.id || '';
+        if (id === 'categories' || id === 'categories-section' || id === 'home' || id === 'tools-section') {
+            // Home-artige Sektionen => hero anzeigen
+            this.setHeroVisible(true);
+        } else {
+            // Andere Sektionen => hero ausblenden
+            this.setHeroVisible(false);
+        }
     } else {
-        console.warn('❌ Sektion konnte nicht angezeigt werden:', section);
+        console.warn('Sektion nicht gefunden:', section);
     }
 }
 
@@ -5181,52 +5185,46 @@ showComparison() {
 
     showHome() {
     this.currentView = 'home';
-    console.log('Showing home - resetting all states');
+    console.log('Navigiere zu Home');
 
-    // Alle Sektionen (auch durch showSection/showBlog) ausblenden
+    // Alle Hauptsektionen ausblenden
     this.hideAllSections();
 
-    // Hero- und Animal-of-the-Day-Bereich explizit einblenden
-    const hero = document.getElementById('hero');
-    if (hero) hero.style.display = 'block';
-
-    const animalOfDaySection = document.getElementById('animal-of-day-section');
-    if (animalOfDaySection) animalOfDaySection.style.display = 'block';
-
-    // Startseiten-Sektionen wie gewohnt anzeigen
-    document.title = 'tailr.wiki';
+    // Startelemente zeigen
     if (this.categoriesSection) this.categoriesSection.style.display = 'block';
     if (this.toolsSection) this.toolsSection.style.display = 'block';
 
-    console.log('Home shown, currentCategory reset to:', this.currentCategory);
+    this.setHeroVisible(true);
+
+    document.title = 'tailr.wiki';
+    console.log('Home angezeigt');
 }
 
 showBlog() {
-    // Bereiche ausblenden
-const hero = document.getElementById('hero');
-if (hero) hero.style.display = 'none';
+    this.currentView = 'blog';
+    console.log('Navigiere zu Blog');
 
-const animalOfDaySection = document.getElementById('animal-of-day-section');
-if (animalOfDaySection) animalOfDaySection.style.display = 'none';
-
-    console.log('Showing blog section...');
     this.hideAllSections();
-    
-    // Blog-Sektion anzeigen
-    const blogSection = document.getElementById('blog-section');
-    if (blogSection) {
-        this.showSection(blogSection);
-        
-        // BlogManager initialisieren falls noch nicht geschehen
-        if (!this.blogManager && this.blogData.length > 0) {
-            this.blogManager = new EnhancedBlogManager(this);
-        } else if (this.blogManager) {
-            // Blog-Manager aktualisieren
-            this.blogManager.applyFilters();
-        }
+
+    if (this.blogOverview) {
+        this.blogOverview.style.display = 'block';
     } else {
-        console.error('❌ Blog-Sektion nicht gefunden');
+        const blogSection = document.getElementById('blog-section');
+        if (blogSection) blogSection.style.display = 'block';
     }
+
+    this.setHeroVisible(false);
+
+    document.title = 'Blog - tailr.wiki';
+    console.log('Blog angezeigt');
+}
+
+setHeroVisible(visible) {
+    const hero = document.getElementById('hero');
+    if (hero) hero.style.display = visible ? 'block' : 'none';
+
+    const animalOfDaySection = document.getElementById('animal-of-day-section');
+    if (animalOfDaySection) animalOfDaySection.style.display = visible ? 'block' : 'none';
 }
 
     // Rendering
