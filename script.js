@@ -1,5 +1,5 @@
 /**
- * Dashboard Manager - Verwaltet das Benutzer-Dashboard
+ * Dashboard Manager - Verwaltet das Benutzer-Dashboard mit Achievement System
  */
 class DashboardManager {
     constructor(haustierWissenInstance) {
@@ -8,11 +8,16 @@ class DashboardManager {
             petsCount: 0,
             favoritesCount: 0,
             activityScore: 0,
-            loginStreak: 0
+            loginStreak: 0,
+            achievementsCount: 0,
+            totalPoints: 0
         };
         this.activities = [];
         this.recommendations = [];
         this.isInitialized = false;
+        
+        // Achievement System initialisieren
+        this.achievementSystem = new AchievementSystem(haustierWissenInstance);
         
         this.initializeDashboard();
     }
@@ -90,6 +95,39 @@ class DashboardManager {
                 this.loadRecommendations();
             });
         }
+
+        // Achievement-spezifische Event Listeners
+        this.setupAchievementEventListeners();
+    }
+
+    /**
+     * Achievement-spezifische Event Listeners
+     */
+    setupAchievementEventListeners() {
+        // View All Achievements Button
+        const viewAllAchievementsBtn = document.getElementById('view-all-achievements-btn');
+        if (viewAllAchievementsBtn) {
+            viewAllAchievementsBtn.addEventListener('click', () => {
+                this.showAllAchievements();
+            });
+        }
+
+        // Achievement Category Items
+        const categoryItems = document.querySelectorAll('.category-item');
+        categoryItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const category = item.dataset.category;
+                this.showAchievementsByCategory(category);
+            });
+        });
+
+        // Recent Achievement Items
+        document.addEventListener('click', (e) => {
+            if (e.target.closest('.recent-achievement-item')) {
+                const achievementId = e.target.closest('.recent-achievement-item').dataset.achievementId;
+                this.achievementSystem.showAchievementDetail(achievementId);
+            }
+        });
     }
 
     /**
@@ -109,6 +147,9 @@ class DashboardManager {
             
             // Alle anderen Sektionen ausblenden
             this.app.hideAllSections();
+            
+            // Hero und Animal of Day ausblenden
+            this.app.setHeroVisible(false);
             
             // Dashboard-Sektion anzeigen
             const dashboardSection = document.getElementById('user-dashboard-section');
@@ -148,6 +189,9 @@ class DashboardManager {
             // Statistiken laden
             await this.loadUserStats();
             
+            // Erfolge laden und prüfen
+            await this.loadAchievements();
+            
             // Haustiere laden
             await this.loadUserPets();
             
@@ -183,12 +227,143 @@ class DashboardManager {
             // Login-Streak laden
             this.userStats.loginStreak = this.getLoginStreak();
 
+            // Achievement-Statistiken laden
+            const achievementSummary = this.achievementSystem.getAchievementSummary();
+            this.userStats.achievementsCount = achievementSummary.earned;
+            this.userStats.totalPoints = achievementSummary.totalPoints;
+
             // UI aktualisieren
             this.updateStatsDisplay();
             
         } catch (error) {
             console.error('Fehler beim Laden der Benutzerstatistiken:', error);
         }
+    }
+
+    /**
+     * Erfolge laden und prüfen
+     */
+    async loadAchievements() {
+        try {
+            // Erfolge prüfen und aktualisieren
+            const newAchievements = await this.achievementSystem.checkAndUpdate();
+            
+            // Achievement-Summary für Stats
+            const summary = this.achievementSystem.getAchievementSummary();
+            
+            // Erfolgs-Widget aktualisieren
+            this.updateAchievementWidget(summary);
+            
+            // Kürzlich freigeschaltete Erfolge anzeigen
+            this.updateRecentAchievements();
+            
+            // Kategorie-Counts aktualisieren
+            this.updateAchievementCategories();
+            
+            console.log(`✅ ${newAchievements.length} neue Erfolge freigeschaltet`);
+            
+        } catch (error) {
+            console.error('Fehler beim Laden der Erfolge:', error);
+        }
+    }
+
+    /**
+     * Achievement Widget aktualisieren
+     */
+    updateAchievementWidget(summary) {
+        // Achievement-Count in Stats aktualisieren
+        const achievementCountEl = document.getElementById('stats-achievements-count');
+        if (achievementCountEl) {
+            achievementCountEl.textContent = summary.earned;
+        }
+
+        // Progress Overview aktualisieren
+        const earnedCountEl = document.getElementById('achievement-earned-count');
+        const totalCountEl = document.getElementById('achievement-total-count');
+        const progressBarEl = document.getElementById('achievement-progress-bar');
+        const totalPointsEl = document.getElementById('achievement-total-points');
+
+        if (earnedCountEl) earnedCountEl.textContent = summary.earned;
+        if (totalCountEl) totalCountEl.textContent = summary.total;
+        if (totalPointsEl) totalPointsEl.textContent = summary.totalPoints;
+
+        if (progressBarEl) {
+            progressBarEl.style.width = `${summary.completionRate}%`;
+        }
+
+        // Trend für Achievement-Stats
+        const trendEl = document.getElementById('stats-achievements-trend');
+        if (trendEl) {
+            if (summary.completionRate >= 80) {
+                trendEl.textContent = '🔥';
+                trendEl.className = 'stat-card__trend stat-card__trend--up';
+            } else if (summary.completionRate >= 50) {
+                trendEl.textContent = '📈';
+                trendEl.className = 'stat-card__trend stat-card__trend--up';
+            } else {
+                trendEl.textContent = '⭐';
+                trendEl.className = 'stat-card__trend stat-card__trend--neutral';
+            }
+        }
+    }
+
+    /**
+     * Kürzlich freigeschaltete Erfolge anzeigen
+     */
+    updateRecentAchievements() {
+        const recentAchievementsEl = document.getElementById('recent-achievements');
+        if (!recentAchievementsEl) return;
+
+        // Letzte 3 freigeschaltete Erfolge holen
+        const recentlyEarned = Object.entries(this.achievementSystem.userProgress)
+            .filter(([id, progress]) => progress.earned)
+            .sort((a, b) => b[1].unlockedAt - a[1].unlockedAt)
+            .slice(0, 3)
+            .map(([id]) => this.achievementSystem.achievements[id]);
+
+        if (recentlyEarned.length === 0) {
+            recentAchievementsEl.innerHTML = `
+                <div class="achievement-placeholder">
+                    <div class="placeholder-icon">🏆</div>
+                    <p>Noch keine Erfolge freigeschaltet</p>
+                    <p class="placeholder-hint">Füge dein erstes Haustier hinzu!</p>
+                </div>
+            `;
+        } else {
+            recentAchievementsEl.innerHTML = recentlyEarned.map(achievement => `
+                <div class="recent-achievement-item" data-achievement-id="${achievement.id}">
+                    <div class="recent-achievement-icon">${achievement.icon}</div>
+                    <div class="recent-achievement-content">
+                        <div class="recent-achievement-name">${achievement.name}</div>
+                        <div class="recent-achievement-description">${achievement.description}</div>
+                    </div>
+                    <div class="recent-achievement-rarity ${achievement.rarity}">
+                        ${this.achievementSystem.getRarityLabel(achievement.rarity)}
+                    </div>
+                </div>
+            `).join('');
+        }
+    }
+
+    /**
+     * Achievement-Kategorien aktualisieren
+     */
+    updateAchievementCategories() {
+        const categories = ['pets', 'activity', 'social'];
+        
+        categories.forEach(category => {
+            const categoryAchievements = Object.values(this.achievementSystem.achievements)
+                .filter(achievement => achievement.category === category);
+            
+            const earnedInCategory = categoryAchievements
+                .filter(achievement => this.achievementSystem.userProgress[achievement.id]?.earned)
+                .length;
+            
+            const countEl = document.getElementById(`${category}-achievement-count`);
+            if (countEl) {
+                countEl.textContent = `${earnedInCategory}/${categoryAchievements.length}`;
+            }
+        });
     }
 
     /**
@@ -201,6 +376,7 @@ class DashboardManager {
         score += this.userStats.favoritesCount * 5; // 5 Punkte pro Favorit
         score += this.activities.length * 2; // 2 Punkte pro Aktivität
         score += this.userStats.loginStreak * 10; // 10 Punkte pro Streak-Tag
+        score += this.userStats.achievementsCount * 15; // 15 Punkte pro Achievement
 
         return Math.min(score, 999); // Maximal 999
     }
@@ -221,7 +397,8 @@ class DashboardManager {
             'stats-pets-count': this.userStats.petsCount,
             'stats-favorites-count': this.userStats.favoritesCount,
             'stats-activity-score': this.userStats.activityScore,
-            'stats-login-streak': this.userStats.loginStreak
+            'stats-login-streak': this.userStats.loginStreak,
+            'stats-achievements-count': this.userStats.achievementsCount
         };
 
         Object.entries(statsElements).forEach(([id, value]) => {
@@ -512,6 +689,11 @@ class DashboardManager {
             icon: this.getActionIcon(action),
             timestamp: Date.now()
         });
+
+        // Achievement System nach Aktion prüfen
+        setTimeout(() => {
+            this.achievementSystem.checkAndUpdate();
+        }, 500);
     }
 
     /**
@@ -597,6 +779,27 @@ class DashboardManager {
     }
 
     /**
+     * Alle Erfolge anzeigen
+     */
+    showAllAchievements() {
+        console.log('🏆 Alle Erfolge anzeigen...');
+        if (this.app.showNotification) {
+            this.app.showNotification('Alle Erfolge Modal wird geöffnet...', 'info');
+        }
+        // Hier könnte ein Modal mit allen Erfolgen geöffnet werden
+    }
+
+    /**
+     * Erfolge nach Kategorie anzeigen
+     */
+    showAchievementsByCategory(category) {
+        console.log(`🏆 Erfolge der Kategorie ${category} anzeigen...`);
+        if (this.app.showNotification) {
+            this.app.showNotification(`${category.charAt(0).toUpperCase() + category.slice(1)}-Erfolge werden angezeigt`, 'info');
+        }
+    }
+
+    /**
      * Statistiken animieren
      */
     animateStats() {
@@ -675,12 +878,749 @@ class DashboardManager {
             petsCount: 0,
             favoritesCount: 0,
             activityScore: 0,
-            loginStreak: 0
+            loginStreak: 0,
+            achievementsCount: 0,
+            totalPoints: 0
         };
         this.activities = [];
         this.recommendations = [];
         
         console.log('🔄 Dashboard Manager zurückgesetzt');
+    }
+}
+
+/**
+ * Achievement System - Erfolge und Belohnungen verwalten
+ */
+class AchievementSystem {
+    constructor(haustierWissenInstance) {
+        this.app = haustierWissenInstance;
+        this.achievements = this.defineAchievements();
+        this.userProgress = this.loadUserProgress();
+        this.notificationQueue = [];
+        
+        this.initializeSystem();
+    }
+
+    /**
+     * Alle verfügbaren Erfolge definieren
+     */
+    defineAchievements() {
+        return {
+            // 🐾 HAUSTIER-ERFOLGE
+            'first_pet': {
+                id: 'first_pet',
+                name: 'Erste Schritte',
+                description: 'Dein erstes Haustier hinzugefügt',
+                icon: '🐾',
+                category: 'pets',
+                points: 50,
+                rarity: 'common',
+                condition: (stats) => stats.petsCount >= 1,
+                reward: { coins: 100, title: 'Tierfreund' }
+            },
+            'pet_collector': {
+                id: 'pet_collector',
+                name: 'Tiersammler',
+                description: '3 verschiedene Haustiere hinzugefügt',
+                icon: '🏠',
+                category: 'pets',
+                points: 150,
+                rarity: 'uncommon',
+                condition: (stats) => stats.petsCount >= 3,
+                reward: { coins: 300, badge: 'collector' }
+            },
+            'pet_expert': {
+                id: 'pet_expert',
+                name: 'Haustier-Experte',
+                description: '10 Haustiere registriert',
+                icon: '👑',
+                category: 'pets',
+                points: 500,
+                rarity: 'rare',
+                condition: (stats) => stats.petsCount >= 10,
+                reward: { coins: 1000, title: 'Experte', specialFeature: 'advanced_care' }
+            },
+
+            // 🔥 AKTIVITÄTS-ERFOLGE
+            'daily_visitor': {
+                id: 'daily_visitor',
+                name: 'Täglicher Besucher',
+                description: '7 Tage hintereinander eingeloggt',
+                icon: '🔥',
+                category: 'activity',
+                points: 200,
+                rarity: 'uncommon',
+                condition: (stats) => stats.loginStreak >= 7,
+                reward: { coins: 250, multiplier: 1.1 }
+            },
+            'streak_master': {
+                id: 'streak_master',
+                name: 'Streak-Meister',
+                description: '30 Tage Streak erreicht',
+                icon: '⚡',
+                category: 'activity',
+                points: 750,
+                rarity: 'epic',
+                condition: (stats) => stats.loginStreak >= 30,
+                reward: { coins: 1500, title: 'Streak-Meister', theme: 'fire' }
+            },
+            'super_active': {
+                id: 'super_active',
+                name: 'Superaktiv',
+                description: 'Aktivitätsscore von 1000 erreicht',
+                icon: '🚀',
+                category: 'activity',
+                points: 400,
+                rarity: 'rare',
+                condition: (stats) => stats.activityScore >= 1000,
+                reward: { coins: 600, badge: 'rocket' }
+            },
+
+            // ❤️ SOCIAL-ERFOLGE
+            'heart_collector': {
+                id: 'heart_collector',
+                name: 'Herzenssammler',
+                description: '25 Favoriten gesammelt',
+                icon: '💖',
+                category: 'social',
+                points: 300,
+                rarity: 'uncommon',
+                condition: (stats) => stats.favoritesCount >= 25,
+                reward: { coins: 400, badge: 'heart' }
+            },
+            'knowledge_seeker': {
+                id: 'knowledge_seeker',
+                name: 'Wissbegierig',
+                description: '50 Blog-Artikel gelesen',
+                icon: '📚',
+                category: 'knowledge',
+                points: 350,
+                rarity: 'uncommon',
+                condition: (stats) => stats.blogReads >= 50,
+                reward: { coins: 500, title: 'Wissenshungrig' }
+            },
+
+            // 🌟 SPEZIAL-ERFOLGE
+            'early_adopter': {
+                id: 'early_adopter',
+                name: 'Früher Vogel',
+                description: 'Einer der ersten 100 Benutzer',
+                icon: '🌅',
+                category: 'special',
+                points: 1000,
+                rarity: 'legendary',
+                condition: (stats) => stats.userId <= 100,
+                reward: { coins: 2000, title: 'Pionier', theme: 'golden', badge: 'founder' }
+            },
+            'perfectionist': {
+                id: 'perfectionist',
+                name: 'Perfektionist',
+                description: 'Alle Haustier-Profile zu 100% ausgefüllt',
+                icon: '✨',
+                category: 'completion',
+                points: 600,
+                rarity: 'epic',
+                condition: (stats) => stats.completedProfiles >= stats.petsCount && stats.petsCount > 0,
+                reward: { coins: 800, multiplier: 1.15, badge: 'perfect' }
+            },
+
+            // 🎯 MILESTONE-ERFOLGE
+            'century_club': {
+                id: 'century_club',
+                name: 'Jahrhundert-Club',
+                description: '100 verschiedene Aktionen ausgeführt',
+                icon: '💯',
+                category: 'milestones',
+                points: 800,
+                rarity: 'epic',
+                condition: (stats) => stats.totalActions >= 100,
+                reward: { coins: 1200, title: 'Jahrhundertmitglied' }
+            }
+        };
+    }
+
+    /**
+     * System initialisieren
+     */
+    initializeSystem() {
+        this.setupEventListeners();
+        this.checkAchievements();
+        this.loadNotificationQueue();
+        
+        console.log('🏆 Achievement System initialisiert');
+    }
+
+    /**
+     * Event Listeners einrichten
+     */
+    setupEventListeners() {
+        // Achievement-Notifications anklicken
+        document.addEventListener('click', (e) => {
+            if (e.target.matches('.achievement-notification')) {
+                this.showAchievementDetail(e.target.dataset.achievementId);
+            }
+        });
+
+        // Achievement-Modal Events
+        document.addEventListener('click', (e) => {
+            if (e.target.matches('.achievement-card')) {
+                const achievementId = e.target.dataset.achievementId;
+                this.showAchievementDetail(achievementId);
+            }
+        });
+    }
+
+    /**
+     * Erfolge überprüfen und neue freischalten
+     */
+    async checkAchievements() {
+        const stats = await this.gatherUserStats();
+        const newAchievements = [];
+
+        Object.values(this.achievements).forEach(achievement => {
+            // Nur noch nicht erreichte Erfolge prüfen
+            if (!this.userProgress[achievement.id]?.earned) {
+                if (achievement.condition(stats)) {
+                    this.unlockAchievement(achievement.id);
+                    newAchievements.push(achievement);
+                }
+            }
+        });
+
+        // Batch-Benachrichtigung für mehrere neue Erfolge
+        if (newAchievements.length > 0) {
+            this.showBatchNotification(newAchievements);
+        }
+
+        return newAchievements;
+    }
+
+    /**
+     * Benutzerstatistiken sammeln
+     */
+    async gatherUserStats() {
+        const dashboardManager = this.app.dashboardManager;
+        const authManager = this.app.authManager;
+        
+        return {
+            petsCount: dashboardManager?.userStats?.petsCount || 0,
+            favoritesCount: dashboardManager?.userStats?.favoritesCount || 0,
+            activityScore: dashboardManager?.userStats?.activityScore || 0,
+            loginStreak: dashboardManager?.userStats?.loginStreak || 0,
+            totalActions: this.getTotalActions(),
+            blogReads: this.getBlogReads(),
+            completedProfiles: this.getCompletedProfiles(),
+            userId: authManager?.getCurrentUser()?.id || 999999
+        };
+    }
+
+    /**
+     * Erfolg freischalten
+     */
+    unlockAchievement(achievementId) {
+        const achievement = this.achievements[achievementId];
+        if (!achievement) return;
+
+        // Progress aktualisieren
+        this.userProgress[achievementId] = {
+            earned: true,
+            unlockedAt: Date.now(),
+            notified: false
+        };
+
+        // Belohnung gewähren
+        this.grantReward(achievement.reward);
+
+        // Speichern
+        this.saveUserProgress();
+
+        // Benachrichtigung zur Queue hinzufügen
+        this.addNotification(achievement);
+
+        console.log(`🎉 Erfolg freigeschaltet: ${achievement.name}`);
+        
+        // Dashboard aktualisieren falls vorhanden
+        if (this.app.dashboardManager) {
+            this.app.dashboardManager.addActivity({
+                title: `Erfolg erreicht: ${achievement.name}`,
+                icon: achievement.icon,
+                timestamp: Date.now()
+            });
+        }
+    }
+
+    /**
+     * Belohnung gewähren
+     */
+    grantReward(reward) {
+        if (!reward) return;
+
+        let rewardMessage = 'Belohnung erhalten: ';
+        const rewardParts = [];
+
+        if (reward.coins) {
+            this.addCoins(reward.coins);
+            rewardParts.push(`${reward.coins} Münzen`);
+        }
+
+        if (reward.title) {
+            this.unlockTitle(reward.title);
+            rewardParts.push(`Titel "${reward.title}"`);
+        }
+
+        if (reward.badge) {
+            this.unlockBadge(reward.badge);
+            rewardParts.push(`Abzeichen "${reward.badge}"`);
+        }
+
+        if (reward.theme) {
+            this.unlockTheme(reward.theme);
+            rewardParts.push(`Theme "${reward.theme}"`);
+        }
+
+        if (reward.multiplier) {
+            this.applyMultiplier(reward.multiplier);
+            rewardParts.push(`${((reward.multiplier - 1) * 100).toFixed(0)}% Bonus`);
+        }
+
+        if (rewardParts.length > 0) {
+            rewardMessage += rewardParts.join(', ');
+            if (this.app.showNotification) {
+                this.app.showNotification(rewardMessage, 'success');
+            }
+        }
+    }
+
+    /**
+     * Benachrichtigung zur Queue hinzufügen
+     */
+    addNotification(achievement) {
+        this.notificationQueue.push({
+            id: achievement.id,
+            achievement: achievement,
+            timestamp: Date.now()
+        });
+
+        // Sofort anzeigen wenn Queue nicht zu lang
+        if (this.notificationQueue.length <= 3) {
+            setTimeout(() => {
+                this.showNotification(achievement);
+            }, 500);
+        }
+    }
+
+    /**
+     * Achievement-Notification anzeigen
+     */
+    showNotification(achievement) {
+        const notification = document.createElement('div');
+        notification.className = `achievement-notification rarity-${achievement.rarity}`;
+        notification.dataset.achievementId = achievement.id;
+        
+        notification.innerHTML = `
+            <div class="achievement-notification-content">
+                <div class="achievement-icon">${achievement.icon}</div>
+                <div class="achievement-text">
+                    <div class="achievement-title">Erfolg freigeschaltet!</div>
+                    <div class="achievement-name">${achievement.name}</div>
+                    <div class="achievement-points">+${achievement.points} Punkte</div>
+                </div>
+                <div class="achievement-rarity ${achievement.rarity}">${this.getRarityLabel(achievement.rarity)}</div>
+            </div>
+            <div class="achievement-notification-close">×</div>
+        `;
+
+        // CSS für Notification hinzufügen falls nicht vorhanden
+        this.ensureNotificationStyles();
+
+        // Notification hinzufügen
+        document.body.appendChild(notification);
+
+        // Animation starten
+        setTimeout(() => {
+            notification.classList.add('show');
+        }, 100);
+
+        // Auto-remove nach 5 Sekunden
+        setTimeout(() => {
+            this.removeNotification(notification);
+        }, 5000);
+
+        // Close-Button Event
+        notification.querySelector('.achievement-notification-close').addEventListener('click', () => {
+            this.removeNotification(notification);
+        });
+
+        // Sound abspielen (falls vorhanden)
+        this.playAchievementSound(achievement.rarity);
+    }
+
+    /**
+     * Notification entfernen
+     */
+    removeNotification(notification) {
+        notification.classList.add('hide');
+        setTimeout(() => {
+            if (notification.parentNode) {
+                notification.parentNode.removeChild(notification);
+            }
+        }, 300);
+    }
+
+    /**
+     * Achievement-Detail Modal anzeigen
+     */
+    showAchievementDetail(achievementId) {
+        const achievement = this.achievements[achievementId];
+        if (!achievement) return;
+
+        const modal = document.createElement('div');
+        modal.className = 'achievement-detail-modal';
+        modal.innerHTML = `
+            <div class="achievement-detail-content">
+                <div class="achievement-detail-header">
+                    <div class="achievement-large-icon">${achievement.icon}</div>
+                    <h2 class="achievement-detail-title">${achievement.name}</h2>
+                    <div class="achievement-detail-rarity ${achievement.rarity}">${this.getRarityLabel(achievement.rarity)}</div>
+                </div>
+                
+                <div class="achievement-detail-body">
+                    <p class="achievement-detail-description">${achievement.description}</p>
+                    
+                    <div class="achievement-stats">
+                        <div class="achievement-stat">
+                            <span class="stat-label">Punkte:</span>
+                            <span class="stat-value">${achievement.points}</span>
+                        </div>
+                        <div class="achievement-stat">
+                            <span class="stat-label">Kategorie:</span>
+                            <span class="stat-value">${this.getCategoryLabel(achievement.category)}</span>
+                        </div>
+                        ${this.userProgress[achievementId]?.earned ? `
+                            <div class="achievement-stat">
+                                <span class="stat-label">Erreicht am:</span>
+                                <span class="stat-value">${new Date(this.userProgress[achievementId].unlockedAt).toLocaleDateString()}</span>
+                            </div>
+                        ` : ''}
+                    </div>
+
+                    ${achievement.reward ? `
+                        <div class="achievement-rewards">
+                            <h3>Belohnungen:</h3>
+                            <div class="reward-list">
+                                ${Object.entries(achievement.reward).map(([key, value]) => `
+                                    <div class="reward-item">
+                                        <span class="reward-icon">${this.getRewardIcon(key)}</span>
+                                        <span class="reward-text">${this.getRewardText(key, value)}</span>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    ` : ''}
+                </div>
+                
+                <div class="achievement-detail-footer">
+                    <button class="btn btn--primary" onclick="this.closest('.achievement-detail-modal').remove()">
+                        Schließen
+                    </button>
+                </div>
+            </div>
+            <div class="achievement-detail-overlay" onclick="this.closest('.achievement-detail-modal').remove()"></div>
+        `;
+
+        document.body.appendChild(modal);
+        setTimeout(() => modal.classList.add('show'), 100);
+    }
+
+    /**
+     * Hilfsmethoden
+     */
+    getRarityLabel(rarity) {
+        const labels = {
+            'common': 'Häufig',
+            'uncommon': 'Ungewöhnlich', 
+            'rare': 'Selten',
+            'epic': 'Episch',
+            'legendary': 'Legendär'
+        };
+        return labels[rarity] || rarity;
+    }
+
+    getCategoryLabel(category) {
+        const labels = {
+            'pets': 'Haustiere',
+            'activity': 'Aktivität',
+            'social': 'Sozial',
+            'knowledge': 'Wissen',
+            'special': 'Speziell',
+            'completion': 'Vollendung',
+            'milestones': 'Meilensteine'
+        };
+        return labels[category] || category;
+    }
+
+    getRewardIcon(rewardType) {
+        const icons = {
+            'coins': '🪙',
+            'title': '🏷️',
+            'badge': '🎖️',
+            'theme': '🎨',
+            'multiplier': '⚡',
+            'specialFeature': '✨'
+        };
+        return icons[rewardType] || '🎁';
+    }
+
+    getRewardText(rewardType, value) {
+        switch (rewardType) {
+            case 'coins': return `${value} Münzen`;
+            case 'title': return `Titel: "${value}"`;
+            case 'badge': return `Abzeichen: ${value}`;
+            case 'theme': return `Theme: ${value}`;
+            case 'multiplier': return `${((value - 1) * 100).toFixed(0)}% Punktebonus`;
+            case 'specialFeature': return `Spezialfeature: ${value}`;
+            default: return `${rewardType}: ${value}`;
+        }
+    }
+
+    /**
+     * Daten persistieren
+     */
+    saveUserProgress() {
+        localStorage.setItem('achievementProgress', JSON.stringify(this.userProgress));
+    }
+
+    loadUserProgress() {
+        try {
+            const saved = localStorage.getItem('achievementProgress');
+            return saved ? JSON.parse(saved) : {};
+        } catch (error) {
+            console.error('Fehler beim Laden des Achievement-Progress:', error);
+            return {};
+        }
+    }
+
+    /**
+     * Statistik-Hilfsmethoden
+     */
+    getTotalActions() {
+        try {
+            const activities = JSON.parse(localStorage.getItem('userActivities') || '[]');
+            return activities.length;
+        } catch {
+            return 0;
+        }
+    }
+
+    getBlogReads() {
+        return parseInt(localStorage.getItem('blogReads') || '0');
+    }
+
+    getCompletedProfiles() {
+        try {
+            const pets = JSON.parse(localStorage.getItem('userPets') || '[]');
+            return pets.filter(pet => this.isPetProfileComplete(pet)).length;
+        } catch {
+            return 0;
+        }
+    }
+
+    isPetProfileComplete(pet) {
+        const requiredFields = ['name', 'species', 'age', 'description'];
+        return requiredFields.every(field => pet[field] && pet[field].trim().length > 0);
+    }
+
+    /**
+     * Belohnungssystem
+     */
+    addCoins(amount) {
+        const current = parseInt(localStorage.getItem('userCoins') || '0');
+        localStorage.setItem('userCoins', (current + amount).toString());
+    }
+
+    unlockTitle(title) {
+        const titles = JSON.parse(localStorage.getItem('unlockedTitles') || '[]');
+        if (!titles.includes(title)) {
+            titles.push(title);
+            localStorage.setItem('unlockedTitles', JSON.stringify(titles));
+        }
+    }
+
+    unlockBadge(badge) {
+        const badges = JSON.parse(localStorage.getItem('unlockedBadges') || '[]');
+        if (!badges.includes(badge)) {
+            badges.push(badge);
+            localStorage.setItem('unlockedBadges', JSON.stringify(badges));
+        }
+    }
+
+    unlockTheme(theme) {
+        const themes = JSON.parse(localStorage.getItem('unlockedThemes') || '[]');
+        if (!themes.includes(theme)) {
+            themes.push(theme);
+            localStorage.setItem('unlockedThemes', JSON.stringify(themes));
+        }
+    }
+
+    applyMultiplier(multiplier) {
+        localStorage.setItem('pointsMultiplier', multiplier.toString());
+    }
+
+    playAchievementSound(rarity) {
+        // Sound-Effekte basierend auf Seltenheit
+        if (typeof Audio !== 'undefined') {
+            const sounds = {
+                'common': 'sounds/achievement-common.mp3',
+                'uncommon': 'sounds/achievement-uncommon.mp3', 
+                'rare': 'sounds/achievement-rare.mp3',
+                'epic': 'sounds/achievement-epic.mp3',
+                'legendary': 'sounds/achievement-legendary.mp3'
+            };
+            
+            const sound = new Audio(sounds[rarity] || sounds['common']);
+            sound.volume = 0.3;
+            sound.play().catch(e => console.log('Sound konnte nicht abgespielt werden'));
+        }
+    }
+
+    /**
+     * CSS für Notifications sicherstellen
+     */
+    ensureNotificationStyles() {
+        if (document.getElementById('achievement-notification-styles')) return;
+
+        const style = document.createElement('style');
+        style.id = 'achievement-notification-styles';
+        style.textContent = `
+            .achievement-notification {
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: var(--glass-bg);
+                backdrop-filter: var(--glass-backdrop);
+                border: 2px solid var(--color-primary);
+                border-radius: 12px;
+                padding: 16px;
+                min-width: 300px;
+                z-index: 10000;
+                transform: translateX(400px);
+                transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            }
+
+            .achievement-notification.show {
+                transform: translateX(0);
+            }
+
+            .achievement-notification.hide {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+
+            .achievement-notification-content {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+            }
+
+            .achievement-notification .achievement-icon {
+                font-size: 2rem;
+                background: var(--color-primary);
+                color: white;
+                width: 48px;
+                height: 48px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .achievement-text {
+                flex: 1;
+            }
+
+            .achievement-title {
+                font-size: 0.8rem;
+                text-transform: uppercase;
+                color: var(--color-primary);
+                font-weight: 600;
+                margin-bottom: 2px;
+            }
+
+            .achievement-name {
+                font-size: 1rem;
+                font-weight: 600;
+                color: var(--color-text);
+                margin-bottom: 2px;
+            }
+
+            .achievement-points {
+                font-size: 0.9rem;
+                color: var(--color-text-secondary);
+            }
+
+            .achievement-rarity {
+                font-size: 0.7rem;
+                padding: 2px 6px;
+                border-radius: 4px;
+                font-weight: 600;
+                text-transform: uppercase;
+            }
+
+            .achievement-rarity.common { background: #6b7280; color: white; }
+            .achievement-rarity.uncommon { background: #10b981; color: white; }
+            .achievement-rarity.rare { background: #3b82f6; color: white; }
+            .achievement-rarity.epic { background: #8b5cf6; color: white; }
+            .achievement-rarity.legendary { background: #f59e0b; color: white; }
+
+            .achievement-notification-close {
+                position: absolute;
+                top: 8px;
+                right: 12px;
+                cursor: pointer;
+                color: var(--color-text-secondary);
+                font-size: 1.2rem;
+                line-height: 1;
+            }
+
+            .achievement-notification-close:hover {
+                color: var(--color-text);
+            }
+
+            /* Mehrere Notifications stapeln */
+            .achievement-notification:nth-child(2) { top: 120px; }
+            .achievement-notification:nth-child(3) { top: 220px; }
+        `;
+        document.head.appendChild(style);
+    }
+
+    /**
+     * Public API - Manuell Erfolge prüfen
+     */
+    async checkAndUpdate() {
+        return await this.checkAchievements();
+    }
+
+    /**
+     * Erfolgs-Übersicht für Dashboard
+     */
+    getAchievementSummary() {
+        const earned = Object.keys(this.userProgress).filter(id => this.userProgress[id].earned).length;
+        const total = Object.keys(this.achievements).length;
+        const totalPoints = Object.values(this.userProgress)
+            .filter(progress => progress.earned)
+            .reduce((sum, progress) => {
+                const achievement = this.achievements[Object.keys(this.userProgress).find(id => this.userProgress[id] === progress)];
+                return sum + (achievement?.points || 0);
+            }, 0);
+
+        return {
+            earned,
+            total,
+            totalPoints,
+            completionRate: Math.round((earned / total) * 100)
+        };
     }
 }
 
@@ -1113,6 +2053,11 @@ cleanup() {
     this.authManager.on('onLogin', (user) => {
             console.log('✅ Benutzer angemeldet:', user.email);
             this.showNotification(`Willkommen zurück, ${this.authManager.getUserDisplayName()}!`, 'success');
+            // Login Action tracken
+    this.trackAction('login', {
+        userId: user.id,
+        method: 'standard'
+    });
             });
     
     // AUTH-STATUS-CALLBACKS MIT NAVIGATION-UPDATES
@@ -1149,6 +2094,13 @@ cleanup() {
         
         // Dashboard Manager initialisieren
         this.initializeDashboard();
+
+        // Achievement System Erfolge prüfen nach Login
+        setTimeout(() => {
+            if (this.dashboardManager?.achievementSystem) {
+                this.dashboardManager.achievementSystem.checkAndUpdate();
+            }
+        }, 1000);
         
         // User-Navigation aktualisieren
         this.updateUserNavigation(user);
@@ -1174,6 +2126,99 @@ cleanup() {
         this.dashboardManager.updateLoginStreak();
     }
 }
+
+/**
+     * Action-Tracking für Achievements und Analytics
+     */
+    trackAction(actionType, details = {}) {
+        console.log(`📊 Aktion getrackt: ${actionType}`, details);
+        
+        // Achievement System benachrichtigen
+        if (this.dashboardManager?.achievementSystem) {
+            setTimeout(() => {
+                this.dashboardManager.achievementSystem.checkAndUpdate();
+            }, 500);
+        }
+        
+        // Aktivität zum Dashboard hinzufügen
+        if (this.dashboardManager) {
+            this.dashboardManager.addActivity({
+                title: this.getActionTitle(actionType),
+                icon: this.getActionIcon(actionType),
+                timestamp: Date.now(),
+                details: details
+            });
+        }
+        
+        // Analytics tracking (falls vorhanden)
+        if (typeof gtag !== 'undefined') {
+            gtag('event', actionType, {
+                event_category: 'user_actions',
+                event_label: details.label || actionType,
+                value: details.value || 1
+            });
+        }
+        
+        // Lokale Statistiken aktualisieren
+        this.updateLocalStats(actionType, details);
+    }
+
+    /**
+     * Titel für getrackte Aktionen
+     */
+    getActionTitle(actionType) {
+        const titles = {
+            'pet_added': 'Haustier hinzugefügt',
+            'favorite_added': 'Zu Favoriten hinzugefügt',
+            'blog_read': 'Blog-Artikel gelesen',
+            'species_viewed': 'Tierart angeschaut',
+            'comparison_made': 'Vergleich durchgeführt',
+            'tool_used': 'Tool verwendet',
+            'profile_updated': 'Profil aktualisiert',
+            'login': 'Angemeldet',
+            'navigation': 'Navigation verwendet'
+        };
+        return titles[actionType] || `Aktion: ${actionType}`;
+    }
+
+    /**
+     * Icons für getrackte Aktionen
+     */
+    getActionIcon(actionType) {
+        const icons = {
+            'pet_added': '🐾',
+            'favorite_added': '❤️',
+            'blog_read': '📖',
+            'species_viewed': '👁️',
+            'comparison_made': '⚖️',
+            'tool_used': '🛠️',
+            'profile_updated': '👤',
+            'login': '🔐',
+            'navigation': '🧭'
+        };
+        return icons[actionType] || '📌';
+    }
+
+    /**
+     * Lokale Statistiken aktualisieren
+     */
+    updateLocalStats(actionType, details) {
+        try {
+            const stats = JSON.parse(localStorage.getItem('userActionStats') || '{}');
+            
+            if (!stats[actionType]) {
+                stats[actionType] = 0;
+            }
+            stats[actionType]++;
+            
+            // Gesamtaktionen für Achievement System
+            stats.totalActions = Object.values(stats).reduce((sum, count) => sum + count, 0);
+            
+            localStorage.setItem('userActionStats', JSON.stringify(stats));
+        } catch (error) {
+            console.error('Fehler beim Aktualisieren der lokalen Stats:', error);
+        }
+    }
 
 /**
  * Auth-Bereich anzeigen
@@ -2804,6 +3849,12 @@ handleNavigation(catId, linkEl) {
 
     // Zuerst alle Hauptsektionen ausblenden
     this.hideAllSections();
+
+    // Action tracken
+    this.trackAction('navigation', {
+        category: catId,
+        source: linkEl?.className || 'direct'
+    });
 
     // Die korrekte Sektion basierend auf der 'data-category' (catId) anzeigen
     switch (catId) {
@@ -5502,6 +6553,11 @@ showFavoritesModal() {
     // FAVORITEN-SYSTEM METHODEN
 
 toggleFavorite(speciesId) {
+    // Action tracken
+    this.trackAction('favorite_added', {
+        itemId: itemId,
+        itemType: itemType
+    });
     // Schritt 1: Prüfen, ob das Tier bereits ein Favorit ist
     if (this.favorites.has(speciesId)) {
         // Fall 1: Ja, es ist ein Favorit -> Entfernen
@@ -5984,6 +7040,11 @@ setHeroVisible(visible) {
     }
     // =============== BLOG-METHODEN ===============
   showBlogDetail(blogId) {
+    // Action tracken
+    this.trackAction('blog_read', {
+        blogId: blogId,
+        category: 'blog'
+    });
     const post = this.blogData.find(p => p.id === blogId);
     if (!post || !this.blogDetailSection) return;
     

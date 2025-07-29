@@ -7906,6 +7906,7 @@
 <!-- User Dashboard Section -->
 <section id="user-dashboard-section" class="section user-dashboard-section" style="display: none;">
     <div class="container">
+        <!-- Dashboard Header -->
         <div class="dashboard-header">
             <div class="dashboard-welcome">
                 <h1 class="dashboard-title">
@@ -7926,6 +7927,7 @@
 
         <!-- Dashboard Stats Cards -->
         <div class="dashboard-stats">
+            <!-- Haustiere Stats -->
             <div class="stat-card stat-card--pets">
                 <div class="stat-card__icon">🐾</div>
                 <div class="stat-card__content">
@@ -7935,6 +7937,7 @@
                 <div class="stat-card__trend" id="stats-pets-trend"></div>
             </div>
 
+            <!-- Favoriten Stats -->
             <div class="stat-card stat-card--favorites">
                 <div class="stat-card__icon">❤️</div>
                 <div class="stat-card__content">
@@ -7944,6 +7947,7 @@
                 <div class="stat-card__trend" id="stats-favorites-trend"></div>
             </div>
 
+            <!-- Aktivität Stats -->
             <div class="stat-card stat-card--activity">
                 <div class="stat-card__icon">📊</div>
                 <div class="stat-card__content">
@@ -7953,6 +7957,7 @@
                 <div class="stat-card__trend" id="stats-activity-trend"></div>
             </div>
 
+            <!-- Login Streak Stats -->
             <div class="stat-card stat-card--streak">
                 <div class="stat-card__icon">🔥</div>
                 <div class="stat-card__content">
@@ -7961,16 +7966,24 @@
                 </div>
                 <div class="stat-card__trend" id="stats-streak-trend"></div>
             </div>
+
+            <!-- Achievement Stats -->
+            <div class="stat-card stat-card--achievements">
+                <div class="stat-card__icon">🏆</div>
+                <div class="stat-card__content">
+                    <div class="stat-card__number" id="stats-achievements-count">0</div>
+                    <div class="stat-card__label">Erfolge</div>
+                </div>
+                <div class="stat-card__trend" id="stats-achievements-trend"></div>
+            </div>
         </div>
 
         <!-- Dashboard Main Content -->
         <div class="dashboard-main">
-            <!-- Quick Actions -->
+            <!-- Quick Actions Widget -->
             <div class="dashboard-widget quick-actions-widget">
                 <div class="widget-header">
-                    <h3 class="widget-title">
-                        ⚡ Schnellaktionen
-                    </h3>
+                    <h3 class="widget-title">⚡ Schnellaktionen</h3>
                 </div>
                 <div class="widget-content">
                     <div class="quick-actions-grid">
@@ -8002,12 +8015,63 @@
                 </div>
             </div>
 
-            <!-- Recent Pets -->
+            <!-- Achievement Widget -->
+            <div class="dashboard-widget achievements-widget">
+                <div class="widget-header">
+                    <h3 class="widget-title">🏆 Deine Erfolge</h3>
+                    <button class="widget-action-btn" id="view-all-achievements-btn">
+                        Alle anzeigen →
+                    </button>
+                </div>
+                <div class="widget-content">
+                    <!-- Progress Overview -->
+                    <div class="achievement-overview">
+                        <div class="achievement-progress-container">
+                            <div class="achievement-progress-bar" id="achievement-progress-bar"></div>
+                            <div class="achievement-progress-text">
+                                <span id="achievement-earned-count">0</span>/<span id="achievement-total-count">0</span> freigeschaltet
+                            </div>
+                        </div>
+                        <div class="achievement-points">
+                            <span id="achievement-total-points">0</span> Gesamtpunkte
+                        </div>
+                    </div>
+
+                    <!-- Recent Achievements -->
+                    <div id="recent-achievements" class="recent-achievements">
+                        <!-- Wird dynamisch befüllt -->
+                        <div class="achievement-placeholder">
+                            <div class="placeholder-icon">🏆</div>
+                            <p>Noch keine Erfolge freigeschaltet</p>
+                            <p class="placeholder-hint">Füge dein erstes Haustier hinzu!</p>
+                        </div>
+                    </div>
+
+                    <!-- Achievement Categories -->
+                    <div class="achievement-categories">
+                        <div class="category-item" data-category="pets">
+                            <span class="category-icon">🐾</span>
+                            <span class="category-name">Haustiere</span>
+                            <span class="category-count" id="pets-achievement-count">0/3</span>
+                        </div>
+                        <div class="category-item" data-category="activity">
+                            <span class="category-icon">🔥</span>
+                            <span class="category-name">Aktivität</span>
+                            <span class="category-count" id="activity-achievement-count">0/3</span>
+                        </div>
+                        <div class="category-item" data-category="social">
+                            <span class="category-icon">❤️</span>
+                            <span class="category-name">Sozial</span>
+                            <span class="category-count" id="social-achievement-count">0/2</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Pets Widget -->
             <div class="dashboard-widget recent-pets-widget">
                 <div class="widget-header">
-                    <h3 class="widget-title">
-                        🐾 Deine Haustiere
-                    </h3>
+                    <h3 class="widget-title">🐾 Deine Haustiere</h3>
                     <button class="widget-action-btn" id="view-all-pets-btn">
                         Alle anzeigen →
                     </button>
@@ -8026,12 +8090,10 @@
                 </div>
             </div>
 
-            <!-- Recent Activity -->
+            <!-- Recent Activity Widget -->
             <div class="dashboard-widget activity-widget">
                 <div class="widget-header">
-                    <h3 class="widget-title">
-                        📈 Letzte Aktivitäten
-                    </h3>
+                    <h3 class="widget-title">📈 Letzte Aktivitäten</h3>
                     <button class="widget-action-btn" id="clear-activity-btn">
                         Leeren
                     </button>
@@ -8047,12 +8109,10 @@
                 </div>
             </div>
 
-            <!-- Recommendations -->
+            <!-- Recommendations Widget -->
             <div class="dashboard-widget recommendations-widget">
                 <div class="widget-header">
-                    <h3 class="widget-title">
-                        💡 Empfehlungen für dich
-                    </h3>
+                    <h3 class="widget-title">💡 Empfehlungen für dich</h3>
                     <button class="widget-action-btn" id="refresh-recommendations-btn">
                         🔄
                     </button>
@@ -8060,6 +8120,10 @@
                 <div class="widget-content">
                     <div id="dashboard-recommendations" class="recommendations-list">
                         <!-- Wird dynamisch befüllt -->
+                        <div class="activity-placeholder">
+                            <div class="placeholder-icon">💡</div>
+                            <p>Keine Empfehlungen verfügbar</p>
+                        </div>
                     </div>
                 </div>
             </div>
