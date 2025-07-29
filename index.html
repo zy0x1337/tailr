@@ -1365,244 +1365,83 @@
 </section>
 <!-- Ende: Tier-Kategorien Section -->
 
-        <!-- ========================================
-     ERWEITERTE TIER-VERGLEICHSFUNKTION - SEO OPTIMIERT
-     ======================================== -->
-<!-- Interactive comparison tool für Haustierarten mit SEO und Accessibility -->
-<section class="comparison-section" 
-         id="comparison-section" 
-         style="display: none;"
-         role="region" 
-         aria-labelledby="comparison-title"
-         itemscope 
-         itemtype="https://schema.org/SoftwareApplication">
-    
+        <!-- ERWEITERTE VERGLEICHSFUNKTION -->
+<section class="comparison-section" id="comparison-section" style="display: none;">
     <div class="container">
+        <h2 class="section__title">Tier-Vergleich</h2>
         
-        <!-- ========================================
-             SECTION TITLE - SEO OPTIMIERT
-             ======================================== -->
-        <!-- H2 für hierarchische SEO-Struktur -->
-        <h2 class="section__title" 
-            id="comparison-title"
-            itemprop="name">
-            Tier-Vergleich - Haustierarten interaktiv vergleichen
-        </h2>
-        
-        <!-- ========================================
-             SECTION DESCRIPTION (SEO-ERGÄNZUNG)
-             ======================================== -->
-        <!-- SEO-Description für bessere Kategorisierung -->
-        <p class="section__description" 
-           itemprop="description"
-           aria-describedby="comparison-title">
-            Vergleichen Sie verschiedene Haustierarten direkt miteinander. 
-            Pflegeaufwand, Kosten, Platzbedarf und Charaktereigenschaften auf einen Blick.
-        </p>
-        
-        <!-- ========================================
-             VERGLEICHSAUSWAHL - ANIMAL SELECTION
-             ======================================== -->
-        <!-- Interactive selection area für Tierauswahl -->
-        <div class="comparison-selector" 
-             role="group" 
-             aria-labelledby="selector-title">
-            
-            <!-- Selector Title (Screen Reader Only) -->
-            <h3 class="sr-only" id="selector-title">
-                Tiere für Vergleich auswählen
-            </h3>
-            
-            <!-- ========================================
-                 COMPARISON SLOTS
-                 ======================================== -->
-            <!-- Container für Tier-Auswahl Slots -->
-            <div class="comparison-slots" 
-                 role="group" 
-                 aria-label="Tierauswahl-Bereiche"
-                 aria-describedby="slots-description">
-                
-                <!-- Hidden description für Screen Reader -->
-                <div class="sr-only" id="slots-description">
-                    Wählen Sie bis zu 3 verschiedene Haustierarten zum Vergleichen aus. 
-                    Mindestens 2 Tiere sind für einen Vergleich erforderlich.
-                </div>
-                
-                <!-- ========================================
-                     COMPARISON SLOT 1 - REQUIRED
-                     ======================================== -->
-                <!-- Erster Vergleichsslot (Pflichtfeld) -->
-                <div class="comparison-slot" 
-                     id="slot-1"
-                     role="button"
-                     tabindex="0"
-                     aria-labelledby="slot-1-label"
-                     aria-describedby="slot-1-desc"
-                     aria-pressed="false"
-                     data-slot="1">
-                    
+        <!-- Vergleichsauswahl -->
+        <div class="comparison-selector">
+            <div class="comparison-slots">
+                <div class="comparison-slot" id="slot-1">
                     <div class="slot-placeholder">
-                        <!-- Slot Icon -->
-                        <span class="slot-icon" 
-                              aria-hidden="true" 
-                              role="presentation">🐾</span>
-                        
-                        <!-- Slot Label -->
-                        <span class="slot-text" 
-                              id="slot-1-label">
-                            Tier 1 auswählen
-                        </span>
-                        
-                        <!-- Slot Description -->
-                        <span class="sr-only" id="slot-1-desc">
-                            Erstes Haustier für Vergleich auswählen. Pflichtfeld.
-                        </span>
-                        
-                        <!-- Selection Button -->
-                        <button class="slot-select-btn" 
-                                data-slot="1"
-                                type="button"
-                                aria-label="Erstes Tier für Vergleich auswählen"
-                                title="Tierart 1 aus Liste wählen">
-                            Auswählen
-                        </button>
+                        <span class="slot-icon">🐾</span>
+                        <span class="slot-text">Tier 1 auswählen</span>
+                        <button class="slot-select-btn" data-slot="1">Auswählen</button>
                     </div>
                 </div>
                 
-                <!-- ========================================
-                     COMPARISON SLOT 2 - REQUIRED
-                     ======================================== -->
-                <!-- Zweiter Vergleichsslot (Pflichtfeld) -->
-                <div class="comparison-slot" 
-                     id="slot-2"
-                     role="button"
-                     tabindex="0"
-                     aria-labelledby="slot-2-label"
-                     aria-describedby="slot-2-desc"
-                     aria-pressed="false"
-                     data-slot="2">
-                    
+                <div class="comparison-slot" id="slot-2">
                     <div class="slot-placeholder">
-                        <span class="slot-icon" 
-                              aria-hidden="true" 
-                              role="presentation">🐾</span>
-                        
-                        <span class="slot-text" 
-                              id="slot-2-label">
-                            Tier 2 auswählen
-                        </span>
-                        
-                        <span class="sr-only" id="slot-2-desc">
-                            Zweites Haustier für Vergleich auswählen. Pflichtfeld.
-                        </span>
-                        
-                        <button class="slot-select-btn" 
-                                data-slot="2"
-                                type="button"
-                                aria-label="Zweites Tier für Vergleich auswählen"
-                                title="Tierart 2 aus Liste wählen">
-                            Auswählen
-                        </button>
+                        <span class="slot-icon">🐾</span>
+                        <span class="slot-text">Tier 2 auswählen</span>
+                        <button class="slot-select-btn" data-slot="2">Auswählen</button>
                     </div>
                 </div>
                 
-                <!-- ========================================
-                     COMPARISON SLOT 3 - OPTIONAL
-                     ======================================== -->
-                <!-- Dritter Vergleichsslot (Optional) -->
-                <div class="comparison-slot" 
-                     id="slot-3"
-                     role="button"
-                     tabindex="0"
-                     aria-labelledby="slot-3-label"
-                     aria-describedby="slot-3-desc"
-                     aria-pressed="false"
-                     data-slot="3">
-                    
+                <div class="comparison-slot" id="slot-3">
                     <div class="slot-placeholder">
-                        <span class="slot-icon" 
-                              aria-hidden="true" 
-                              role="presentation">🐾</span>
-                        
-                        <span class="slot-text" 
-                              id="slot-3-label">
-                            Tier 3 auswählen (optional)
-                        </span>
-                        
-                        <span class="sr-only" id="slot-3-desc">
-                            Drittes Haustier für erweiterten Vergleich auswählen. Optional.
-                        </span>
-                        
-                        <button class="slot-select-btn" 
-                                data-slot="3"
-                                type="button"
-                                aria-label="Drittes Tier für erweiterten Vergleich auswählen"
-                                title="Optionale Tierart 3 aus Liste wählen">
-                            Auswählen
-                        </button>
+                        <span class="slot-icon">🐾</span>
+                        <span class="slot-text">Tier 3 auswählen (optional)</span>
+                        <button class="slot-select-btn" data-slot="3">Auswählen</button>
                     </div>
-                </div>
-                
-            </div>
-            <!-- Ende: Comparison Slots -->
-            
-            <!-- ========================================
-                 COMPARISON ACTIONS - CONTROL BUTTONS
-                 ======================================== -->
-            <!-- Action buttons für Vergleichssteuerung -->
-            <div class="comparison-actions" 
-                 role="group" 
-                 aria-label="Vergleichs-Aktionen"
-                 aria-describedby="actions-description">
-                
-                <!-- Actions Description (Screen Reader Only) -->
-                <div class="sr-only" id="actions-description">
-                    Aktionen zum Zurücksetzen des Vergleichs oder Exportieren der Ergebnisse
-                </div>
-                
-                <!-- Reset Button -->
-                <button class="btn btn--secondary" 
-                        id="clear-comparison"
-                        type="button"
-                        aria-label="Tiervergleich zurücksetzen und neu beginnen"
-                        title="Alle ausgewählten Tiere entfernen und neu starten">
-                    Vergleich zurücksetzen
-                </button>
-                
-                <!-- PDF Export Button -->
-                <button class="btn btn--primary" 
-                        id="export-comparison" 
-                        disabled
-                        type="button"
-                        aria-label="Vergleichsergebnis als PDF-Datei exportieren"
-                        title="Detaillierte Vergleichstabelle als PDF herunterladen"
-                        aria-describedby="export-pdf-desc">
-                    Als PDF exportieren
-                </button>
-                
-                <!-- Image Export Button -->
-                <button class="btn btn--primary" 
-                        id="export-image" 
-                        disabled
-                        type="button"
-                        aria-label="Vergleichsdiagramm als Bild exportieren"
-                        title="Radar-Chart und Tabelle als PNG-Bild speichern"
-                        aria-describedby="export-image-desc">
-                    Als Bild exportieren
-                </button>
-                
-                <!-- Export Descriptions (Screen Reader Only) -->
-                <div class="sr-only" id="export-pdf-desc">
-                    Verfügbar nach Auswahl von mindestens 2 Tieren
-                </div>
-                <div class="sr-only" id="export-image-desc">
-                    Verfügbar nach Auswahl von mindestens 2 Tieren
                 </div>
             </div>
-            <!-- Ende: Comparison Actions -->
             
+            <div class="comparison-actions">
+                <button class="btn btn--secondary" id="clear-comparison">Vergleich zurücksetzen</button>
+                <button class="btn btn--primary" id="export-comparison" disabled>Als PDF exportieren</button>
+                <button class="btn btn--primary" id="export-image" disabled>Als Bild exportieren</button>
+            </div>
         </div>
-        <!-- Ende: Comparison Selector -->
+        
+        <!-- Radar Chart Container -->
+        <div class="radar-chart-container" id="radar-chart-container" style="display: none;">
+            <canvas id="radar-chart" width="600" height="400"></canvas>
+        </div>
+        
+        <!-- Detaillierte Vergleichstabelle -->
+        <div class="comparison-table-container" id="comparison-table-container" style="display: none;">
+            <table class="comparison-table" id="comparison-table">
+                <thead>
+                    <tr id="comparison-header">
+                        <th>Eigenschaft</th>
+                    </tr>
+                </thead>
+                <tbody id="comparison-body">
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<!-- Tier-Auswahl Modal -->
+<div id="animal-selection-modal" class="modal hidden">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 class="modal-title">Tier auswählen</h2>
+            <button class="modal-close" id="selection-modal-close">×</button>
+        </div>
+        <div class="modal-body">
+            <div class="animal-search">
+                <input type="text" id="animal-search-input" placeholder="Tierart suchen...">
+            </div>
+            <div class="animal-grid" id="animal-selection-grid">
+                <!-- Wird dynamisch gefüllt -->
+            </div>
+        </div>
+    </div>
+</div>
         
         <!-- ========================================
              RADAR CHART CONTAINER
