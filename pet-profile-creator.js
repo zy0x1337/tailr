@@ -661,32 +661,32 @@ class PetProfileCreator {
   /** Sammelt alle Daten und sendet POST mit UserID Query (vermeidet 401) */
   async handleSubmit(event) {
   event.preventDefault();
-  if(this.isSubmitting) return;
+  if (this.isSubmitting) return;
 
   this.clearErrors();
 
-  // Validierung aller Schritte vor Absendung
-  for(let i = 0; i < this.totalSteps; i++) {
-    if(!this.validateStep(i)) {
+  // Validierung aller Schritte vor dem Absenden
+  for (let i = 0; i < this.totalSteps; i++) {
+    if (!this.validateStep(i)) {
       this.showError(`Bitte füllen Sie alle erforderlichen Felder in Schritt ${i + 1} aus.`);
       this.changeStep(i);
       return;
     }
   }
 
-  // userId aus app.authManager holen
+  // userId aus authManager holen
   const userId = this.app?.authManager?.getCurrentUserId?.();
-  if(!userId) {
+  if (!userId) {
     this.showError("Bitte zuerst einloggen.");
     this.app?.showAuthModal?.();
     return;
   }
 
-  // Formulardaten sammeln, trim nur für Strings, Files ignorieren oder speziell behandeln
+  // Formulardaten sammeln (ohne File-Objekte), trimmen nur bei Strings
   const formData = new FormData(this.form);
   const data = {};
   formData.forEach((value, key) => {
-    if (!(value instanceof File)) { // keine Dateien ins JSON packen
+    if (!(value instanceof File)) { // Datei nicht via JSON senden
       data[key] = typeof value === 'string' ? value.trim() : value;
     }
   });
@@ -696,34 +696,24 @@ class PetProfileCreator {
 
   try {
     const url = `/api/add-pet-profile?userId=${encodeURIComponent(userId)}`;
-    const response = await fetch(url, {
+
+    // apiCall mit skipAuth:true, damit kein Authorization-Header gesetzt wird
+    const result = await this.app.authManager.apiCall(url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
+      body: JSON.stringify(data),
+      skipAuth: true
     });
 
-    if (response.status === 401) {
-      this.showError("Nicht authentifiziert oder Session abgelaufen. Bitte erneut anmelden.");
-      this.app?.showAuthModal?.();
-      this.isSubmitting = false;
-      return;
-    }
-
-    if (!response.ok) {
-      const err = await response.json().catch(() => ({}));
-      this.showError(err.error || "Fehler beim Speichern.");
-      this.isSubmitting = false;
-      return;
-    }
-
-    const result = await response.json();
-
     this.showStatus('Profil erfolgreich gespeichert!', 'success');
+
+    // Formular zurücksetzen (oder andere UI-Updates)
     this.resetForm();
 
-  } catch(error) {
-    this.showError("Netzwerkfehler oder Server nicht erreichbar.");
-    console.error('Fehler bei handleSubmit:', error);
+  } catch (error) {
+    // Fehler sauber anzeigen
+    this.showError("Fehler beim Speichern: " + (error.message || error.toString()));
+    console.error("Fehler bei handleSubmit mit apiCall:", error);
   } finally {
     this.isSubmitting = false;
   }
