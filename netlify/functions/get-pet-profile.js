@@ -2,13 +2,14 @@ const jwt = require('jsonwebtoken');
 const jwksClient = require('jwks-rsa');
 const { Client } = require('pg');
 
-const auth0Domain = 'dev-3pzadwjqsq4lnchu.eu.auth0.com'; // Auth0 Domain anpassen
+const auth0Domain = 'dev-3pzadwjqsq4lnchu.eu.auth0.com'; // Passe ggf. an
 const audience = 'https://tailr.netlify.app/api';
 
 const clientJWKS = jwksClient({
   jwksUri: `https://${auth0Domain}/.well-known/jwks.json`
 });
 
+// Hilfsfunktion für Key-Resolver im JWT-Check
 function getKey(header, callback) {
   clientJWKS.getSigningKey(header.kid, function (err, key) {
     if (err) {
@@ -21,6 +22,20 @@ function getKey(header, callback) {
 }
 
 exports.handler = async function(event) {
+  // Log-Eintrag für Diagnose
+  console.log("Received event:", JSON.stringify(event, null, 2));
+
+  // Versuche, die Profil-ID aus pathParameters zu lesen
+  let profileId = event.pathParameters?.id;
+
+  // Fallback: Falls pathParameters undefined oder leer, parse aus URL
+  if (!profileId && event.rawUrl) {
+    const parts = event.rawUrl.split('/');
+    profileId = parts[parts.length - 1] || null;
+    console.log("Fallback: parsed profileId from rawUrl:", profileId);
+  }
+
+  // Methodensicherung: nur GET erlaubt
   if (event.httpMethod !== 'GET') {
     return {
       statusCode: 405,
@@ -29,11 +44,9 @@ exports.handler = async function(event) {
     };
   }
 
-  console.log("Received event:", JSON.stringify(event, null, 2));
-  const profileId = event.pathParameters?.id;
-  console.log("Extracted profileId:", profileId);
-
+  // Prüfe, ob Profil-ID vorhanden ist
   if (!profileId) {
+    console.error('Fehler: Profil-ID fehlt');
     return {
       statusCode: 400,
       body: JSON.stringify({ error: 'Profil-ID fehlt' }),
@@ -41,10 +54,12 @@ exports.handler = async function(event) {
     };
   }
 
+  // Token aus Authorization Header auslesen
   const authHeader = event.headers.authorization || '';
   const token = authHeader.split(' ')[1];
 
   if (!token) {
+    console.error('Kein Token im Authorization Header gefunden');
     return {
       statusCode: 401,
       body: JSON.stringify({ error: 'Kein Token im Authorization Header gefunden' }),
@@ -52,6 +67,7 @@ exports.handler = async function(event) {
     };
   }
 
+  // JWT Token validieren
   let decoded;
   try {
     decoded = await new Promise((resolve, reject) => {
@@ -65,6 +81,7 @@ exports.handler = async function(event) {
       });
     });
   } catch (err) {
+    console.error('Token ungültig oder nicht autorisiert:', err.message);
     return {
       statusCode: 401,
       body: JSON.stringify({ error: 'Token ungültig oder nicht autorisiert', detail: err.message }),
@@ -78,7 +95,7 @@ exports.handler = async function(event) {
   try {
     await client.connect();
 
-    // Profilabfrage
+    // Profil aus DB laden, aliasing um konsistente Feldnamen zu liefern
     const query = `
       SELECT
         id, pet_name AS "petName", species, breed, gender,
@@ -94,10 +111,10 @@ exports.handler = async function(event) {
     `;
 
     const result = await client.query(query, [profileId]);
-
     await client.end();
 
     if (result.rowCount === 0) {
+      console.warn(`Profil mit ID ${profileId} nicht gefunden`);
       return {
         statusCode: 404,
         body: JSON.stringify({ error: 'Profil nicht gefunden' }),
@@ -107,23 +124,29 @@ exports.handler = async function(event) {
 
     const profile = result.rows[0];
 
-    // Prüfung der Pflichtfelder (Tiername, Tierart, Besitzername, Besitzer E-Mail)
+    // Pflichtfelder prüfen (Tiername, Tierart, Besitzername, Besitzer-E-Mail)
     if (
-      !profile.petName || profile.petName.trim() === '' ||
-      !profile.species || profile.species.trim() === '' ||
-      !profile.ownerName || profile.ownerName.trim() === '' ||
-      !profile.ownerEmail || profile.ownerEmail.trim() === ''
+      !profile.petName || !profile.petName.trim() ||
+      !profile.species || !profile.species.trim() ||
+      !profile.ownerName || !profile.ownerName.trim() ||
+      !profile.ownerEmail || !profile.ownerEmail.trim()
     ) {
+      console.warn('Pflichtfelder unvollständig:', {
+        petName: profile.petName,
+        species: profile.species,
+        ownerName: profile.ownerName,
+        ownerEmail: profile.ownerEmail
+      });
       return {
         statusCode: 400,
-        body: JSON.stringify({ 
-          error: 'Pflichtfelder fehlen: Tiername, Tierart, Besitzer Name und E-Mail müssen ausgefüllt sein.' 
+        body: JSON.stringify({
+          error: 'Pflichtfelder fehlen: Tiername, Tierart, Besitzer Name und E-Mail müssen ausgefüllt sein.'
         }),
         headers: { 'Content-Type': 'application/json' }
       };
     }
 
-    // Optional: Zugriffsbeschränkung - nur Besitzer oder Admin darf Profil sehen
+    // Optional: Prüfe, ob der requesting User Besitzer ist (oder optional Admin)
     if (profile.ownerUserId !== userId) {
       return {
         statusCode: 403,
@@ -132,19 +155,22 @@ exports.handler = async function(event) {
       };
     }
 
+    // Erfolgreiche Antwort mit Profildaten
     return {
       statusCode: 200,
       body: JSON.stringify(profile),
       headers: {
         'Content-Type': 'application/json',
+        // CORS Header falls nötig
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Credentials': 'true'
       }
     };
 
   } catch (error) {
+    // DB Client Cleanup und Logging
     if (client) await client.end();
-    console.error('Fehler in get-pet-profile:', error);
+    console.error('Serverfehler in get-pet-profile:', error);
     return {
       statusCode: 500,
       body: JSON.stringify({ error: 'Server-Fehler: ' + error.message }),
