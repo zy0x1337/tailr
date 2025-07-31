@@ -2595,26 +2595,31 @@ updateActiveNavigation(activeCategory) {
   emptyState.style.display = 'none';
 
   try {
-    // Hole User-ID aus AuthManager (oder ähnlichem)
+    // User-ID aus AuthManager holen
     const userId = this.authManager?.getCurrentUserId();
     if (!userId) {
       throw new Error('Benutzer nicht eingeloggt');
     }
 
-    const response = await fetch(`/.netlify/functions/get-pet-profiles?userId=${encodeURIComponent(userId)}`);
-    if (!response.ok) throw new Error(`Server antwortet mit Status ${response.status}`);
+    // Fetch: Netlify Function abfragen und UserID mitgeben
+    const response = await fetch(`/.netlify/functions/get-pet-profiles?userId=${encodeURIComponent(userId)}`, {
+      credentials: 'include'  // falls Cookies/Sessions genutzt werden
+    });
+
+    if (!response.ok) {
+      throw new Error(`Server antwortet mit Status ${response.status}`);
+    }
 
     const profiles = await response.json();
 
     grid.innerHTML = '';
-    if (profiles.length === 0) {
+    if (!Array.isArray(profiles) || profiles.length === 0) {
       emptyState.style.display = 'block';
       return;
     }
     emptyState.style.display = 'none';
 
     profiles.forEach(profile => {
-      // Erstelle cards etc. wie gehabt
       const card = document.createElement('div');
       card.className = 'pet-profile-card';
       card.innerHTML = `
@@ -2634,12 +2639,13 @@ updateActiveNavigation(activeCategory) {
         </div>`;
       grid.appendChild(card);
     });
-
   } catch (error) {
     console.error('Fehler beim Laden der Haustier-Profile:', error);
+    emptyState.style.display = 'none';
     grid.innerHTML = '<p class="error-message">Fehler beim Laden der Profile.</p>';
   }
 }
+
 
 async showPetProfileDetail(profileId) {
   this.hideAllSections();
@@ -2648,24 +2654,27 @@ async showPetProfileDetail(profileId) {
   content.innerHTML = '<div class="loading-spinner"></div>';
 
   try {
-    const response = await fetch(`/api/pet-profiles/${profileId}`, { credentials: 'include' });
+    const response = await fetch(`/api/pet-profiles/${profileId}`, {
+      credentials: 'include'  // Session-Cookie senden
+    });
+
     if (!response.ok) {
       if (response.status === 404) throw new Error('Profil nicht gefunden');
-      else throw new Error(`Server antwortet mit Status ${response.status}`);
+      throw new Error(`Server antwortet mit Status ${response.status}`);
     }
 
     const p = await response.json();
 
-    // Prüfen, ob der Nutzer eingeloggt ist
     const currentUserId = this.authManager.getCurrentUserId();
     const isAdmin = this.authManager.isCurrentUserAdmin();
 
-    if (!p.ownerUserId) {
-      // Falls API nicht ownerUserId liefert, fallback oder Warnung
+    // Stelle sicher, dass ownerUserId da ist oder fallback nutzen
+    const ownerUserId = p.ownerUserId || p.owner_user_id || null;
+    if (!ownerUserId) {
       console.warn('Profil enthält keinen ownerUserId-Wert');
     }
 
-    const isOwner = p.ownerUserId === currentUserId;
+    const isOwner = ownerUserId === currentUserId;
 
     const displayValue = (value, fallback = 'Keine Angabe') =>
       value ? value : `<span class="text-secondary">${fallback}</span>`;
@@ -2690,8 +2699,7 @@ async showPetProfileDetail(profileId) {
           <div class="profile-detail-header__actions">
             ${(isOwner || isAdmin) ? `
               <button class="btn btn--secondary edit-profile-btn" data-id="${p.id}">Bearbeiten</button>
-              <button class="btn btn--danger delete-profile-btn" data-id="${p.id}">Löschen</button>
-            ` : ''}
+              <button class="btn btn--danger delete-profile-btn" data-id="${p.id}">Löschen</button>` : ''}
           </div>
         </header>
 
@@ -2722,13 +2730,13 @@ async showPetProfileDetail(profileId) {
         </main>
       </div>`;
 
-    // Eventlistener zurück zur Übersicht
+    // Eventlistener für Zurück-Button
     const backBtn = document.getElementById('back-to-overview-btn');
     if (backBtn) {
       backBtn.addEventListener('click', () => this.showMyPets());
     }
 
-    // Eventlistener für Bearbeiten und Löschen nur, wenn erlaubt
+    // Edit- und Delete-Button Eventlistener nur, wenn erlaubter Zugriff
     if (isOwner || isAdmin) {
       const editBtn = content.querySelector('.edit-profile-btn');
       if (editBtn) {
@@ -2740,42 +2748,10 @@ async showPetProfileDetail(profileId) {
         deleteBtn.addEventListener('click', () => this.handleDeleteProfile(p.id));
       }
     }
+
   } catch (error) {
     console.error('Fehler beim Laden des Profils:', error);
     content.innerHTML = '<p class="error-message">Das Haustierprofil konnte nicht geladen werden.</p>';
-  }
-}
-
-async handleDeleteProfile(profileId) {
-  if (!confirm('Sind Sie sicher, dass Sie dieses Profil endgültig löschen möchten?')) {
-    return;
-  }
-
-  try {
-    const response = await fetch(`/api/pet-profiles/${profileId}`, {
-      method: 'DELETE',
-      credentials: 'include',
-      headers: { 'Content-Type': 'application/json' }
-    });
-
-    if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
-      const message = errorData.error || `Fehler beim Löschen (Status ${response.status})`;
-      alert(message);
-      return;
-    }
-
-    const result = await response.json();
-
-    if (result.success) {
-      alert('Profil erfolgreich gelöscht.');
-      this.showMyPets();
-    } else {
-      alert('Fehler beim Löschen des Profils.');
-    }
-  } catch (error) {
-    console.error('Fehler:', error);
-    alert('Ein schwerwiegender Fehler ist aufgetreten.');
   }
 }
 

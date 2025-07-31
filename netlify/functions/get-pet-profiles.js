@@ -29,7 +29,8 @@ exports.handler = async function(event) {
     console.log('DB-Verbindung erfolgreich');
 
     const result = await client.query(
-      `SELECT id, pet_name AS "petName", species, breed, gender,
+      `SELECT
+        id, pet_name AS "petName", species, breed, gender,
         birth_date AS "birthDate", microchip, size, weight,
         fur_color AS "furColor", temperament, activity_level AS "activityLevel",
         social_behavior AS "socialBehavior", health_status AS "healthStatus",
@@ -49,7 +50,7 @@ exports.handler = async function(event) {
       body: JSON.stringify(result.rows),
       headers: {
         "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Origin": "*",            // Passe ggf. auf Frontend-Domain an
         "Access-Control-Allow-Credentials": "true"
       }
     };
