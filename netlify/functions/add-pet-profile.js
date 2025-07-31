@@ -5,7 +5,7 @@ exports.handler = async function(event) {
     return { statusCode: 405, body: "Method Not Allowed" };
   }
   const data = JSON.parse(event.body);
-  const client = new Client({ connectionString: process.env.NEON_DB_URL });
+  const client = new Client({ connectionString: process.env.NETLIFY_DATABASE_URL });
   await client.connect();
   try {
     await client.query(
