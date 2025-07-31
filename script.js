@@ -2634,7 +2634,6 @@ updateActiveNavigation(activeCategory) {
 }
 
 async showPetProfileDetail(profileId) {
-console.log('showPetProfileDetail aufgerufen mit profileId:', profileId);
   this.hideAllSections();
   this.showSection(this.petProfileDetailSection);
 
@@ -2642,7 +2641,6 @@ console.log('showPetProfileDetail aufgerufen mit profileId:', profileId);
   content.innerHTML = '<div class="loading-spinner"></div>';
 
   try {
-    // Korrigierte URL (relativ)
     const p = await this.authManager.apiCall(`/api/pet-profiles/${profileId}`);
 
     const currentUserId = this.authManager.getCurrentUserId();
@@ -2705,11 +2703,9 @@ console.log('showPetProfileDetail aufgerufen mit profileId:', profileId);
         </main>
       </div>`;
 
-    // Zurück Button Event
     const backBtn = document.getElementById('back-to-overview-btn');
     if (backBtn) backBtn.addEventListener('click', () => this.showMyPets());
 
-    // Edit & Delete Button Event handlers nur für Owner/Admin
     if (isOwner || isAdmin) {
       const editBtn = content.querySelector('.edit-profile-btn');
       if (editBtn) editBtn.addEventListener('click', () => this.editProfile(p.id));
@@ -2719,7 +2715,16 @@ console.log('showPetProfileDetail aufgerufen mit profileId:', profileId);
     }
   } catch (error) {
     console.error('Fehler beim Laden des Profils:', error);
-    content.innerHTML = '<p class="error-message">Das Haustierprofil konnte nicht geladen werden.</p>';
+
+    // Versuche detaillierte Fehlermeldung aus error.message oder error.response (je nach apiCall Umsetzung) zu holen
+    let errorMessage = 'Das Haustierprofil konnte nicht geladen werden.';
+
+    // Falls error.message die Fehlermeldung enthält (z.B. aus apiCall)
+    if (error.message) {
+      errorMessage = error.message;
+    }
+
+    content.innerHTML = `<p class="error-message">${errorMessage}</p>`;
   }
 }
 
