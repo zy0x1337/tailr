@@ -413,53 +413,55 @@ class PetProfileCreator {
   }
 
   async handleSubmit(e) {
-    e.preventDefault();
-    if (this.isSubmitting) return;
-    if (!this.validateCurrentStep()) {
-      this.showError("Bitte alle Pflichtfelder ausfüllen.");
-      return;
-    }
-    // Datenschutz ggf. prüfen (optional)
-    const privacyField = this.form.querySelector("#privacyAccepted");
-    if (privacyField && !privacyField.checked) {
-      this.showError("Bitte stimmen Sie der Datenschutzerklärung zu.");
-      return;
-    }
-    this.isSubmitting = true;
-    this.updateNavigationButtons();
-    try {
-      let data = this.collectFormData();
-      // Bild als Base64 falls vorhanden (Frontend only)
-      if (this.imageInput?.files && this.imageInput.files.length > 0) {
-        data.profileImage = await this.readFileAsDataURL(this.imageInput.files[0]);
-      }
-      // API-Aufruf (hier: AuthManager/Session kompatibel)
-      const result = await this.app.authManager.apiCall(
-        "https://tailr.netlify.app/.netlify/functions/add-pet-profile",
-        {
-          method: "POST",
-          body: JSON.stringify(data),
-          headers: { "Content-Type": "application/json" }
-        }
-      );
-      if (result.success) {
-        this.showSuccess("Profil erfolgreich gespeichert!");
-        window.localStorage.removeItem("petProfileDraft");
-        setTimeout(() => {
-          this.resetForm();
-          if (this.app?.showMyPets) this.app.showMyPets();
-        }, 1500);
-      } else {
-        this.showError(result.error || "Fehler beim Speichern.");
-      }
-    } catch (err) {
-      this.showError("Fehler beim Speichern: " + err.message);
-      console.error(err);
-    } finally {
-      this.isSubmitting = false;
-      this.updateNavigationButtons();
-    }
+  e.preventDefault();
+  if (this.isSubmitting) return;
+
+  // Authentifizierung prüfen
+  const userId = this.app?.authManager?.getCurrentUserId?.();
+  if (!userId) {
+    this.showError("Bitte zuerst einloggen.");
+    this.app?.showAuthModal?.(); // ggf. Login-Dialog öffnen
+    return;
   }
+
+  // Daten zusammenstellen
+  const formData = new FormData(this.form);
+  const data = Object.fromEntries(formData.entries());
+
+  this.isSubmitting = true;
+  this.showStatus('Speichern...', 'info');
+  try {
+    // Query-String bauen
+    const url = `/api/add-pet-profile?userId=${encodeURIComponent(userId)}`;
+    const response = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+    const result = await response.json();
+
+    if (response.status === 401) {
+      this.showError("Nicht authentifiziert oder Session abgelaufen. Bitte erneut anmelden.");
+      this.app?.showAuthModal?.();
+      this.isSubmitting = false;
+      return;
+    }
+
+    if (!response.ok) {
+      this.showError(result.error || "Fehler beim Speichern.");
+      this.isSubmitting = false;
+      return;
+    }
+
+    this.showStatus('Profil erfolgreich gespeichert!', 'success');
+    // Weiteres Handling (z.B. Weiterleitung oder Reset)
+
+  } catch (err) {
+    this.showError("Netzwerkfehler oder Server nicht erreichbar.");
+  } finally {
+    this.isSubmitting = false;
+  }
+}
 
   collectFormData() {
     const formData = new FormData(this.form);
