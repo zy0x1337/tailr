@@ -1,8 +1,6 @@
 const { Client } = require('pg');
 
 exports.handler = async function(event) {
-  console.log('Function get-pet-profiles gestartet');
-
   if (event.httpMethod !== "GET") {
     return {
       statusCode: 405,
@@ -12,7 +10,6 @@ exports.handler = async function(event) {
   }
 
   const userId = event.queryStringParameters?.userId;
-  console.log('userId:', userId);
 
   if (!userId) {
     return {
@@ -26,7 +23,6 @@ exports.handler = async function(event) {
 
   try {
     await client.connect();
-    console.log('DB-Verbindung erfolgreich');
 
     const result = await client.query(
       `SELECT
@@ -34,8 +30,10 @@ exports.handler = async function(event) {
         birth_date AS "birthDate", microchip, size, weight,
         fur_color AS "furColor", temperament, activity_level AS "activityLevel",
         social_behavior AS "socialBehavior", health_status AS "healthStatus",
-        allergies, care_notes AS "careNotes", owner_name AS "ownerName", owner_email AS "ownerEmail",
-        profile_image AS "profileImage", created_at AS "createdAt", updated_at AS "updatedAt"
+        allergies, care_notes AS "careNotes", special_traits AS "specialTraits",
+        owner_name AS "ownerName", owner_email AS "ownerEmail",
+        profile_image AS "profileImage", created_at AS "createdAt", updated_at AS "updatedAt",
+        owner_user_id AS "ownerUserId"
       FROM pet_profiles
       WHERE owner_user_id = $1
       ORDER BY created_at DESC`,
@@ -43,14 +41,13 @@ exports.handler = async function(event) {
     );
 
     await client.end();
-    console.log('DB-Abfrage erfolgreich, Anzahl Profile:', result.rows.length);
 
     return {
       statusCode: 200,
       body: JSON.stringify(result.rows),
       headers: {
         "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",            // Passe ggf. auf Frontend-Domain an
+        "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Credentials": "true"
       }
     };
