@@ -2636,11 +2636,13 @@ updateActiveNavigation(activeCategory) {
 async showPetProfileDetail(profileId) {
   this.hideAllSections();
   this.showSection(this.petProfileDetailSection);
+
   const content = document.getElementById('profile-detail-content');
   content.innerHTML = '<div class="loading-spinner"></div>';
 
   try {
-    const p = await this.authManager.apiCall(`https://tailr.netlify.app/api/get-pet-profile/${profileId}`);
+    // Korrigierte URL (relativ)
+    const p = await this.authManager.apiCall(`/api/pet-profiles/${profileId}`);
 
     const currentUserId = this.authManager.getCurrentUserId();
     const isAdmin = this.authManager.isCurrentUserAdmin();
@@ -2702,9 +2704,11 @@ async showPetProfileDetail(profileId) {
         </main>
       </div>`;
 
+    // Zurück Button Event
     const backBtn = document.getElementById('back-to-overview-btn');
     if (backBtn) backBtn.addEventListener('click', () => this.showMyPets());
 
+    // Edit & Delete Button Event handlers nur für Owner/Admin
     if (isOwner || isAdmin) {
       const editBtn = content.querySelector('.edit-profile-btn');
       if (editBtn) editBtn.addEventListener('click', () => this.editProfile(p.id));

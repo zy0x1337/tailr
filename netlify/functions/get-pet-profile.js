@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const jwksClient = require('jwks-rsa');
 const { Client } = require('pg');
 
-const auth0Domain = 'dev-3pzadwjqsq4lnchu.eu.auth0.com'; // Dein Auth0 Domain
+const auth0Domain = 'dev-3pzadwjqsq4lnchu.eu.auth0.com';
 const audience = 'https://tailr.netlify.app/api';
 
 const clientJWKS = jwksClient({
@@ -20,7 +20,7 @@ function getKey(header, callback) {
   });
 }
 
-exports.handler = async function (event) {
+exports.handler = async function(event) {
   if (event.httpMethod !== 'GET') {
     return {
       statusCode: 405,
@@ -29,7 +29,7 @@ exports.handler = async function (event) {
     };
   }
 
-  const profileId = event.pathParameters?.id || null;
+  const profileId = event.pathParameters?.id;
 
   if (!profileId) {
     return {
@@ -73,11 +73,10 @@ exports.handler = async function (event) {
   const userId = decoded.sub;
 
   const client = new Client({ connectionString: process.env.NETLIFY_DATABASE_URL });
+
   try {
     await client.connect();
 
-    // Hole das Profil mit id = profileId und optional nur, wenn der aktuelle Nutzer Besitzer oder Admin ist
-    // Optional: Admin-Rechte-Check oder Owner-Check hier ergänzen
     const query = `
       SELECT
         id, pet_name AS "petName", species, breed, gender,
@@ -104,10 +103,10 @@ exports.handler = async function (event) {
       };
     }
 
-    // (Optional) Prüfe, ob der aktuelle User das Profil sehen darf:
     const profile = result.rows[0];
+
+    // Optional: Zugriffsbeschränkung prüfen
     if (profile.ownerUserId !== userId) {
-      // Optional: Prüfe Admin-Status, wenn du das unterstützt - hier nicht umgesetzt
       return {
         statusCode: 403,
         body: JSON.stringify({ error: 'Zugriff verweigert' }),
@@ -125,7 +124,7 @@ exports.handler = async function (event) {
       }
     };
   } catch (error) {
-    if(client) await client.end();
+    await client.end();
     console.error('Fehler in get-pet-profile:', error);
     return {
       statusCode: 500,
