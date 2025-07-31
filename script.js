@@ -2725,31 +2725,24 @@ async handleDeleteProfile(profileId) {
   }
 
   try {
-    const response = await fetch(`/api/pet-profiles/${profileId}`, {
-      method: 'DELETE',
-      credentials: 'include', // Wichtig, damit die Session/Cookie mitgesendet wird
-      headers: { 'Content-Type': 'application/json' }
-    });
+    const response = await this.app.authManager.apiCall(
+      `/api/pet-profiles/${profileId}`,
+      {
+        method: 'DELETE',
+        // 'credentials' wird von apiCall nicht benötigt, denn Fetch incl. Token wird zentral gehandhabt
+        headers: { 'Content-Type': 'application/json' }, // Falls dein API das benötigt
+      }
+    );
 
-    if (!response.ok) {
-      // Versuch, die Fehlermeldung aus der Antwort zu lesen
-      const errorData = await response.json().catch(() => ({}));
-      const message = errorData.error || `Fehler beim Löschen (Status ${response.status})`;
-      alert(message);
-      return;
-    }
-
-    const result = await response.json();
-
-    if (result.success) {
+    if (response.success) {
       alert('Profil erfolgreich gelöscht.');
-      this.showMyPets(); // Zurück zur Übersicht
+      await this.showMyPets(); // Zurück zur Übersicht - ggf. async beachten
     } else {
-      alert('Fehler beim Löschen des Profils.');
+      alert(response.error || 'Fehler beim Löschen des Profils.');
     }
   } catch (error) {
-    console.error('Fehler:', error);
-    alert('Ein schwerwiegender Fehler ist aufgetreten.');
+    console.error('Fehler beim Löschen des Profils:', error);
+    alert('Ein schwerwiegender Fehler ist aufgetreten: ' + error.message);
   }
 }
 
