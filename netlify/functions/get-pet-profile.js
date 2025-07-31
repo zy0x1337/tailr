@@ -29,7 +29,9 @@ exports.handler = async function(event) {
     };
   }
 
+  console.log("Received event:", JSON.stringify(event, null, 2));
   const profileId = event.pathParameters?.id;
+  console.log("Extracted profileId:", profileId);
 
   if (!profileId) {
     return {
