@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const jwksClient = require('jwks-rsa');
 const { Client } = require('pg');
 
-const auth0Domain = 'dev-3pzadwjqsq4lnchu.eu.auth0.com';
+const auth0Domain = 'dev-3pzadwjqsq4lnchu.eu.auth0.com'; // Auth0 Domain anpassen
 const audience = 'https://tailr.netlify.app/api';
 
 const clientJWKS = jwksClient({
@@ -71,12 +71,12 @@ exports.handler = async function(event) {
   }
 
   const userId = decoded.sub;
-
   const client = new Client({ connectionString: process.env.NETLIFY_DATABASE_URL });
 
   try {
     await client.connect();
 
+    // Profilabfrage
     const query = `
       SELECT
         id, pet_name AS "petName", species, breed, gender,
@@ -105,7 +105,23 @@ exports.handler = async function(event) {
 
     const profile = result.rows[0];
 
-    // Optional: Zugriffsbeschränkung prüfen
+    // Prüfung der Pflichtfelder (Tiername, Tierart, Besitzername, Besitzer E-Mail)
+    if (
+      !profile.petName || profile.petName.trim() === '' ||
+      !profile.species || profile.species.trim() === '' ||
+      !profile.ownerName || profile.ownerName.trim() === '' ||
+      !profile.ownerEmail || profile.ownerEmail.trim() === ''
+    ) {
+      return {
+        statusCode: 400,
+        body: JSON.stringify({ 
+          error: 'Pflichtfelder fehlen: Tiername, Tierart, Besitzer Name und E-Mail müssen ausgefüllt sein.' 
+        }),
+        headers: { 'Content-Type': 'application/json' }
+      };
+    }
+
+    // Optional: Zugriffsbeschränkung - nur Besitzer oder Admin darf Profil sehen
     if (profile.ownerUserId !== userId) {
       return {
         statusCode: 403,
@@ -123,8 +139,9 @@ exports.handler = async function(event) {
         'Access-Control-Allow-Credentials': 'true'
       }
     };
+
   } catch (error) {
-    await client.end();
+    if (client) await client.end();
     console.error('Fehler in get-pet-profile:', error);
     return {
       statusCode: 500,

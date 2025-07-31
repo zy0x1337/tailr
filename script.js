@@ -2634,6 +2634,7 @@ updateActiveNavigation(activeCategory) {
 }
 
 async showPetProfileDetail(profileId) {
+console.log('showPetProfileDetail aufgerufen mit profileId:', profileId);
   this.hideAllSections();
   this.showSection(this.petProfileDetailSection);
 
