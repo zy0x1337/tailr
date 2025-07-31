@@ -10,7 +10,7 @@ exports.handler = async function(event) {
   // birth_date auf null setzen, wenn leerer String
   const birthDate = data.birthDate && data.birthDate.trim() !== "" ? data.birthDate : null;
 
-  const client = new Client({ connectionString: process.env.NEON_DB_URL });
+  const client = new Client({ connectionString: process.env.NETLIFY_DATABASE_URL });
   await client.connect();
 
   try {
