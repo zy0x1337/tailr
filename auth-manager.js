@@ -129,7 +129,7 @@ class AuthManager {
         
         // Audience basierend auf Domain setzen
         if (this.config.domain) {
-            this.config.audience = `https://${this.config.domain}/api/v2/`;
+            this.config.audience = `https://tailr.netlify.app/api`;
         }
         
         // Validierung

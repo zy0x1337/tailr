@@ -2595,9 +2595,8 @@ updateActiveNavigation(activeCategory) {
   emptyState.style.display = 'none';
 
   try {
-    // Rufe gesichert die profile API auf
-    // Passe URL zur Netlify Function oder deinem Backend an!
-    const profiles = await this.authManager.apiCall('/.netlify/functions/get-pet-profiles');
+    // Gesicherter Aufruf der API mit Token-Autorisierung
+    const profiles = await this.authManager.apiCall('https://tailr.netlify.app/.netlify/functions/get-pet-profiles');
 
     grid.innerHTML = '';
     if (!Array.isArray(profiles) || profiles.length === 0) {
@@ -2626,12 +2625,14 @@ updateActiveNavigation(activeCategory) {
         </div>`;
       grid.appendChild(card);
     });
+
   } catch (error) {
     console.error('Fehler beim Laden der Haustier-Profile:', error);
     emptyState.style.display = 'none';
     grid.innerHTML = '<p class="error-message">Fehler beim Laden der Profile.</p>';
   }
 }
+
 
 async showPetProfileDetail(profileId) {
   this.hideAllSections();
@@ -2640,7 +2641,7 @@ async showPetProfileDetail(profileId) {
   content.innerHTML = '<div class="loading-spinner"></div>';
 
   try {
-    const p = await this.authManager.apiCall(`/api/pet-profiles/${profileId}`);
+    const p = await this.authManager.apiCall(`https://tailr.netlify.app/api/pet-profiles/${profileId}`);
 
     const currentUserId = this.authManager.getCurrentUserId();
     const isAdmin = this.authManager.isCurrentUserAdmin();
@@ -2702,25 +2703,16 @@ async showPetProfileDetail(profileId) {
         </main>
       </div>`;
 
-    // Eventlistener für Zurück-Button
     const backBtn = document.getElementById('back-to-overview-btn');
-    if (backBtn) {
-      backBtn.addEventListener('click', () => this.showMyPets());
-    }
+    if (backBtn) backBtn.addEventListener('click', () => this.showMyPets());
 
-    // Edit- und Delete-Button Eventlistener nur, wenn erlaubter Zugriff
     if (isOwner || isAdmin) {
       const editBtn = content.querySelector('.edit-profile-btn');
-      if (editBtn) {
-        editBtn.addEventListener('click', () => this.editProfile(p.id));
-      }
+      if (editBtn) editBtn.addEventListener('click', () => this.editProfile(p.id));
 
       const deleteBtn = content.querySelector('.delete-profile-btn');
-      if (deleteBtn) {
-        deleteBtn.addEventListener('click', () => this.handleDeleteProfile(p.id));
-      }
+      if (deleteBtn) deleteBtn.addEventListener('click', () => this.handleDeleteProfile(p.id));
     }
-
   } catch (error) {
     console.error('Fehler beim Laden des Profils:', error);
     content.innerHTML = '<p class="error-message">Das Haustierprofil konnte nicht geladen werden.</p>';
