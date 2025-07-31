@@ -1,20 +1,18 @@
 const { Client } = require('pg');
 
 exports.handler = async function(event) {
-  // Nur POST methoden erlauben
   if (event.httpMethod !== "POST") {
     return {
       statusCode: 405,
-      body: JSON.stringify({ error: "Method Not Allowed. Nur POST ist erlaubt." }),
+      body: JSON.stringify({ error: "Method Not Allowed" }),
       headers: { "Content-Type": "application/json" }
     };
   }
 
   try {
-    // Body parsen
     const data = JSON.parse(event.body);
 
-    // User-ID nur aus Query-Param (nicht aus Token oder Header)
+    // User-ID aus Query-Param (anstelle von Session)
     const userId = event.queryStringParameters?.userId;
     if (!userId) {
       return {
@@ -25,23 +23,16 @@ exports.handler = async function(event) {
     }
 
     // Pflichtfelder prüfen
-    const requiredFields = ['petName', 'species', 'ownerName', 'ownerEmail'];
-    for (const field of requiredFields) {
-      if (!data[field] || data[field].trim() === '') {
-        return {
-          statusCode: 400,
-          body: JSON.stringify({ error: `Pflichtfelder fehlen: ${requiredFields.join(', ')} müssen gesetzt sein.` }),
-          headers: { "Content-Type": "application/json" }
-        };
-      }
+    if (!data.petName || !data.species || !data.ownerName || !data.ownerEmail) {
+      return {
+        statusCode: 400,
+        body: JSON.stringify({ error: "Pflichtfelder fehlen: petName, species, ownerName und ownerEmail müssen gesetzt sein." })
+      };
     }
 
-    // Hilfsfunktion zur String-Säuberung
-    const sanitizeString = (str) => (str && str.trim() !== '' ? str.trim() : null);
-
-    // Optional: Werte säubern und konvertieren
+    const sanitizeString = (str) => (str && str.trim() !== "" ? str.trim() : null);
     const birthDate = sanitizeString(data.birthDate);
-    const weight = data.weight && data.weight.toString().trim() !== '' ? parseFloat(data.weight) : null;
+    const weight = data.weight && data.weight.toString().trim() !== "" ? parseFloat(data.weight) : null;
     const size = sanitizeString(data.size);
     const breed = sanitizeString(data.breed);
     const gender = sanitizeString(data.gender);
@@ -55,11 +46,9 @@ exports.handler = async function(event) {
     const careNotes = sanitizeString(data.careNotes);
     const specialTraits = sanitizeString(data.specialTraits);
 
-    // DB-Client initialisieren
     const client = new Client({ connectionString: process.env.NETLIFY_DATABASE_URL });
     await client.connect();
 
-    // Insert Query vorbereiten
     const insertQuery = `
       INSERT INTO pet_profiles
       (pet_name, species, breed, gender, birth_date, microchip, size, weight, fur_color, temperament,
@@ -94,9 +83,9 @@ exports.handler = async function(event) {
     ];
 
     const result = await client.query(insertQuery, values);
+
     await client.end();
 
-    // Erfolg zurückgeben mit 201 Created
     return {
       statusCode: 201,
       body: JSON.stringify({ success: true, profileId: result.rows[0].id }),
@@ -104,7 +93,6 @@ exports.handler = async function(event) {
     };
 
   } catch (error) {
-    // Fehler loggen und 500 zurückgeben
     console.error('Fehler in add-pet-profile:', error);
     return {
       statusCode: 500,
