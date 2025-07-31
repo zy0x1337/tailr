@@ -2588,127 +2588,189 @@ updateActiveNavigation(activeCategory) {
 }
 
     async showMyPets() {
-    this.showSection(this.myPetsSection);
-    const grid = document.getElementById('my-pets-grid');
-    const emptyState = document.getElementById('my-pets-empty');
-    grid.innerHTML = '<div class="loading-spinner"></div>';
+  this.showSection(this.myPetsSection);
+  const grid = document.getElementById('my-pets-grid');
+  const emptyState = document.getElementById('my-pets-empty');
+  grid.innerHTML = '<div class="loading-spinner"></div>';
+  emptyState.style.display = 'none';
 
-    try {
-        const response = await fetch('/api/pet-profiles');
-        const profiles = await response.json();
-        
-        grid.innerHTML = '';
-        
-        if (profiles.length === 0) {
-            emptyState.style.display = 'block';
-        } else {
-            emptyState.style.display = 'none';
-            profiles.forEach(profile => {
-                const card = document.createElement('div');
-                card.className = 'pet-profile-card';
-                card.innerHTML = `
-                    <div class="pet-profile-card__header">
-                        <img src="${profile.profileImage || 'images/placeholder.jpg'}" class="pet-profile-card__bg-image" alt="">
-                        <img src="${profile.profileImage || 'images/placeholder.jpg'}" alt="${profile.petName}" class="pet-profile-card__image" onerror="this.onerror=null;this.src='images/placeholder.jpg';">
-                    </div>
-                    <div class="pet-profile-card__content">
-                        <h3 class="pet-profile-card__name">${profile.petName || 'Unbenannt'}</h3>
-                        <p class="pet-profile-card__species">${profile.breed || profile.species}</p>
-                        <p class="pet-profile-card__info">
-                            Alter: ${profile.birthDate ? Math.floor((new Date() - new Date(profile.birthDate)) / 31557600000) + ' Jahre' : 'Unbekannt'}
-                        </p>
-                        <div class="pet-profile-card__actions">
-                            <button class="btn btn--secondary view-profile-btn" data-id="${profile.id}">Profil ansehen</button>
-                        </div>
-                    </div>
-                `;
-                grid.appendChild(card);
-            });
-        }
-    } catch (error) {
-        console.error('Fehler beim Laden der Haustier-Profile:', error);
-        grid.innerHTML = '<p>Fehler beim Laden der Profile.</p>';
+  try {
+    const response = await fetch('/api/pet-profiles', { credentials: 'include' });
+    if (!response.ok) throw new Error(`Server antwortet mit Status ${response.status}`);
+    const profiles = await response.json();
+
+    grid.innerHTML = '';
+
+    if (!Array.isArray(profiles) || profiles.length === 0) {
+      emptyState.style.display = 'block';
+      return;
     }
+
+    emptyState.style.display = 'none';
+
+    profiles.forEach(profile => {
+      const card = document.createElement('div');
+      card.className = 'pet-profile-card';
+      card.innerHTML = `
+        <div class="pet-profile-card__header">
+          <img src="${profile.profileImage || 'images/placeholder.jpg'}" class="pet-profile-card__bg-image" alt="">
+          <img src="${profile.profileImage || 'images/placeholder.jpg'}" alt="${profile.petName || 'Unbenannt'}" class="pet-profile-card__image" onerror="this.onerror=null;this.src='images/placeholder.jpg';">
+        </div>
+        <div class="pet-profile-card__content">
+          <h3 class="pet-profile-card__name">${profile.petName || 'Unbenannt'}</h3>
+          <p class="pet-profile-card__species">${profile.breed || profile.species || 'Keine Angabe'}</p>
+          <p class="pet-profile-card__info">
+            Alter: ${profile.birthDate ? Math.floor((Date.now() - new Date(profile.birthDate)) / 31557600000) + ' Jahre' : 'Unbekannt'}
+          </p>
+          <div class="pet-profile-card__actions">
+            <button class="btn btn--secondary view-profile-btn" data-id="${profile.id}">Profil ansehen</button>
+          </div>
+        </div>`;
+      grid.appendChild(card);
+    });
+  } catch (error) {
+    console.error('Fehler beim Laden der Haustier-Profile:', error);
+    emptyState.style.display = 'none';
+    grid.innerHTML = '<p class="error-message">Fehler beim Laden der Profile.</p>';
+  }
 }
 
 async showPetProfileDetail(profileId) {
-    this.hideAllSections();
-    this.showSection(this.petProfileDetailSection);
-    const content = document.getElementById('profile-detail-content');
-    content.innerHTML = '<div class="loading-spinner"></div>';
+  this.hideAllSections();
+  this.showSection(this.petProfileDetailSection);
+  const content = document.getElementById('profile-detail-content');
+  content.innerHTML = '<div class="loading-spinner"></div>';
 
-    try {
-        // Annahme: /api/pet-profiles/:id ist Ihr Endpunkt für ein einzelnes Profil
-        const response = await fetch(`/api/pet-profiles/${profileId}`);
-        if (!response.ok) throw new Error('Profil nicht gefunden');
-        
-        // Annahme: Die API-Antwort für das Profil enthält die 'ownerId'
-        const p = await response.json(); 
-
-        // --- BERECHTIGUNGSPRÜFUNG ---
-        // Prüfen, ob ein Benutzer angemeldet ist und seine ID und Rolle abrufen
-        const currentUserId = this.authManager.getCurrentUserId();
-        const isAdmin = this.authManager.isCurrentUserAdmin();
-        
-        // Prüfen, ob der aktuelle Benutzer der Besitzer des Profils ist
-        const isOwner = p.ownerId === currentUserId;
-
-        const displayValue = (value, fallback = 'Keine Angabe') => value || `<span class="text-secondary">${fallback}</span>`;
-        const createInfoItem = (label, value) => {
-            if (!value) return '';
-            return `<div class="info-item"><span class="info-item__label">${label}</span><span class="info-item__value">${displayValue(value)}</span></div>`;
-        };
-
-        // Das HTML wird nun dynamisch basierend auf den Berechtigungen erstellt
-        content.innerHTML = `
-            <div class="profile-detail-layout">
-                <header class="profile-detail-header">
-                    <img src="${p.profileImage || 'images/placeholder.jpg'}" alt="${p.petName}" class="profile-detail-header__image" onerror="this.onerror=null;this.src='images/placeholder.jpg';">
-                    <div class="profile-detail-header__info">
-                        <h2>${p.petName}</h2>
-                        <p>${p.breed || p.species}</p>
-                    </div>
-                    <div class="profile-detail-header__actions">
-                        <!-- Die Buttons werden nur angezeigt, wenn der Nutzer Besitzer ODER Admin ist -->
-                        ${isOwner || isAdmin ? `
-                            <button class="btn btn--secondary edit-profile-btn" data-id="${p.id}">Bearbeiten</button>
-                            <button class="btn btn--danger delete-profile-btn" data-id="${p.id}">Löschen</button>
-                        ` : ''}
-                    </div>
-                </header>
-                
-                <aside class="profile-sidebar">
-                    <div class="profile-section-card">
-                        <h3>Steckbrief</h3>
-                        <div class="info-grid" style="grid-template-columns: 1fr;">
-                            ${createInfoItem('Geschlecht', p.gender)}
-                            ${createInfoItem('Geburtsdatum', p.birthDate)}
-                            ${createInfoItem('Größe', p.size)}
-                            ${createInfoItem('Gewicht', p.weight ? p.weight + ' kg' : '')}
-                            ${createInfoItem('Mikrochip', p.microchip)}
-                        </div>
-                    </div>
-                    <button class="btn btn--primary" id="back-to-overview-btn" style="width: 100%;">← Zurück zur Übersicht</button>
-                </aside>
-
-                <main class="profile-main-content">
-                    <!-- Restlicher Inhalt bleibt unverändert -->
-                    <div class="profile-section-card">
-                        <h3>Charakter & Verhalten</h3>
-                        <div class="info-grid">
-                            ${createInfoItem('Temperament', p.temperament)}
-                            ${createInfoItem('Aktivitätslevel', p.activityLevel)}
-                            ${createInfoItem('Sozialverhalten', p.socialBehavior)}
-                            ${createInfoItem('Besonderheiten', p.specialTraits)}
-                        </div>
-                    </div>
-                </main>
-            </div>
-        `;
-    } catch (error) {
-        console.error('Fehler beim Laden des Profils:', error);
-        content.innerHTML = '<p class="error-message">Das Haustierprofil konnte nicht geladen werden.</p>';
+  try {
+    const response = await fetch(`/api/pet-profiles/${profileId}`, { credentials: 'include' });
+    if (!response.ok) {
+      if (response.status === 404) throw new Error('Profil nicht gefunden');
+      else throw new Error(`Server antwortet mit Status ${response.status}`);
     }
+
+    const p = await response.json();
+
+    // Prüfen, ob der Nutzer eingeloggt ist
+    const currentUserId = this.authManager.getCurrentUserId();
+    const isAdmin = this.authManager.isCurrentUserAdmin();
+
+    if (!p.ownerUserId) {
+      // Falls API nicht ownerUserId liefert, fallback oder Warnung
+      console.warn('Profil enthält keinen ownerUserId-Wert');
+    }
+
+    const isOwner = p.ownerUserId === currentUserId;
+
+    const displayValue = (value, fallback = 'Keine Angabe') =>
+      value ? value : `<span class="text-secondary">${fallback}</span>`;
+
+    const createInfoItem = (label, value) => {
+      if (!value) return '';
+      return `
+        <div class="info-item">
+          <span class="info-item__label">${label}</span>
+          <span class="info-item__value">${displayValue(value)}</span>
+        </div>`;
+    };
+
+    content.innerHTML = `
+      <div class="profile-detail-layout">
+        <header class="profile-detail-header">
+          <img src="${p.profileImage || 'images/placeholder.jpg'}" alt="${p.petName || 'Haustier'}" class="profile-detail-header__image" onerror="this.onerror=null;this.src='images/placeholder.jpg';">
+          <div class="profile-detail-header__info">
+            <h2>${p.petName || 'Unbenannt'}</h2>
+            <p>${p.breed || p.species || 'Keine Angabe'}</p>
+          </div>
+          <div class="profile-detail-header__actions">
+            ${(isOwner || isAdmin) ? `
+              <button class="btn btn--secondary edit-profile-btn" data-id="${p.id}">Bearbeiten</button>
+              <button class="btn btn--danger delete-profile-btn" data-id="${p.id}">Löschen</button>
+            ` : ''}
+          </div>
+        </header>
+
+        <aside class="profile-sidebar">
+          <div class="profile-section-card">
+            <h3>Steckbrief</h3>
+            <div class="info-grid" style="grid-template-columns: 1fr;">
+              ${createInfoItem('Geschlecht', p.gender)}
+              ${createInfoItem('Geburtsdatum', p.birthDate)}
+              ${createInfoItem('Größe', p.size)}
+              ${createInfoItem('Gewicht', p.weight ? p.weight + ' kg' : '')}
+              ${createInfoItem('Mikrochip', p.microchip)}
+            </div>
+          </div>
+          <button class="btn btn--primary" id="back-to-overview-btn" style="width: 100%;">← Zurück zur Übersicht</button>
+        </aside>
+
+        <main class="profile-main-content">
+          <div class="profile-section-card">
+            <h3>Charakter & Verhalten</h3>
+            <div class="info-grid">
+              ${createInfoItem('Temperament', p.temperament)}
+              ${createInfoItem('Aktivitätslevel', p.activityLevel)}
+              ${createInfoItem('Sozialverhalten', p.socialBehavior)}
+              ${createInfoItem('Besonderheiten', p.specialTraits)}
+            </div>
+          </div>
+        </main>
+      </div>`;
+
+    // Eventlistener zurück zur Übersicht
+    const backBtn = document.getElementById('back-to-overview-btn');
+    if (backBtn) {
+      backBtn.addEventListener('click', () => this.showMyPets());
+    }
+
+    // Eventlistener für Bearbeiten und Löschen nur, wenn erlaubt
+    if (isOwner || isAdmin) {
+      const editBtn = content.querySelector('.edit-profile-btn');
+      if (editBtn) {
+        editBtn.addEventListener('click', () => this.editProfile(p.id));
+      }
+
+      const deleteBtn = content.querySelector('.delete-profile-btn');
+      if (deleteBtn) {
+        deleteBtn.addEventListener('click', () => this.handleDeleteProfile(p.id));
+      }
+    }
+  } catch (error) {
+    console.error('Fehler beim Laden des Profils:', error);
+    content.innerHTML = '<p class="error-message">Das Haustierprofil konnte nicht geladen werden.</p>';
+  }
+}
+
+async handleDeleteProfile(profileId) {
+  if (!confirm('Sind Sie sicher, dass Sie dieses Profil endgültig löschen möchten?')) {
+    return;
+  }
+
+  try {
+    const response = await fetch(`/api/pet-profiles/${profileId}`, {
+      method: 'DELETE',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' }
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      const message = errorData.error || `Fehler beim Löschen (Status ${response.status})`;
+      alert(message);
+      return;
+    }
+
+    const result = await response.json();
+
+    if (result.success) {
+      alert('Profil erfolgreich gelöscht.');
+      this.showMyPets();
+    } else {
+      alert('Fehler beim Löschen des Profils.');
+    }
+  } catch (error) {
+    console.error('Fehler:', error);
+    alert('Ein schwerwiegender Fehler ist aufgetreten.');
+  }
 }
 
 async handleDeleteProfile(profileId) {
