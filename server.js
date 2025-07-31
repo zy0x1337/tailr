@@ -65,7 +65,7 @@ function getTimeAgo(timestamp) {
 
 // 1. CORS (Cross-Origin Resource Sharing)
 app.use(cors({
-    origin: ['http://localhost:3000', 'http://127.0.0.1:3000'],
+    origin: ['http://localhost:3000', 'http://127.0.0.1:3000', 'https://tailr.netlify.app'],
     credentials: true
 }));
 
@@ -120,6 +120,200 @@ app.get('/admin.html', (req, res) => {
   res.redirect('/admin');
 });
 
+// ===== BENUTZER-ACCOUNT API =====
+
+app.post('/api/pet-profiles', upload.single('profileImage'), async (req, res) => {
+  if (!req.session.userId) return res.status(401).json({ error: 'Zugriff verweigert.' });
+
+  const {
+    petName, species, breed, gender, birthDate, microchip, size, weight,
+    furColor, temperament, activityLevel, socialBehavior, healthStatus,
+    allergies, careNotes, ownerName, ownerEmail, specialTraits, // u.a.
+  } = req.body;
+
+  if (!petName || !species || !ownerName || !ownerEmail) {
+    return res.status(400).json({ error: 'Pflichtfelder fehlen.' });
+  }
+
+  try {
+    const client = new Client({ connectionString: process.env.NETLIFY_DATABASE_URL });
+    await client.connect();
+
+    const profileImage = req.file ? `images/pet-profiles/${req.file.filename}` : null;
+    const now = new Date().toISOString();
+
+    const insertQuery = `
+      INSERT INTO pet_profiles
+      (pet_name, species, breed, gender, birth_date, microchip, size, weight, fur_color,
+       temperament, activity_level, social_behavior, health_status, allergies, care_notes,
+       special_traits, owner_name, owner_email, owner_user_id, created_at)
+      VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20)
+      RETURNING id
+    `;
+
+    const values = [
+      petName, species, breed || null, gender || null, birthDate || null, microchip || null,
+      size || null, weight ? parseFloat(weight) : null, furColor || null, temperament || null,
+      activityLevel || null, socialBehavior || null, healthStatus || null, allergies || null,
+      careNotes || null, specialTraits || null, ownerName, ownerEmail, req.session.userId, now
+    ];
+
+    const result = await client.query(insertQuery, values);
+    await client.end();
+
+    logActivity('pet_profile_created', `Neues Profil: ${petName}`, { userId: req.session.username });
+    res.status(201).json({ success: true, profileId: result.rows[0].id });
+  } catch (error) {
+    console.error('Fehler beim Anlegen des Profils:', error);
+    res.status(500).json({ error: 'Server-Fehler' });
+  }
+});
+
+app.get('/api/pet-profiles', async (req, res) => {
+  if (!req.session.userId) return res.json([]);
+
+  try {
+    const client = new Client({ connectionString: process.env.NETLIFY_DATABASE_URL });
+    await client.connect();
+
+    const selectQuery = `SELECT * FROM pet_profiles WHERE owner_user_id = $1 ORDER BY created_at DESC`;
+    const result = await client.query(selectQuery, [req.session.userId]);
+
+    await client.end();
+    res.json(result.rows);
+  } catch (error) {
+    console.error('Fehler beim Laden der Profile:', error);
+    res.status(500).json({ error: 'Server-Fehler' });
+  }
+});
+
+app.get('/api/pet-profiles/:id', async (req, res) => {
+  if (!req.session.userId) return res.status(401).json({ error: 'Zugriff verweigert.' });
+  
+  const profileId = req.params.id;
+
+  try {
+    const client = new Client({ connectionString: process.env.NETLIFY_DATABASE_URL });
+    await client.connect();
+
+    const result = await client.query('SELECT * FROM pet_profiles WHERE id = $1 AND owner_user_id = $2', [profileId, req.session.userId]);
+
+    await client.end();
+
+    if (result.rowCount === 0) {
+      return res.status(404).json({ error: 'Profil nicht gefunden.' });
+    }
+    res.json(result.rows[0]);
+  } catch (error) {
+    console.error('Fehler beim Laden des Profils:', error);
+    res.status(500).json({ error: 'Server-Fehler' });
+  }
+});
+
+app.put('/api/pet-profiles/:id', upload.single('profileImage'), async (req, res) => {
+  if (!req.session.userId) return res.status(401).json({ error: 'Zugriff verweigert.' });
+
+  const profileId = req.params.id;
+
+  try {
+    const client = new Client({ connectionString: process.env.NETLIFY_DATABASE_URL });
+    await client.connect();
+
+    // Prüfen, ob Profil zum User gehört
+    const checkRes = await client.query('SELECT owner_user_id FROM pet_profiles WHERE id = $1', [profileId]);
+    if (checkRes.rowCount === 0) {
+      await client.end();
+      return res.status(404).json({ error: 'Profil nicht gefunden.' });
+    }
+    if (checkRes.rows[0].owner_user_id !== req.session.userId) {
+      await client.end();
+      return res.status(403).json({ error: 'Keine Berechtigung.' });
+    }
+
+    // Update-Felder dynamisch zusammensetzen:
+    const updatableFields = ['pet_name', 'species', 'breed', 'gender', 'birth_date', 'microchip', 'size', 'weight', 'fur_color',
+      'temperament', 'activity_level', 'social_behavior', 'health_status', 'allergies', 'care_notes', 'special_traits', 'owner_name', 'owner_email'];
+
+    const setClauses = [];
+    const values = [];
+    let idx = 1;
+
+    updatableFields.forEach(field => {
+      const camelCaseField = field.replace(/_([a-z])/g, g => g[1].toUpperCase()); // Snake to camel-case for req.body keys
+      if (req.body[camelCaseField] !== undefined) {
+        setClauses.push(`${field} = $${idx}`);
+        values.push(req.body[camelCaseField]);
+        idx++;
+      }
+    });
+
+    if (req.file) {
+      setClauses.push(`profile_image = $${idx}`);
+      values.push(`images/pet-profiles/${req.file.filename}`);
+      idx++;
+    }
+
+    setClauses.push(`updated_at = $${idx}`);
+    values.push(new Date().toISOString());
+    idx++;
+
+    values.push(profileId);
+    values.push(req.session.userId);
+
+    if (setClauses.length === 0) {
+      await client.end();
+      return res.status(400).json({ error: 'Keine Felder zum Aktualisieren angegeben.' });
+    }
+
+    const updateQuery = `
+      UPDATE pet_profiles
+      SET ${setClauses.join(', ')}
+      WHERE id = $${idx} AND owner_user_id = $${idx + 1}
+      RETURNING *
+    `;
+
+    const updateRes = await client.query(updateQuery, values);
+    await client.end();
+
+    res.json({ success: true, profile: updateRes.rows[0] });
+  } catch (error) {
+    console.error('Fehler beim Aktualisieren des Profils:', error);
+    res.status(500).json({ error: 'Server-Fehler' });
+  }
+});
+
+app.delete('/api/pet-profiles/:id', async (req, res) => {
+  if (!req.session.userId) return res.status(401).json({ error: 'Zugriff verweigert.' });
+
+  const profileId = req.params.id;
+
+  try {
+    const client = new Client({ connectionString: process.env.NETLIFY_DATABASE_URL });
+    await client.connect();
+
+    const checkRes = await client.query('SELECT owner_user_id FROM pet_profiles WHERE id = $1', [profileId]);
+
+    if (checkRes.rowCount === 0) {
+      await client.end();
+      return res.status(404).json({ error: 'Profil nicht gefunden.' });
+    }
+
+    if (checkRes.rows[0].owner_user_id !== req.session.userId) {
+      await client.end();
+      return res.status(403).json({ error: 'Keine Berechtigung.' });
+    }
+
+    await client.query('DELETE FROM pet_profiles WHERE id = $1 AND owner_user_id = $2', [profileId, req.session.userId]);
+
+    await client.end();
+    logActivity('pet_profile_deleted', `Profil gelöscht (ID: ${profileId})`, { userId: req.session.username });
+
+    res.json({ success: true });
+  } catch (error) {
+    console.error('Fehler beim Löschen des Profils:', error);
+    res.status(500).json({ error: 'Server-Fehler' });
+  }
+});
 
 // 6. Allgemeiner Static-Server für alle anderen Dateien (CSS, JS, Bilder)
 // WICHTIGER SICHERHEITSHINWEIS: Dieser Ansatz macht alle Dateien im Hauptverzeichnis zugänglich.
@@ -709,201 +903,6 @@ app.delete('/api/blog/:id', async (req, res) => {
   } catch (error) {
     console.error('Error deleting blog article:', error);
     res.status(500).json({ error: 'Server error' });
-  }
-});
-
-// ===== BENUTZER-ACCOUNT API =====
-
-app.post('/api/pet-profiles', upload.single('profileImage'), async (req, res) => {
-  if (!req.session.userId) return res.status(401).json({ error: 'Zugriff verweigert.' });
-
-  const {
-    petName, species, breed, gender, birthDate, microchip, size, weight,
-    furColor, temperament, activityLevel, socialBehavior, healthStatus,
-    allergies, careNotes, ownerName, ownerEmail, specialTraits, // u.a.
-  } = req.body;
-
-  if (!petName || !species || !ownerName || !ownerEmail) {
-    return res.status(400).json({ error: 'Pflichtfelder fehlen.' });
-  }
-
-  try {
-    const client = new Client({ connectionString: process.env.NETLIFY_DATABASE_URL });
-    await client.connect();
-
-    const profileImage = req.file ? `images/pet-profiles/${req.file.filename}` : null;
-    const now = new Date().toISOString();
-
-    const insertQuery = `
-      INSERT INTO pet_profiles
-      (pet_name, species, breed, gender, birth_date, microchip, size, weight, fur_color,
-       temperament, activity_level, social_behavior, health_status, allergies, care_notes,
-       special_traits, owner_name, owner_email, owner_user_id, created_at)
-      VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20)
-      RETURNING id
-    `;
-
-    const values = [
-      petName, species, breed || null, gender || null, birthDate || null, microchip || null,
-      size || null, weight ? parseFloat(weight) : null, furColor || null, temperament || null,
-      activityLevel || null, socialBehavior || null, healthStatus || null, allergies || null,
-      careNotes || null, specialTraits || null, ownerName, ownerEmail, req.session.userId, now
-    ];
-
-    const result = await client.query(insertQuery, values);
-    await client.end();
-
-    logActivity('pet_profile_created', `Neues Profil: ${petName}`, { userId: req.session.username });
-    res.status(201).json({ success: true, profileId: result.rows[0].id });
-  } catch (error) {
-    console.error('Fehler beim Anlegen des Profils:', error);
-    res.status(500).json({ error: 'Server-Fehler' });
-  }
-});
-
-app.get('/api/pet-profiles', async (req, res) => {
-  if (!req.session.userId) return res.json([]);
-
-  try {
-    const client = new Client({ connectionString: process.env.NETLIFY_DATABASE_URL });
-    await client.connect();
-
-    const selectQuery = `SELECT * FROM pet_profiles WHERE owner_user_id = $1 ORDER BY created_at DESC`;
-    const result = await client.query(selectQuery, [req.session.userId]);
-
-    await client.end();
-    res.json(result.rows);
-  } catch (error) {
-    console.error('Fehler beim Laden der Profile:', error);
-    res.status(500).json({ error: 'Server-Fehler' });
-  }
-});
-
-app.get('/api/pet-profiles/:id', async (req, res) => {
-  if (!req.session.userId) return res.status(401).json({ error: 'Zugriff verweigert.' });
-  
-  const profileId = req.params.id;
-
-  try {
-    const client = new Client({ connectionString: process.env.NETLIFY_DATABASE_URL });
-    await client.connect();
-
-    const result = await client.query('SELECT * FROM pet_profiles WHERE id = $1 AND owner_user_id = $2', [profileId, req.session.userId]);
-
-    await client.end();
-
-    if (result.rowCount === 0) {
-      return res.status(404).json({ error: 'Profil nicht gefunden.' });
-    }
-    res.json(result.rows[0]);
-  } catch (error) {
-    console.error('Fehler beim Laden des Profils:', error);
-    res.status(500).json({ error: 'Server-Fehler' });
-  }
-});
-
-app.put('/api/pet-profiles/:id', upload.single('profileImage'), async (req, res) => {
-  if (!req.session.userId) return res.status(401).json({ error: 'Zugriff verweigert.' });
-
-  const profileId = req.params.id;
-
-  try {
-    const client = new Client({ connectionString: process.env.NETLIFY_DATABASE_URL });
-    await client.connect();
-
-    // Prüfen, ob Profil zum User gehört
-    const checkRes = await client.query('SELECT owner_user_id FROM pet_profiles WHERE id = $1', [profileId]);
-    if (checkRes.rowCount === 0) {
-      await client.end();
-      return res.status(404).json({ error: 'Profil nicht gefunden.' });
-    }
-    if (checkRes.rows[0].owner_user_id !== req.session.userId) {
-      await client.end();
-      return res.status(403).json({ error: 'Keine Berechtigung.' });
-    }
-
-    // Update-Felder dynamisch zusammensetzen:
-    const updatableFields = ['pet_name', 'species', 'breed', 'gender', 'birth_date', 'microchip', 'size', 'weight', 'fur_color',
-      'temperament', 'activity_level', 'social_behavior', 'health_status', 'allergies', 'care_notes', 'special_traits', 'owner_name', 'owner_email'];
-
-    const setClauses = [];
-    const values = [];
-    let idx = 1;
-
-    updatableFields.forEach(field => {
-      const camelCaseField = field.replace(/_([a-z])/g, g => g[1].toUpperCase()); // Snake to camel-case for req.body keys
-      if (req.body[camelCaseField] !== undefined) {
-        setClauses.push(`${field} = $${idx}`);
-        values.push(req.body[camelCaseField]);
-        idx++;
-      }
-    });
-
-    if (req.file) {
-      setClauses.push(`profile_image = $${idx}`);
-      values.push(`images/pet-profiles/${req.file.filename}`);
-      idx++;
-    }
-
-    setClauses.push(`updated_at = $${idx}`);
-    values.push(new Date().toISOString());
-    idx++;
-
-    values.push(profileId);
-    values.push(req.session.userId);
-
-    if (setClauses.length === 0) {
-      await client.end();
-      return res.status(400).json({ error: 'Keine Felder zum Aktualisieren angegeben.' });
-    }
-
-    const updateQuery = `
-      UPDATE pet_profiles
-      SET ${setClauses.join(', ')}
-      WHERE id = $${idx} AND owner_user_id = $${idx + 1}
-      RETURNING *
-    `;
-
-    const updateRes = await client.query(updateQuery, values);
-    await client.end();
-
-    res.json({ success: true, profile: updateRes.rows[0] });
-  } catch (error) {
-    console.error('Fehler beim Aktualisieren des Profils:', error);
-    res.status(500).json({ error: 'Server-Fehler' });
-  }
-});
-
-app.delete('/api/pet-profiles/:id', async (req, res) => {
-  if (!req.session.userId) return res.status(401).json({ error: 'Zugriff verweigert.' });
-
-  const profileId = req.params.id;
-
-  try {
-    const client = new Client({ connectionString: process.env.NETLIFY_DATABASE_URL });
-    await client.connect();
-
-    const checkRes = await client.query('SELECT owner_user_id FROM pet_profiles WHERE id = $1', [profileId]);
-
-    if (checkRes.rowCount === 0) {
-      await client.end();
-      return res.status(404).json({ error: 'Profil nicht gefunden.' });
-    }
-
-    if (checkRes.rows[0].owner_user_id !== req.session.userId) {
-      await client.end();
-      return res.status(403).json({ error: 'Keine Berechtigung.' });
-    }
-
-    await client.query('DELETE FROM pet_profiles WHERE id = $1 AND owner_user_id = $2', [profileId, req.session.userId]);
-
-    await client.end();
-    logActivity('pet_profile_deleted', `Profil gelöscht (ID: ${profileId})`, { userId: req.session.username });
-
-    res.json({ success: true });
-  } catch (error) {
-    console.error('Fehler beim Löschen des Profils:', error);
-    res.status(500).json({ error: 'Server-Fehler' });
   }
 });
 
