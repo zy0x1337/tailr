@@ -660,80 +660,74 @@ class PetProfileCreator {
 
   /** Sammelt alle Daten und sendet POST mit UserID Query (vermeidet 401) */
   async handleSubmit(event) {
-    event.preventDefault();
-    if (this.isSubmitting) return;
+  event.preventDefault();
+  if(this.isSubmitting) return;
 
-    this.clearErrors();
+  this.clearErrors();
 
-    // Validierung aller Schritte vor Absenden
-    for (let i = 0; i < this.totalSteps; i++) {
-      if (!this.validateStep(i)) {
-        this.showError(`Bitte füllen Sie alle erforderlichen Felder in Schritt ${i + 1} aus.`);
-        this.changeStep(i);
-        return;
-      }
+  // Validierung aller Schritte vor Absendung
+  for(let i = 0; i < this.totalSteps; i++) {
+    if(!this.validateStep(i)) {
+      this.showError(`Bitte füllen Sie alle erforderlichen Felder in Schritt ${i + 1} aus.`);
+      this.changeStep(i);
+      return;
     }
+  }
 
-    // userId aus app.authManager holen
-    const userId = this.app?.authManager?.getCurrentUserId?.();
-    if (!userId) {
-      this.showError("Bitte zuerst einloggen.");
+  // userId aus app.authManager holen
+  const userId = this.app?.authManager?.getCurrentUserId?.();
+  if(!userId) {
+    this.showError("Bitte zuerst einloggen.");
+    this.app?.showAuthModal?.();
+    return;
+  }
+
+  // Formulardaten sammeln, trim nur für Strings, Files ignorieren oder speziell behandeln
+  const formData = new FormData(this.form);
+  const data = {};
+  formData.forEach((value, key) => {
+    if (!(value instanceof File)) { // keine Dateien ins JSON packen
+      data[key] = typeof value === 'string' ? value.trim() : value;
+    }
+  });
+
+  this.isSubmitting = true;
+  this.showStatus('Speichern...', 'info');
+
+  try {
+    const url = `/api/add-pet-profile?userId=${encodeURIComponent(userId)}`;
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+
+    if (response.status === 401) {
+      this.showError("Nicht authentifiziert oder Session abgelaufen. Bitte erneut anmelden.");
       this.app?.showAuthModal?.();
+      this.isSubmitting = false;
       return;
     }
 
-    // Formulardaten in Objekt umwandeln
-    const formData = new FormData(this.form);
-    const data = {};
-    formData.forEach((value, key) => {
-      data[key] = value.trim();
-    });
-
-    this.isSubmitting = true;
-    this.showStatus('Speichern...', 'info');
-
-    try {
-      const url = `/api/add-pet-profile?userId=${encodeURIComponent(userId)}`;
-
-      // Einfacher fetch POST ohne Auth Header, userId im Query-String
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-      });
-
-      if (response.status === 401) {
-        this.showError("Nicht authentifiziert oder Session abgelaufen. Bitte erneut anmelden.");
-        this.app?.showAuthModal?.();
-        this.isSubmitting = false;
-        return;
-      }
-
-      if (!response.ok) {
-        const errJson = await response.json().catch(() => ({}));
-        this.showError(errJson.error || "Fehler beim Speichern.");
-        this.isSubmitting = false;
-        return;
-      }
-
-      const result = await response.json();
-
-      this.showStatus('Profil erfolgreich gespeichert!', 'success');
-
-      // Optional: Formular zurücksetzen und wieder auf Anfang
-      this.resetForm();
-
-      // Optional: Weiterleitung oder UI-Update mit result.profileId
-
-    } catch (error) {
-      this.showError("Netzwerkfehler oder Server nicht erreichbar.");
-      console.error("Fehler bei handleSubmit:", error);
-    } finally {
+    if (!response.ok) {
+      const err = await response.json().catch(() => ({}));
+      this.showError(err.error || "Fehler beim Speichern.");
       this.isSubmitting = false;
+      return;
     }
+
+    const result = await response.json();
+
+    this.showStatus('Profil erfolgreich gespeichert!', 'success');
+    this.resetForm();
+
+  } catch(error) {
+    this.showError("Netzwerkfehler oder Server nicht erreichbar.");
+    console.error('Fehler bei handleSubmit:', error);
+  } finally {
+    this.isSubmitting = false;
   }
+}
 
   /** Setzt Formular zurück auf Anfangszustand */
   resetForm() {
