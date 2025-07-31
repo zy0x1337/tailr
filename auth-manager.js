@@ -612,28 +612,35 @@ class AuthManager {
      * Authentifizierte API-Anfrage
      */
     async apiCall(endpoint, options = {}) {
-        try {
+    try {
+        const { skipAuth = false, headers: customHeaders = {}, ...restOptions } = options;
+
+        const headers = {
+            'Content-Type': 'application/json',
+            ...customHeaders
+        };
+
+        if (!skipAuth) {
             const token = await this.getAccessToken();
-            
-            const response = await fetch(endpoint, {
-                ...options,
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json',
-                    ...options.headers
-                }
-            });
-
-            if (!response.ok) {
-                throw new Error(`API-Aufruf fehlgeschlagen: ${response.status} ${response.statusText}`);
-            }
-
-            return await response.json();
-        } catch (error) {
-            console.error('❌ API-Aufruf fehlgeschlagen:', error);
-            throw error;
+            headers['Authorization'] = `Bearer ${token}`;
         }
+
+        const response = await fetch(endpoint, {
+            ...restOptions,
+            headers
+        });
+
+        if (!response.ok) {
+            throw new Error(`API-Aufruf fehlgeschlagen: ${response.status} ${response.statusText}`);
+        }
+
+        return await response.json();
+
+    } catch (error) {
+        console.error('❌ API-Aufruf fehlgeschlagen:', error);
+        throw error;
     }
+}
 
     /**
      * Update user metadata
