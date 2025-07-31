@@ -2633,7 +2633,6 @@ updateActiveNavigation(activeCategory) {
   }
 }
 
-
 async showPetProfileDetail(profileId) {
   this.hideAllSections();
   this.showSection(this.petProfileDetailSection);
@@ -2641,7 +2640,7 @@ async showPetProfileDetail(profileId) {
   content.innerHTML = '<div class="loading-spinner"></div>';
 
   try {
-    const p = await this.authManager.apiCall(`https://tailr.netlify.app/api/get-pet-profile/${profileId}`);
+    const p = await this.authManager.apiCall(`https://tailr.netlify.app/api/get-pet-profile`);
 
     const currentUserId = this.authManager.getCurrentUserId();
     const isAdmin = this.authManager.isCurrentUserAdmin();
