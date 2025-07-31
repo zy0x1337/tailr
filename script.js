@@ -2774,25 +2774,37 @@ async handleDeleteProfile(profileId) {
 }
 
 async handleDeleteProfile(profileId) {
-    if (!confirm('Sind Sie sicher, dass Sie dieses Profil endgültig löschen möchten?')) {
-        return;
+  if (!confirm('Sind Sie sicher, dass Sie dieses Profil endgültig löschen möchten?')) {
+    return;
+  }
+
+  try {
+    const response = await fetch(`/api/pet-profiles/${profileId}`, {
+      method: 'DELETE',
+      credentials: 'include', // Wichtig, damit die Session/Cookie mitgesendet wird
+      headers: { 'Content-Type': 'application/json' }
+    });
+
+    if (!response.ok) {
+      // Versuch, die Fehlermeldung aus der Antwort zu lesen
+      const errorData = await response.json().catch(() => ({}));
+      const message = errorData.error || `Fehler beim Löschen (Status ${response.status})`;
+      alert(message);
+      return;
     }
 
-    try {
-        const response = await fetch(`/api/pet-profiles/${profileId}`, {
-            method: 'DELETE',
-        });
-        const result = await response.json();
-        if (result.success) {
-            alert('Profil erfolgreich gelöscht.');
-            this.showMyPets(); // Zurück zur Übersicht
-        } else {
-            alert('Fehler beim Löschen des Profils.');
-        }
-    } catch (error) {
-        console.error('Fehler:', error);
-        alert('Ein schwerwiegender Fehler ist aufgetreten.');
+    const result = await response.json();
+
+    if (result.success) {
+      alert('Profil erfolgreich gelöscht.');
+      this.showMyPets(); // Zurück zur Übersicht
+    } else {
+      alert('Fehler beim Löschen des Profils.');
     }
+  } catch (error) {
+    console.error('Fehler:', error);
+    alert('Ein schwerwiegender Fehler ist aufgetreten.');
+  }
 }
 
 async showAdminLog() {
