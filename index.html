@@ -651,183 +651,117 @@
          aria-labelledby="hero-title"
          itemscope 
          itemtype="https://schema.org/WebPageElement">
-    
-    <!-- ========================================
-         RESPONSIVE HERO BACKGROUND IMAGE
-         ======================================== -->
-    <!-- Optimized picture element for different devices and formats -->
-    <picture class="hero__background">
-        <!-- WebP format for modern browsers (bessere Kompression) -->
-        <source srcset="images/hero-bg.webp 1920w, 
-                        images/hero-bg-tablet.webp 1024w, 
-                        images/hero-bg-mobile.webp 768w" 
-                type="image/webp"
-                media="(min-width: 768px)">
-        
-        <!-- AVIF format für optimale Performance -->
-        <source srcset="images/hero-bg.avif 1920w, 
-                        images/hero-bg-tablet.avif 1024w, 
-                        images/hero-bg-mobile.avif 768w" 
-                type="image/avif"
-                media="(min-width: 768px)">
-        
-        <!-- PNG fallback für ältere Browser -->
-        <source srcset="images/hero-bg.png 1920w, 
-                        images/hero-bg-tablet.png 1024w, 
-                        images/hero-bg-mobile.png 768w" 
-                type="image/png">
-        
-        <!-- Fallback img element mit SEO-optimiertem Alt-Text -->
-        <img src="images/hero-bg.png" 
-             alt="Glückliche Haustiere verschiedener Arten - tailr.wiki digitale Haustierpflege" 
-             class="hero__bg-image"
-             width="1920" 
-             height="800"
-             loading="eager"
-             decoding="async"
-             itemprop="image"
-             aria-hidden="true">
-    </picture>
-    
-    <!-- ========================================
-         HERO CONTENT - PRIMARY MESSAGE
-         ======================================== -->
-    <!-- Main content container with semantic structure -->
-    <div class="hero__content" 
-         role="main" 
-         aria-labelledby="hero-title"
-         itemscope 
-         itemtype="https://schema.org/Organization">
-        
-        <!-- ========================================
-             PRIMARY HEADING - H1 FOR SEO
-             ======================================== -->
-        <!-- SEO-optimierte H1 mit Keywords für Haustierpflege -->
-        <h1 class="hero__title" 
-            id="hero-title"
-            itemprop="name"
-            aria-label="tailr.wiki - Hauptüberschrift für digitale Haustierpflege">
-            Digitale Haustierpflege für moderne Tierhalter
-        </h1>
-        
-        <!-- ========================================
-             HERO DESCRIPTION - VALUE PROPOSITION
-             ======================================== -->
-        <!-- Überzeugende Beschreibung mit Call-to-Action Keywords -->
-        <p class="hero__description" 
-   itemprop="description"
-   aria-describedby="hero-title">
-    Ihre <strong>digitale Plattform für Haustierpflege</strong> in der Beta-Phase. 
-    Nutzen Sie Expertenratgeber, interaktive Tools und Produktvergleiche 
-    <strong>kostenlos</strong> - für Hunde, Katzen, Vögel, Fische und mehr.
-</p>
-        
-        <!-- ========================================
-             TRUST INDICATORS / SOCIAL PROOF
-             ======================================== -->
-        <!-- Vertrauen schaffende Elemente -->
-        <div class="hero__stats hero__stats--honest" 
-     itemscope 
-     itemtype="https://schema.org/WebApplication">
-    
-    <!-- Beta-Tester gesucht -->
-    <span class="hero__stat-item hero__stat-item--cta">
-        <strong>🎯 Beta-Tester</strong> 
-        gesucht
-    </span>
-    
-    <!-- Vollumfang verfügbar -->
-    <span class="hero__stat-item">
-        <strong>100%</strong> 
-        der Features verfügbar
-    </span>
-    
-    <!-- Feedback erwünscht -->
-    <span class="hero__stat-item hero__stat-item--interactive">
-        <strong>💬 Feedback</strong> 
-        sehr willkommen
-    </span>
-            </div>
-            
-            <!-- Feature Highlights -->
-            <div class="hero__features" 
-     role="list" 
-     aria-label="Verfügbare Hauptfunktionen">
-    
-    <!-- Tierarten-Kategorien -->
-    <span class="hero__feature" role="listitem">
-        ✅ 6+ Tierarten-Kategorien
-    </span>
-    
-    <!-- Interaktive Tools -->
-    <span class="hero__feature" role="listitem">
-        ✅ Interaktive Pflege-Tools
-    </span>
-    
-    <!-- Theme-System -->
-    <span class="hero__feature" role="listitem">
-        ✅ 9 Design-Themes
-    </span>
-    
-    <!-- Ratgeber & Blog -->
-    <span class="hero__feature" role="listitem">
-        ✅ Expert*innen-Ratgeber
-    </span>
-    
-    <!-- Vergleichsfunktion -->
-    <span class="hero__feature" role="listitem">
-        ✅ Produkt-Vergleiche
-    </span>
-    
-    <!-- Favoriten-System -->
-    <span class="hero__feature" role="listitem">
-        ✅ Favoriten-Verwaltung
-    </span>
-    
-    <!-- Kostenlos -->
-    <span class="hero__feature" role="listitem">
-        ✅ 100% Kostenlos
-    </span>
-    
-    <!-- Mobile-optimiert -->
-    <span class="hero__feature" role="listitem">
-        ✅ Mobile-optimiert
-    </span>
-            </div>
-        </div>
+
+  <!-- RESPONSIVE HERO BACKGROUND IMAGE -->
+  <picture class="hero__background" aria-hidden="true" tabindex="-1">
+    <source srcset="images/hero-bg.webp 1920w, images/hero-bg-tablet.webp 1024w, images/hero-bg-mobile.webp 768w" 
+            type="image/webp" media="(min-width: 768px)">
+    <source srcset="images/hero-bg.avif 1920w, images/hero-bg-tablet.avif 1024w, images/hero-bg-mobile.avif 768w" 
+            type="image/avif" media="(min-width: 768px)">
+    <source srcset="images/hero-bg.png 1920w, images/hero-bg-tablet.png 1024w, images/hero-bg-mobile.png 768w" 
+            type="image/png">
+    <img src="images/hero-bg.png" 
+         alt="Glückliche Haustiere verschiedener Arten – tailr.wiki digitale Haustierpflege" 
+         class="hero__bg-image"
+         width="1920" height="800" loading="eager" decoding="async" itemprop="image" />
+  </picture>
+
+  <!-- HERO CONTENT -->
+  <div class="hero__content" 
+       role="main" 
+       aria-labelledby="hero-title" 
+       itemscope 
+       itemtype="https://schema.org/Organization" 
+       itemprop="mainEntityOfPage">
+
+    <meta itemprop="name" content="tailr.wiki" />
+
+    <!-- PRIMARY HEADING -->
+    <h1 id="hero-title" class="hero__title" itemprop="headline" lang="de">
+      Digitale Haustierpflege für moderne Tierhalter
+    </h1>
+
+    <!-- VALUE PROPOSITION -->
+    <p class="hero__description" itemprop="description" aria-describedby="hero-title">
+      Ihre <strong>digitale Plattform für Haustierpflege</strong> in der Beta-Phase. Nutzen Sie fundierte Expertenratgeber, zuverlässige Werkzeuge und Vergleichsfunktionen – kostenfrei und praxisnah für Hunde, Katzen, Vögel, Fische und mehr.
+    </p>
+
+    <!-- TRUST INDICATORS -->
+    <div class="hero__stats hero__stats--honest" itemscope itemtype="https://schema.org/WebApplication" itemprop="application">
+      <meta itemprop="name" content="tailr.wiki Haustierpflege-App" />
+      <meta itemprop="applicationCategory" content="HealthApplication" />
+      <meta itemprop="operatingSystem" content="Web Browser" />
+      <meta itemprop="offers" itemscope itemtype="https://schema.org/Offer">
+        <meta itemprop="price" content="0" />
+        <meta itemprop="priceCurrency" content="EUR" />
+      </meta>
+
+      <span class="hero__stat-item hero__stat-item--cta" aria-label="Beta-Tester gesucht">
+        <!-- SVG Target Icon -->
+        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false" role="img">
+          <circle cx="10" cy="10" r="8" />
+          <circle cx="10" cy="10" r="5" />
+          <circle cx="10" cy="10" r="2" />
+        </svg>
+        Beta-Tester gesucht
+      </span>
+
+      <span class="hero__stat-item" aria-label="Alle Features verfügbar">
+        <strong>100%</strong> Features verfügbar
+      </span>
+
+      <span class="hero__stat-item hero__stat-item--interactive" aria-label="Feedback willkommen">
+        <!-- SVG Chat Icon -->
+        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false" role="img">
+          <path d="M2 12h14l4 4V2H2z" />
+        </svg>
+        Feedback willkommen
+      </span>
     </div>
-    <!-- Ende: Hero Content -->
-    
-    <!-- ========================================
-         SCHEMA.ORG STRUCTURED DATA
-         ======================================== -->
-    <!-- JSON-LD für erweiterte SEO-Informationen -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "WebSite",
-        "name": "tailr.wiki",
-        "description": "Digitale Haustierpflege für moderne Tierhalter",
-        "url": "https://tailr.netlify.app",
-        "potentialAction": {
-            "@type": "SearchAction",
-            "target": "https://tailr.netlify.app/search?q={search_term_string}",
-            "query-input": "required name=search_term_string"
-        },
-        "mainEntity": {
-            "@type": "SoftwareApplication",
-            "name": "tailr.wiki Haustierpflege-App",
-            "applicationCategory": "HealthApplication",
-            "operatingSystem": "Web Browser",
-            "offers": {
-                "@type": "Offer",
-                "price": "0",
-                "priceCurrency": "EUR"
-            }
-        }
-    }
-    </script>
-    
+
+    <!-- FEATURE HIGHLIGHTS LIST -->
+    <ul class="hero__features" role="list" aria-label="Wesentliche Vorteile von tailr.wiki">
+      <li class="hero__feature" role="listitem" tabindex="0">
+        <!-- SVG Paw Icon -->
+        <svg width="16" height="16" fill="currentColor" aria-hidden="true" focusable="false" role="img" viewBox="0 0 24 24">
+          <path d="M20 15c0-1.2-1.5-3-3-3s-3 1.8-3 3 1.5 3 3 3 3-1.8 3-3zM12 7c0-1.2-1.5-3-3-3S6 5.8 6 7s1.5 3 3 3 3-1.8 3-3zM7 2c1.104 0 2 .896 2 2s-.896 2-2 2-2-.896-2-2 .896-2 2-2zm4 13c0-1.2-1.5-3-3-3s-3 1.8-3 3 1.5 3 3 3 3-1.8 3-3zM16.93 8.36l.232-.928c.093-.373.147-.746.147-1.122 0-2.28-1.546-4.132-3.448-4.132-1.235 0-2.28.82-2.843 2.064C8.14 4.423 7 7.362 7 10c0 1.137.358 2.194.97 3.04a2.918 2.918 0 002.83 1.597 2.918 2.918 0 002.83-1.597 4.027 4.027 0 00.083-3.68c-.156-.355-.342-.7-.56-1.027l-.23-.928z" />
+        </svg>
+        Umfangreiche Expertenratgeber für verschiedene Haustierarten
+      </li>
+      <li class="hero__feature" role="listitem" tabindex="0">
+        <!-- SVG Tool Icon -->
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false" role="img" viewBox="0 0 24 24">
+          <path d="M14.7 14.7l3.6 3.6m-2.9-8.1l-6.9 6.9L5 16.1l1.9-3.5 6.9-6.9 1.1 1.1z" />
+        </svg>
+        Intuitive Pflege- und Vergleichstools
+      </li>
+      <li class="hero__feature" role="listitem" tabindex="0">
+        <!-- SVG Theme Icon -->
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false" role="img" viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="10" />
+          <path d="M2 12h20" />
+          <path d="M12 2a15.3 15.3 0 0 1 0 20" />
+        </svg>
+        Auswahl aus professionellen Design-Themes
+      </li>
+      <li class="hero__feature" role="listitem" tabindex="0">
+        <!-- SVG Favorite Icon -->
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false" role="img" viewBox="0 0 24 24">
+          <path d="M12 21l-1-1C5 15 2 12 2 8a5 5 0 0 1 10-1 5 5 0 0 1 10 1c0 4-3 7-9 12z" />
+        </svg>
+        Verwaltung persönlicher Favoriten
+      </li>
+      <li class="hero__feature" role="listitem" tabindex="0">
+        <!-- SVG Mobile Icon -->
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false" role="img" viewBox="0 0 24 24">
+          <rect x="7" y="2" width="10" height="20" rx="2" ry="2" />
+          <path d="M11 18h2" />
+        </svg>
+        Optimiert für mobile Nutzung und verschiedene Endgeräte
+      </li>
+    </ul>
+
+  </div>
 </section>
 <!-- Ende: Hero Section -->
 
