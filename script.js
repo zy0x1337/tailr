@@ -2595,20 +2595,26 @@ updateActiveNavigation(activeCategory) {
   emptyState.style.display = 'none';
 
   try {
-    const response = await fetch('/api/pet-profiles', { credentials: 'include' });
+    // Hole User-ID aus AuthManager (oder ähnlichem)
+    const userId = this.authManager?.getCurrentUserId();
+    if (!userId) {
+      throw new Error('Benutzer nicht eingeloggt');
+    }
+
+    const response = await fetch(`/.netlify/functions/get-pet-profiles?userId=${encodeURIComponent(userId)}`);
     if (!response.ok) throw new Error(`Server antwortet mit Status ${response.status}`);
+
     const profiles = await response.json();
 
     grid.innerHTML = '';
-
-    if (!Array.isArray(profiles) || profiles.length === 0) {
+    if (profiles.length === 0) {
       emptyState.style.display = 'block';
       return;
     }
-
     emptyState.style.display = 'none';
 
     profiles.forEach(profile => {
+      // Erstelle cards etc. wie gehabt
       const card = document.createElement('div');
       card.className = 'pet-profile-card';
       card.innerHTML = `
@@ -2628,9 +2634,9 @@ updateActiveNavigation(activeCategory) {
         </div>`;
       grid.appendChild(card);
     });
+
   } catch (error) {
     console.error('Fehler beim Laden der Haustier-Profile:', error);
-    emptyState.style.display = 'none';
     grid.innerHTML = '<p class="error-message">Fehler beim Laden der Profile.</p>';
   }
 }

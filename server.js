@@ -65,7 +65,7 @@ function getTimeAgo(timestamp) {
 
 // 1. CORS (Cross-Origin Resource Sharing)
 app.use(cors({
-    origin: ['http://localhost:3000', 'http://127.0.0.1:3000', 'https://tailr.netlify.app'],
+    origin: ['http://localhost:3000', 'http://127.0.0.1:3000'],
     credentials: true
 }));
 
