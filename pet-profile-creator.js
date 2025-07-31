@@ -463,6 +463,13 @@ class PetProfileCreator {
   }
 }
 
+showStatus(message, type = "info") {
+  if (!this.statusContainer) return;
+  this.statusContainer.textContent = message;
+  this.statusContainer.className = `form-status ${type}`;
+  this.statusContainer.style.display = 'block';
+}
+
   collectFormData() {
     const formData = new FormData(this.form);
     const data = {};
