@@ -2595,22 +2595,9 @@ updateActiveNavigation(activeCategory) {
   emptyState.style.display = 'none';
 
   try {
-    // User-ID aus AuthManager holen
-    const userId = this.authManager?.getCurrentUserId();
-    if (!userId) {
-      throw new Error('Benutzer nicht eingeloggt');
-    }
-
-    // Fetch: Netlify Function abfragen und UserID mitgeben
-    const response = await fetch(`/.netlify/functions/get-pet-profiles?userId=${encodeURIComponent(userId)}`, {
-      credentials: 'include'  // falls Cookies/Sessions genutzt werden
-    });
-
-    if (!response.ok) {
-      throw new Error(`Server antwortet mit Status ${response.status}`);
-    }
-
-    const profiles = await response.json();
+    // Rufe gesichert die profile API auf
+    // Passe URL zur Netlify Function oder deinem Backend an!
+    const profiles = await this.authManager.apiCall('/.netlify/functions/get-pet-profiles');
 
     grid.innerHTML = '';
     if (!Array.isArray(profiles) || profiles.length === 0) {
@@ -2646,7 +2633,6 @@ updateActiveNavigation(activeCategory) {
   }
 }
 
-
 async showPetProfileDetail(profileId) {
   this.hideAllSections();
   this.showSection(this.petProfileDetailSection);
@@ -2654,26 +2640,12 @@ async showPetProfileDetail(profileId) {
   content.innerHTML = '<div class="loading-spinner"></div>';
 
   try {
-    const response = await fetch(`/api/pet-profiles/${profileId}`, {
-      credentials: 'include'  // Session-Cookie senden
-    });
-
-    if (!response.ok) {
-      if (response.status === 404) throw new Error('Profil nicht gefunden');
-      throw new Error(`Server antwortet mit Status ${response.status}`);
-    }
-
-    const p = await response.json();
+    const p = await this.authManager.apiCall(`/api/pet-profiles/${profileId}`);
 
     const currentUserId = this.authManager.getCurrentUserId();
     const isAdmin = this.authManager.isCurrentUserAdmin();
 
-    // Stelle sicher, dass ownerUserId da ist oder fallback nutzen
     const ownerUserId = p.ownerUserId || p.owner_user_id || null;
-    if (!ownerUserId) {
-      console.warn('Profil enthält keinen ownerUserId-Wert');
-    }
-
     const isOwner = ownerUserId === currentUserId;
 
     const displayValue = (value, fallback = 'Keine Angabe') =>
