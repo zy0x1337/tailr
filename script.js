@@ -2719,6 +2719,28 @@ async showPetProfileDetail(profileId) {
   }
 }
 
+async editProfile(profileId, updatedData) {
+  try {
+    const response = await this.app.authManager.apiCall(
+      `https://tailr.netlify.app/.netlify/functions/edit-pet-profile/${profileId}`,
+      {
+        method: 'PUT',
+        headers: { /* falls nötig zusätzliche Header hier */ },
+        body: JSON.stringify(updatedData),
+      }
+    );
+
+    if (response.success) {
+      this.showSuccess('Profil erfolgreich aktualisiert!');
+    } else {
+      this.showError(response.error || 'Fehler beim Aktualisieren des Profils.');
+    }
+  } catch (error) {
+    console.error('Fehler beim Bearbeiten des Profils:', error);
+    this.showError('Fehler beim Speichern: ' + error.message);
+  }
+}
+
 async handleDeleteProfile(profileId) {
   if (!confirm('Sind Sie sicher, dass Sie dieses Profil endgültig löschen möchten?')) {
     return;
