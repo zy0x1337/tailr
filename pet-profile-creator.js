@@ -900,75 +900,93 @@ class PetProfileCreator {
      * Hauptformular-Submit Handler
      */
     async handleSubmit(event) {
-        event.preventDefault();
-        
-        if (this.isSubmitting) return;
-        
-        // Final validation
-        if (!this.validateCurrentStep()) {
-            this.showError('Bitte füllen Sie alle erforderlichen Felder aus, bevor Sie das Profil erstellen.');
-            return;
-        }
+  event.preventDefault();
 
-        // Check privacy acceptance
-        const privacyAccepted = this.form.querySelector('#privacy-accepted');
-        if (privacyAccepted && !privacyAccepted.checked) {
-            this.showError('Bitte akzeptieren Sie die Datenschutzerklärung, um fortzufahren.');
-            return;
-        }
+  if (this.isSubmitting) return;
 
-        this.isSubmitting = true;
-        this.updateSubmitButtonState(true);
+  // Finale Validierung
+  if (!this.validateCurrentStep()) {
+    this.showError('Bitte füllen Sie alle erforderlichen Felder aus, bevor Sie das Profil erstellen.');
+    return;
+  }
 
-        try {
-            const formData = new FormData(this.form);
-            
-            // Add metadata
-            formData.append('editMode', this.editMode);
-            if (this.profileId) {
-                formData.append('profileId', this.profileId);
-            }
+  // Datenschutzerklärung prüfen (optional)
+  const privacyAccepted = this.form.querySelector('#privacy-accepted');
+  if (privacyAccepted && !privacyAccepted.checked) {
+    this.showError('Bitte akzeptieren Sie die Datenschutzerklärung, um fortzufahren.');
+    return;
+  }
 
-            const url = this.editMode ? `/api/pet-profiles/${this.profileId}` : '/api/pet-profiles';
-            const method = this.editMode ? 'PUT' : 'POST';
+  this.isSubmitting = true;
+  this.updateSubmitButtonState(true);
 
-            const response = await fetch(url, {
-                method: method,
-                body: formData
-            });
+  try {
+    // Formulardaten als Objekt sammeln
+    const formDataObj = this.getFormDataAsObject();
 
-            const result = await response.json();
+    // POST Request an Netlify Function senden
+    const response = await fetch('/.netlify/functions/add-pet-profile', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(formDataObj)
+    });
 
-            if (result.success) {
-                const message = this.editMode 
-                    ? 'Haustier-Profil erfolgreich aktualisiert!' 
-                    : 'Haustier-Profil erfolgreich erstellt!';
-                
-                this.showSuccess(message);
-                
-                // Clear saved draft
-                localStorage.removeItem('petProfileDraft');
-                
-                // Reset form and navigate back
-                setTimeout(() => {
-                    this.resetForm();
-                    if (this.app && this.app.showMyPets) {
-                        this.app.showMyPets();
-                    }
-                }, 2000);
+    if (response.ok) {
+      const result = await response.json();
+      if (result.success) {
+        this.showSuccess('Haustier-Profil erfolgreich gespeichert!');
+        localStorage.removeItem('petProfileDraft');
 
-            } else {
-                this.showError(result.error || 'Ein unbekannter Fehler ist aufgetreten.');
-            }
+        setTimeout(() => {
+          this.resetForm();
+          if (this.app && this.app.showMyPets) {
+            this.app.showMyPets();
+          }
+        }, 1500);
 
-        } catch (error) {
-            console.error('Form submission error:', error);
-            this.showError('Ein Netzwerkfehler ist aufgetreten. Bitte versuchen Sie es erneut.');
-        } finally {
-            this.isSubmitting = false;
-            this.updateSubmitButtonState(false);
-        }
+      } else {
+        this.showError(result.error || 'Ein unbekannter Fehler ist aufgetreten.');
+      }
+    } else {
+      const errorText = await response.text();
+      this.showError(`Fehler beim Speichern: ${errorText}`);
     }
+
+  } catch (error) {
+    console.error('Netzwerkfehler:', error);
+    this.showError('Ein Netzwerkfehler ist aufgetreten. Bitte versuchen Sie es erneut.');
+  } finally {
+    this.isSubmitting = false;
+    this.updateSubmitButtonState(false);
+  }
+}
+
+getFormDataAsObject() {
+  const formData = new FormData(this.form);
+  const obj = {};
+
+  for (const [key, value] of formData.entries()) {
+    // Mehrfachauswahl (z.B. Checkboxes für temperament) berücksichtigen
+    if (obj[key]) {
+      if (Array.isArray(obj[key])) {
+        obj[key].push(value);
+      } else {
+        obj[key] = [obj[key], value];
+      }
+    } else {
+      obj[key] = value;
+    }
+  }
+
+  // Optional: "temperament" (wenn Checkboxen) immer als Array, auch bei einem Wert
+  if (obj.temperament && !Array.isArray(obj.temperament)) {
+    obj.temperament = [obj.temperament];
+  }
+
+  return obj;
+}
 
     /**
      * Aktualisiert den Status des Submit-Buttons
