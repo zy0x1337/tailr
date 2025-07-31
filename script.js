@@ -2641,7 +2641,7 @@ async showPetProfileDetail(profileId) {
   content.innerHTML = '<div class="loading-spinner"></div>';
 
   try {
-    const p = await this.authManager.apiCall(`https://tailr.netlify.app/api/pet-profiles/${profileId}`);
+    const p = await this.authManager.apiCall(`https://tailr.netlify.app/api/get-pet-profile/${profileId}`);
 
     const currentUserId = this.authManager.getCurrentUserId();
     const isAdmin = this.authManager.isCurrentUserAdmin();
