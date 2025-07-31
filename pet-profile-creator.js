@@ -616,8 +616,12 @@ class PetProfileCreator {
 
     const data = {};
     new FormData(this.form).forEach((value, key) => {
-      data[key] = value.trim();
-    });
+  if (typeof value === 'string') {
+    data[key] = value.trim();
+  } else {
+    data[key] = value;
+  }
+});
 
     // Gruppenbasierte Darstellung
     let html = '';
