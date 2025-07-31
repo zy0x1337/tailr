@@ -695,7 +695,7 @@ class PetProfileCreator {
   this.showStatus('Speichern...', 'info');
 
   try {
-    const url = `/api/add-pet-profile?userId=${encodeURIComponent(userId)}`;
+    const url = `/.netlify/functions/add-pet-profile?userId=${encodeURIComponent(userId)}`;
 
     // apiCall mit skipAuth:true, damit kein Authorization-Header gesetzt wird
     const result = await this.app.authManager.apiCall(url, {
