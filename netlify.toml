@@ -23,3 +23,8 @@ compress = true
   from = "/*"
   to = "/index.html"
   status = 200
+  
+  from = "/api/pet-profiles/:id"
+  to = "/.netlify/functions/get-pet-profile/:id"
+  status = 200
+  force = true
