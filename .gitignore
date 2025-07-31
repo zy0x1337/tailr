@@ -97,3 +97,6 @@ database/
 *.swp
 *.swo
 *~
+
+# Local Netlify folder
+.netlify
