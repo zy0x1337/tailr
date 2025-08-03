@@ -9328,7 +9328,7 @@ class AnimalOfTheDay {
             <details class="animal-of-day-spoiler" id="animal-of-day-spoiler">
                 <summary class="animal-of-day-spoiler__title">
                     <div class="spoiler-title-content">
-                        <div class="spoiler-title-icon">🏆</div>
+                        <div class="spoiler-title-icon"><img src="images/animaloftheday.svg" alt="Devices" width="32" height="32" /></div>
                         <div class="spoiler-title-text">
                             <h2>Tier des Tages</h2>
                             <p class="spoiler-subtitle">Entdecken Sie heute: ${this.currentAnimal.name}</p>
