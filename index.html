@@ -645,141 +645,223 @@
         <!-- ========================================
      HERO SECTION - PRIMARY LANDING AREA
      ======================================== -->
-<!-- Main hero section with semantic markup and SEO optimization -->
-<section id="hero" class="hero" 
+<!-- HERO SECTION - Modernisiert und Kompakt -->
+<section id="hero" class="hero-section" 
          role="banner" 
          aria-labelledby="hero-title"
          itemscope 
          itemtype="https://schema.org/WebPageElement">
 
-  <!-- RESPONSIVE HERO BACKGROUND IMAGE -->
-  <picture class="hero__background" aria-hidden="true" tabindex="-1">
-    <source srcset="images/hero-bg.webp 1920w, images/hero-bg-tablet.webp 1024w, images/hero-bg-mobile.webp 768w" 
-            type="image/webp" media="(min-width: 768px)">
-    <source srcset="images/hero-bg.avif 1920w, images/hero-bg-tablet.avif 1024w, images/hero-bg-mobile.avif 768w" 
-            type="image/avif" media="(min-width: 768px)">
-    <source srcset="images/hero-bg.png 1920w, images/hero-bg-tablet.png 1024w, images/hero-bg-mobile.png 768w" 
-            type="image/png">
-    <img src="images/hero-bg.png" 
-         alt="Glückliche Haustiere verschiedener Arten – tailr.wiki digitale Haustierpflege" 
-         class="hero__bg-image"
-         width="1920" height="800" loading="eager" decoding="async" itemprop="image" />
-  </picture>
-
-  <div class="hero__content" 
-       role="main" 
-       aria-labelledby="hero-title" 
-       itemscope 
-       itemtype="https://schema.org/Organization" 
-       itemprop="mainEntityOfPage">
-
-    <meta itemprop="name" content="tailr.wiki" />
-
-    <!-- PRIMARY HEADING -->
-    <h1 id="hero-title" class="hero__title" itemprop="headline" lang="de">
-      Digitale Haustierpflege für moderne Tierhalter
-    </h1>
-
-    <p class="hero__description" itemprop="description" aria-describedby="hero-title">
-      Ihre <strong>digitale Plattform für Haustierpflege</strong>. Profitieren Sie von gründlich recherchierten und fundierten Fachinhalten, modernen Werkzeugen und smarten Vergleichsfunktionen – frei verfügbar für Hunde, Katzen, Vögel, Fische und mehr.
-    </p>
-
-    <!-- TRUST INDICATORS / SOCIAL PROOF -->
-    <div class="hero__stats hero__stats--honest" itemscope itemtype="https://schema.org/WebApplication" itemprop="application">
-      <meta itemprop="name" content="tailr.wiki Haustierpflege-App" />
-      <meta itemprop="applicationCategory" content="HealthApplication" />
-      <meta itemprop="operatingSystem" content="Web Browser" />
-      <meta itemprop="offers" itemscope itemtype="https://schema.org/Offer">
-        <meta itemprop="price" content="0" />
-        <meta itemprop="priceCurrency" content="EUR" />
-      </meta>
-
-      <!-- Research Trust Block -->
-      <div class="hero__stat-item" aria-label="Fundierte Recherche für Tierinhalte">
-        <div class="hero__stat-icon">
-          <object type="image/svg+xml" data="/images/research.svg" width="80" height="80" aria-hidden="true"></object>
-        </div>
-        <div class="hero__stat-content">
-          <h3 class="hero__stat-title">Fundierte Recherche</h3>
-          <p class="hero__stat-description">
-            Wir nehmen die Verantwortung für unsere Tierinhalte ernst. Jeder Artikel entsteht durch 
-            gründliche Recherche in Fachpublikationen, Veterinärquellen und aktuellen Studien. 
-            Dabei achten wir darauf, komplexe medizinische oder verhaltenskundliche Informationen 
-            so aufzubereiten, dass sie für jeden Tierbesitzer verständlich sind – ohne wichtige 
-            Details zu verlieren. Unser Ziel ist es, dir das Wissen zu geben, das du brauchst, 
-            um die Gesundheit und das Wohlbefinden deines Tieres bestmöglich zu unterstützen.
+  <div class="container">
+    <div class="hero-content">
+      <!-- Hauptinhalt -->
+      <div class="hero-main">
+        <div class="hero-text">
+          <!-- PRIMARY HEADING -->
+          <h1 id="hero-title" class="hero-title" itemprop="headline" lang="de">
+            <span class="hero-title-main">Ihre digitale Plattform</span>
+            <span class="hero-title-sub">für Haustierpflege</span>
+          </h1>
+          
+          <p class="hero-description" itemprop="description" aria-describedby="hero-title">
+            Profitieren Sie von gründlich recherchierten und fundierten Fachinhalten, modernen Werkzeugen und smarten Vergleichsfunktionen – frei verfügbar für Hunde, Katzen, Vögel, Fische und mehr.
           </p>
+          
+          <div class="hero-actions">
+            <button class="btn btn--primary btn--large" type="button" aria-label="Entdecken Sie unsere Haustierpflege-Inhalte">
+              <span>Jetzt entdecken</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M13.025 1l-2.847 2.828 6.176 6.176h-16.354v3.992h16.354l-6.176 6.176 2.847 2.828 10.975-11z"/>
+              </svg>
+            </button>
+            <button class="btn btn--secondary btn--large" type="button" aria-label="Unsere Tools und Rechner ansehen">
+              <span>Tools ansehen</span>
+            </button>
+          </div>
+        </div>
+        
+        <!-- Prominentes SVG -->
+        <div class="hero-visual">
+          <div class="hero-svg-container">
+            <svg class="hero-svg" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration einer Person mit Haustierpflege-Dokumenten">
+              <!-- Hintergrundkreise -->
+              <circle cx="320" cy="80" r="60" fill="var(--hero-accent-1)" opacity="0.1"/>
+              <circle cx="80" cy="220" r="40" fill="var(--hero-accent-2)" opacity="0.15"/>
+              
+              <!-- Hauptfigur -->
+              <g class="hero-character">
+                <!-- Körper -->
+                <ellipse cx="200" cy="200" rx="45" ry="60" fill="var(--hero-primary)"/>
+                
+                <!-- Kopf -->
+                <circle cx="200" cy="120" r="35" fill="var(--hero-skin)"/>
+                
+                <!-- Haare -->
+                <path d="M165 100 Q200 85 235 100 Q225 90 200 88 Q175 90 165 100" fill="var(--hero-hair)"/>
+                
+                <!-- Gesicht -->
+                <circle cx="190" cy="115" r="2" fill="var(--hero-text)"/>
+                <circle cx="210" cy="115" r="2" fill="var(--hero-text)"/>
+                <path d="M195 125 Q200 130 205 125" stroke="var(--hero-text)" stroke-width="1.5" fill="none"/>
+                
+                <!-- Arme -->
+                <ellipse cx="160" cy="170" rx="12" ry="30" fill="var(--hero-primary)" transform="rotate(-20 160 170)"/>
+                <ellipse cx="240" cy="170" rx="12" ry="30" fill="var(--hero-primary)" transform="rotate(20 240 170)"/>
+                
+                <!-- Dokumente in der Hand -->
+                <rect x="245" y="155" width="20" height="25" rx="2" fill="white" stroke="var(--hero-border)" stroke-width="1"/>
+                <line x1="250" y1="162" x2="260" y2="162" stroke="var(--hero-accent-1)" stroke-width="1"/>
+                <line x1="250" y1="167" x2="258" y2="167" stroke="var(--hero-accent-1)" stroke-width="1"/>
+                <line x1="250" y1="172" x2="262" y2="172" stroke="var(--hero-accent-1)" stroke-width="1"/>
+                
+                <!-- Beine -->
+                <ellipse cx="185" cy="260" rx="10" ry="25" fill="var(--hero-primary)"/>
+                <ellipse cx="215" cy="260" rx="10" ry="25" fill="var(--hero-primary)"/>
+              </g>
+              
+              <!-- Schwimmende Elemente -->
+              <g class="floating-elements">
+                <!-- Pfotenabdrücke -->
+                <g class="paw-print" transform="translate(100, 50)">
+                  <circle cx="0" cy="0" r="4" fill="var(--hero-accent-1)" opacity="0.6"/>
+                  <circle cx="-6" cy="-8" r="2" fill="var(--hero-accent-1)" opacity="0.6"/>
+                  <circle cx="6" cy="-8" r="2" fill="var(--hero-accent-1)" opacity="0.6"/>
+                  <circle cx="-4" cy="-12" r="1.5" fill="var(--hero-accent-1)" opacity="0.6"/>
+                  <circle cx="4" cy="-12" r="1.5" fill="var(--hero-accent-1)" opacity="0.6"/>
+                </g>
+                
+                <!-- Herz -->
+                <path class="heart" d="M320 180 C320 175, 315 170, 310 170 C305 170, 300 175, 300 180 C300 175, 295 170, 290 170 C285 170, 280 175, 280 180 C280 190, 300 205, 300 205 C300 205, 320 190, 320 180 Z" fill="var(--hero-accent-2)" opacity="0.7"/>
+                
+                <!-- Sterne -->
+                <polygon class="star" points="350,40 352,46 358,46 353,50 355,56 350,52 345,56 347,50 342,46 348,46" fill="var(--hero-accent-1)" opacity="0.5"/>
+                <polygon class="star" points="60,180 61,184 65,184 62,187 63,191 60,188 57,191 58,187 55,184 59,184" fill="var(--hero-accent-2)" opacity="0.5"/>
+              </g>
+            </svg>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Trust Cards - Rechteckig und Kompakt -->
+      <div class="hero-trust">
+        <div class="trust-cards" 
+             itemscope 
+             itemtype="https://schema.org/WebApplication" 
+             itemprop="application">
+          <meta itemprop="name" content="tailr.wiki Haustierpflege-App" />
+          <meta itemprop="applicationCategory" content="HealthApplication" />
+          <meta itemprop="operatingSystem" content="Web Browser" />
+          <meta itemprop="offers" itemscope itemtype="https://schema.org/Offer">
+            <meta itemprop="price" content="0" />
+            <meta itemprop="priceCurrency" content="EUR" />
+          </meta>
+          
+          <!-- Research Trust Card -->
+          <div class="trust-card" aria-label="Fundierte Recherche für Tierinhalte">
+            <div class="trust-icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/>
+              </svg>
+            </div>
+            <div class="trust-content">
+              <h4 class="trust-title">Wissenschaftlich fundiert</h4>
+              <p class="trust-text">
+                Jeder Artikel entsteht durch gründliche Recherche in Fachpublikationen, Veterinärquellen und aktuellen Studien. Wir bereiten komplexe medizinische Informationen verständlich auf, ohne wichtige Details zu verlieren.
+              </p>
+            </div>
+          </div>
+          
+          <!-- Independence Trust Card -->
+          <div class="trust-card" aria-label="Vertrauenswürdige und unabhängige Plattform">
+            <div class="trust-icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+            </div>
+            <div class="trust-content">
+              <h4 class="trust-title">Unabhängig & transparent</h4>
+              <p class="trust-text">
+                Eine unabhängige Plattform ohne versteckte Werbung oder bezahlte Empfehlungen. Unsere Tierinhalte entstehen frei von kommerziellen Interessen für ehrliche Informationen.
+              </p>
+            </div>
+          </div>
+          
+          <!-- Privacy Trust Card -->
+          <div class="trust-card" aria-label="Datenschutz und Datensicherheit garantiert">
+            <div class="trust-icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 15a3 3 0 01-3-3 3 3 0 013-3 3 3 0 013 3 3 3 0 01-3 3zm0-8c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5z"/>
+              </svg>
+            </div>
+            <div class="trust-content">
+              <h4 class="trust-title">Datenschutz garantiert</h4>
+              <p class="trust-text">
+                Ihre persönlichen Daten und die Ihres Tieres sind sicher aufgehoben. Modernste Sicherheitsstandards und keine Datenweitergabe an Dritte. Vollständiger Respekt Ihrer Privatsphäre.
+              </p>
+            </div>
+          </div>
+          
+          <!-- Features Trust Card -->
+          <div class="trust-card" aria-label="Moderne Tools und Funktionen">
+            <div class="trust-icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+              </svg>
+            </div>
+            <div class="trust-content">
+              <h4 class="trust-title">Moderne Tools & Features</h4>
+              <p class="trust-text">
+                Professionelle Rechner und Vergleichstools, Favoritenverwaltung, flexible Themes und optimierte Nutzung auf allen Endgeräten für die beste Benutzererfahrung.
+              </p>
+            </div>
+          </div>
         </div>
       </div>
 
-      <!-- Independence Trust Block -->
-      <div class="hero__stat-item" aria-label="Vertrauenswürdige und unabhängige Plattform">
-        <div class="hero__stat-icon">
-          <object type="image/svg+xml" data="/images/security.svg" width="80" height="80" aria-hidden="true"></object>
-        </div>
-        <div class="hero__stat-content">
-          <h3 class="hero__stat-title">Unabhängig & Werbefrei</h3>
-          <p class="hero__stat-description">
-            Wir sind eine unabhängige Plattform ohne versteckte Werbung oder bezahlte Empfehlungen. 
-            Unsere Tierinhalte entstehen frei von kommerziellen Interessen, damit du ehrliche 
-            Informationen erhältst, die nur dem Wohl deines Tieres dienen. Transparenz und 
-            Vertrauen stehen bei uns an erster Stelle.
-          </p>
-        </div>
-      </div>
-
-      <!-- Privacy Trust Block -->
-      <div class="hero__stat-item" aria-label="Datenschutz und Datensicherheit garantiert">
-        <div class="hero__stat-icon">
-          <object type="image/svg+xml" data="/images/privacy.svg" width="80" height="80" aria-hidden="true"></object>
-        </div>
-        <div class="hero__stat-content">
-          <h3 class="hero__stat-title">Datenschutz & Sicherheit</h3>
-          <p class="hero__stat-description">
-            Deine persönlichen Daten und die deines Tieres sind bei uns sicher aufgehoben. 
-            Wir verwenden modernste Sicherheitsstandards und geben keine Daten an Dritte weiter. 
-            Unsere Plattform funktioniert transparent und respektiert deine Privatsphäre vollständig.
-          </p>
-        </div>
+      <!-- FEATURE HIGHLIGHTS LIST -->
+      <div class="hero-features-section" itemscope itemtype="https://schema.org/ItemList">
+        <meta itemprop="name" content="tailr.wiki Hauptfunktionen" />
+        <ul class="hero__features" role="list" aria-label="Wesentliche Vorteile von tailr.wiki">
+          <li class="hero__feature" role="listitem" tabindex="0" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <meta itemprop="position" content="1" />
+            <svg width="16" height="16" fill="currentColor" aria-hidden="true" focusable="false" role="img" viewBox="0 0 24 24">
+              <path d="M12 21c-4.5-3-9-8.5-5-14.3C10.1 1 15.9 1 17 6.7c4 5.8-.5 11.3-5 14.3z"/>
+            </svg>
+            <span itemprop="name">Umfangreiche, ausführliche Ratgeber für Haustierpflege</span>
+          </li>
+          <li class="hero__feature" role="listitem" tabindex="0" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <meta itemprop="position" content="2" />
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false" role="img" viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="10"/><path d="M14.31 8l5.74 9.94M9.69 8l-5.74 9.94"/>
+            </svg>
+            <span itemprop="name">Intuitive Werkzeuge und Vergleichsfunktionen</span>
+          </li>
+          <li class="hero__feature" role="listitem" tabindex="0" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <meta itemprop="position" content="3" />
+            <svg width="16" height="16" fill="none" stroke="currentColor" aria-hidden="true" focusable="false" role="img" viewBox="0 0 24 24">
+              <path d="M12 22c4.97 0 9-3.53 9-7.9C21 8.61 17.07 4 12 4S3 8.61 3 14.1C3 18.47 7.03 22 12 22z"/>
+              <circle cx="8.5" cy="14.5" r="1.5"/>
+            </svg>
+            <span itemprop="name">Modernes und flexibles Design mit mehreren Themes</span>
+          </li>
+          <li class="hero__feature" role="listitem" tabindex="0" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <meta itemprop="position" content="4" />
+            <svg width="16" height="16" fill="currentColor" aria-hidden="true" focusable="false" role="img" viewBox="0 0 24 24">
+              <path d="M12 21l-1-1C5 15 2 12 2 8a5 5 0 0 1 10-1 5 5 0 0 1 10 1c0 4-3 7-9 12z"/>
+            </svg>
+            <span itemprop="name">Favoritenverwaltung für individuelle Organisation</span>
+          </li>
+          <li class="hero__feature" role="listitem" tabindex="0" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <meta itemprop="position" content="5" />
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false" role="img" viewBox="0 0 24 24">
+              <rect x="7" y="2" width="10" height="20" rx="2"/>
+              <path d="M12 18h.01"/>
+            </svg>
+            <span itemprop="name">Optimierte Nutzung auf allen Endgeräten</span>
+          </li>
+        </ul>
       </div>
     </div>
-
-    <!-- FEATURE HIGHLIGHTS LIST -->
-    <ul class="hero__features" role="list" aria-label="Wesentliche Vorteile von tailr.wiki">
-      <li class="hero__feature" role="listitem" tabindex="0">
-        <svg width="16" height="16" fill="currentColor" aria-hidden="true" focusable="false" role="img" viewBox="0 0 24 24">
-          <path d="M12 21c-4.5-3-9-8.5-5-14.3C10.1 1 15.9 1 17 6.7c4 5.8-.5 11.3-5 14.3z"/>
-        </svg>
-        Umfangreiche, ausführliche Ratgeber für Haustierpflege
-      </li>
-      <li class="hero__feature" role="listitem" tabindex="0">
-        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false" role="img" viewBox="0 0 24 24">
-          <circle cx="12" cy="12" r="10"/><path d="M14.31 8l5.74 9.94M9.69 8l-5.74 9.94"/>
-        </svg>
-        Intuitive Werkzeuge und Vergleichsfunktionen
-      </li>
-      <li class="hero__feature" role="listitem" tabindex="0">
-        <svg width="16" height="16" fill="none" stroke="currentColor" aria-hidden="true" focusable="false" role="img" viewBox="0 0 24 24">
-          <path d="M12 22c4.97 0 9-3.53 9-7.9C21 8.61 17.07 4 12 4S3 8.61 3 14.1C3 18.47 7.03 22 12 22z"/>
-          <circle cx="8.5" cy="14.5" r="1.5"/>
-        </svg>
-        Modernes und flexibles Design mit mehreren Themes
-      </li>
-      <li class="hero__feature" role="listitem" tabindex="0">
-        <svg width="16" height="16" fill="currentColor" aria-hidden="true" focusable="false" role="img" viewBox="0 0 24 24">
-          <path d="M12 21l-1-1C5 15 2 12 2 8a5 5 0 0 1 10-1 5 5 0 0 1 10 1c0 4-3 7-9 12z"/>
-        </svg>
-        Favoritenverwaltung für individuelle Organisation
-      </li>
-      <li class="hero__feature" role="listitem" tabindex="0">
-        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false" role="img" viewBox="0 0 24 24">
-          <rect x="7" y="2" width="10" height="20" rx="2"/>
-          <path d="M12 18h.01"/>
-        </svg>
-        Optimierte Nutzung auf allen Endgeräten
-      </li>
-    </ul>
-
   </div>
 </section>
 <!-- Ende: Hero Section -->
