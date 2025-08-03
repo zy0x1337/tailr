@@ -13910,3 +13910,213 @@ body.theme-playful {
         transform: scale(0.98);
     }
 }
+
+/* ======================================================== */
+/* HERO FEATURES SECTION STYLING */
+/* ======================================================== */
+
+/* Hero Features Section */
+.hero-features-section {
+    margin-top: var(--space-32);
+    padding-top: var(--space-24);
+    border-top: 1px solid var(--color-border);
+}
+
+/* Features List Container */
+.hero__features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-16);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Individual Feature Item */
+.hero__feature {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-12);
+    padding: var(--space-16);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    transition: all var(--transition);
+    position: relative;
+    cursor: pointer;
+    outline: none;
+}
+
+/* Focus States für Accessibility */
+.hero__feature:focus {
+    border-color: var(--hero-primary);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.hero__feature:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--hero-primary);
+}
+
+/* Feature Icon (SVG) */
+.hero__feature svg {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    color: var(--hero-primary);
+    margin-top: 2px;
+    transition: transform var(--transition);
+}
+
+.hero__feature:hover svg {
+    transform: scale(1.1);
+    color: var(--hero-accent-1);
+}
+
+/* Feature Text */
+.hero__feature span[itemprop="name"] {
+    flex: 1;
+    font-size: var(--font-size-base);
+    font-weight: 500;
+    color: var(--color-text);
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* Hover Effects */
+.hero__feature::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, var(--hero-primary), var(--hero-accent-1));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--transition);
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+}
+
+.hero__feature:hover::before {
+    transform: scaleX(1);
+}
+
+/* Active/Focus State */
+.hero__feature:active {
+    transform: translateY(0);
+    box-shadow: var(--shadow-md);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .hero-features-section {
+        margin-top: var(--space-24);
+        padding-top: var(--space-20);
+    }
+    
+    .hero__features {
+        grid-template-columns: 1fr;
+        gap: var(--space-12);
+    }
+    
+    .hero__feature {
+        padding: var(--space-12);
+    }
+    
+    .hero__feature svg {
+        width: 18px;
+        height: 18px;
+    }
+    
+    .hero__feature span[itemprop="name"] {
+        font-size: var(--font-size-sm);
+    }
+}
+
+@media (max-width: 480px) {
+    .hero__features {
+        gap: var(--space-8);
+    }
+    
+    .hero__feature {
+        padding: var(--space-10);
+        gap: var(--space-10);
+    }
+    
+    .hero__feature svg {
+        width: 16px;
+        height: 16px;
+    }
+}
+
+/* Theme-spezifische Anpassungen */
+.theme-dark .hero__feature {
+    background: var(--color-surface-dark);
+    border-color: var(--color-border-dark);
+}
+
+.theme-dark .hero__feature:hover {
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+.theme-luxury .hero__feature svg {
+    color: var(--hero-primary);
+}
+
+.theme-luxury .hero__feature:hover svg {
+    color: var(--hero-accent-1);
+}
+
+/* Performance Optimierungen */
+@media (prefers-reduced-motion: reduce) {
+    .hero__feature,
+    .hero__feature svg,
+    .hero__feature::before {
+        transition: none;
+    }
+    
+    .hero__feature:hover {
+        transform: none;
+    }
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+    .hero__feature {
+        border-width: 2px;
+    }
+    
+    .hero__feature:focus {
+        border-width: 3px;
+    }
+}
+
+/* Touch Device Optimierungen */
+@media (hover: none) and (pointer: coarse) {
+    .hero__feature:hover {
+        transform: none;
+    }
+    
+    .hero__feature:active {
+        transform: scale(0.98);
+        background: var(--color-surface-hover);
+    }
+}
+
+/* Zusätzliche Variablen für Features Section */
+:root {
+    --color-surface-hover: rgba(59, 130, 246, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.theme-dark {
+    --color-surface-dark: rgba(30, 41, 59, 0.5);
+    --color-border-dark: rgba(71, 85, 105, 0.3);
+    --color-surface-hover: rgba(96, 165, 250, 0.1);
+}
