@@ -8340,55 +8340,6 @@ body.theme-playful {
     0 0 20px rgba(212, 175, 55, 0.3);
 }
 
-/* ========== LUXURY FOOTER ========== */
-.theme-luxury .species-card__footer {
-  background: linear-gradient(145deg, #1A1A1A, #2A2A2A);
-  border-top: 1px solid rgba(212, 175, 55, 0.2);
-}
-
-.theme-luxury .species-card__footer::before {
-  background: linear-gradient(90deg, transparent, #D4AF37, transparent);
-  height: 1px;
-}
-
-.theme-luxury .species-card__footer::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, #D4AF37, transparent);
-}
-
-.theme-luxury .details-btn {
-  background: linear-gradient(135deg, #D4AF37 0%, #F4D03F 100%);
-  color: #1A1A1A;
-  border: 2px solid transparent;
-  box-shadow: 
-    0 4px 15px rgba(212, 175, 55, 0.3),
-    inset 0 1px 2px rgba(255, 255, 255, 0.2);
-}
-
-.theme-luxury .details-btn::before {
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-}
-
-.theme-luxury .details-btn:hover {
-  background: linear-gradient(135deg, #F4D03F 0%, #FFD700 100%);
-  transform: translateY(-3px) scale(1.05);
-  border-color: rgba(212, 175, 55, 0.5);
-  box-shadow: 
-    0 8px 25px rgba(212, 175, 55, 0.4),
-    inset 0 1px 2px rgba(255, 255, 255, 0.3),
-    0 0 30px rgba(212, 175, 55, 0.3);
-}
-
-.theme-luxury .details-btn:focus-visible {
-  outline-color: #D4AF37;
-  outline-width: 3px;
-}
-
 /* ========== LUXURY ANIMATIONS ========== */
 .theme-luxury .species-card {
   animation: luxuryFloat 6s ease-in-out infinite;
