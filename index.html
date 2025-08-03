@@ -8081,11 +8081,10 @@
         </div>
     </div>
 </section>
-        
     </main>
 
     <!-- ========================================
-     FOOTER - PROFESSIONELLER ABSCHLUSS
+     TAILR.WIKI FOOTER - PROFESSIONAL & MODERN
      ======================================== -->
 <footer class="footer" role="contentinfo" aria-labelledby="footer-title">
     <div class="container">
@@ -8093,11 +8092,11 @@
         <!-- Footer Hauptinhalt -->
         <div class="footer__container">
             
-            <!-- Unternehmen & Beschreibung -->
-            <section class="footer__section footer__company" aria-labelledby="company-title">
+            <!-- Brand & Beschreibung -->
+            <section class="footer__brand-section" aria-labelledby="brand-title">
                 <div class="footer__brand">
-                    <h3 class="footer__title" id="company-title">
-                        <span class="footer__logo">tailr.wiki</span>
+                    <h3 class="footer__logo" id="brand-title">
+                        <span class="footer__logo-text">tailr.wiki</span>
                     </h3>
                     <p class="footer__description">
                         Ihre vertrauensvolle Plattform für wissenschaftlich fundierte Haustierpflege. 
@@ -8106,7 +8105,7 @@
                     </p>
                     
                     <!-- Trust Badges -->
-                    <div class="footer__badges">
+                    <div class="footer__trust-badges">
                         <div class="trust-badge">
                             <span class="badge-icon">🔒</span>
                             <span class="badge-text">DSGVO-konform</span>
@@ -8114,6 +8113,10 @@
                         <div class="trust-badge">
                             <span class="badge-icon">✅</span>
                             <span class="badge-text">Expertenwissen</span>
+                        </div>
+                        <div class="trust-badge">
+                            <span class="badge-icon">🌱</span>
+                            <span class="badge-text">Nachhaltig</span>
                         </div>
                     </div>
                 </div>
@@ -8138,8 +8141,23 @@
                 </div>
             </section>
             
+            <!-- Navigation Links -->
+            <section class="footer__nav-section" aria-labelledby="navigation-title">
+                <h4 class="footer__section-title" id="navigation-title">Navigation</h4>
+                <nav class="footer__nav" role="navigation" aria-label="Footer Navigation">
+                    <ul class="footer__nav-list">
+                        <li><a href="/" class="footer__nav-link">🏠 Home</a></li>
+                        <li><a href="/kategorien/hunde" class="footer__nav-link">🐕 Hunde</a></li>
+                        <li><a href="/kategorien/katzen" class="footer__nav-link">🐱 Katzen</a></li>
+                        <li><a href="/kategorien/voegel" class="footer__nav-link">🦜 Vögel</a></li>
+                        <li><a href="/kategorien/fische" class="footer__nav-link">🐠 Fische</a></li>
+                        <li><a href="/kategorien/reptilien" class="footer__nav-link">🦎 Reptilien</a></li>
+                    </ul>
+                </nav>
+            </section>
+            
             <!-- Tools & Services -->
-            <section class="footer__section" aria-labelledby="tools-title">
+            <section class="footer__tools-section" aria-labelledby="tools-title">
                 <h4 class="footer__section-title" id="tools-title">Tools & Services</h4>
                 <ul class="footer__nav-list">
                     <li><a href="/tools/hunde/index" class="footer__nav-link">🎯 Welcher Hund passt zu mir?</a></li>
@@ -8149,37 +8167,55 @@
                     <li><a href="/favorites" class="footer__nav-link">❤️ Favoriten</a></li>
                 </ul>
             </section>
-
-            <img src="/images/newsletter.svg" alt="Secure Login" width="150" height="150" />
             
-            <!-- Newsletter & Updates -->
-            <section class="footer__section footer__newsletter" aria-labelledby="newsletter-title">
-                <h4 class="footer__section-title" id="newsletter-title">📧 Newsletter</h4>
-                <p class="footer__newsletter-description">
-                    Erhalten Sie wöchentlich die neuesten Expertentipps zur Haustierpflege.
-                </p>
-                
-                <form class="footer__form" id="newsletter-form" novalidate>
-                    <div class="newsletter-input-group">
-                        <input 
-                            type="email" 
-                            class="footer__input" 
-                            placeholder="ihre@email.de"
-                            aria-label="E-Mail-Adresse für Newsletter"
-                            required
-                        />
-                        <button 
-                            type="submit" 
-                            class="newsletter-submit"
-                            aria-label="Newsletter abonnieren"
-                        >
-                            <span class="btn-text">Abonnieren</span>
-                        </button>
+            <!-- Newsletter mit undraw SVG -->
+            <section class="footer__newsletter" aria-labelledby="newsletter-title">
+                <div class="newsletter__content">
+                    <div class="newsletter__visual">
+                        <!-- Hier wird das undraw Newsletter SVG eingefügt -->
+                        <img src="images/newsletter.svg" 
+                             alt="Newsletter Illustration" 
+                             class="newsletter__illustration"
+                             width="200" 
+                             height="150"
+                             loading="lazy" />
                     </div>
-                    <p class="newsletter-note">
-                        Kostenlos • Datenschutz garantiert • Jederzeit abbestellbar
-                    </p>
-                </form>
+                    
+                    <div class="newsletter__form-section">
+                        <h4 class="footer__section-title" id="newsletter-title">
+                            📧 Newsletter
+                        </h4>
+                        <p class="newsletter__description">
+                            Erhalten Sie wöchentlich die neuesten Expertentipps zur Haustierpflege 
+                            und verpassen Sie keine wichtigen Updates.
+                        </p>
+                        
+                        <form class="newsletter__form" id="newsletter-form" novalidate>
+                            <div class="newsletter__input-group">
+                                <input 
+                                    type="email" 
+                                    class="newsletter__input" 
+                                    placeholder="ihre@email.de"
+                                    aria-label="E-Mail-Adresse für Newsletter"
+                                    required
+                                />
+                                <button 
+                                    type="submit" 
+                                    class="newsletter__submit"
+                                    aria-label="Newsletter abonnieren"
+                                >
+                                    <span class="btn-text">Abonnieren</span>
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M2 21l21-9L2 3v7l15 2-15 2v7z"/>
+                                    </svg>
+                                </button>
+                            </div>
+                            <p class="newsletter__note">
+                                Kostenlos • Datenschutz garantiert • Jederzeit abbestellbar
+                            </p>
+                        </form>
+                    </div>
+                </div>
             </section>
         </div>
         
@@ -8200,13 +8236,12 @@
                         <li><a href="/impressum" class="legal-link">Impressum</a></li>
                         <li><a href="/datenschutz" class="legal-link">Datenschutz</a></li>
                         <li><a href="/agb" class="legal-link">AGB</a></li>
-                        <li><a href="/kontakt" class="legal-link">Kontakt</a></li>
+                        <li><a href="/kontakt.html" class="legal-link">Kontakt</a></li>
                     </ul>
                 </nav>
                 
-                <!-- Additional Info -->
+                <!-- Values -->
                 <div class="footer__values">
-                    <span class="value-item">🌱 Nachhaltig</span>
                     <span class="value-item">🐾 Tierfreundlich</span>
                     <span class="value-item">💚 Verantwortungsvoll</span>
                 </div>
