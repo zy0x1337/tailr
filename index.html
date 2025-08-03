@@ -8095,14 +8095,28 @@
             
             <!-- Unternehmen & Beschreibung -->
             <section class="footer__section footer__company" aria-labelledby="company-title">
-                <h3 class="footer__title" id="company-title">
-                    tailr.wiki
-                </h3>
-                <p class="footer__description">
-                    Ihre vertrauensvolle Plattform für wissenschaftlich fundierte Haustierpflege. 
-                    Wir bieten unabhängige, expertenverfasste Inhalte für verantwortungsvolle 
-                    Tierhalter und alle, die das Beste für ihre tierischen Begleiter wollen.
-                </p>
+                <div class="footer__brand">
+                    <h3 class="footer__title" id="company-title">
+                        <span class="footer__logo">tailr.wiki</span>
+                    </h3>
+                    <p class="footer__description">
+                        Ihre vertrauensvolle Plattform für wissenschaftlich fundierte Haustierpflege. 
+                        Wir bieten unabhängige, expertenverfasste Inhalte für verantwortungsvolle 
+                        Tierhalter und alle, die das Beste für ihre tierischen Begleiter wollen.
+                    </p>
+                    
+                    <!-- Trust Badges -->
+                    <div class="footer__badges">
+                        <div class="trust-badge">
+                            <span class="badge-icon">🔒</span>
+                            <span class="badge-text">DSGVO-konform</span>
+                        </div>
+                        <div class="trust-badge">
+                            <span class="badge-icon">✅</span>
+                            <span class="badge-text">Expertenwissen</span>
+                        </div>
+                    </div>
+                </div>
                 
                 <!-- Social Media Links -->
                 <div class="footer__social" role="group" aria-label="Social Media Links">
@@ -8111,112 +8125,74 @@
                             <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
                         </svg>
                     </a>
+                    <a href="#" class="social-link" aria-label="tailr.wiki auf Instagram">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069z"/>
+                        </svg>
+                    </a>
                     <a href="#" class="social-link" aria-label="tailr.wiki auf Twitter">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                             <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
                         </svg>
                     </a>
-                    <a href="#" class="social-link" aria-label="tailr.wiki auf Instagram">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-                        </svg>
-                    </a>
                 </div>
             </section>
             
-            <!-- Navigation & Services -->
-            <section class="footer__section" aria-labelledby="services-title">
-                <h3 class="footer__title" id="services-title">
-                    Services
-                </h3>
+            <!-- Navigation Links -->
+            <section class="footer__section" aria-labelledby="navigation-title">
+                <h4 class="footer__section-title" id="navigation-title">Navigation</h4>
                 <nav class="footer__nav" role="navigation" aria-label="Footer Navigation">
                     <ul class="footer__nav-list">
-                        <li class="footer__nav-item">
-                            <a href="/kategorien/hunde" class="footer__nav-link">
-                                <span class="nav-icon">🐕</span>
-                                Hundepflege
-                            </a>
-                        </li>
-                        <li class="footer__nav-item">
-                            <a href="/kategorien/katzen" class="footer__nav-link">
-                                <span class="nav-icon">🐱</span>
-                                Katzenpflege
-                            </a>
-                        </li>
-                        <li class="footer__nav-item">
-                            <a href="/tools/hunde/index" class="footer__nav-link">
-                                <span class="nav-icon">🛠️</span>
-                                Interaktive Tools
-                            </a>
-                        </li>
-                        <li class="footer__nav-item">
-                            <a href="/vergleich" class="footer__nav-link">
-                                <span class="nav-icon">⚖️</span>
-                                Tiervergleich
-                            </a>
-                        </li>
-                        <li class="footer__nav-item">
-                            <a href="/blog" class="footer__nav-link">
-                                <span class="nav-icon">📖</span>
-                                Ratgeber Blog
-                            </a>
-                        </li>
+                        <li><a href="/" class="footer__nav-link">🏠 Home</a></li>
+                        <li><a href="/kategorien/hunde" class="footer__nav-link">🐕 Hunde</a></li>
+                        <li><a href="/kategorien/katzen" class="footer__nav-link">🐱 Katzen</a></li>
+                        <li><a href="/kategorien/voegel" class="footer__nav-link">🦜 Vögel</a></li>
+                        <li><a href="/kategorien/fische" class="footer__nav-link">🐠 Fische</a></li>
+                        <li><a href="/kategorien/reptilien" class="footer__nav-link">🦎 Reptilien</a></li>
                     </ul>
                 </nav>
-                
-                <div class="footer__service-info">
-                    <p class="service-note">
-                        ✅ Alle Inhalte wissenschaftlich geprüft
-                    </p>
-                </div>
+            </section>
+            
+            <!-- Tools & Services -->
+            <section class="footer__section" aria-labelledby="tools-title">
+                <h4 class="footer__section-title" id="tools-title">Tools & Services</h4>
+                <ul class="footer__nav-list">
+                    <li><a href="/tools/hunde/index" class="footer__nav-link">🎯 Welcher Hund passt zu mir?</a></li>
+                    <li><a href="/tools/fische/aquacalc" class="footer__nav-link">🧮 Aquacalc-Tool</a></li>
+                    <li><a href="/vergleich" class="footer__nav-link">⚖️ Tiervergleich</a></li>
+                    <li><a href="/blog" class="footer__nav-link">📖 Blog & Ratgeber</a></li>
+                    <li><a href="/favorites" class="footer__nav-link">❤️ Favoriten</a></li>
+                </ul>
             </section>
             
             <!-- Newsletter & Updates -->
             <section class="footer__section footer__newsletter" aria-labelledby="newsletter-title">
-                <h3 class="footer__title" id="newsletter-title">
-                    Newsletter
-                </h3>
+                <h4 class="footer__section-title" id="newsletter-title">📧 Newsletter</h4>
                 <p class="footer__newsletter-description">
-                    Erhalten Sie wöchentlich die neuesten Expertentipps zur Haustierpflege 
-                    und verpassen Sie keine wichtigen Updates.
+                    Erhalten Sie wöchentlich die neuesten Expertentipps zur Haustierpflege.
                 </p>
                 
                 <form class="footer__form" id="newsletter-form" novalidate>
-                    <div class="input-group">
+                    <div class="newsletter-input-group">
                         <input 
                             type="email" 
                             class="footer__input" 
-                            placeholder="Ihre E-Mail-Adresse"
+                            placeholder="ihre@email.de"
                             aria-label="E-Mail-Adresse für Newsletter"
                             required
-                        >
+                        />
                         <button 
                             type="submit" 
                             class="newsletter-submit"
                             aria-label="Newsletter abonnieren"
                         >
                             <span class="btn-text">Abonnieren</span>
-                            <span class="btn-loading" style="display: none;">
-                                <span class="loading-spinner"></span>
-                            </span>
                         </button>
                     </div>
-                    <p class="form-help">
-                        📧 Kostenlos • 🔒 Datenschutz garantiert • ❌ Jederzeit abbestellbar
+                    <p class="newsletter-note">
+                        Kostenlos • Datenschutz garantiert • Jederzeit abbestellbar
                     </p>
                 </form>
-                
-                <!-- Trust Badges -->
-                <div class="trust-badges">
-                    <div class="trust-badge">
-                        <span class="badge-icon">🔒</span>
-                        <span class="badge-text">DSGVO-konform</span>
-                    </div>
-                    <div class="trust-badge">
-                        <span class="badge-icon">✅</span>
-                        <span class="badge-text">Expertenwissen</span>
-                    </div>
-                </div>
             </section>
         </div>
         
@@ -8227,122 +8203,30 @@
                 <!-- Copyright -->
                 <div class="footer__copyright">
                     <p class="copyright-text">
-                        © <span id="current-year">2025</span> tailr.wiki. 
-                        Alle Rechte vorbehalten.
+                        © <span id="footer-year">2025</span> tailr.wiki. Alle Rechte vorbehalten.
                     </p>
                 </div>
                 
                 <!-- Legal Links -->
-                <div class="footer__legal">
+                <nav class="footer__legal" role="navigation" aria-label="Rechtliche Links">
                     <ul class="legal-links">
-                        <li>
-                            <a href="/impressum" class="legal-link">Impressum</a>
-                        </li>
-                        <li>
-                            <a href="/datenschutz" class="legal-link">Datenschutz</a>
-                        </li>
-                        <li>
-                            <a href="/agb" class="legal-link">AGB</a>
-                        </li>
-                        <li>
-                            <a href="/kontakt" class="legal-link">Kontakt</a>
-                        </li>
+                        <li><a href="/impressum" class="legal-link">Impressum</a></li>
+                        <li><a href="/datenschutz" class="legal-link">Datenschutz</a></li>
+                        <li><a href="/agb" class="legal-link">AGB</a></li>
+                        <li><a href="/kontakt" class="legal-link">Kontakt</a></li>
                     </ul>
-                </div>
+                </nav>
                 
                 <!-- Additional Info -->
-                <div class="footer__additional-info">
-                    <p class="additional-text">
-                        🌱 Nachhaltig • 🐾 Tierfreundlich • 💚 Verantwortungsvoll
-                    </p>
+                <div class="footer__values">
+                    <span class="value-item">🌱 Nachhaltig</span>
+                    <span class="value-item">🐾 Tierfreundlich</span>
+                    <span class="value-item">💚 Verantwortungsvoll</span>
                 </div>
             </div>
         </div>
     </div>
-    
-    <!-- Versteckte Metadaten für SEO -->
-    <div class="sr-only">
-        <span id="last-updated">Zuletzt aktualisiert: 
-            <time datetime="2025-01-03">03.01.2025</time>
-        </span>
-    </div>
 </footer>
-
-<!-- Footer-spezifisches CSS (falls noch nicht in deiner styles.css) -->
-<style>
-/* Social Media Links */
-.footer__social {
-    display: flex;
-    gap: var(--space-12);
-    margin-top: var(--space-16);
-}
-
-.social-link {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    background: var(--color-secondary);
-    border: 1px solid var(--color-border);
-    border-radius: 50%;
-    color: var(--color-text-secondary);
-    transition: all var(--transition);
-    text-decoration: none;
-}
-
-.social-link:hover {
-    background: var(--color-primary);
-    color: var(--color-btn-primary-text);
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-md);
-}
-
-.nav-icon {
-    margin-right: var(--space-6);
-    font-size: var(--font-size-sm);
-}
-
-/* Trust Badges */
-.trust-badges {
-    display: flex;
-    gap: var(--space-12);
-    margin-top: var(--space-16);
-}
-
-.trust-badge {
-    display: flex;
-    align-items: center;
-    gap: var(--space-6);
-    padding: var(--space-6) var(--space-12);
-    background: var(--color-success);
-    color: white;
-    border-radius: var(--radius-full);
-    font-size: var(--font-size-xs);
-    font-weight: var(--font-weight-medium);
-}
-
-.badge-icon {
-    font-size: var(--font-size-sm);
-}
-
-/* Responsive Anpassungen */
-@media (max-width: 768px) {
-    .footer__social {
-        justify-content: center;
-    }
-    
-    .trust-badges {
-        flex-direction: column;
-        align-items: center;
-    }
-    
-    .trust-badge {
-        justify-content: center;
-        width: 100%;
-    }
-}
-</style>
 
 <!-- ========================================
      AUTO-UPDATE CURRENT YEAR SCRIPT
